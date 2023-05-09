@@ -10,7 +10,7 @@ export const useWording = () => {
       email: 'E-Mail',
       description: 'Beschreibung',
       homepage: 'Homepage',
-      collection_portal: 'Sammlungsportal',
+      collection_portal: 'Sammlungsportal der Berlin University Alliance',
       address: 'Adresse',
     }
   })
