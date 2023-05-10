@@ -9,7 +9,8 @@
   </Head>
   <!-- <h1 class="text-center">{{ theme.collection_portal }}</h1> -->
   <div class="hero">
-    <img style="width:100%;height:auto;" src="https://unsplash.it/1920/1080" alt="hero image" />
+    <img style="width:100%;height:auto;" src="@/assets/img/Collage_01.png" alt="hero image" />
+    <!-- <img style="width:100%;height:auto;" src="https://unsplash.it/1920/1080" alt="hero image" /> -->
   </div>
   <div class="collection_cards_wrapper">
     <CollectionCard v-for="collection in data" :key="collection.id" :collection="collection" />
