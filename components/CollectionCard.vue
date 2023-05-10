@@ -1,6 +1,8 @@
 <script setup>
   defineProps(['collection']);
-  const w = useWording();
+  // const w = useWording();
+  const theme = useState('theme');
+  const w = theme.value.data.wording.de;
 </script>
 <template>
   <dl v-for="entry in collection" :key="entry.id" class="card">

@@ -20,19 +20,18 @@
         <path style="fill:#c50e1f;fill-opacity:1;" class="logo-svg-path-inner-ring"
           d="m 29.523438,46.427773 -8.519532,8.494141 a 24.017404,24 45 0 0 33.955078,0.06055 L 46.462891,46.46098 a 12,12.008702 0 0 1 -0.609375,0.611328 12,12.008702 0 0 1 -1.371094,1.02539 12,12.008702 0 0 1 -1.501953,0.81836 12,12.008702 0 0 1 -1.603516,0.597656 12,12.008702 0 0 1 -1.669922,0.365234 A 12,12.008702 0 0 1 38,50.000039 a 12,12.008702 0 0 1 -0.01758,0 12,12.008702 0 0 1 -1.703125,-0.126953 12,12.008702 0 0 1 -1.666016,-0.367188 12,12.008702 0 0 1 -1.599609,-0.599609 12,12.008702 0 0 1 -1.496094,-0.822266 12,12.008702 0 0 1 -1.365234,-1.02539 12,12.008702 0 0 1 -0.628906,-0.63086 z" />
       </svg>
-      <span class="navbar__title title">Sammlungsportal <span class="navbar__subtitle">der Berlin University
-          Alliance</span></span>
+      <span class="navbar__title title">{{ w.site_title }} <span class="navbar__subtitle">{{ w.site_subtitle }}</span></span>
     </nuxt-link>
     <nav class="navbar__links">
       <ul>
         <li>
-          <nuxt-link to="/">Home</nuxt-link>
+          <nuxt-link to="/">{{ w.page_start }}</nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/entdecken">Entdecken</nuxt-link>
+          <nuxt-link to="/entdecken">{{ w.page_discover }}</nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/kontakt">Kontakt</nuxt-link>
+          <nuxt-link to="/kontakt">{{ w.page_contact }}</nuxt-link>
         </li>
       </ul>
     </nav>
@@ -50,6 +49,9 @@
   </header>
 </template>
 <script setup>
+
+const theme = useState('theme');
+const w = theme.value.data.wording.de;
 
 const navState = useState('nav', () => "close");
 const toggleNav = () => {

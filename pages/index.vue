@@ -1,12 +1,13 @@
 <script setup>
   const { data } = await useFetch('https://sammlungsportal.bua-dns.de/items/bua_collections');
-  const w = useWording();
+  const theme = useState('theme');
+  const w = theme.value.data.wording.de;
 </script>
 <template>
   <Head>
-    <Title>{{ w.pageStart }}</Title>
+    <Title>{{ w.page_start }}</Title>
   </Head>
-  <!-- <h1 class="text-center">{{ w.collection_portal }}</h1> -->
+  <!-- <h1 class="text-center">{{ theme.collection_portal }}</h1> -->
   <div class="hero">
     <img style="width:100%;height:auto;" src="https://unsplash.it/1920/1080" alt="hero image" />
   </div>
