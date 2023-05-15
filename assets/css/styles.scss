@@ -1,5 +1,6 @@
 // scss variables
-$navbar-height: 39px;
+$navbar-height: 48px;
+$navbar-height-expanded: 100px;
 
 // custom variables
 :root {
@@ -270,8 +271,9 @@ em {
   align-items: center;
   background-color: var(--color-bg);
   line-height: 1;
-  border-bottom: 1px solid var(--color-border);
+  // border-bottom: 1px solid var(--color-border);
   // box-shadow: 0 0 8px 0 rgba(0,0,0,0.8);
+  box-shadow: 0 0 0.625rem 0 rgba(0,0,0,.4);
   .navbar__brand {
     display: flex;
     align-items: center;
@@ -288,7 +290,7 @@ em {
       box-sizing: content-box;
       // padding: 0.5rem 0 0.5rem 0.5rem;
       padding: 0.75rem 0 0.75rem 0.5rem;
-      transition: all 0.3s;
+      transition: height 0.25s, padding 0.25s;
     }
     .navbar__title_container {
       margin-left: 0.5rem;
@@ -299,7 +301,7 @@ em {
       // font-size: clamp(1rem, 3.3333vw, 2rem);
       font-size: clamp(1.25rem, 4.1667vw, 2rem);
       line-height: 1.125;
-      transition: all 0.3s;
+      transition: all 0.25s;
     }
     .navbar__subtitle {
       font-weight: 400;
@@ -307,7 +309,7 @@ em {
       // font-size: clamp(1rem, 3.3333vw, 1.27rem);
       font-size: clamp(0.8rem, 2.6667vw, 1.27rem);;
       line-height: 1.125;
-      transition: all 0.3s;
+      transition: all 0.25s;
     }
   }
   .navbar__controls {
@@ -337,7 +339,7 @@ em {
             padding: 1rem;
             text-decoration: none;
             color: var(--color-text);
-            transition: all 0.3s;
+            transition: all 0.25s;
             &:hover,
             &:focus,
             &:active,
@@ -438,7 +440,7 @@ em {
     width: 100%;
     background-color: var(--color-text);
     border-radius: 2px;
-    transition: all 0.3s linear;
+    transition: all 0.25s linear;
   }
   &.open {
     > .burger__line-1 {
@@ -471,7 +473,7 @@ em {
 // navigation drawer
 .navigation-drawer {
   position: fixed;
-  top: 93px;
+  top: $navbar-height-expanded;
   right: 0;
   bottom: 0;
   width: 100vw;
@@ -482,7 +484,7 @@ em {
   justify-content: flex-start;
   padding: 1.5rem;
   z-index: 100;
-  transition: transform 0.5s ease-out, top 0.3s;
+  transition: transform 0.5s ease-out, top 0.25s;
   transform: translateX(100%);
   background-color: var(--color-bg);
   border-left: 1px solid var(--color-border);
@@ -549,6 +551,10 @@ em {
 // MAIN
 
 main {
-  margin: 93px 0 0;
+  margin: $navbar-height-expanded 0 0;
   // padding: 1.5rem 0 0;
+  transition: margin-top .25s;
+  &.scrolled {
+    margin-top: $navbar-height;
+  }
 }
