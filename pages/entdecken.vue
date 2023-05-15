@@ -1,5 +1,7 @@
 <template>
-  <h1 class="text-center">{{ w.page_discover }}</h1>
+  <div class="page">
+    <h1 class="text-center">{{ w.page_discover }}</h1>
+  </div>
 </template>
 <script setup>
   const theme = useState('theme');

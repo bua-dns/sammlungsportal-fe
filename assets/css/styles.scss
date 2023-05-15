@@ -559,7 +559,7 @@ main {
   }
 }
 
-.page {
+.page, .container {
   width: min(100%, 100ch);
   margin-inline: auto;
   padding: 1.5rem 0;
