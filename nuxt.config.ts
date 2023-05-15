@@ -27,4 +27,7 @@ export default defineNuxtConfig({
   css: [
     '@/assets/css/styles.scss'
   ],
+  modules: [
+    '@nuxt/content'
+  ],
 })
