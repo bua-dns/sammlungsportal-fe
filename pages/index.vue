@@ -1,5 +1,5 @@
 <script setup>
-  const { data } = await useFetch('https://sammlungsportal.bua-dns.de/items/bua_collections');
+  const { data } = await useFetch('https://sammlungsportal.bua-dns.de/items/bua_collections?limit=-1');
   const theme = useState('theme');
   const w = theme.value.data.wording.de;
 </script>
