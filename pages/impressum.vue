@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <h1 class="text-center">{{ w.page_contact }}</h1>
+    <h1 class="text-center">{{ w.page_imprint }}</h1>
     <ContentRendererMarkdown v-if="content" :value="content" />
   </div>
 </template>
@@ -9,6 +9,6 @@
   const w = theme.value.data.wording.de;
   import { parseMarkdown } from '~/utils/parseMarkdown';
   const content = ref('');
-  const { data } = await useFetch('https://sammlungsportal.bua-dns.de/items/pages?filter[slug][_eq]=contact');
+  const { data } = await useFetch('https://sammlungsportal.bua-dns.de/items/pages?filter[slug][_eq]=imprint');
   content.value = await parseMarkdown(data.value.data[0].content);
 </script>
