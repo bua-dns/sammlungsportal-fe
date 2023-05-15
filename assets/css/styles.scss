@@ -558,3 +558,9 @@ main {
     margin-top: $navbar-height;
   }
 }
+
+.page {
+  width: min(100%, 100ch);
+  margin-inline: auto;
+  padding: 1.5rem 0;
+}
