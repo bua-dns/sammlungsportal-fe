@@ -68,13 +68,14 @@ onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
 
+const scrollOffset = 40;
 const scrollState = useState('scroll', () => false);
 const handleScroll = () => {
   const navbar = document.querySelector(".navbar");
-  if (window.scrollY > 40 && !navbar.classList.contains("shrink")) {
+  if (window.scrollY > scrollOffset && !navbar.classList.contains("shrink")) {
     navbar.classList.add("shrink");
     scrollState.value = true;
-  } else if (window.scrollY <= 40 && navbar.classList.contains("shrink")) {
+  } else if (window.scrollY <= scrollOffset && navbar.classList.contains("shrink")) {
     navbar.classList.remove("shrink");
     scrollState.value = false;
   }
