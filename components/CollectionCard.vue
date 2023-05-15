@@ -1,11 +1,10 @@
 <script setup>
-  defineProps(['collection']);
-  // const w = useWording();
+  defineProps(['entry']);
   const theme = useState('theme');
   const w = theme.value.data.wording.de;
 </script>
 <template>
-  <dl v-for="entry in collection" :key="entry.id" class="card">
+  <dl class="card">
     <template v-if="entry.label">
       <dt>{{ w.label }}</dt>
       <dd class="label">{{ entry.label }}</dd>
