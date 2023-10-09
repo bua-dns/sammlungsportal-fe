@@ -54,6 +54,10 @@
     border: 1px solid #ccc;
     border-radius: 8px;
   }
+  dt, dd {
+  overflow-wrap: break-word;
+  hyphens: auto;
+  }
   .label {
     font-weight: bold;
   }
