@@ -601,11 +601,11 @@ em {
 // MAIN
 
 main {
-  margin: $navbar-height-expanded 0 0;
-  // padding: 1.5rem 0 0;
+  margin: $navbar-height-expanded+32 0 0;
+  padding: 0 1rem;
   transition: margin-top .25s;
   &.scrolled {
-    margin-top: $navbar-height;
+    margin-top: $navbar-height+32;
   }
 }
 
@@ -613,4 +613,8 @@ main {
   width: min(100%, 100ch);
   margin-inline: auto;
   padding: 1.5rem;
+}
+
+.page {
+  background-color: #fff;
 }
