@@ -1,6 +1,8 @@
 <script setup>
-const { data } = await useFetch('https://sammlungsportal.bua-dns.de/items/theme_content');
-const theme = useState('theme', () => data);
+const { data: themeContent } = await useFetch('https://sammlungsportal.bua-dns.de/items/theme_content');
+const { data: backgroundImages } = await useFetch('https://sammlungsportal.bua-dns.de/items/background_images');
+const theme = useState('theme', () => themeContent);
+useState('background_images', () => backgroundImages);
 const w = theme.value.data.wording.de;
 useHead({
   titleTemplate: (titleChunk) => {
@@ -13,5 +15,5 @@ useHead({
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
-  <!-- {{ theme.data.wording.de }} -->
+  <!-- <div>{{ theme.data }}</div> -->
 </template>
