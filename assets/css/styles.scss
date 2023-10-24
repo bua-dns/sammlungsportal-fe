@@ -74,6 +74,25 @@ $navbar-height-expanded: 100px;
   --color-nav-active-bg: #597493;
   --color-nav-active-brd: #4d6887;
 
+  // greyscale
+  --color-base-d900: #121212;
+  --color-base-d800: #242424;
+  --color-base-d700: #363636;
+  --color-base-d600: #484848;
+  --color-base-d500: #5a5a5a;
+  --color-base-d400: #6c6c6c;
+  --color-base-d300: #7e7e7e;
+  --color-base-d200: #909090;
+  --color-base-d100: #a2a2a2;
+  --color-base-d75: #b4b4b4;
+  --color-base-d50: #c6c6c6;
+  --color-base-d25: #d8d8d8;
+  --color-base-d10: #eaeaea;
+  --color-base-d5: #f4f4f4;
+  --color-base-d0: #ffffff;
+
+  --color-btn-brd: #a7aaaf;
+
   // --breakpoint-sm: 576px;
   // --breakpoint-md: 768px;
   // --breakpoint-lg: 992px;
@@ -309,6 +328,34 @@ em {
   z-index: 1030;
 }
 
+// Basic elements
+.gws-btn {
+  display: inline-block;
+  margin: 0;
+  padding: 0.25rem;
+  line-height: 1;
+  font-size: 0;
+  color: var(--color-nav-text);
+  background-color: var(--color-nav-bg);
+  border: 1px solid var(--color-btn-brd);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  &:hover,
+  &:focus {
+    outline: 0;
+    background-color: var(--color-nav-hover-bg);
+    border-color: var(--color-nav-hover-brd);
+    color: var(--color-text-inv);
+  }
+  &:active {
+    outline: 0;
+    background-color: var(--color-nav-active-bg);
+    border: 1px solid var(--color-nav-active-brd);
+    color: var(--color-text-inv);
+  }
+}
+
 // NAVBAR
 .navbar {
   position: fixed;
@@ -432,7 +479,7 @@ em {
   }
   button.burger:not([disabled]):not([tabindex^="-"]):focus {
     outline: 0;
-    background-color: #06f;
+    background-color: var(--color-nav-hover-bg);
     color: #fff;
     .burger__line {
       background-color: #fff;

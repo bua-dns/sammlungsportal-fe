@@ -6,6 +6,21 @@
   function toggleCardType() {
     cardType.value = cardType.value == "list" ? "grid" : "list";
   }
+
+  // sort
+  const sortby = ref("label");
+  const order = ref("asc");
+  const sortedData = computed(() => {
+    return data.value.data.sort((a, b) => {
+      if (a[sortby.value] < b[sortby.value]) {
+        return order.value == "asc" ? -1 : 1;
+      }
+      if (a[sortby.value] > b[sortby.value]) {
+        return order.value == "asc" ? 1 : -1;
+      }
+      return 0;
+    });
+  });
 </script>
 <template>
   <Head>
@@ -21,45 +36,31 @@
     <div class="sort-controls">
         <div class="input-group">
           <label for="tag-cloud-sort-select" class="sort-label">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list"
-              viewBox="0 0 16 16">
-              <path
-                d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z">
-              </path>
-              <path
-                d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z">
-              </path>
+            <svg class="icon-sm me-1" width="16" height="16" fill="currentColor">
+              <use xlink:href="@/assets/img/bootstrap-icons.svg#list-ol"></use>
             </svg>
-            <span class="description">sort by</span>
+            <span class="description">{{ w.sortby }}</span>
           </label>
-          <select id="tag-cloud-sort-select" class="sort-select">
-            <option value="name">name</option>
-            <option value="count">count</option>
+          <select id="tag-cloud-sort-select" class="sort-select" v-model="sortby" >
+            <option value="label">{{ w.label }}</option>
+            <option value="current_keeper">{{ w.current_keeper }}</option>
           </select>
         </div>
         <div class="input-group">
           <label for="tag-cloud-sort-order" class="order-label">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sort-alpha-down"
-              viewBox="0 0 16 16">
-              <path fill-rule="evenodd"
-                d="M10.082 5.629 9.664 7H8.598l1.789-5.332h1.234L13.402 7h-1.12l-.419-1.371h-1.781zm1.57-.785L11 2.687h-.047l-.652 2.157h1.351z">
-              </path>
-              <path
-                d="M12.96 14H9.028v-.691l2.579-3.72v-.054H9.098v-.867h3.785v.691l-2.567 3.72v.054h2.645V14zM4.5 2.5a.5.5 0 0 0-1 0v9.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L4.5 12.293V2.5z">
-              </path>
+            <svg class="icon-sm me-1" width="16" height="16" fill="currentColor">
+              <use xlink:href="@/assets/img/bootstrap-icons.svg#sort-alpha-down"></use>
             </svg>
-            <span class="description">
-              order
-            </span>
+            <span class="description">{{ w.order }}</span>
           </label>
-          <select id="tag-cloud-sort-order" class="order-select">
-            <option value="asc">ascending</option>
-            <option value="desc">descending</option>
+          <select id="tag-cloud-sort-order" class="order-select" v-model="order">
+            <option value="asc">{{ w.ascending }}</option>
+            <option value="desc">{{ w.descending }}</option>
           </select>
         </div>
     </div>
     <div class="grid-controls">
-      <button class="btn-switch" @click="toggleCardType">
+      <button class="gws-btn btn-switch" @click="toggleCardType">
         <span v-if="cardType == 'list'" :title="w.grid">
           <svg class="icon" width="16" height="16" fill="currentColor">
             <use xlink:href="@/assets/img/bootstrap-icons.svg#grid"></use>
@@ -75,10 +76,10 @@
   </div>
   <!-- <pre>{{ data }}</pre> -->
   <div v-if="cardType == 'list'" class="collection_cards_wrapper">
-    <CollectionCard v-for="collection in data.data" :key="collection.id" :entry="collection" />
+    <CollectionCard v-for="collection in sortedData" :key="collection.id" :entry="collection" />
   </div>
   <div v-if="cardType == 'grid'" class="collection_cards_wrapper card-grid">
-    <CollectionCardGrid v-for="collection in data.data" :key="collection.id" :entry="collection" />
+    <CollectionCardGrid v-for="collection in sortedData" :key="collection.id" :entry="collection" />
   </div>
 </template>
 <style scoped lang="scss">
@@ -112,22 +113,23 @@
   font-size: 0.85rem;
 }
 
-.btn-switch {
-  margin: 0;
-  padding: 0;
-  width: auto;
-  overflow: visible;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  outline: none;
-}
+// .btn-switch {
+//   margin: 0;
+//   padding: 0;
+//   width: auto;
+//   overflow: visible;
+//   border: none;
+//   background-color: transparent;
+//   cursor: pointer;
+//   outline: none;
+// }
 
 .sort-controls {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: 1rem;
+  font-size: 0.85rem;
 }
 
 .filter-label,
@@ -136,12 +138,11 @@
   display: flex;
   align-items: center;
   margin: 0;
-  padding: .5rem;
+  padding: 0.25rem;
   line-height: 1;
-  // background-color: var(--clr-base-d550);
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
-  // border: 1px solid var(--clr-base-d400);
+  border: 1px solid var(--color-btn-brd);
   border-right: 0;
 }
 
@@ -150,11 +151,9 @@
   flex-grow: 1;
   margin: 0;
   padding: .5rem .25rem .5rem .25rem;
-  font-size: .85rem;
-  // color: var(--clr-base-l200);
+  // font-size: .85rem;
   line-height: 1;
-  // background-color: var(--clr-base-d550);
-  // border: 1px solid var(--clr-base-d400);
+  border: 1px solid var(--color-btn-brd);
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
 }
@@ -167,6 +166,10 @@
 .icon {
   width: 1.5rem;
   height: 1.5rem;
+}
+.icon-sm {
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 // main.scrolled .gws-grid-control-bar{
