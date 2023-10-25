@@ -1,4 +1,14 @@
 {
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+  },
+  "eslint.format.enable": true,
+  "files.eol": "\n",
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "editor.detectIndentation": true,
   "cSpell.words": [
     "Sammlungsportal",
     "sitenav"
