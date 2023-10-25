@@ -59,19 +59,30 @@
           </select>
         </div>
     </div>
-    <div class="grid-controls">
-      <button class="gws-btn btn-switch" @click="toggleCardType">
-        <span v-if="cardType == 'list'" :title="w.grid">
-          <svg class="icon" width="16" height="16" fill="currentColor">
-            <use xlink:href="@/assets/img/bootstrap-icons.svg#grid"></use>
-          </svg>
-        </span>
-        <span v-if="cardType == 'grid'" :title="w.list">
-          <svg class="icon" width="16" height="16" fill="currentColor">
-            <use xlink:href="@/assets/img/bootstrap-icons.svg#view-list"></use>
-          </svg>
-        </span>
-      </button>
+    <div class="gws-btn-group">
+      <div class="filter-controls gws-group-element">
+        <button class="gws-btn btn-filter">
+          <span title="filter">
+            <svg class="icon" width="16" height="16" fill="currentColor">
+              <use xlink:href="@/assets/img/bootstrap-icons.svg#filter"></use>
+            </svg>
+          </span>
+        </button>
+      </div>
+      <div class="grid-controls gws-group-element">
+        <button class="gws-btn btn-switch" @click="toggleCardType">
+          <span v-if="cardType == 'list'" :title="w.grid">
+            <svg class="icon" width="16" height="16" fill="currentColor">
+              <use xlink:href="@/assets/img/bootstrap-icons.svg#grid"></use>
+            </svg>
+          </span>
+          <span v-if="cardType == 'grid'" :title="w.list">
+            <svg class="icon" width="16" height="16" fill="currentColor">
+              <use xlink:href="@/assets/img/bootstrap-icons.svg#view-list"></use>
+            </svg>
+          </span>
+        </button>
+      </div>
     </div>
   </div>
   <!-- <pre>{{ data }}</pre> -->
@@ -94,6 +105,7 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   // grid-template-columns: repeat(5,1fr);
   grid-gap: 1rem;
+  // grid-gap: 0.5rem;
 }
 
 .grid-control-bar {
@@ -101,6 +113,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  gap: 0.5rem;
   width: min(100%, 1200px);
   margin: 132px auto 0;
   padding: 1rem;
@@ -126,9 +139,11 @@
 
 .sort-controls {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
-  gap: 1rem;
+  // gap: 1rem;
+  gap: 0.5rem;
   font-size: 0.85rem;
 }
 
