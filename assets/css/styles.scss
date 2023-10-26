@@ -46,8 +46,6 @@
 @import "bootstrap/utilities/api";
 // scss-docs-end import-stack
 
-
-
 // scss variables
 $navbar-height: 48px;
 $navbar-height-expanded: 100px;
@@ -67,6 +65,7 @@ $navbar-height-expanded: 100px;
   --color-border: #eaeaea;
 
   --color-nav-bg: #e3e6ec;
+  --color-nav-bg-marked: #d1d6e0;
   --color-nav-text: #121212;
   --color-nav-brd: #cdcfd2;
   --color-nav-hover-bg: #2b5c8c;
@@ -369,8 +368,8 @@ em {
   width: 20px;
   height: 20px;
   display: inline-block;
-  vertical-align: text-bottom;
-  margin-right: .25rem;
+  vertical-align: bottom;
+  margin-right: 0.25rem;
   border-radius: 0;
 }
 
@@ -388,7 +387,7 @@ em {
   line-height: 1;
   // border-bottom: 1px solid var(--color-border);
   // box-shadow: 0 0 8px 0 rgba(0,0,0,0.8);
-  box-shadow: 0 0 0.625rem 0 rgba(0,0,0,.4);
+  box-shadow: 0 0 0.625rem 0 rgba(0, 0, 0, 0.4);
   .navbar__brand {
     display: flex;
     align-items: center;
@@ -422,7 +421,7 @@ em {
       font-weight: 400;
       font-size: 1.27rem;
       // font-size: clamp(1rem, 3.3333vw, 1.27rem);
-      font-size: clamp(0.8rem, 2.6667vw, 1.27rem);;
+      font-size: clamp(0.8rem, 2.6667vw, 1.27rem);
       line-height: 1.125;
       transition: all 0.25s;
     }
@@ -666,15 +665,16 @@ em {
 // MAIN
 
 main {
-  margin: $navbar-height-expanded+32 0 0;
+  margin: $navbar-height-expanded + 32 0 0;
   padding: 0 1rem;
-  transition: margin-top .25s;
+  transition: margin-top 0.25s;
   &.scrolled {
-    margin-top: $navbar-height+32;
+    margin-top: $navbar-height + 32;
   }
 }
 
-.page, .container {
+.page,
+.container {
   width: min(100%, 100ch);
   margin-inline: auto;
   padding: 1.5rem;
@@ -682,4 +682,69 @@ main {
 
 .page {
   background-color: #fff;
+}
+
+// tags
+.tag-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1rem 0;
+  // border-top: 1px solid var(--color-base-d25);
+  // border-top: 1px solid var(--color-nav-brd);
+  padding-top: 1rem;
+}
+
+.filter-card,
+.tag-card {
+  padding: 0.75rem;
+  // border: 1px solid var(--color-base-d25);
+  border: 1px solid var(--color-nav-brd);
+  // border: 1px solid var(--color-base-d10);
+  border-radius: 6px;
+  background-color: var(--color-base-d0);
+  flex: 1 1 19ch;
+
+  .tag-title {
+    font-size: 1rem;
+    font-family: "Merriweather Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+      Cantarell, "Open Sans", "Noto Sans", "Liberation Sans", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-weight: 320;
+    margin: 0;
+    padding: 0 0 0.5rem 0;
+    text-align: center;
+    // border-bottom: 1px solid var(--color-base-d10);
+    border-bottom: 1px solid var(--color-nav-brd);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin: 1rem 0 0;
+
+    .tag {
+      // background-color: var(--color-base-d50);
+      background-color: var(--color-nav-bg);
+      font-size: 0.9rem;
+      font-weight: 500;
+      line-height: 1;
+      margin: 0;
+      padding: 0.3em 0.6em;
+      border: 0;
+      border-radius: 4px;
+      cursor: pointer;
+
+      // &:hover,
+      // &:focus,
+      &:active,
+      &.active {
+        background-color: var(--color-nav-hover-bg);
+        border-color: var(--color-nav-hover-brd);
+        color: var(--color-text-inv);
+      }
+    }
+  }
 }

@@ -1,11 +1,26 @@
 <script setup>
-defineProps(['entry']);
+const props = defineProps(['entry', 'tagFilter']);
+defineEmits(['setFilter']);
 const theme = useState('theme');
 const w = theme.value.data.wording.de;
+const tagTypes = theme.value.data.settings.tags;
+const tagNames = theme.value.data.names.tags;
+
+function activeTag(type, tag) {
+  if (props.tagFilter[type] && props.tagFilter[type].includes(tag)) {
+    return " active";
+  }
+  return "";
+}
+
+function getTagLabelName(tag) {
+  return tagNames[tag] ? tagNames[tag] : tag;
+}
+
 </script>
 <template>
-  <div class="card">
-
+  <div v-if="entry.display" class="card">
+    <!-- {{ tagFilter }} -->
     <div class="card-keeper" :style="getUniMarkerColors(entry.current_keeper, 'border-bottom-color')"
       v-if="entry.current_keeper">
       <span class="gws_uni_marker" :style="getUniMarkerColors(entry.current_keeper, 'background-color')"></span>
@@ -14,7 +29,6 @@ const w = theme.value.data.wording.de;
     <div class="card-label" v-if="entry.label">
       <strong>{{ entry.label }}</strong>
     </div>
-
     <div class="card-cols">
       <div class="card-col">
         <div v-if="entry.description" class="card-description" v-html="convertLineBreaks(entry.description)"></div>
@@ -99,57 +113,19 @@ const w = theme.value.data.wording.de;
         </dl>
       </div>
     </div>
-
     <div class="tag-navigation">
-      <div v-if="entry.role && entry.role.length > 0" class="tag-card">
-        <h4 class="tag-title">{{ w.role }}</h4>
-        <div class="tags">
-          <div v-for="role in entry.role" :key="'role_' + entry.id + '_' + role.id">
-            <button class="tag">{{ role.label }}</button>
+      <!-- <pre>{{ tagTypes }}</pre> -->
+      <template v-for="tagType in tagTypes" :key="'collection-card-tag-' + tagType">
+        <div v-if="entry[tagType] && entry[tagType].length > 0 && tagType !== 'current_keeper'" class="tag-card">
+          <h4 class="tag-title">{{ w[tagType] }}</h4>
+          <div class="tags">
+            <button v-for="tag in entry[tagType]" :key="'tag_' + entry.id + '_' + tag.id"
+              :class="'tag' + activeTag(tagType, tag.label)" @click="$emit('setFilter', tagType, tag.label)">
+              {{ getTagLabelName(tag.label) }}
+            </button>
           </div>
         </div>
-      </div>
-      <div v-if="entry.subject && entry.subject.length > 0" class="tag-card">
-        <h4 class="tag-title">{{ w.subject }}</h4>
-        <div class="tags">
-          <div v-for="subject in entry.subject" :key="'subject_' + entry.id + '_' + subject.id">
-            <button class="tag">{{ subject.label }}</button>
-          </div>
-        </div>
-      </div>
-      <div v-if="entry.genre && entry.genre.length > 0" class="tag-card">
-        <h4 class="tag-title">{{ w.genre }}</h4>
-        <div class="tags">
-          <div v-for="genre in entry.genre" :key="'genre_' + entry.id + '_' + genre.id">
-            <button class="tag">{{ genre.label }}</button>
-          </div>
-        </div>
-      </div>
-      <div v-if="entry.academic_teaching && entry.academic_teaching.length > 0" class="tag-card">
-        <h4 class="tag-title">{{ w.academic_teaching }}</h4>
-        <div class="tags">
-          <div v-for="academic_teaching in entry.academic_teaching"
-            :key="'academic_teaching_' + entry.id + '_' + academic_teaching.id">
-            <button class="tag">{{ w[academic_teaching.label] }}</button>
-          </div>
-        </div>
-      </div>
-      <div v-if="entry.special_form && entry.special_form.length > 0" class="tag-card">
-        <h4 class="tag-title">{{ w.special_form }}</h4>
-        <div class="tags">
-          <div v-for="special_form in entry.special_form" :key="'special_form_' + entry.id + '_' + special_form.id">
-            <button class="tag">{{ special_form.label }}</button>
-          </div>
-        </div>
-      </div>
-      <div v-if="entry.living_being && entry.living_being.length > 0" class="tag-card">
-        <h4 class="tag-title">{{ w.living_being }}</h4>
-        <div class="tags">
-          <div v-for="living_being in entry.living_being" :key="'living_being_' + entry.id + '_' + living_being.id">
-            <button class="tag">{{ living_being.label }}</button>
-          </div>
-        </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>
@@ -207,69 +183,6 @@ const w = theme.value.data.wording.de;
 
       &:nth-child(2) {
         margin-top: 0;
-      }
-    }
-  }
-}
-
-
-.tag-navigation {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin: 1rem 0;
-  // border-top: 1px solid var(--color-base-d25);
-  // border-top: 1px solid var(--color-nav-brd);
-  padding-top: 1rem;
-
-  .tag-card {
-    padding: .75rem;
-    // border: 1px solid var(--color-base-d25);
-    border: 1px solid var(--color-nav-brd);
-    // border: 1px solid var(--color-base-d10);
-    border-radius: 6px;
-    background-color: var(--color-base-d0);
-    flex: 1 1 19ch;
-
-    .tag-title {
-      font-size: 1rem;
-      font-family: "Merriweather Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
-        Cantarell, "Open Sans", "Noto Sans", "Liberation Sans", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
-        "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-      font-weight: 320;
-      margin: 0;
-      padding: 0 0 0.5rem 0;
-      text-align: center;
-      // border-bottom: 1px solid var(--color-base-d10);
-      border-bottom: 1px solid var(--color-nav-brd);
-      ;
-    }
-
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: .75rem;
-      margin: 1rem 0 0;
-
-      .tag {
-        // background-color: var(--color-base-d50);
-        background-color: var(--color-nav-bg);
-        font-size: .9rem;
-        font-weight: 500;
-        line-height: 1;
-        margin: 0;
-        padding: .3em .6em;
-        border: 0;
-        border-radius: 4px;
-        cursor: pointer;
-
-        &:hover,
-        &:focus {
-          background-color: var(--color-nav-hover-bg);
-          border-color: var(--color-nav-hover-brd);
-          color: var(--color-text-inv);
-        }
       }
     }
   }
