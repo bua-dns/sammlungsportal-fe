@@ -83,7 +83,6 @@ function getTagLabelName(tag) {
 
 const tagFilter = ref({});
 function setFilter(type, tag) {
-  console.log(type, tag);
   if (tagFilter.value[type] && tagFilter.value[type].includes(tag)) {
     tagFilter.value[type] = tagFilter.value[type].filter((item) => item !== tag);
   } else {
