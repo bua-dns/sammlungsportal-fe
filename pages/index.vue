@@ -113,6 +113,7 @@ function setFilter(type, tag) {
       }
     });
   });
+  scrollToResults();
 }
 
 function activeTag(type, tag) {
@@ -120,6 +121,30 @@ function activeTag(type, tag) {
     return " active";
   }
   return "";
+}
+
+function hasTagTypeActiveTag(type) {
+  if (tagFilter.value[type] && tagFilter.value[type].length > 0) {
+    return true;
+  }
+  return false;
+}
+
+function isFilterDetailsOpen(type) {
+  if (type === 'current_keeper' || hasTagTypeActiveTag(type)) {
+    return true;
+  }
+  return false;
+}
+
+const scrollToResultsAfterSelect = ref(true);
+function scrollToResults() {
+  if (scrollToResultsAfterSelect.value) {
+    const scrollTarget = document.getElementById("collection_cards_wrapper");
+    setTimeout(() => {
+      scrollTarget.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  }
 }
 
 </script>
@@ -136,7 +161,7 @@ function activeTag(type, tag) {
     <div class="basic-controls">
       <div class="collections-counter">{{ w.num_collections }}: {{ data.meta.total_count }}</div>
       <div class="sort-controls">
-        <div class="input-group">
+        <div class="gws-input-group">
           <label for="tag-cloud-sort-select" class="sort-label">
             <svg class="icon-sm me-1" width="16" height="16" fill="currentColor">
               <use xlink:href="@/assets/img/bootstrap-icons.svg#list-ol"></use>
@@ -148,7 +173,7 @@ function activeTag(type, tag) {
             <option value="current_keeper">{{ w.current_keeper }}</option>
           </select>
         </div>
-        <div class="input-group">
+        <div class="gws-input-group">
           <label for="tag-cloud-sort-order" class="order-label">
             <svg class="icon-sm me-1" width="16" height="16" fill="currentColor">
               <use xlink:href="@/assets/img/bootstrap-icons.svg#sort-alpha-down"></use>
@@ -163,7 +188,7 @@ function activeTag(type, tag) {
       </div>
       <div class="gws-btn-group">
         <div class="filter-controls gws-group-element">
-          <button class="gws-btn btn-filter" @click="toggleFilters">
+          <button :class="(showFilters) ? 'gws-btn btn-filter active' : 'gws-btn btn-filter'" @click="toggleFilters">
             <span title="filter">
               <svg class="icon" width="16" height="16" fill="currentColor">
                 <use xlink:href="@/assets/img/bootstrap-icons.svg#filter"></use>
@@ -189,9 +214,15 @@ function activeTag(type, tag) {
     </div>
     <!-- <pre>{{ tags }}</pre> -->
     <div v-if="showFilters" class="filter-control-bar">
-      <div v-for="(tagCloud, tagType) in tags" :id="'filter-card-' + tagType" :key="'filter-card-' + tagType"
-        class="filter-card">
-        <h4 class="tag-title">{{ w[tagType] }}</h4>
+      <div class="form-check form-switch gws-form-switch-right d-flex justify-content-end align-items-center">
+        <label class="form-check-label small" for="flexSwitchCheckChecked">{{
+          w.scroll_to_results_after_select }}</label>
+        <input @click="scrollToResultsAfterSelect = !scrollToResultsAfterSelect" class="form-check-input" type="checkbox"
+          role="switch" id="flexSwitchCheckChecked" :checked="(scrollToResultsAfterSelect) ? true : null">
+      </div>
+      <details v-for="(tagCloud, tagType) in tags" :id="'filter-card-' + tagType" :key="'filter-card-' + tagType"
+        class="filter-card" :open="isFilterDetailsOpen(tagType) ? true : null">
+        <summary class="tag-title">{{ w[tagType] }}</summary>
         <div class="tags">
           <button v-for="(tag, tagIdx) in tagCloud" :key="'filter-card-' + tagType + '-' + tagIdx"
             @click="setFilter(tagType, tag.label)" :class="'tag' + activeTag(tagType, tag.label)">
@@ -199,15 +230,15 @@ function activeTag(type, tag) {
             <span class="tag-count">{{ tag.count }}</span>
           </button>
         </div>
-      </div>
+      </details>
     </div>
   </div>
   <!-- <pre>{{ data }}</pre> -->
-  <div v-if="cardType == 'list'" class="collection_cards_wrapper">
+  <div v-if="cardType == 'list'" class="collection_cards_wrapper" id="collection_cards_wrapper">
     <CollectionCard v-for="collection in sortedData" :key="collection.id" :entry="collection" :tagFilter="tagFilter"
       @set-filter="setFilter" />
   </div>
-  <div v-if="cardType == 'grid'" class="collection_cards_wrapper card-grid">
+  <div v-if="cardType == 'grid'" class="collection_cards_wrapper card-grid" id="collection_cards_wrapper">
     <CollectionCardGrid v-for="collection in sortedData" :key="collection.id" :entry="collection" />
   </div>
 </template>
@@ -216,6 +247,7 @@ function activeTag(type, tag) {
   width: min(100%, 1200px);
   margin-inline: auto;
   padding: 1rem 0;
+  scroll-margin-top: 48px;
 }
 
 .card-grid {
@@ -290,11 +322,13 @@ function activeTag(type, tag) {
 
 .filter-control-bar {
   margin-top: 1rem;
-  // padding-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-nav-brd);
 }
 
 .filter-card {
-  margin: 1rem 0;
+  // margin: 1rem 0;
+  margin: 0.5rem 0;
 
   // padding: 0.5rem;
   // border: 1px solid #ccc;
@@ -319,7 +353,44 @@ function activeTag(type, tag) {
   }
 }
 
-.input-group {
+details {
+  position: relative;
+}
+
+summary {
+  display: block;
+  position: relative;
+  cursor: pointer;
+
+  &::before,
+  &::after {
+    width: .75em;
+    height: 2px;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    content: '';
+    background-color: var(--color-text);
+    text-align: right;
+    transform: translateY(-50%);
+    transition: transform .2s ease-in-out;
+  }
+
+  &::after {
+    transform: translateY(-50%) rotate(90deg);
+
+    [open] & {
+      transform: translateY(-50%) rotate(180deg);
+    }
+  }
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+}
+
+.gws-input-group {
   display: flex;
   flex-grow: 1;
 }
@@ -332,5 +403,17 @@ function activeTag(type, tag) {
 .icon-sm {
   width: 1.25rem;
   height: 1.25rem;
+}
+
+.gws-form-switch-right {
+  margin: 0;
+  padding-left: 0;
+
+  .form-check-input {
+    margin-left: 0.75em;
+    margin-right: 0.25em;
+    float: none;
+    cursor: pointer;
+  }
 }
 </style>

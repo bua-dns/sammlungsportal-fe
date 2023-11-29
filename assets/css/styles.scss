@@ -1,3 +1,6 @@
+// $blue: #2b5c8c;
+$blue: #597493;
+
 // Bootstrap
 // Configuration
 @import "bootstrap/functions";
@@ -15,6 +18,7 @@
 @import "bootstrap/grid";
 // @import "bootstrap/tables";
 // @import "bootstrap/forms";
+@import "bootstrap/forms/form-check";
 // @import "bootstrap/buttons";
 // @import "bootstrap/transitions";
 // @import "bootstrap/dropdown";
@@ -319,6 +323,10 @@ em {
   text-align: center;
 }
 
+.small {
+  font-size: 0.85rem;
+}
+
 .fixed-top {
   position: fixed;
   top: 0;
@@ -356,8 +364,11 @@ em {
     border-color: var(--color-nav-hover-brd);
     color: var(--color-text-inv);
   }
-  &:active {
+  &:active,
+  &.active {
     outline: 0;
+    // background-color: var(--color-nav-hover-bg);
+    // border: 1px solid var(--color-nav-hover-brd);
     background-color: var(--color-nav-active-bg);
     border: 1px solid var(--color-nav-active-brd);
     color: var(--color-text-inv);
@@ -697,13 +708,14 @@ main {
 
 .filter-card,
 .tag-card {
-  padding: 0.75rem;
+  // padding: 0.75rem;
+  padding: 0.5rem;
   // border: 1px solid var(--color-base-d25);
   border: 1px solid var(--color-nav-brd);
   // border: 1px solid var(--color-base-d10);
   border-radius: 6px;
   background-color: var(--color-base-d0);
-  flex: 1 1 19ch;
+  // flex: 1 1 19ch;
 
   .tag-title {
     font-size: 1rem;
@@ -712,10 +724,10 @@ main {
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-weight: 320;
     margin: 0;
-    padding: 0 0 0.5rem 0;
+    // padding: 0 0 0.5rem 0;
     text-align: center;
     // border-bottom: 1px solid var(--color-base-d10);
-    border-bottom: 1px solid var(--color-nav-brd);
+    // border-bottom: 1px solid var(--color-nav-brd);
   }
 
   .tags {
@@ -723,7 +735,10 @@ main {
     flex-wrap: wrap;
     justify-content: center;
     gap: 0.75rem;
-    margin: 1rem 0 0;
+    // margin: 1rem 0 0;
+    margin: 0.5rem 0 0;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-nav-brd);
 
     .tag {
       // background-color: var(--color-base-d50);
