@@ -1,5 +1,5 @@
-// $blue: #2b5c8c;
-$blue: #597493;
+$blue: #2b5c8c;
+// $blue: #597493;
 
 // Bootstrap
 // Configuration
@@ -367,10 +367,10 @@ em {
   &:active,
   &.active {
     outline: 0;
-    // background-color: var(--color-nav-hover-bg);
-    // border: 1px solid var(--color-nav-hover-brd);
-    background-color: var(--color-nav-active-bg);
-    border: 1px solid var(--color-nav-active-brd);
+    background-color: var(--color-nav-hover-bg);
+    border: 1px solid var(--color-nav-hover-brd);
+    // background-color: var(--color-nav-active-bg);
+    // border: 1px solid var(--color-nav-active-brd);
     color: var(--color-text-inv);
   }
 }

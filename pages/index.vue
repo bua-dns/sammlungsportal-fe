@@ -138,13 +138,25 @@ function isFilterDetailsOpen(type) {
 }
 
 const scrollToResultsAfterSelect = ref(true);
-function scrollToResults() {
-  if (scrollToResultsAfterSelect.value) {
-    const scrollTarget = document.getElementById("collection_cards_wrapper");
+function scrollToResults(always = false) {
+  if (scrollToResultsAfterSelect.value || always) {
+    const scrollTarget = document.getElementById("collections_display");
     setTimeout(() => {
       scrollTarget.scrollIntoView({ behavior: "smooth" });
     }, 100);
   }
+}
+
+const activeCollectionId = ref(null);
+function setActiveCollectionId(id) {
+  activeCollectionId.value = id;
+  if (id !== null) {
+    scrollToResults(true);
+  }
+}
+
+function getCollectionById(id) {
+  return data.value.data.find((collection) => collection.id === id);
 }
 
 </script>
@@ -157,7 +169,7 @@ function scrollToResults() {
     <img style="width:100%;height:auto;" src="@/assets/img/Collage_01.png" alt="hero image" />
   </div>
   -->
-  <div class="grid-control-bar">
+  <div class="grid-control-bar" id="grid-control-bar">
     <div class="basic-controls">
       <div class="collections-counter">{{ w.num_collections }}: {{ data.meta.total_count }}</div>
       <div class="sort-controls">
@@ -234,20 +246,38 @@ function scrollToResults() {
     </div>
   </div>
   <!-- <pre>{{ data }}</pre> -->
-  <div v-if="cardType == 'list'" class="collection_cards_wrapper" id="collection_cards_wrapper">
-    <CollectionCard v-for="collection in sortedData" :key="collection.id" :entry="collection" :tagFilter="tagFilter"
-      @set-filter="setFilter" />
-  </div>
-  <div v-if="cardType == 'grid'" class="collection_cards_wrapper card-grid" id="collection_cards_wrapper">
-    <CollectionCardGrid v-for="collection in sortedData" :key="collection.id" :entry="collection" />
+  <!-- <pre>{{ sortedData }}</pre> -->
+  <!-- <pre>{{ activeCollectionId }}</pre> -->
+  <div class="collections_display" id="collections_display">
+    <div v-if="cardType == 'list'" class="collection_cards_wrapper">
+      <CollectionCard v-for="collection in sortedData" :key="collection.id" :entry="collection" :tagFilter="tagFilter"
+        :activeCollectionId="activeCollectionId" @set-filter="setFilter"
+        @set-active-collection-id="setActiveCollectionId" />
+    </div>
+    <div v-if="cardType == 'grid' && activeCollectionId" class="collection_cards_wrapper single-card">
+      <CollectionCard :entry="getCollectionById(activeCollectionId)" :tagFilter="tagFilter"
+        :activeCollectionId="activeCollectionId" @set-filter="setFilter"
+        @set-active-collection-id="setActiveCollectionId" />
+    </div>
+    <div v-if="cardType == 'grid'" class="collection_cards_wrapper card-grid">
+      <CollectionCardGrid v-for="collection in sortedData" :key="collection.id" :entry="collection"
+        @set-active-collection-id="setActiveCollectionId" />
+    </div>
   </div>
 </template>
 <style scoped lang="scss">
+.collections_display {
+  scroll-margin-top: 48px;
+}
+
 .collection_cards_wrapper {
   width: min(100%, 1200px);
   margin-inline: auto;
   padding: 1rem 0;
-  scroll-margin-top: 48px;
+
+  &.single-card {
+    padding-bottom: 0;
+  }
 }
 
 .card-grid {

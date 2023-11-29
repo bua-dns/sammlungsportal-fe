@@ -1,6 +1,6 @@
 <script setup>
-const props = defineProps(['entry', 'tagFilter']);
-defineEmits(['setFilter']);
+const props = defineProps(['entry', 'tagFilter', 'activeCollectionId']);
+defineEmits(['setFilter', 'setActiveCollectionId']);
 const theme = useState('theme');
 const w = theme.value.data.wording.de;
 const tagTypes = theme.value.data.settings.tags;
@@ -19,8 +19,12 @@ function getTagLabelName(tag) {
 
 </script>
 <template>
-  <div v-if="entry.display" class="card">
+  <div v-if="entry.display" class="card" :id="'collection-' + entry.id">
     <!-- {{ tagFilter }} -->
+    <!-- <pre>EID: {{ entry.id }}</pre>
+    <pre>AID: {{ activeCollectionId }}</pre> -->
+    <div v-if="entry.id === activeCollectionId" @click="$emit('setActiveCollectionId', null)" :title="w.deselect"
+      class="card-deselect"></div>
     <div class="card-keeper" :style="getUniMarkerColors(entry.current_keeper, 'border-bottom-color')"
       v-if="entry.current_keeper">
       <span class="gws_uni_marker" :style="getUniMarkerColors(entry.current_keeper, 'background-color')"></span>
@@ -115,11 +119,12 @@ function getTagLabelName(tag) {
     </div>
     <div class="tag-navigation">
       <!-- <pre>{{ tagTypes }}</pre> -->
+      <!-- <pre>{{ entry }}</pre> -->
       <template v-for="tagType in tagTypes" :key="'collection-card-tag-' + tagType">
         <div v-if="entry[tagType] && entry[tagType].length > 0 && tagType !== 'current_keeper'" class="tag-card">
           <h4 class="tag-title">{{ w[tagType] }}</h4>
           <div class="tags">
-            <button v-for="tag in entry[tagType]" :key="'tag_' + entry.id + '_' + tag.id"
+            <button v-for="(tag, idx) in entry[tagType]" :key="'tag_' + entry.id + '_' + idx"
               :class="'tag' + activeTag(tagType, tag.label)" @click="$emit('setFilter', tagType, tag.label)">
               {{ getTagLabelName(tag.label) }}
             </button>
@@ -135,6 +140,7 @@ function getTagLabelName(tag) {
   border: 1px solid #333;
   border-radius: 8px;
   background-color: #fff;
+  position: relative;
   // opacity: 0.85;
 
   &:not(:last-child) {
@@ -144,6 +150,11 @@ function getTagLabelName(tag) {
   // &:hover {
   //   opacity: 1;
   // }
+  &.active {
+    border: 2px solid #2b5c8c;
+    background-color: #f3f3ff;
+    /* box-shadow: inset 0px 0px 20px 0px #2b5c8c; */
+  }
 }
 
 .card-keeper {
@@ -186,6 +197,42 @@ function getTagLabelName(tag) {
       }
     }
   }
+}
+
+.card-deselect {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  // background-color: #eee;
+  cursor: pointer;
+
+  &::before,
+  &::after {
+    width: 1em;
+    height: 2px;
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    content: '';
+    background-color: var(--color-text);
+    text-align: right;
+    // transform: translateY(-50%);
+    // transition: transform .2s ease-in-out;
+  }
+
+  &::before {
+    // transform: translateY(-50%) rotate(-45deg);
+    transform: rotate(-45deg);
+  }
+
+  &::after {
+    // transform: translateY(-50%) rotate(45deg);
+    transform: rotate(45deg);
+  }
+
 }
 
 dl {
