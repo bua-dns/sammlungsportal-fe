@@ -197,42 +197,6 @@ function getTagLabelName(tag) {
   }
 }
 
-.card-deselect {
-  position: absolute;
-  top: 0.25rem;
-  right: 0.5rem;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  // background-color: #eee;
-  cursor: pointer;
-
-  &::before,
-  &::after {
-    width: 1em;
-    height: 2px;
-    position: absolute;
-    top: 50%;
-    right: 0.5rem;
-    content: '';
-    background-color: var(--color-text);
-    text-align: right;
-    // transform: translateY(-50%);
-    // transition: transform .2s ease-in-out;
-  }
-
-  &::before {
-    // transform: translateY(-50%) rotate(-45deg);
-    transform: rotate(-45deg);
-  }
-
-  &::after {
-    // transform: translateY(-50%) rotate(45deg);
-    transform: rotate(45deg);
-  }
-
-}
-
 dl {
   margin: 0;
 }

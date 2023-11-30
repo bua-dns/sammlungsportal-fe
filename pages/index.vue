@@ -1,5 +1,6 @@
 <script setup>
 const { data } = await useFetch('https://sammlungsportal.bua-dns.de/items/bua_collections?limit=-1&sort=label&meta=total_count');
+const router = useRouter();
 const theme = useState('theme');
 const w = theme.value.data.wording.de;
 const settings = theme.value.data.settings;
@@ -87,13 +88,15 @@ function getTagLabelName(tag) {
 
 const tagFilter = ref({});
 function setFilter(type, tag) {
-  if (tagFilter.value[type] && tagFilter.value[type].includes(tag)) {
-    tagFilter.value[type] = tagFilter.value[type].filter((item) => item !== tag);
-  } else {
-    if (!tagFilter.value[type]) {
-      tagFilter.value[type] = [];
+  if (type && tag) {
+    if (tagFilter.value[type] && tagFilter.value[type].includes(tag)) {
+      tagFilter.value[type] = tagFilter.value[type].filter((item) => item !== tag);
+    } else {
+      if (!tagFilter.value[type]) {
+        tagFilter.value[type] = [];
+      }
+      tagFilter.value[type].push(tag);
     }
-    tagFilter.value[type].push(tag);
   }
   data.value.data.forEach((collection) => {
     collection.display = true;
@@ -117,6 +120,7 @@ function setFilter(type, tag) {
       }
     });
   });
+  setQueryParams();
   scrollToResults();
 }
 
@@ -154,6 +158,7 @@ function scrollToResults(always = false) {
 const activeCollectionId = ref(null);
 function setActiveCollectionId(id) {
   activeCollectionId.value = id;
+  setQueryParams();
   if (id !== null) {
     scrollToResults(true);
   }
@@ -162,6 +167,58 @@ function setActiveCollectionId(id) {
 function getCollectionById(id) {
   return data.value.data.find((collection) => collection.id === id);
 }
+
+const errors = ref([]);
+
+function setQueryParams() {
+  const params = {};
+  Object.keys(tagFilter.value).forEach((tagType) => {
+    if (tagFilter.value[tagType] && tagFilter.value[tagType].length > 0) {
+      params[tagType] = tagFilter.value[tagType].join(",");
+    }
+  });
+  if (activeCollectionId.value !== null) {
+    params.activeCollectionId = activeCollectionId.value;
+  }
+  router.push({ query: params });
+}
+
+function closeErrorDisplay() {
+  errors.value = [];
+}
+
+const route = useRoute();
+onMounted(() => {
+  let hasFilter = false;
+  Object.keys(route.query).forEach((tagType) => {
+    if (tagType === "activeCollectionId") {
+      if (route.query[tagType] && getCollectionById(route.query[tagType])) {
+        setActiveCollectionId(route.query[tagType]);
+      } else {
+        errors.value.push("error_activeCollectionId");
+      }
+    } else {
+      if (!settings.tags.includes(tagType)) {
+        errors.value.push("error_tagType");
+      } else {
+        if (!tagFilter.value[tagType]) {
+          tagFilter.value[tagType] = [];
+        }
+        route.query[tagType].split(",").forEach((tag) => {
+          if (!tags.value[tagType].find((item) => item.label === tag)) {
+            errors.value.push("error_tagLabel");
+          } else {
+            hasFilter = true;
+            tagFilter.value[tagType].push(tag);
+          }
+        });
+      }
+    }
+  });
+  if (hasFilter) {
+    setFilter();
+  }
+});
 
 </script>
 <template>
@@ -253,6 +310,23 @@ function getCollectionById(id) {
   <!-- <pre>{{ sortedData }}</pre> -->
   <!-- <pre>{{ activeCollectionId }}</pre> -->
   <div class="collections_display" id="collections_display">
+    <div v-if="errors.length > 0" class="url_errors_wrapper">
+      <div class="url_errors">
+        <div @click="closeErrorDisplay" :title="w.close" class="card-deselect card-deselect-inverse"></div>
+        <h4 class="sans-serif mt-0">{{ w.url_errors }}</h4>
+        <ul>
+          <li v-if="errors.includes('error_activeCollectionId')">
+            {{ w.error_activeCollectionId }}
+          </li>
+          <li v-if="errors.includes('error_tagType')">
+            {{ w.error_tagType }}
+          </li>
+          <li v-if="errors.includes('error_tagLabel')">
+            {{ w.error_tagLabel }}
+          </li>
+        </ul>
+      </div>
+    </div>
     <div v-if="cardType == 'list'" class="collection_cards_wrapper">
       <CollectionCard v-for="collection in sortedData" :key="collection.id" :entry="collection" :tagFilter="tagFilter"
         :activeCollectionId="activeCollectionId" @set-filter="setFilter"
@@ -274,14 +348,30 @@ function getCollectionById(id) {
   scroll-margin-top: 48px;
 }
 
+.url_errors_wrapper,
 .collection_cards_wrapper {
   width: min(100%, 1200px);
   margin-inline: auto;
   padding: 1rem 0;
+  position: relative;
 
   &.single-card {
     padding-bottom: 0;
   }
+}
+
+.url_errors_wrapper {
+  padding-bottom: 0;
+}
+
+.url_errors {
+  padding: 1rem;
+  border: 1px solid #6a0000;
+  border-radius: 8px;
+  background-color: #942932;
+  color: #ffffff;
+  position: relative;
+  scroll-margin-top: 64px;
 }
 
 .card-grid {
