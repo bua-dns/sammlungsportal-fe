@@ -35,36 +35,36 @@ function toggleFilters() {
 }
 
 // tags
-const tags = computed(() => {
-  const tags = {};
+const tags = ref({});
+function setTags() {
+  console.log('tags');
   data.value.data.forEach((collection) => {
     settings.tags.forEach((tag) => {
+      if (!tags.value[tag]) {
+        tags.value[tag] = [];
+      }
       if (collection[tag] && collection[tag].length > 0) {
-        if (!tags[tag]) {
-          tags[tag] = [];
-        }
         if (!Array.isArray(collection[tag])) {
-          if (!tags[tag].find((item) => item.label === collection[tag])) {
-            tags[tag].push({ label: collection[tag], count: 1 });
+          if (!tags.value[tag].find((item) => item.label === collection[tag])) {
+            tags.value[tag].push({ label: collection[tag], count: 1 });
           } else {
-            tags[tag].find((item) => item.label === collection[tag]).count++;
+            tags.value[tag].find((item) => item.label === collection[tag]).count++;
           }
         } else {
           collection[tag].forEach((item) => {
-            if (!tags[tag].find((tagItem) => tagItem.label === item.label)) {
-              tags[tag].push({ label: item.label, count: 1 });
+            if (!tags.value[tag].find((tagItem) => tagItem.label === item.label)) {
+              tags.value[tag].push({ label: item.label, count: 1 });
             } else {
-              tags[tag].find((tagItem) => tagItem.label === item.label).count++;
+              tags.value[tag].find((tagItem) => tagItem.label === item.label).count++;
             }
           });
-
         }
       }
     });
   });
   // sort tags by label
-  Object.keys(tags).forEach((tag) => {
-    tags[tag].sort((a, b) => {
+  Object.keys(tags.value).forEach((tag) => {
+    tags.value[tag].sort((a, b) => {
       if (a.label < b.label) {
         return -1;
       }
@@ -74,8 +74,8 @@ const tags = computed(() => {
       return 0;
     });
   });
-  return tags;
-});
+}
+setTags();
 
 function getTagLabelName(tag) {
   return tagNames[tag] ? tagNames[tag] : tag;
@@ -225,7 +225,7 @@ function getCollectionById(id) {
       </div>
     </div>
     <!-- <pre>{{ tags }}</pre> -->
-    <div v-if="showFilters" class="filter-control-bar">
+    <div :class="(showFilters) ? 'filter-control-bar' : 'filter-control-bar d-none'">
       <div class="form-check form-switch gws-form-switch-right d-flex justify-content-end align-items-center">
         <label class="form-check-label small" for="flexSwitchCheckChecked">{{
           w.scroll_to_results_after_select }}</label>
