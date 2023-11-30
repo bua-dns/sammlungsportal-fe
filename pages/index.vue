@@ -138,11 +138,16 @@ function hasTagTypeActiveTag(type) {
   return false;
 }
 
+const filterDetails = ref({});
 function isFilterDetailsOpen(type) {
-  if (type === 'current_keeper' || hasTagTypeActiveTag(type)) {
+  if (type === 'current_keeper' || hasTagTypeActiveTag(type) || filterDetails.value[type]) {
     return true;
   }
   return false;
+}
+
+function toggleDetail(type, { target }) {
+  filterDetails.value[type] = target.open;
 }
 
 const scrollToResultsAfterSelect = ref(true);
@@ -286,15 +291,16 @@ onMounted(() => {
       </div>
     </div>
     <!-- <pre>{{ tags }}</pre> -->
-    <div :class="(showFilters) ? 'filter-control-bar' : 'filter-control-bar d-none'">
+    <div v-if="showFilters" class="filter-control-bar">
       <div class="form-check form-switch gws-form-switch-right d-flex justify-content-end align-items-center">
-        <label class="form-check-label small" for="flexSwitchCheckChecked">{{
-          w.scroll_to_results_after_select }}</label>
+        <label class="form-check-label small" for="flexSwitchCheckChecked">
+          {{ w.scroll_to_results_after_select }}
+        </label>
         <input @click="scrollToResultsAfterSelect = !scrollToResultsAfterSelect" class="form-check-input" type="checkbox"
           role="switch" id="flexSwitchCheckChecked" :checked="(scrollToResultsAfterSelect) ? true : null">
       </div>
       <details v-for="(tagCloud, tagType) in tags" :id="'filter-card-' + tagType" :key="'filter-card-' + tagType"
-        class="filter-card" :open="isFilterDetailsOpen(tagType) ? true : null">
+        class="filter-card" @toggle="toggleDetail(tagType, $event)" :open="isFilterDetailsOpen(tagType) ? true : null">
         <summary class="tag-title">{{ w[tagType] }}</summary>
         <div class="tags">
           <button v-for="(tag, tagIdx) in tagCloud" :key="'filter-card-' + tagType + '-' + tagIdx"
