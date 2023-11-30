@@ -142,6 +142,7 @@ function getTagLabelName(tag) {
   background-color: #fff;
   position: relative;
   // opacity: 0.85;
+  scroll-margin-top: 48px;
 
   &:not(:last-child) {
     margin-bottom: 1rem;

@@ -5,8 +5,13 @@ const w = theme.value.data.wording.de;
 const settings = theme.value.data.settings;
 const tagNames = theme.value.data.names.tags;
 const cardType = ref("grid");
-function toggleCardType() {
+async function toggleCardType() {
   cardType.value = cardType.value == "list" ? "grid" : "list";
+  if (cardType.value == "list" && activeCollectionId.value !== null) {
+    await nextTick();
+    const scrollTarget = document.getElementById("collection-" + activeCollectionId.value);
+    scrollTarget.scrollIntoView({ behavior: "smooth" });
+  }
 }
 
 // add display property to collections
@@ -37,7 +42,6 @@ function toggleFilters() {
 // tags
 const tags = ref({});
 function setTags() {
-  console.log('tags');
   data.value.data.forEach((collection) => {
     settings.tags.forEach((tag) => {
       if (!tags.value[tag]) {
