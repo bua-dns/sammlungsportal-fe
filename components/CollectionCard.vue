@@ -20,9 +20,6 @@ function getTagLabelName(tag) {
 </script>
 <template>
   <div v-if="entry.display" class="card" :id="'collection-' + entry.id">
-    <!-- {{ tagFilter }} -->
-    <!-- <pre>EID: {{ entry.id }}</pre>
-    <pre>AID: {{ activeCollectionId }}</pre> -->
     <div v-if="entry.id === activeCollectionId" @click="$emit('setActiveCollectionId', null)" :title="w.deselect"
       class="card-deselect"></div>
     <div class="card-keeper" :style="getUniMarkerColors(entry.current_keeper, 'border-bottom-color')"
@@ -142,7 +139,7 @@ function getTagLabelName(tag) {
   background-color: #fff;
   position: relative;
   // opacity: 0.85;
-  scroll-margin-top: 48px;
+  scroll-margin-top: 64px;
 
   &:not(:last-child) {
     margin-bottom: 1rem;
