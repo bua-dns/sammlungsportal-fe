@@ -150,6 +150,17 @@ function toggleDetail(type, { target }) {
   filterDetails.value[type] = target.open;
 }
 
+function resetFilters() {
+  Object.keys(tagFilter.value).forEach((tagType) => {
+    tagFilter.value[tagType] = [];
+  });
+  filterDetails.value = {};
+  data.value.data.forEach((collection) => {
+    collection.display = true;
+  });
+  setQueryParams();
+}
+
 const scrollToResultsAfterSelect = ref(true);
 function scrollToResults(always = false) {
   if (scrollToResultsAfterSelect.value || always) {
@@ -267,7 +278,7 @@ onMounted(() => {
       <div class="gws-btn-group">
         <div class="filter-controls gws-group-element">
           <button :class="(showFilters) ? 'gws-btn btn-filter active' : 'gws-btn btn-filter'" @click="toggleFilters">
-            <span title="filter">
+            <span :title="w.show_filters">
               <svg class="icon" width="16" height="16" fill="currentColor">
                 <use xlink:href="@/assets/img/bootstrap-icons.svg#filter"></use>
               </svg>
@@ -276,12 +287,12 @@ onMounted(() => {
         </div>
         <div class="grid-controls gws-group-element">
           <button class="gws-btn btn-switch" @click="toggleCardType">
-            <span v-if="cardType == 'list'" :title="w.grid">
+            <span v-if="cardType == 'list'" :title="w.change_to_grid_view">
               <svg class="icon" width="16" height="16" fill="currentColor">
                 <use xlink:href="@/assets/img/bootstrap-icons.svg#grid"></use>
               </svg>
             </span>
-            <span v-if="cardType == 'grid'" :title="w.list">
+            <span v-if="cardType == 'grid'" :title="w.change_to_list_view">
               <svg class="icon" width="16" height="16" fill="currentColor">
                 <use xlink:href="@/assets/img/bootstrap-icons.svg#view-list"></use>
               </svg>
@@ -292,12 +303,22 @@ onMounted(() => {
     </div>
     <!-- <pre>{{ tags }}</pre> -->
     <div v-if="showFilters" class="filter-control-bar">
-      <div class="form-check form-switch gws-form-switch-right d-flex justify-content-end align-items-center">
-        <label class="form-check-label small" for="flexSwitchCheckChecked">
-          {{ w.scroll_to_results_after_select }}
-        </label>
-        <input @click="scrollToResultsAfterSelect = !scrollToResultsAfterSelect" class="form-check-input" type="checkbox"
-          role="switch" id="flexSwitchCheckChecked" :checked="(scrollToResultsAfterSelect) ? true : null">
+      <div class="filter-control-bar-controls">
+        <div class="form-check form-switch gws-form-switch-right d-flex justify-content-end align-items-center">
+          <label class="form-check-label small" for="flexSwitchCheckChecked">
+            {{ w.scroll_to_results_after_select }}
+          </label>
+          <input @click="scrollToResultsAfterSelect = !scrollToResultsAfterSelect" class="form-check-input"
+            type="checkbox" role="switch" id="flexSwitchCheckChecked"
+            :checked="(scrollToResultsAfterSelect) ? true : null">
+        </div>
+        <button class="gws-btn btn-filter" @click="resetFilters">
+          <span :title="w.reset_all_filters">
+            <svg class="icon" width="16" height="16" fill="currentColor">
+              <use xlink:href="@/assets/img/bootstrap-icons.svg#arrow-counterclockwise"></use>
+            </svg>
+          </span>
+        </button>
       </div>
       <details v-for="(tagCloud, tagType) in tags" :id="'filter-card-' + tagType" :key="'filter-card-' + tagType"
         class="filter-card" @toggle="toggleDetail(tagType, $event)" :open="isFilterDetailsOpen(tagType) ? true : null">
@@ -454,6 +475,14 @@ onMounted(() => {
   margin-top: 1rem;
   padding-top: 0.5rem;
   border-top: 1px solid var(--color-nav-brd);
+}
+
+.filter-control-bar-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
 }
 
 .filter-card {
