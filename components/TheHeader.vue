@@ -31,7 +31,7 @@
           <nuxt-link to="/">{{ w.page_start }}</nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/entdecken">{{ w.page_discover }}</nuxt-link>
+          <nuxt-link to="/sammlungen">{{ w.page_collections }}</nuxt-link>
         </li>
         <li>
           <nuxt-link to="/kontakt">{{ w.page_contact }}</nuxt-link>
@@ -39,11 +39,8 @@
       </ul>
     </nav>
     <div class="navbar__controls">
-      <button @click="toggleNav"
-        :class="navState === 'open' ? 'burger open' : 'burger'"
-        :aria-expanded="navState === 'open' ? true : false"
-        aria-label="navigation menu"
-      >
+      <button @click="toggleNav" :class="navState === 'open' ? 'burger open' : 'burger'"
+        :aria-expanded="navState === 'open' ? true : false" aria-label="navigation menu">
         <span class="burger__line burger__line-1" aria-hidden="true" focusable="false"></span>
         <span class="burger__line burger__line-2" aria-hidden="true" focusable="false"></span>
         <span class="burger__line burger__line-3" aria-hidden="true" focusable="false"></span>
