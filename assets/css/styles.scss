@@ -121,6 +121,30 @@ h3,
 h4,
 h5 {
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+
+  a {
+    color: var(--color-text);
+    text-decoration: none;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: var(--color-text);
+      text-decoration: underline;
+    }
+  }
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: var(--color-link);
+    text-decoration: underline;
+  }
 }
 
 // variable fonts
@@ -325,6 +349,10 @@ em {
 
 .small {
   font-size: 0.85rem;
+}
+
+.small-xs {
+  font-size: 0.75rem;
 }
 
 .sans-serif {
@@ -682,7 +710,7 @@ em {
 // MAIN
 
 main {
-  margin: $navbar-height-expanded + 32 0 0;
+  margin: $navbar-height-expanded + 32 0 2rem;
   padding: 0 1rem;
   transition: margin-top 0.25s;
   &.scrolled {
@@ -691,14 +719,17 @@ main {
 }
 
 .page,
-.container {
-  width: min(100%, 100ch);
+.container,
+.container-fluid {
+  width: min(100%, 1200px);
   margin-inline: auto;
-  padding: 1.5rem;
+  // padding: 1.5rem;
+  padding: 1rem;
 }
 
 .page {
   background-color: #fff;
+  border-radius: 8px;
 }
 
 // tags
