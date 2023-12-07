@@ -16,3 +16,9 @@ GET {{host}}/items/bua_collections?limit=-1&sort=label&filter[current_keeper][_e
 
 ### Get pages
 GET {{host}}/items/pages?limit=-1
+
+### Get a page by slug
+GET {{host}}/items/pages?filter[slug][_eq]=imprint
+
+### Get homepage
+GET {{host}}/items/homepage
