@@ -7,8 +7,6 @@ export default defineNuxtConfig({
     head: {
       htmlAttrs: { lang: "de" },
       meta: [
-        // { charset: "utf-8" },
-        // { name: "viewport", content: "width=device-width, initial-scale=1" },
         { name: "msapplication-TileColor", content: "#2d89ef" },
         { name: "msapplication-config", content: "/browserconfig.xml" },
         { name: "theme-color", content: "#ffffff" },
