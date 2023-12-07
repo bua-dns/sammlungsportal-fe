@@ -1,166 +1,172 @@
+<script setup>
+const theme = useState('theme');
+const w = theme.value.data.wording.de;
+</script>
 <template>
-  <footer>
-    <div class="container">
+  <footer class="pt-4">
+    <div class="container-fluid">
       <div class="row">
-        <div class="col-md-12">
-          <p>© 2023 - BUA All rights reserved</p>
-        </div>
-      </div>
-
-      <!-- <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-4 pb-4 pb-lg-0">
           <div class="row">
-            <div class="col text-center text-md-start">
-              <figure class="site-footer__logo ps-9 ps-md-0 pe-9 pe-md-3 pe-lg-7">
-                <img
-                  src="https://ssc.hu-berlin.de/wp-content/themes/huss/assets/images/logo-bua@3x.jpg"
-                  alt="Berlin University Alliance Logo"
-                />
+            <div class="col text-center text-lg-start">
+              <figure class="site-footer__logo">
+                <img src="@/assets/img/logo/logo-bua.jpg" alt="Berlin University Alliance Logo" />
               </figure>
-              <p class="fs-8">
-                Gefördert vom Bundesministerium für Bildung <br />
-                und Forschung (BMBF) und dem Land Berlin im Rahmen <br />
-                der Exzellenzstrategie von Bund und Ländern
-              </p>
+              <p v-html="convertLineBreaks(w.project_funding)" class="small-xs"></p>
             </div>
           </div>
           <div class="row">
-            <div class="col text-center text-md-start">
-              <p class="fw-semibold mt-4 fs-8 fs-md-6">KONTAKT<br /></p>
-              <p class="fs-8">
-                Postanschrift:<br />
-                Geschäftsstelle Berlin University Alliance <br />
-                Kleine Präsidentenstraße 1<br />
-                10178 Berlin
-              </p>
+            <div class="col text-center text-lg-start">
+              <p v-html="w.contact" class="text-uppercase fw-semibold mt-4 small-xs"></p>
+              <p v-html="convertLineBreaks(w.project_contact)" class="small-xs"></p>
             </div>
           </div>
         </div>
-        <div class="col-lg-8 mt-7 mt-lg-0">
-          <div class="row h-0 h-auto h-lg-50 mb-md-4 mb-lg-0">
+        <div class="col-lg-8">
+          <div class="row">
             <div
-              class="col text-center text-md-end d-flex flex-row flex-wrap align-items-start justify-content-center justify-content-md-start justify-content-lg-end gap-0 gap-md-5 gap-lg-6 pb-5 pb-md-0"
-            >
-              <figure class="site-footer__partnerlogo w-100 w-md-auto">
-                <img
-                  width="260"
-                  height="200"
-                  src="https://ssc.hu-berlin.de/wp-content/uploads/2023/01/logo-bmbf@2x.webp"
-                  class="attachment-full size-full"
-                  alt="Bundesministerium für Bildung und Forschung Logo"
-                  decoding="async"
-                  loading="lazy"
-                />
+              class="col d-md-flex flex-row flex-wrap align-items-start justify-content-center justify-content-lg-end gap-0 gap-md-4 pb-5 pb-md-4">
+              <figure class="site-footer__partnerlogo">
+                <img class="logo-bmbf" src="@/assets/img/logo/logo-bmbf.svg"
+                  alt="Bundesministerium für Bildung und Forschung Logo" decoding="async" loading="lazy" />
               </figure>
-              <figure class="site-footer__partnerlogo w-100 w-md-auto">
-                <img
-                  width="644"
-                  height="200"
-                  src="https://ssc.hu-berlin.de/wp-content/uploads/2023/01/logo-sen-kanz-wif@2x.webp"
-                  class="attachment-full size-full"
-                  alt=""
-                  decoding="async"
-                  loading="lazy"
-                  srcset="
-                    https://ssc.hu-berlin.de/wp-content/uploads/2023/01/logo-sen-kanz-wif@2x.webp        644w,
-                    https://ssc.hu-berlin.de/wp-content/uploads/2023/01/logo-sen-kanz-wif@2x-300x93.webp 300w
-                  "
-                  sizes="(max-width: 644px) 100vw, 644px"
-                />
+              <figure class="site-footer__partnerlogo pt-4 pt-md-2">
+                <img class="logo-sen-kanz-wif" src="@/assets/img/logo/logo-sen-kanz-wif.png"
+                  alt="Der Regierende Bürgermeister von Berlin, Senatskanzlei, Wissenschaft und Forschung Logo"
+                  decoding="async" loading="lazy" />
               </figure>
             </div>
           </div>
-          <div class="row h-auto h-lg-50 justify-content-md-end">
-            <div class="col text-center text-md-end h-100">
+          <div class="row">
+            <div class="col">
               <div
-                class="pt-5 pt-md-0 d-flex flex-row flex-wrap align-items-end justify-content-center justify-content-md-start justify-content-lg-end gap-0 gap-md-5 gap-lg-6 h-100 border-top border-1 border-secondary"
-              >
-                <figure class="site-footer__partnerlogo w-100 w-md-auto">
-                  <img
-                    width="452"
-                    height="200"
-                    src="https://ssc.hu-berlin.de/wp-content/uploads/2023/01/logo-fu@2x.webp"
-                    class="attachment-full size-full"
-                    alt=""
-                    decoding="async"
-                    loading="lazy"
-                    srcset="
-                      https://ssc.hu-berlin.de/wp-content/uploads/2023/01/logo-fu@2x.webp         452w,
-                      https://ssc.hu-berlin.de/wp-content/uploads/2023/01/logo-fu@2x-300x133.webp 300w
-                    "
-                    sizes="(max-width: 452px) 100vw, 452px"
-                  />
+                class="logos-universities d-md-flex flex-row flex-wrap align-items-end justify-content-center justify-content-lg-end gap-0 gap-md-4 pt-3 ">
+                <figure class="site-footer__partnerlogo">
+                  <img class="logo-university" src="@/assets/img/logo/logo-fu.webp" alt="Freie Universität Berlin Logo"
+                    decoding="async" loading="lazy" />
                 </figure>
-                <figure class="site-footer__partnerlogo w-100 w-md-auto">
-                  <img
-                    width="312"
-                    height="200"
-                    src="https://ssc.hu-berlin.de/wp-content/uploads/2023/01/logo-hu@2x.webp"
-                    class="attachment-full size-full"
-                    alt=""
-                    decoding="async"
-                    loading="lazy"
-                    srcset="
-                      https://ssc.hu-berlin.de/wp-content/uploads/2023/01/logo-hu@2x.webp         312w,
-                      https://ssc.hu-berlin.de/wp-content/uploads/2023/01/logo-hu@2x-300x192.webp 300w
-                    "
-                    sizes="(max-width: 312px) 100vw, 312px"
-                  />
+                <figure class="site-footer__partnerlogo">
+                  <img class="logo-university" src="@/assets/img/logo/logo-hu.webp"
+                    alt="Humboldt Universität zu Berlin Logo" decoding="async" loading="lazy" />
                 </figure>
-                <figure class="site-footer__partnerlogo w-100 w-md-auto">
-                  <img
-                    width="196"
-                    height="200"
-                    src="https://ssc.hu-berlin.de/wp-content/uploads/2023/01/logo-tu@2x.webp"
-                    class="attachment-full size-full"
-                    alt="Technische Universität Berlin Logo"
-                    decoding="async"
-                    loading="lazy"
-                  />
+                <figure class="site-footer__partnerlogo">
+                  <img class="logo-university" src="@/assets/img/logo/logo-tu.webp"
+                    alt="Technische Universität Berlin Logo" decoding="async" loading="lazy" />
                 </figure>
-                <figure class="site-footer__partnerlogo w-100 w-md-auto">
-                  <img
-                    width="300"
-                    height="200"
-                    src="https://ssc.hu-berlin.de/wp-content/uploads/2023/01/logo-charite@2x.webp"
-                    class="attachment-full size-full"
-                    alt=""
-                    decoding="async"
-                    loading="lazy"
-                  />
+                <figure class="site-footer__partnerlogo">
+                  <img class="logo-university" src="@/assets/img/logo/logo-charite.webp" alt="Charité Logo"
+                    decoding="async" loading="lazy" />
                 </figure>
               </div>
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
+      <div class="row">
+        <div class="order-0 col-sm-6">
+          <p class="small text-center text-sm-start">© 2023 - BUA All rights reserved</p>
+        </div>
+        <div class="order-1 col-sm-6">
+          <p class="small text-center text-sm-end">
+            <NuxtLink to="/impressum">Impressum</NuxtLink> | <NuxtLink to="/datenschutz">Datenschutz</NuxtLink>
+          </p>
+        </div>
+      </div>
     </div>
   </footer>
 </template>
 <style lang="scss" scoped>
-.site-footer__logo {
-  width: 100%;
+footer {
+  // background-color: rgba(245, 245, 245, 0.66);
+  background-color: #f3f3f3;
+
+  a {
+    color: var(--color-text);
+    text-decoration: none;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: var(--color-text);
+      text-decoration: underline;
+    }
+  }
 }
-.site-footer__logo img {
-  -o-object-fit: cover;
-  object-fit: cover;
-  width: 100%;
-  mix-blend-mode: multiply;
+
+.site-footer__partnerlogo {
+  img {
+    max-width: 100%;
+    object-fit: cover;
+    mix-blend-mode: multiply;
+  }
+}
+
+.site-footer__logo {
+  img {
+    width: 100%;
+    max-width: 400px;
+    object-fit: cover;
+    mix-blend-mode: multiply;
+  }
+}
+
+.logo-bmbf {
+  height: 80px;
+}
+
+.logo-university {
+  height: 100px;
+}
+
+.logo-sen-kanz-wif {
+  height: 37px;
 }
 
 @media (min-width: 768px) {
-  .site-footer__logo img {
-    width: 60%;
+  .logo-university {
+    height: 80px;
+  }
+
+  .logo-bmbf {
+    height: 64px;
+  }
+
+  .logo-sen-kanz-wif {
+    height: 30px;
   }
 }
 
-@media (min-width: 992px) {
-  .site-footer__logo img {
-    width: 100%;
+@media (min-width: 1100px) {
+  .logo-university {
+    height: 100px;
   }
+
+  .logo-bmbf {
+    height: 80px;
+  }
+
+  .logo-sen-kanz-wif {
+    height: 37px;
+  }
+}
+
+
+.logos-universities {
+  border-top: 1px solid #ccc;
 }
 
 .site-footer p {
   font-weight: 300;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 0;
+
+  // @media (min-width: 576px) {
+  //   display: inline-block;
+  //   margin: 0;
+  // }
 }
 </style>
