@@ -1,7 +1,7 @@
 <template>
   <TheHeader />
   <TheNavigation />
-  <div class="bg-img" :style="bgStyle" v-html="backgroundImage()"></div>
+  <div v-if="$route.name === 'sammlungen'" class="bg-img" :style="bgStyle" v-html="backgroundImage()"></div>
   <main :class="mainClass">
     <slot />
   </main>
@@ -21,8 +21,7 @@ const randomImage = getRandomImage();
 function backgroundImage() {
   if (randomImage) {
     return `<img src="https://sammlungsportal.bua-dns.de/assets/${randomImage.image}" alt="${randomImage.credits}" />`;
-  }
-  else {
+  } else {
     return '';
   }
 }
@@ -54,6 +53,7 @@ const mainClass = computed(() => {
   width: 100%;
   height: 100%;
   z-index: -10;
+
   img {
     width: 100%;
     height: 100%;
