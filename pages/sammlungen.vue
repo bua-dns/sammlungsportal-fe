@@ -239,7 +239,7 @@ onMounted(() => {
 </script>
 <template>
   <Head>
-    <Title>{{ w.page_start }}</Title>
+    <Title>{{ w.page_collections }}</Title>
   </Head>
   <!--
   <div class="hero">
@@ -373,6 +373,7 @@ onMounted(() => {
 <style scoped lang="scss">
 .collections_display {
   scroll-margin-top: 48px;
+  margin-bottom: -1rem;
 }
 
 .url_errors_wrapper,
