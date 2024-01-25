@@ -22,3 +22,6 @@ GET {{host}}/items/pages?filter[slug][_eq]=imprint
 
 ### Get homepage
 GET {{host}}/items/homepage
+
+### Get homepage with navigation cards
+GET {{host}}/items/homepage?fields=*.navigation_cards_id.*.*
