@@ -19,7 +19,8 @@ function getTagLabelName(tag) {
 
 </script>
 <template>
-  <div v-if="entry.display" class="card" :id="'collection-' + entry.id">
+  <div v-if="entry.display" :class="entry.id === activeCollectionId ? 'card active-collection' : 'card'"
+    :id="'collection-' + entry.id">
     <div v-if="entry.id === activeCollectionId" @click="$emit('setActiveCollectionId', null)" :title="w.deselect"
       class="card-deselect"></div>
     <div class="card-keeper" :style="getUniMarkerColors(entry.current_keeper, 'border-bottom-color')"
@@ -114,6 +115,7 @@ function getTagLabelName(tag) {
         </dl>
       </div>
     </div>
+    <div class="tag-navigation-title"><strong>{{ w.tag_navigation_title }}</strong>{{ w.tag_navigation_hint }}</div>
     <div class="tag-navigation">
       <!-- <pre>{{ tagTypes }}</pre> -->
       <!-- <pre>{{ entry }}</pre> -->
