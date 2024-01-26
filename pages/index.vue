@@ -1,41 +1,52 @@
 <script setup>
 const theme = useState('theme');
 const w = theme.value.data.wording.de;
-const homepage = ref({});
-await useFetch('https://sammlungsportal.bua-dns.de/items/homepage', {
-  onResponse({ request, response, options }) {
-    homepage.value = response._data.data;
+const { data: homepage } = await useFetch('https://sammlungsportal.bua-dns.de/items/homepage', {
+  query: {
+    fields: '*.navigation_cards_id.*.*',
   },
 });
-// useHead({ title: homepage.value.title });
+const links = {
+  "HU-Sammlungen": "/sammlungen?current_keeper=Humboldt-Universität+zu+Berlin",
+  "FU-Sammlungen": "/sammlungen?current_keeper=Freie+Universität+Berlin",
+  "TU-Sammlungen": "/sammlungen?current_keeper=Technische+Universität+Berlin",
+  "CH-Sammlungen": "/sammlungen?current_keeper=Charité+–+Universitätsmedizin+Berlin"
+}
 </script>
 <template>
   <Head>
     <Title>{{ w.page_start }}</Title>
   </Head>
   <div class="page">
-    <h1 class="text-center">{{ homepage.title }}</h1>
-    <div class="intro" v-html="homepage.intro"></div>
-    <!-- <div class="test">
-      <h1>This is h1</h1>
-      <h2>This is h2</h2>
-      <h3>This is h3</h3>
-      <h4>This is h4</h4>
-      <h5>This is h5</h5>
-      <p>This is p</p>
-      <div class="small">This is small</div>
-      <div class="small-xs">This is small</div>
-      <ul>
-        <li>This is li</li>
-        <li>This is li</li>
-      </ul>
-      <ol>
-        <li>This is ol</li>
-        <li>This is ol</li>
-      </ol>
-      <div class="text-center">
-        <button class="btn btn-primary">This is button</button>
+    <!-- {{ homepage.data }} -->
+    <h1 class="text-center">{{ homepage.data.title }}</h1>
+    <div class="intro" v-html="homepage.data.intro"></div>
+    <div class="mt-4 cards d-flex flex-wrap flex-column flex-lg-row gap-3">
+      <div v-for="(card, idx) in homepage.data.cardset_collections" :key="idx" class="card">
+        <NuxtLink :to="links[card.navigation_cards_id.label]" class="card-keeper"
+          :style="'border-bottom-color:' + card.navigation_cards_id.background_color + ';'">
+          <span class="gws_uni_marker"
+            :style="'background-color:' + card.navigation_cards_id.background_color + ';'"></span>
+          {{ card.navigation_cards_id.title }}
+        </NuxtLink>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
+<style scoped lang="scss">
+.card {
+  flex: 1;
+  padding: 1rem;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background-color: #fff;
+  flex-basis: 33%;
+  cursor: pointer;
+}
+
+.card-keeper {
+  // border-bottom: 2px solid #333;
+  font-size: 1.125rem;
+  color: var(--color-text);
+}
+</style>
