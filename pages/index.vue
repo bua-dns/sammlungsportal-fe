@@ -36,6 +36,7 @@ const { data: homepage } = await useFetch('https://sammlungsportal.bua-dns.de/it
   padding: 1rem;
 
   border-radius: 4px;
+  border-left: 1px;
   border-left: .6rem solid black;
   background-color: hsl(0, 0%, 40%);
   flex-basis: 20%;
