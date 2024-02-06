@@ -16,12 +16,15 @@ const { data: homepage } = await useFetch('https://sammlungsportal.bua-dns.de/it
     <h1 class="text-center">{{ homepage.data.title }}</h1>
     <div class="intro" v-html="homepage.data.intro"></div>
     <div class="mt-4 cards d-flex flex-wrap flex-column flex-lg-row gap-3">
-      <div v-for="(card, idx) in homepage.data.cardset_collections" :key="idx" class="card">
-        <NuxtLink :to="card.navigation_cards_id.more_button_link" class="card-keeper"
-          :style="'border-bottom-color:' + card.navigation_cards_id.background_color + ';'">
-          <span class="gws_uni_marker"
-            :style="'background-color:' + card.navigation_cards_id.background_color + ';'"></span>
-          {{ card.navigation_cards_id.title }}
+      <div 
+        v-for="(card, idx) in homepage.data.cardset_collections" :key="idx" 
+        class="card"
+        :style="'background-color:' + card.navigation_cards_id.background_color + ';'"
+      >
+        <NuxtLink :to="card.navigation_cards_id.more_button_link" class="card-keeper">
+          <span :class="{'light': card.navigation_cards_id.text_color === 'light'}">
+            {{ card.navigation_cards_id.title }}
+          </span>
         </NuxtLink>
       </div>
     </div>
@@ -31,9 +34,7 @@ const { data: homepage } = await useFetch('https://sammlungsportal.bua-dns.de/it
 .card {
   flex: 1;
   padding: 1rem;
-  border: 1px solid #333;
   border-radius: 8px;
-  background-color: #fff;
   flex-basis: 33%;
   cursor: pointer;
 }
@@ -42,5 +43,8 @@ const { data: homepage } = await useFetch('https://sammlungsportal.bua-dns.de/it
   // border-bottom: 2px solid #333;
   font-size: 1.125rem;
   color: var(--color-text);
+  .light {
+    color: var(--color-text-inv);
+  }
 }
 </style>
