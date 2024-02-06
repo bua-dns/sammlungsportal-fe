@@ -6,12 +6,6 @@ const { data: homepage } = await useFetch('https://sammlungsportal.bua-dns.de/it
     fields: '*.navigation_cards_id.*.*',
   },
 });
-const links = {
-  "HU-Sammlungen": "/sammlungen?current_keeper=Humboldt-Universität+zu+Berlin",
-  "FU-Sammlungen": "/sammlungen?current_keeper=Freie+Universität+Berlin",
-  "TU-Sammlungen": "/sammlungen?current_keeper=Technische+Universität+Berlin",
-  "CH-Sammlungen": "/sammlungen?current_keeper=Charité+–+Universitätsmedizin+Berlin"
-}
 </script>
 <template>
   <Head>
@@ -23,7 +17,7 @@ const links = {
     <div class="intro" v-html="homepage.data.intro"></div>
     <div class="mt-4 cards d-flex flex-wrap flex-column flex-lg-row gap-3">
       <div v-for="(card, idx) in homepage.data.cardset_collections" :key="idx" class="card">
-        <NuxtLink :to="links[card.navigation_cards_id.label]" class="card-keeper"
+        <NuxtLink :to="card.navigation_cards_id.more_button_link" class="card-keeper"
           :style="'border-bottom-color:' + card.navigation_cards_id.background_color + ';'">
           <span class="gws_uni_marker"
             :style="'background-color:' + card.navigation_cards_id.background_color + ';'"></span>
