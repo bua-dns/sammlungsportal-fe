@@ -40,7 +40,7 @@ const { data: homepage } = await useFetch('https://sammlungsportal.bua-dns.de/it
   border-left: .6rem solid black;
   background-color: hsl(0, 0%, 40%);
   flex-basis: 20%;
-  min-height: 7.5rem;
+  min-height: 5rem;
   cursor: pointer;
 }
 
