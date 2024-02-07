@@ -113,6 +113,10 @@ function getTagLabelName(tag) {
             </dd>
           </template>
         </dl>
+        <div v-if="entry.collection_image_main" class="card-img-container">
+          <img :src="'https://sammlungsportal.bua-dns.de/assets/' + entry.collection_image_main + '?key=240x240'" alt="">
+          <!-- {{ entry.collection_images }} -->
+        </div>
       </div>
     </div>
     <div class="tag-navigation-title"><strong>{{ w.tag_navigation_title }}</strong>{{ w.tag_navigation_hint }}</div>
@@ -225,5 +229,20 @@ dd ul {
 a {
   // word-wrap: break-word;
   overflow-wrap: break-word;
+}
+
+.card-img-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1.5rem;
+
+  img {
+    display: block;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--color-nav-brd);
+    cursor: pointer;
+  }
 }
 </style>

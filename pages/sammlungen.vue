@@ -1,5 +1,12 @@
 <script setup>
-const { data } = await useFetch('https://sammlungsportal.bua-dns.de/items/bua_collections?limit=-1&sort=label&meta=total_count');
+const { data } = await useFetch('https://sammlungsportal.bua-dns.de/items/bua_collections', {
+  query: {
+    fields: '*.directus_files_id.*.*',
+    limit: -1,
+    sort: 'label',
+    meta: 'total_count',
+  },
+});
 const router = useRouter();
 const theme = useState('theme');
 const w = theme.value.data.wording.de;

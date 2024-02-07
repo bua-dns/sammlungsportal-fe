@@ -11,6 +11,9 @@ GET {{host}}/items/background_images?limit=-1
 ### Get all collection items
 GET {{host}}/items/bua_collections?limit=-1&sort=label&meta=total_count
 
+### Get all collection items with collection files
+GET {{host}}/items/bua_collections?fields=*.directus_files_id.*.*&limit=-1&sort=label&meta=total_count
+
 ### Get collections filtered by current_keeper
 GET {{host}}/items/bua_collections?limit=-1&sort=label&filter[current_keeper][_eq]=Freie Universität Berlin
 
