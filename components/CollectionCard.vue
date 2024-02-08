@@ -17,6 +17,8 @@ function getTagLabelName(tag) {
   return tagNames[tag] ? tagNames[tag] : tag;
 }
 
+const showLightbox = ref(false);
+
 </script>
 <template>
   <div v-if="entry.display" :class="entry.id === activeCollectionId ? 'card active-collection' : 'card'"
@@ -114,7 +116,11 @@ function getTagLabelName(tag) {
           </template>
         </dl>
         <div v-if="entry.collection_image_main" class="card-img-container">
-          <img :src="'https://sammlungsportal.bua-dns.de/assets/' + entry.collection_image_main + '?key=240x240'" alt="">
+          <img @click="showLightbox = true"
+            :src="'https://sammlungsportal.bua-dns.de/assets/' + entry.collection_image_main + '?key=240x240'" alt="">
+          <Teleport to="body">
+            <LightBox v-if="showLightbox" :images="entry.collection_images" @close="showLightbox = false" />
+          </Teleport>
           <!-- {{ entry.collection_images }} -->
         </div>
       </div>
