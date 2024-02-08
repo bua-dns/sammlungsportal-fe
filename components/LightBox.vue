@@ -7,16 +7,16 @@ const numImages = ref(props.images.length);
 const currentImage = ref(0);
 
 // emit close on escape key
+const closeLightbox = (e) => {
+  if (e.key === "Escape") {
+    emit('close');
+  }
+};
 onMounted(() => {
-  const closeLightbox = (e) => {
-    if (e.key === "Escape") {
-      emit('close');
-    }
-  };
   window.addEventListener('keydown', closeLightbox);
-  onUnmounted(() => {
-    window.removeEventListener('keydown', closeLightbox);
-  });
+});
+onUnmounted(() => {
+  window.removeEventListener('keydown', closeLightbox);
 });
 
 </script>
