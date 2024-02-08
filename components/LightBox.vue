@@ -1,22 +1,50 @@
 <script setup>
-const props = defineProps(['images']);
-defineEmits(['close']);
+const props = defineProps(['images', 'imageBasePath']);
+const emit = defineEmits(['close']);
 const theme = useState('theme');
 const w = theme.value.data.wording.de;
+const numImages = ref(props.images.length);
+const currentImage = ref(0);
+
+// emit close on escape key
+onMounted(() => {
+  const closeLightbox = (e) => {
+    if (e.key === "Escape") {
+      emit('close');
+    }
+  };
+  window.addEventListener('keydown', closeLightbox);
+  onUnmounted(() => {
+    window.removeEventListener('keydown', closeLightbox);
+  });
+});
+
 </script>
 <template>
-  <div class="lightbox" @click="$emit('close')">
+  <div class="lightbox">
+    <div class="lightbox-close" @click="$emit('close')">
+      <svg class="icon" width="24" height="24" fill="currentColor">
+        <use xlink:href="@/assets/img/bootstrap-icons.svg#x"></use>
+      </svg>
+    </div>
+    <div class="lightbox-nav">
+      <div class="lightbox-prev" @click="currentImage = (currentImage - 1 + numImages) % numImages">
+        <div class="icon-container">
+          <svg class="icon" width="24" height="24" fill="currentColor">
+            <use xlink:href="@/assets/img/bootstrap-icons.svg#chevron-left"></use>
+          </svg>
+        </div>
+      </div>
+      <div class="lightbox-next" @click="currentImage = (currentImage + 1) % numImages">
+        <div class="icon-container">
+          <svg class="icon" width="24" height="24" fill="currentColor">
+            <use xlink:href="@/assets/img/bootstrap-icons.svg#chevron-right"></use>
+          </svg>
+        </div>
+      </div>
+    </div>
     <div class="lightbox-content">
-      <div class="lightbox-close" @click="$emit('close')">
-        <svg class="icon-inline" width="24" height="24" fill="currentColor">
-          <use xlink:href="@/assets/img/bootstrap-icons.svg#x"></use>
-        </svg>
-      </div>
-      <div class="lightbox-images">
-        <img v-for="(image, idx) in images" :key="idx"
-          :src="'https://sammlungsportal.bua-dns.de/assets/' + image.directus_files_id.filename_disk + '?key=240x240'"
-          :alt="w.image" />
-      </div>
+      <img :src="props.imageBasePath + props.images[currentImage].directus_files_id.filename_disk" alt="lightbox image" />
     </div>
   </div>
 </template>

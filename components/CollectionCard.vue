@@ -18,6 +18,7 @@ function getTagLabelName(tag) {
 }
 
 const showLightbox = ref(false);
+const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
 
 </script>
 <template>
@@ -116,10 +117,10 @@ const showLightbox = ref(false);
           </template>
         </dl>
         <div v-if="entry.collection_image_main" class="card-img-container">
-          <img @click="showLightbox = true"
-            :src="'https://sammlungsportal.bua-dns.de/assets/' + entry.collection_image_main + '?key=240x240'" alt="">
+          <img @click="showLightbox = true" :src="imageBasePath + entry.collection_image_main + '?key=240x240'" alt="">
           <Teleport to="body">
-            <LightBox v-if="showLightbox" :images="entry.collection_images" @close="showLightbox = false" />
+            <LightBox v-if="showLightbox" :imageBasePath="imageBasePath" :images="entry.collection_images"
+              @close="showLightbox = false" />
           </Teleport>
           <!-- {{ entry.collection_images }} -->
         </div>
