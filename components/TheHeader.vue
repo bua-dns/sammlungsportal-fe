@@ -1,7 +1,7 @@
 <template>
   <header class="navbar fixed-top">
     <nuxt-link to="/" class="navbar__brand" v-if="true">
-      <svg viewBox="0 0 76 76" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"
+      <svg v-if="false" viewBox="0 0 76 76" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"
         class="navbar__logo">
         <path style="fill:#98c11c;fill-opacity:1;" class="logo-svg-path-outer-ring"
           d="M 14.087891,39.974648 H 0 A 36,36.026106 0 0 0 36,76.000039 V 61.876992 A 24.017404,24 45 0 1 32.902344,61.429727 24.017404,24 45 0 1 29.625,60.466836 a 24.017404,24 45 0 1 -3.107422,-1.419922 24.017404,24 45 0 1 -2.875,-1.84375 24.017404,24 45 0 1 -2.585937,-2.234375 l -0.02734,0.02734 a 24.017404,24 45 0 1 -2.244145,-2.58984 24.017404,24 45 0 1 -1.853515,-2.882812 24.017404,24 45 0 1 -1.423829,-3.117188 24.017404,24 45 0 1 -0.966796,-3.287109 24.017404,24 45 0 1 -0.453125,-3.144532 z" />
@@ -20,6 +20,19 @@
         <path style="fill:#c50e1f;fill-opacity:1;" class="logo-svg-path-inner-ring"
           d="m 29.523438,46.427773 -8.519532,8.494141 a 24.017404,24 45 0 0 33.955078,0.06055 L 46.462891,46.46098 a 12,12.008702 0 0 1 -0.609375,0.611328 12,12.008702 0 0 1 -1.371094,1.02539 12,12.008702 0 0 1 -1.501953,0.81836 12,12.008702 0 0 1 -1.603516,0.597656 12,12.008702 0 0 1 -1.669922,0.365234 A 12,12.008702 0 0 1 38,50.000039 a 12,12.008702 0 0 1 -0.01758,0 12,12.008702 0 0 1 -1.703125,-0.126953 12,12.008702 0 0 1 -1.666016,-0.367188 12,12.008702 0 0 1 -1.599609,-0.599609 12,12.008702 0 0 1 -1.496094,-0.822266 12,12.008702 0 0 1 -1.365234,-1.02539 12,12.008702 0 0 1 -0.628906,-0.63086 z" />
       </svg>
+  <svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" width="119" height="89.25" viewBox="0 0 119 89.25"
+      class="navbar__logo"
+  >
+    <line x1="22.31" y1="21.32" x2="49.09" y2="44.13" style="fill: #525252; stroke: #525252; stroke-miterlimit: 10; stroke-width: 5px;"/>
+    <line x1="49.09" y1="44.13" x2="100.16" y2="63.47" style="fill: #525252; stroke: #525252; stroke-miterlimit: 10; stroke-width: 5px;"/>
+    <line x1="50.08" y1="45.12" x2="93.71" y2="18.35" style="fill: #525252; stroke: #525252; stroke-miterlimit: 10; stroke-width: 5px;"/>
+    <circle cx="22.04" cy="20.29" r="18.84" style="fill: #848f7f; stroke-width: 0px;"/>
+    <line x1="17.35" y1="71.9" x2="49.09" y2="45.12" style="fill: #525252; stroke: #525252; stroke-miterlimit: 10; stroke-width: 5px;"/>
+    <circle cx="49.09" cy="45.12" r="12.4" style="fill: #525252; stroke-width: 0px;"/>
+    <circle cx="93.22" cy="18.84" r="18.84" style="fill: #9acd00; stroke-width: 0px;"/>
+    <circle cx="18.84" cy="70.41" r="18.84" style="fill: #c30e20; stroke-width: 0px;"/>
+    <circle cx="100.16" cy="63.47" r="18.84" style="fill: #00376b; stroke-width: 0px;"/>
+  </svg>
       <div class="navbar__title_container">
         <div class="navbar__title title">{{ w.site_title }}</div>
         <div class="navbar__subtitle title">{{ w.site_subtitle }}</div>
