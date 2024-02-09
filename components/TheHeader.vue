@@ -1,6 +1,6 @@
 <template>
   <header class="navbar fixed-top">
-    <nuxt-link to="/" class="navbar__brand">
+    <nuxt-link to="/" class="navbar__brand" v-if="true">
       <svg viewBox="0 0 76 76" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"
         class="navbar__logo">
         <path style="fill:#98c11c;fill-opacity:1;" class="logo-svg-path-outer-ring"
