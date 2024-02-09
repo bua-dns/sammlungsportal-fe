@@ -549,33 +549,33 @@ em {
   }
 }
 
-.logo-svg-path-outer-ring {
-  transform-origin: center;
-  animation: LOGO_OUTER_RING_ROTATE 1s 0.25s ease-in-out forwards;
-}
+// .logo-svg-path-outer-ring {
+//   transform-origin: center;
+//   animation: LOGO_OUTER_RING_ROTATE 1s 0.25s ease-in-out forwards;
+// }
 
-@keyframes LOGO_OUTER_RING_ROTATE {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(-360deg);
-  }
-}
+// @keyframes LOGO_OUTER_RING_ROTATE {
+//   0% {
+//     transform: rotate(0deg);
+//   }
+//   100% {
+//     transform: rotate(-360deg);
+//   }
+// }
 
-.logo-svg-path-inner-ring {
-  transform-origin: center;
-  animation: LOGO_INNER_RING_ROTATE 1s 0.25s ease-in-out forwards;
-}
+// .logo-svg-path-inner-ring {
+//   transform-origin: center;
+//   animation: LOGO_INNER_RING_ROTATE 1s 0.25s ease-in-out forwards;
+// }
 
-@keyframes LOGO_INNER_RING_ROTATE {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
+// @keyframes LOGO_INNER_RING_ROTATE {
+//   0% {
+//     transform: rotate(0deg);
+//   }
+//   100% {
+//     transform: rotate(360deg);
+//   }
+// }
 
 .burger {
   display: block;
