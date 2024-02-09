@@ -16,15 +16,10 @@ const { data: homepage } = await useFetch('https://sammlungsportal.bua-dns.de/it
     <h1 class="text-center">{{ homepage.data.title }}</h1>
     <div class="intro" v-html="homepage.data.intro"></div>
     <div class="mt-4 cards d-flex flex-wrap flex-column flex-lg-row gap-3">
-      <div 
-        v-for="(card, idx) in homepage.data.cardset_collections" :key="idx" 
-        class="card"
-        :style="'border-color:' + card.navigation_cards_id.background_color + ';'"
-      >
-        <NuxtLink :to="card.navigation_cards_id.more_button_link" class="card-keeper">
-          <span class="light">
-            {{ card.navigation_cards_id.title }}
-          </span>
+      <div v-for="(card, idx) in homepage.data.cardset_collections" :key="idx" class="card"
+        :style="'border-color:' + card.navigation_cards_id.background_color + ';'">
+        <NuxtLink :to="card.navigation_cards_id.more_button_link" class="card-keeper light">
+          {{ card.navigation_cards_id.title }}
         </NuxtLink>
       </div>
     </div>
@@ -33,8 +28,6 @@ const { data: homepage } = await useFetch('https://sammlungsportal.bua-dns.de/it
 <style scoped lang="scss">
 .card {
   flex: 1;
-  padding: 1rem;
-
   border-radius: 4px;
   border-left: 1px;
   border-left: .6rem solid black;
@@ -46,10 +39,13 @@ const { data: homepage } = await useFetch('https://sammlungsportal.bua-dns.de/it
 
 .card-keeper {
   // border-bottom: 2px solid #333;
-  
+  display: block;
+  padding: 1rem;
+  height: 100%;
   font-size: 1.125rem;
   color: var(--color-text);
-  .light {
+
+  &.light {
     color: var(--color-text-inv);
   }
 }
