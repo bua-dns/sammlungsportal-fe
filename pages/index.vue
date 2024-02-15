@@ -15,6 +15,7 @@ const { data: homepage } = await useFetch('https://sammlungsportal.bua-dns.de/it
     <!-- {{ homepage.data }} -->
     <h1 class="text-center">{{ homepage.data.title }}</h1>
     <div class="intro" v-html="homepage.data.intro"></div>
+    <div class="cardset-intro" v-html="homepage.data.cardset_collections_intro"/>
     <div class="mt-4 cards d-flex flex-wrap flex-column flex-lg-row gap-3">
       <div v-for="(card, idx) in homepage.data.cardset_collections" :key="idx" class="card"
         :style="'border-color:' + card.navigation_cards_id.background_color + ';'">
