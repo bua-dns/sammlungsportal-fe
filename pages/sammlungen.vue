@@ -273,7 +273,7 @@ onMounted(() => {
   </div>
   -->
   <!-- <div v-if="cardType == 'grid' && activeCollectionId" class="collection_cards_wrapper single-card">
-    <CollectionCard :entry="getCollectionById(activeCollectionId)" :tagFilter="tagFilter"
+    <CollectionCardDetails :entry="getCollectionById(activeCollectionId)" :tagFilter="tagFilter"
       :activeCollectionId="activeCollectionId" @set-filter="setFilter"
       @set-active-collection-id="setActiveCollectionId" />
   </div> -->
@@ -369,7 +369,7 @@ onMounted(() => {
   <!-- <pre>{{ activeCollectionId }}</pre> -->
   <div v-if="cardType == 'grid' && activeCollectionId" class="active-card-container" id="active-card-container">
     <div class="collection_cards_wrapper single-card">
-      <CollectionCard :entry="getCollectionById(activeCollectionId)" :tagFilter="tagFilter"
+      <CollectionCardDetails :entry="getCollectionById(activeCollectionId)" :tagFilter="tagFilter"
         :activeCollectionId="activeCollectionId" @set-filter="setFilter"
         @set-active-collection-id="setActiveCollectionId" />
     </div>
@@ -393,12 +393,12 @@ onMounted(() => {
       </div>
     </div>
     <div v-if="cardType == 'list'" class="collection_cards_wrapper">
-      <CollectionCard v-for="collection in sortedData" :key="collection.id" :entry="collection" :tagFilter="tagFilter"
+      <CollectionCardDetails v-for="collection in sortedData" :key="collection.id" :entry="collection" :tagFilter="tagFilter"
         :activeCollectionId="activeCollectionId" @set-filter="setFilter"
         @set-active-collection-id="setActiveCollectionId" />
     </div>
     <!-- <div v-if="cardType == 'grid' && activeCollectionId" class="collection_cards_wrapper single-card">
-      <CollectionCard :entry="getCollectionById(activeCollectionId)" :tagFilter="tagFilter"
+      <CollectionCardDetails :entry="getCollectionById(activeCollectionId)" :tagFilter="tagFilter"
         :activeCollectionId="activeCollectionId" @set-filter="setFilter"
         @set-active-collection-id="setActiveCollectionId" />
     </div> -->
