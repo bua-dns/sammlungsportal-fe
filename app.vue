@@ -9,7 +9,6 @@ useHead({
     return titleChunk ? `${titleChunk} - ${w.collection_portal}` : w.collection_portal;
   }
 });
-// git checking comment - obsolete
 </script>
 
 <template>
