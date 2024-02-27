@@ -1,4 +1,9 @@
 <script setup>
+/*
+REFACTORING:
+- property entry semantischer benennen: collection (Konflikte?)
+- w sematisch benennen: wording (Konflikte?)
+*/
 const props = defineProps(['entry', 'tagFilter', 'activeCollectionId']);
 defineEmits(['setFilter', 'setActiveCollectionId']);
 const theme = useState('theme');
@@ -34,7 +39,7 @@ const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
     <div class="card-label" v-if="entry.label">
       <strong>{{ entry.label }}</strong>
     </div>
-    <pre v-if="true">{{ entry }}</pre>
+    <pre v-if="false">{{ entry }}</pre>
     <div class="card-cols">
       <div class="card-col">
         <div v-if="entry.description" class="card-description" v-html="convertLineBreaks(entry.description)"></div>

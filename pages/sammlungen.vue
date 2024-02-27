@@ -12,7 +12,6 @@ const collectionsFetchFields = [
 
 const { data } = await useFetch('https://sammlungsportal.bua-dns.de/items/bua_collections', {
   query: {
-    // fields: '*.directus_files_id.*.*',
     fields: collectionsFetchFields.join(','),
     limit: -1,
     sort: 'label',
@@ -44,7 +43,8 @@ data.value.data.forEach((collection) => {
 const sortby = ref("label");
 const order = ref("asc");
 const sortedData = computed(() => {
-  return data.value.data.sort((a, b) => {
+  return data.value.data
+  .sort((a, b) => {
     if (a[sortby.value] < b[sortby.value]) {
       return order.value == "asc" ? -1 : 1;
     }
@@ -59,45 +59,45 @@ const showFilters = ref(false);
 function toggleFilters() {
   showFilters.value = !showFilters.value;
 }
-/* REFACTOR: Strategie: 
-Funktionalität parralle neu aufbauen und schrittweise testen, dann alte Funktionalität ersetzen
-*/
-// index of tags neu
+
 // setup index according to directus: theme_content -> settings -> terms
+
 const termsIndex = ref({});
-for (let term of terms) {
-  termsIndex.value[term] = {};
-}
-// fill index with data from collections
+const termsListing = ref({});
+
 for (let collection of data.value.data) {
   for (let term of terms) {
-    if (collection[term] && collection[term].length) {
-      for (let entry of collection[term]) {
-        if (!termsIndex.value[term][entry.taxonomy_terms_id.label]) {
-          termsIndex.value[term][entry.taxonomy_terms_id.label] = 1;
+    const termProperty = collection[term];
+    if (termProperty && termProperty.length) {
+      for (let entry of termProperty) {
+        // Initialize the term index and listing if not already done
+        if (!termsIndex.value[term]) {
+          termsIndex.value[term] = {};
+          termsListing.value[term] = [];
+        }
+        const label = entry.taxonomy_terms_id.label;
+        const indexEntry = termsIndex.value[term];
+        // Update the termsIndex
+        if (!indexEntry[label]) {
+          indexEntry[label] = 1;
+          // Also add the entry to termsListing for the first occurrence
+          termsListing.value[term].push({ label: label, count: 1 });
         } else {
-          termsIndex.value[term][entry.taxonomy_terms_id.label]++;
+          indexEntry[label]++;
+          // Update the count in termsListing
+          const listingEntry = termsListing.value[term].find(entry => entry.label === label);
+          if (listingEntry) {
+            listingEntry.count = indexEntry[label];
+          }
         }
       }
     }
   }
 }
-// prepare for display
-const termsListing = ref({});
-for (let taxonomy in termsIndex.value) {
-  termsListing.value[taxonomy] = [];
-  for (let term in termsIndex.value[taxonomy]) {
-    termsListing.value[taxonomy].push({ label: term, count: termsIndex.value[taxonomy][term] });
-  }
-  termsListing.value[taxonomy].sort((a, b) => {
-    if (a.label < b.label) {
-      return -1;
-    }
-    if (a.label > b.label) {
-      return 1;
-    }
-    return 0;
-  });
+
+// Sort the termsListing for each taxonomy
+for (let taxonomy in termsListing.value) {
+  termsListing.value[taxonomy].sort((a, b) => a.label.localeCompare(b.label));
 }
 
 // index of tags
@@ -165,7 +165,27 @@ function setTermFilter(taxonomy, term) {
   } else {
     termFilter.value[taxonomy].push(term);
   }
+  // update display property of collections based on termFilter
+  for (let collection of data.value.data) {
+    collection.display = true;
+    for (let taxonomy in termFilter.value) {
+      if (termFilter.value[taxonomy].length > 0) {
+        let found = false;
+        collection[taxonomy].forEach((item) => {
+          if (termFilter.value[taxonomy].includes(item.taxonomy_terms_id.label)) {
+            found = true;
+          }
+        });
+        if (!found) {
+          collection.display = false;
+        }
+      }
+    }
+  }
+  scrollToResults();
 }
+
+// for highlighting active terms
 function activeTerm(taxonomy, term) {
   if (termFilter.value[taxonomy] && termFilter.value[taxonomy].includes(term)) {
     return " active";
@@ -175,6 +195,7 @@ function activeTerm(taxonomy, term) {
 
 // END PARALLEL
 
+// REFACTORING: remove when refactored
 function setFilter(type, tag) {
   if (type && tag) {
     if (tagFilter.value[type] && tagFilter.value[type].includes(tag)) {
@@ -218,6 +239,7 @@ function activeTag(type, tag) {
   }
   return "";
 }
+// END REFACTORING: remove when refactored
 
 function hasTagTypeActiveTag(type) {
   if (tagFilter.value[type] && tagFilter.value[type].length > 0) {
@@ -264,9 +286,7 @@ function setActiveCollectionId(id) {
   activeCollectionId.value = id;
   setQueryParams();
   if (id !== null) {
-    // scrollToResults(true);
     setTimeout(() => {
-      // const scrollTarget = document.getElementById("collection-" + id);
       const scrollTarget = document.getElementById("active-card-container");
       scrollTarget.scrollIntoView({ behavior: "smooth" });
     }, 100);
@@ -414,6 +434,7 @@ onMounted(() => {
           </span>
         </button>
       </div>
+      <!-- REFACTORING: remove when refactored -->
       <template v-if="false" id="former-implementation">
         <pre>{{ tags }}</pre>
         <details v-for="(tagCloud, tagType) in tags" :id="'filter-card-' + tagType" :key="'filter-card-' + tagType"
@@ -428,6 +449,7 @@ onMounted(() => {
           </div>
         </details>
       </template>
+      <!-- END REFACTORING: remove when refactored -->
       <!-- REFACTOR: parallel -->
       <hr>PARALELL
       <details v-for="(taxonomy) in Object.keys(termsListing)" :id="'filter-card-' + taxonomy" :key="'filter-card-' + taxonomy"
@@ -443,9 +465,6 @@ onMounted(() => {
       </details>
     </div>
   </div>
-  <!-- <pre>{{ data }}</pre> -->
-  <!-- <pre>{{ sortedData }}</pre> -->
-  <!-- <pre>{{ activeCollectionId }}</pre> -->
   <div v-if="cardType == 'grid' && activeCollectionId" class="active-card-container" id="active-card-container">
     <div class="collection_cards_wrapper single-card">
       <CollectionCardDetails :entry="getCollectionById(activeCollectionId)" :tagFilter="tagFilter"
@@ -476,11 +495,6 @@ onMounted(() => {
         :activeCollectionId="activeCollectionId" @set-filter="setFilter"
         @set-active-collection-id="setActiveCollectionId" />
     </div>
-    <!-- <div v-if="cardType == 'grid' && activeCollectionId" class="collection_cards_wrapper single-card">
-      <CollectionCardDetails :entry="getCollectionById(activeCollectionId)" :tagFilter="tagFilter"
-        :activeCollectionId="activeCollectionId" @set-filter="setFilter"
-        @set-active-collection-id="setActiveCollectionId" />
-    </div> -->
     <div v-if="cardType == 'grid'" class="collection_cards_wrapper card-grid">
       <CollectionCardGrid v-for="collection in sortedData" :key="collection.id" :entry="collection"
         @set-active-collection-id="setActiveCollectionId" />
@@ -494,7 +508,6 @@ onMounted(() => {
 
 .collections_display {
   scroll-margin-top: 48px;
-  // scroll-margin-top: 96px;
   margin-bottom: -1rem;
 }
 
@@ -507,7 +520,6 @@ onMounted(() => {
 
   &.single-card {
     padding-bottom: 0;
-    // margin-bottom: -116px;
   }
 }
 
@@ -528,20 +540,13 @@ onMounted(() => {
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  // grid-template-columns: repeat(5,1fr);
   grid-gap: 1rem;
-  // grid-gap: 0.5rem;
 }
 
 .grid-control-bar {
-  // display: flex;
-  // flex-wrap: wrap;
-  // align-items: center;
-  // justify-content: space-between;
-  // gap: 0.5rem;
+
   width: min(100%, 1200px);
   margin: 132px auto 0;
-  // margin: 1rem auto 0;
   padding: 1rem;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -565,12 +570,10 @@ onMounted(() => {
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
-  // gap: 1rem;
   gap: 0.5rem;
   font-size: 0.85rem;
 }
 
-// .filter-label,
 .sort-label,
 .order-label {
   display: flex;
@@ -589,7 +592,6 @@ onMounted(() => {
   flex-grow: 1;
   margin: 0;
   padding: .5rem .25rem .5rem .25rem;
-  // font-size: .85rem;
   line-height: 1;
   border: 1px solid var(--color-btn-brd);
   border-top-right-radius: 6px;
@@ -611,12 +613,8 @@ onMounted(() => {
 }
 
 .filter-card {
-  // margin: 1rem 0;
   margin: 0.5rem 0;
 
-  // padding: 0.5rem;
-  // border: 1px solid #ccc;
-  // border-radius: 8px;
   &:last-child {
     margin-bottom: 0;
   }
