@@ -1,7 +1,19 @@
 <script setup>
+const collectionsFetchFields = [
+  '*.*', // get all fields - dev only
+  'id', 'label', 'spws_id', 'current_keeper', 'description', 'used_in_activity', 'address', 'address.*',
+  'collection_images.directus_files_id.*.*',
+  'dns_taxonomy_subjects.taxonomy_terms_id.id',
+  'dns_taxonomy_subjects.taxonomy_terms_id.label',
+  'dns_taxonomy_genre.taxonomy_terms_id.id',
+  'dns_taxonomy_genre.taxonomy_terms_id.label',
+  
+]
+
 const { data } = await useFetch('https://sammlungsportal.bua-dns.de/items/bua_collections', {
   query: {
-    fields: '*.directus_files_id.*.*',
+    // fields: '*.directus_files_id.*.*',
+    fields: collectionsFetchFields.join(','),
     limit: -1,
     sort: 'label',
     meta: 'total_count',
@@ -55,6 +67,7 @@ function setTags() {
       if (!tags.value[tag]) {
         tags.value[tag] = [];
       }
+      // REFACTOR: auf neue Datenstruktur anpassen
       if (collection[tag] && collection[tag].length > 0) {
         if (!Array.isArray(collection[tag])) {
           if (!tags.value[tag].find((item) => item.label === collection[tag])) {
@@ -94,6 +107,7 @@ function getTagLabelName(tag) {
 }
 
 const tagFilter = ref({});
+// REFACTORED: setFilter anpassen auf neuen Datenstruktur
 function setFilter(type, tag) {
   if (type && tag) {
     if (tagFilter.value[type] && tagFilter.value[type].includes(tag)) {

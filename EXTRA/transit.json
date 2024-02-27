@@ -1,0 +1,248 @@
+/* weiter durcharbeiten mit dem Ziel, ein positiv definiertes Datenmodell abzurufen */
+
+"id", "label", "spws_id", "current_keeper", "opening_hours", "phone", "email", "description", "homepage",
+"collection_portal.*.*",
+"address.*.*"
+
+
+"other_web_resource": null,
+  "collection_type": null,
+  "role": [
+    {
+      "id": 30,
+      "label": "Lehrsammlung"
+    },
+    {
+      "id": 32,
+      "label": "Historische Sammlung"
+    },
+    {
+      "id": 31,
+      "label": "Forschungssammlung"
+    }
+  ],
+  "subject": [
+    {
+      "id": 53,
+      "label": "Archäologie"
+    },
+    {
+      "id": 68,
+      "label": "Christliche Archäologie"
+    }
+  ],
+  "genre": [
+    {
+      "id": 248,
+      "label": "Fotografie"
+    }
+  ],
+  "used_in_activity": null,
+  "academic_teaching": [
+    {
+      "label": "academic_teaching_basic"
+    }
+  ],
+  "special_form": null,
+  "living_being": null,
+  "has_collection_concept": null,
+  "has_usage_regulation": null,
+  "active_collection": "1",
+  "collection_image_main": {
+    "id": "12bada6e-62da-4418-9994-624187828430",
+    "storage": "local",
+    "filename_disk": "12bada6e-62da-4418-9994-624187828430.JPG",
+    "filename_download": "20120104_ca_foto heike zappe_8764-sample-web.JPG",
+    "title": "20120104 Ca Foto Heike Zappe 8764 Sample Web",
+    "type": "image/jpeg",
+    "folder": "55980396-1f93-401c-8702-3ed785232302",
+    "uploaded_by": "763ef4a9-8678-4b64-93b8-26150a5e6838",
+    "uploaded_on": "2024-01-16T14:11:28.000Z",
+    "modified_by": null,
+    "modified_on": "2024-01-16T14:11:28.000Z",
+    "charset": null,
+    "filesize": 202136,
+    "width": 600,
+    "height": 900,
+    "duration": null,
+    "embed": null,
+    "description": null,
+    "location": null,
+    "tags": null,
+    "metadata": {
+      "ifd0": {
+        "Make": "Canon",
+        "Model": "Canon EOS 5D Mark II"
+      },
+      "exif": {
+        "FNumber": 4,
+        "ExposureTime": 0.05,
+        "FocalLength": 85,
+        "ISO": 3200
+      }
+    }
+  },
+  "collection_images": [
+    {
+      "id": 1,
+      "bua_collections_id": "783864a2-f4fa-4bf3-969f-8b044c2e1130",
+      "directus_files_id": {
+        "id": "12bada6e-62da-4418-9994-624187828430",
+        "storage": "local",
+        "filename_disk": "12bada6e-62da-4418-9994-624187828430.JPG",
+        "filename_download": "20120104_ca_foto heike zappe_8764-sample-web.JPG",
+        "title": "20120104 Ca Foto Heike Zappe 8764 Sample Web",
+        "type": "image/jpeg",
+        "uploaded_on": "2024-01-16T14:11:28.000Z",
+        "modified_on": "2024-01-16T14:11:28.000Z",
+        "charset": null,
+        "filesize": 202136,
+        "width": 600,
+        "height": 900,
+        "duration": null,
+        "embed": null,
+        "description": null,
+        "location": null,
+        "tags": null,
+        "metadata": {
+          "ifd0": {
+            "Make": "Canon",
+            "Model": "Canon EOS 5D Mark II"
+          },
+          "exif": {
+            "FNumber": 4,
+            "ExposureTime": 0.05,
+            "FocalLength": 85,
+            "ISO": 3200
+          }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "bua_collections_id": "783864a2-f4fa-4bf3-969f-8b044c2e1130",
+      "directus_files_id": {
+        "id": "8a5f5048-0760-4574-9e84-03a346f354a9",
+        "storage": "local",
+        "filename_disk": "8a5f5048-0760-4574-9e84-03a346f354a9.JPG",
+        "filename_download": "20120104_ca_foto heike zappe_8753-sample-web.JPG",
+        "title": "20120104 Ca Foto Heike Zappe 8753 Sample Web",
+        "type": "image/jpeg",
+        "uploaded_on": "2024-01-16T14:11:28.000Z",
+        "modified_on": "2024-01-16T14:11:28.000Z",
+        "charset": null,
+        "filesize": 307086,
+        "width": 653,
+        "height": 900,
+        "duration": null,
+        "embed": null,
+        "description": null,
+        "location": null,
+        "tags": null,
+        "metadata": {
+          "ifd0": {
+            "Make": "Canon",
+            "Model": "Canon EOS 5D Mark II"
+          },
+          "exif": {
+            "FNumber": 4,
+            "ExposureTime": 0.025,
+            "FocalLength": 60,
+            "ISO": 3200
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "bua_collections_id": "783864a2-f4fa-4bf3-969f-8b044c2e1130",
+      "directus_files_id": {
+        "id": "815d49d1-3ae4-47b8-b4c3-717d09ebae55",
+        "storage": "local",
+        "filename_disk": "815d49d1-3ae4-47b8-b4c3-717d09ebae55.JPG",
+        "filename_download": "20120104_ca_foto heike zappe_8797-sample-web.JPG",
+        "title": "20120104 Ca Foto Heike Zappe 8797 Sample Web",
+        "type": "image/jpeg",
+        "uploaded_on": "2024-01-16T14:11:28.000Z",
+        "modified_on": "2024-01-16T14:11:28.000Z",
+        "charset": null,
+        "filesize": 184204,
+        "width": 726,
+        "height": 900,
+        "duration": null,
+        "embed": null,
+        "description": null,
+        "location": null,
+        "tags": null,
+        "metadata": {
+          "ifd0": {
+            "Make": "Canon",
+            "Model": "Canon EOS 5D Mark II"
+          },
+          "exif": {
+            "FNumber": 5,
+            "ExposureTime": 0.016666666666666666,
+            "FocalLength": 58,
+            "ISO": 1600
+          }
+        }
+      }
+    },
+    {
+      "id": 4,
+      "bua_collections_id": "783864a2-f4fa-4bf3-969f-8b044c2e1130",
+      "directus_files_id": {
+        "id": "b6afe7a6-1ecb-4b88-8d24-099b3da556ac",
+        "storage": "local",
+        "filename_disk": "b6afe7a6-1ecb-4b88-8d24-099b3da556ac.JPG",
+        "filename_download": "20120104_ca_foto heike zappe_8749-sample-web.JPG",
+        "title": "20120104 Ca Foto Heike Zappe 8749 Sample Web",
+        "type": "image/jpeg",
+        "uploaded_on": "2024-01-16T14:11:28.000Z",
+        "modified_on": "2024-01-16T14:11:28.000Z",
+        "charset": null,
+        "filesize": 196211,
+        "width": 698,
+        "height": 900,
+        "duration": null,
+        "embed": null,
+        "description": null,
+        "location": null,
+        "tags": null,
+        "metadata": {
+          "ifd0": {
+            "Make": "Canon",
+            "Model": "Canon EOS 5D Mark II"
+          },
+          "exif": {
+            "FNumber": 5,
+            "ExposureTime": 0.005,
+            "FocalLength": 105,
+            "ISO": 3200
+          }
+        }
+      }
+    }
+  ],
+  "dns_taxonomy_subjects": [
+    {
+      "id": 293,
+      "bua_collections_id": "783864a2-f4fa-4bf3-969f-8b044c2e1130",
+      "taxonomy_terms_id": {
+        "id": "b754c6d9-69d0-4cda-b71f-1e96a1142043",
+        "label": "Altertumswissenschaften"
+      }
+    }
+  ],
+  "dns_taxonomy_genre": [
+    {
+      "id": 72,
+      "bua_collections_id": "783864a2-f4fa-4bf3-969f-8b044c2e1130",
+      "taxonomy_terms_id": {
+        "id": "b7791ed0-b4a4-4502-8ab3-e800167cc1e8",
+        "label": "Fotografien"
+      }
+    }
+  ],
+  "display": true
+}

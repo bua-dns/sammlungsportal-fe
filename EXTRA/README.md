@@ -1,0 +1,1 @@
+This folder is used for development purposes only an can be emptied before publication

@@ -34,6 +34,7 @@ const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
     <div class="card-label" v-if="entry.label">
       <strong>{{ entry.label }}</strong>
     </div>
+    <pre v-if="true">{{ entry }}</pre>
     <div class="card-cols">
       <div class="card-col">
         <div v-if="entry.description" class="card-description" v-html="convertLineBreaks(entry.description)"></div>
@@ -117,7 +118,7 @@ const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
           </template>
         </dl>
         <div v-if="entry.collection_image_main" class="card-img-container">
-          <img @click="showLightbox = true" :src="imageBasePath + entry.collection_image_main + '?key=240x240'" alt="">
+          <img @click="showLightbox = true" :src="imageBasePath + entry.collection_image_main.filename_disk + '?key=240x240'" alt="">
           <Teleport to="body">
             <LightBox v-if="showLightbox" :imageBasePath="imageBasePath" :images="entry.collection_images"
               @close="showLightbox = false" />
@@ -127,7 +128,8 @@ const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
       </div>
     </div>
     <div class="tag-navigation-title"><strong>{{ w.tag_navigation_title }}</strong>{{ w.tag_navigation_hint }}</div>
-    <div class="tag-navigation">
+    <!-- Output for old tagging system -->
+    <div class="tag-navigation" v-if="true">
       <!-- <pre>{{ tagTypes }}</pre> -->
       <!-- <pre>{{ entry }}</pre> -->
       <template v-for="tagType in tagTypes" :key="'collection-card-tag-' + tagType">
@@ -141,6 +143,22 @@ const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
           </div>
         </div>
       </template>
+    
+    </div>
+    <!-- Dev output for new tagging system -->
+    <div class="categories">
+      <div class="category">
+        <h4>DEV: Kategoriesierung Fachgebiet</h4>
+        <div class="term subjects" v-for="(term, index) in entry.dns_taxonomy_subjects" :key="`term-${index}`">
+          {{ term.taxonomy_terms_id.label }} - {{ term.taxonomy_terms_id.id }}
+        </div>
+      </div>
+      <div class="category">
+        <h4>DEV: Kategoriesierung Art der Sammlungsgegenstände</h4>
+        <div class="term subjects" v-for="(term, index) in entry.dns_taxonomy_genre" :key="`term-${index}`">
+          {{ term.taxonomy_terms_id.label }} - {{ term.taxonomy_terms_id.id }}
+        </div>
+      </div>
     </div>
   </div>
 </template>
