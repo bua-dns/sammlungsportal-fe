@@ -150,21 +150,7 @@ const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
       </template>
     
     </div>
-    <!-- Dev output for new tagging system -->
-    <div class="categories">
-      <div class="category">
-        <h4>DEV: Kategoriesierung Fachgebiet</h4>
-        <div class="term subjects" v-for="(term, index) in entry.dns_taxonomy_subjects" :key="`term-${index}`">
-          {{ term.taxonomy_terms_id.label }} - {{ term.taxonomy_terms_id.id }}
-        </div>
-      </div>
-      <div class="category">
-        <h4>DEV: Kategoriesierung Art der Sammlungsgegenstände</h4>
-        <div class="term subjects" v-for="(term, index) in entry.dns_taxonomy_genre" :key="`term-${index}`">
-          {{ term.taxonomy_terms_id.label }} - {{ term.taxonomy_terms_id.id }}
-        </div>
-      </div>
-    </div>
+    
   </div>
 </template>
 <style scoped lang="scss">

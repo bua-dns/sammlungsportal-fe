@@ -413,7 +413,7 @@ onMounted(() => {
     <pre v-if="false">termsIndex: {{ termsIndex }}</pre>
     <pre v-if="false">termsListing: {{ termsListing }}</pre>
     <pre v-if="false">tagFilter: {{ tagFilter }}</pre>
-    <pre v-if="true">termFilter: {{ termFilter }}</pre>
+    <pre v-if="false">termFilter: {{ termFilter }}</pre>
 
     <pre v-if="false">tags: {{ tags }}</pre>
     <div v-if="showFilters" class="filter-control-bar">
@@ -451,7 +451,6 @@ onMounted(() => {
       </template>
       <!-- END REFACTORING: remove when refactored -->
       <!-- REFACTOR: parallel -->
-      <hr>PARALELL
       <details v-for="(taxonomy) in Object.keys(termsListing)" :id="'filter-card-' + taxonomy" :key="'filter-card-' + taxonomy"
         class="filter-card" @toggle="toggleDetail(taxonomy, $event)" :open="isFilterDetailsOpen(taxonomy) ? true : null">
         <summary class="tag-title">{{ w[taxonomy] }}</summary>
