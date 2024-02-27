@@ -173,12 +173,21 @@ function setTermFilter(taxonomy, term) {
   if (!termFilter.value[taxonomy]) {
     termFilter.value[taxonomy] = [];
   }
+  // toggle term (add or remove when already present)
   if (termFilter.value[taxonomy].includes(term)) {
     termFilter.value[taxonomy] = termFilter.value[taxonomy].filter((item) => item !== term);
   } else {
     termFilter.value[taxonomy].push(term);
   }
 }
+function activeTerm(taxonomy, term) {
+  if (termFilter.value[taxonomy] && termFilter.value[taxonomy].includes(term)) {
+    return " active";
+  }
+  return "";
+}
+
+// END PARALLEL
 
 function setFilter(type, tag) {
   if (type && tag) {
@@ -447,7 +456,7 @@ onMounted(() => {
         <summary class="tag-title">{{ w[taxonomy] }}</summary>
         <div class="tags">
           <button v-for="(term, index) in termsListing[taxonomy]" :key="'filter-card-' + taxonomy + '-' + term.label"
-            @click="setTermFilter(taxonomy, term.label)" :class="'tag' + activeTag(taxonomy, term.label)">
+            @click="setTermFilter(taxonomy, term.label)" :class="'tag' + activeTerm(taxonomy, term.label)">
             <span class="tag-name">{{ getTagLabelName(term.label) }}</span>
             <span class="tag-count">{{ term.count }}</span>
           </button>
