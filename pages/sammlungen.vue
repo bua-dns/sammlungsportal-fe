@@ -82,7 +82,23 @@ for (let collection of data.value.data) {
     }
   }
 }
-
+// prepare for display
+const termsListing = ref({});
+for (let taxonomy in termsIndex.value) {
+  termsListing.value[taxonomy] = [];
+  for (let term in termsIndex.value[taxonomy]) {
+    termsListing.value[taxonomy].push({ label: term, count: termsIndex.value[taxonomy][term] });
+  }
+  termsListing.value[taxonomy].sort((a, b) => {
+    if (a.label < b.label) {
+      return -1;
+    }
+    if (a.label > b.label) {
+      return 1;
+    }
+    return 0;
+  });
+}
 
 // index of tags
 const tags = ref({});
@@ -133,6 +149,37 @@ function getTagLabelName(tag) {
 
 const tagFilter = ref({});
 // REFACTORED: setFilter anpassen auf neuen Datenstruktur
+
+// PARALLEL: tag -> term
+/* sample tagFilter state
+
+
+tagFilter: {
+  "subject": [
+    "Akustik",
+    "Botanik"
+  ],
+  "role": [
+    "Historische Sammlung"
+  ]
+}
+*/
+const termFilter = ref({});
+
+function setTermFilter(taxonomy, term) {
+  if(!taxonomy || !term) {
+    return;
+  }
+  if (!termFilter.value[taxonomy]) {
+    termFilter.value[taxonomy] = [];
+  }
+  if (termFilter.value[taxonomy].includes(term)) {
+    termFilter.value[taxonomy] = termFilter.value[taxonomy].filter((item) => item !== term);
+  } else {
+    termFilter.value[taxonomy].push(term);
+  }
+}
+
 function setFilter(type, tag) {
   if (type && tag) {
     if (tagFilter.value[type] && tagFilter.value[type].includes(tag)) {
@@ -357,8 +404,13 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <pre v-if="true">termsIndex: {{ termsIndex }}</pre>
-    <pre v-if="true">tags: {{ tags }}</pre>
+    <!-- DEV outputs for inspection -->
+    <pre v-if="false">termsIndex: {{ termsIndex }}</pre>
+    <pre v-if="false">termsListing: {{ termsListing }}</pre>
+    <pre v-if="true">tagFilter: {{ tagFilter }}</pre>
+    <pre v-if="true">termFilter: {{ termFilter }}</pre>
+
+    <pre v-if="false">tags: {{ tags }}</pre>
     <div v-if="showFilters" class="filter-control-bar">
       <div class="filter-control-bar-controls">
         <div class="form-check form-switch gws-form-switch-right d-flex justify-content-end align-items-center">
@@ -385,6 +437,19 @@ onMounted(() => {
             @click="setFilter(tagType, tag.label)" :class="'tag' + activeTag(tagType, tag.label)">
             <span class="tag-name">{{ getTagLabelName(tag.label) }}</span>
             <span class="tag-count">{{ tag.count }}</span>
+          </button>
+        </div>
+      </details>
+      <!-- REFACTOR: parallel -->
+      <hr>PARALELL
+      <details v-for="(taxonomy) in Object.keys(termsListing)" :id="'filter-card-' + taxonomy" :key="'filter-card-' + taxonomy"
+        class="filter-card" @toggle="toggleDetail(taxonomy, $event)" :open="isFilterDetailsOpen(taxonomy) ? true : null">
+        <summary class="tag-title">{{ w[taxonomy] }}</summary>
+        <div class="tags">
+          <button v-for="(term, index) in termsListing[taxonomy]" :key="'filter-card-' + taxonomy + '-' + term.label"
+            @click="setTermFilter(taxonomy, term.label)" :class="'tag' + activeTag(taxonomy, term.label)">
+            <span class="tag-name">{{ getTagLabelName(term.label) }}</span>
+            <span class="tag-count">{{ term.count }}</span>
           </button>
         </div>
       </details>
