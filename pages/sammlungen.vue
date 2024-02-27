@@ -150,20 +150,6 @@ function getTagLabelName(tag) {
 const tagFilter = ref({});
 // REFACTORED: setFilter anpassen auf neuen Datenstruktur
 
-// PARALLEL: tag -> term
-/* sample tagFilter state
-
-
-tagFilter: {
-  "subject": [
-    "Akustik",
-    "Botanik"
-  ],
-  "role": [
-    "Historische Sammlung"
-  ]
-}
-*/
 const termFilter = ref({});
 
 function setTermFilter(taxonomy, term) {
@@ -348,16 +334,6 @@ onMounted(() => {
   <Head>
     <Title>{{ w.page_collections }}</Title>
   </Head>
-  <!--
-  <div class="hero">
-    <img style="width:100%;height:auto;" src="@/assets/img/Collage_01.png" alt="hero image" />
-  </div>
-  -->
-  <!-- <div v-if="cardType == 'grid' && activeCollectionId" class="collection_cards_wrapper single-card">
-    <CollectionCardDetails :entry="getCollectionById(activeCollectionId)" :tagFilter="tagFilter"
-      :activeCollectionId="activeCollectionId" @set-filter="setFilter"
-      @set-active-collection-id="setActiveCollectionId" />
-  </div> -->
   <div class="grid-control-bar" id="grid-control-bar">
     <div class="basic-controls">
       <div class="collections-counter">{{ w.num_collections }}: {{ data.meta.total_count }}</div>
@@ -416,7 +392,7 @@ onMounted(() => {
     <!-- DEV outputs for inspection -->
     <pre v-if="false">termsIndex: {{ termsIndex }}</pre>
     <pre v-if="false">termsListing: {{ termsListing }}</pre>
-    <pre v-if="true">tagFilter: {{ tagFilter }}</pre>
+    <pre v-if="false">tagFilter: {{ tagFilter }}</pre>
     <pre v-if="true">termFilter: {{ termFilter }}</pre>
 
     <pre v-if="false">tags: {{ tags }}</pre>
@@ -438,17 +414,20 @@ onMounted(() => {
           </span>
         </button>
       </div>
-      <details v-for="(tagCloud, tagType) in tags" :id="'filter-card-' + tagType" :key="'filter-card-' + tagType"
-        class="filter-card" @toggle="toggleDetail(tagType, $event)" :open="isFilterDetailsOpen(tagType) ? true : null">
-        <summary class="tag-title">{{ w[tagType] }}</summary>
-        <div class="tags">
-          <button v-for="(tag, tagIdx) in tagCloud" :key="'filter-card-' + tagType + '-' + tagIdx"
-            @click="setFilter(tagType, tag.label)" :class="'tag' + activeTag(tagType, tag.label)">
-            <span class="tag-name">{{ getTagLabelName(tag.label) }}</span>
-            <span class="tag-count">{{ tag.count }}</span>
-          </button>
-        </div>
-      </details>
+      <template v-if="false" id="former-implementation">
+        <pre>{{ tags }}</pre>
+        <details v-for="(tagCloud, tagType) in tags" :id="'filter-card-' + tagType" :key="'filter-card-' + tagType"
+          class="filter-card" @toggle="toggleDetail(tagType, $event)" :open="isFilterDetailsOpen(tagType) ? true : null">
+          <summary class="tag-title">{{ w[tagType] }}</summary>
+          <div class="tags">
+            <button v-for="(tag, tagIdx) in tagCloud" :key="'filter-card-' + tagType + '-' + tagIdx"
+              @click="setFilter(tagType, tag.label)" :class="'tag' + activeTag(tagType, tag.label)">
+              <span class="tag-name">{{ getTagLabelName(tag.label) }}</span>
+              <span class="tag-count">{{ tag.count }}</span>
+            </button>
+          </div>
+        </details>
+      </template>
       <!-- REFACTOR: parallel -->
       <hr>PARALELL
       <details v-for="(taxonomy) in Object.keys(termsListing)" :id="'filter-card-' + taxonomy" :key="'filter-card-' + taxonomy"
