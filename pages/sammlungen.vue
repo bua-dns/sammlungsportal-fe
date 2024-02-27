@@ -23,6 +23,7 @@ const router = useRouter();
 const theme = useState('theme');
 const w = theme.value.data.wording.de;
 const settings = theme.value.data.settings;
+const terms = theme.value.data.settings.terms;
 const tagNames = theme.value.data.names.tags;
 const cardType = ref("grid");
 async function toggleCardType() {
@@ -58,8 +59,32 @@ const showFilters = ref(false);
 function toggleFilters() {
   showFilters.value = !showFilters.value;
 }
+/* REFACTOR: Strategie: 
+Funktionalität parralle neu aufbauen und schrittweise testen, dann alte Funktionalität ersetzen
+*/
+// index of tags neu
+// setup index according to directus: theme_content -> settings -> terms
+const termsIndex = ref({});
+for (let term of terms) {
+  termsIndex.value[term] = {};
+}
+// fill index with data from collections
+for (let collection of data.value.data) {
+  for (let term of terms) {
+    if (collection[term] && collection[term].length) {
+      for (let entry of collection[term]) {
+        if (!termsIndex.value[term][entry.taxonomy_terms_id.label]) {
+          termsIndex.value[term][entry.taxonomy_terms_id.label] = 1;
+        } else {
+          termsIndex.value[term][entry.taxonomy_terms_id.label]++;
+        }
+      }
+    }
+  }
+}
 
-// tags
+
+// index of tags
 const tags = ref({});
 function setTags() {
   data.value.data.forEach((collection) => {
@@ -332,7 +357,8 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <!-- <pre>{{ tags }}</pre> -->
+    <pre v-if="true">termsIndex: {{ termsIndex }}</pre>
+    <pre v-if="true">tags: {{ tags }}</pre>
     <div v-if="showFilters" class="filter-control-bar">
       <div class="filter-control-bar-controls">
         <div class="form-check form-switch gws-form-switch-right d-flex justify-content-end align-items-center">
