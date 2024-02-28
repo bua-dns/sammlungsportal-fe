@@ -5,28 +5,33 @@ REFACTORING:
 */
 const props = defineProps([
   'collection',
-  'termsIndex', 
-  'tagFilter', 
+  'termsListing',
+  'termFilter',
   'activeCollectionId'
 ]);
-defineEmits(['setFilter', 'setActiveCollectionId']);
+defineEmits(['setTermFilter', 'setActiveCollectionId']);
 const theme = useState('theme');
 const w = theme.value.data.wording.de;
 const tagTypes = theme.value.data.settings.tags;
 const tagNames = theme.value.data.names.tags;
-// REFACTOR: es müsste taxonomies heißen, nicht terms
 const terms = theme.value.data.settings.terms;
+const taxonomies = theme.value.data.names.taxonomies;
 
-function getTaxonomyInfo() {
+function getTaxonomyInfo(taxonomy) {
   // extract taxonomy info from collection
-  const index = {};
-  for (let taxonomy in props.termsIndex) {
-    index[taxonomy] = [];
-    for (let term of props.collection[taxonomy]) {
-      index[taxonomy].push(term.taxonomy_terms_id.label);
-    }
+  if (!props.collection[taxonomy]) {
+    return [];
   }
-  return index;
+  return props.collection[taxonomy].map((term) => {
+    return term.taxonomy_terms_id.label;
+  });
+}
+
+function checkIfTermIsActive(taxonomy, term) {
+  if (props.termFilter[taxonomy] && props.termFilter[taxonomy].includes(term)) {
+    return " active";
+  }
+  return "";
 }
 
 function activeTag(type, tag) {
@@ -36,10 +41,12 @@ function activeTag(type, tag) {
   return "";
 }
 function getTaxonomyName(taxonomy) {
-  return terms[taxonomy] ? terms[taxonomy] : taxonomy;
+  return taxonomies[taxonomy] ? taxonomies[taxonomy] : taxonomy;
 }
 
-
+function getTagLabelName(tag) {
+  return tagNames[tag] ? tagNames[tag] : tag;
+}
 
 const showLightbox = ref(false);
 const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
@@ -147,38 +154,26 @@ const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
             <LightBox v-if="showLightbox" :imageBasePath="imageBasePath" :images="collection.collection_images"
               @close="showLightbox = false" />
           </Teleport>
-          <!-- {{ collection.collection_images }} -->
         </div>
       </div>
     </div>
     <div class="tag-navigation-title"><strong>{{ w.tag_navigation_title }}</strong>{{ w.tag_navigation_hint }}</div>
-    <!-- Output for old tagging system -->
+    <!-- DEV Output -->
+    <div class="dev-output">
+      <pre v-if="false">termFilter<br>{{ termFilter }}</pre>
+    </div>
     <div class="tag-navigation" v-if="true">
-      <!-- <pre>{{ tagTypes }}</pre> -->
-      <!-- <pre>{{ collection }}</pre> -->
-      <!-- PRALLEL -->
-      <div class="dev-output">
-        <pre>{{ collection }}</pre>
-        <pre>{{ termsIndex }}</pre>
-        <pre>{{ getTaxonomyInfo() }}</pre>
-        
-        <template v-for="taxonomy in Object.entries(getTaxonomyInfo())" :key="'collection-card-tag-' + taxonomy[0]">
-          <h4>{{ getTaxonomyName(taxonomy[0]) }}</h4>
-          <div v-for="term in taxonomy[1]" :key="`term-${term}`">{{ term }}</div>
-        </template>
-      </div>
-      <template v-for="tagType in tagTypes" :key="'collection-card-tag-' + tagType">
-        <div v-if="collection[tagType] && collection[tagType].length > 0 && tagType !== 'current_keeper'" class="tag-card">
-          <h4 class="tag-title">{{ w[tagType] }}</h4>
+      <template v-for="taxonomy in Object.keys(termsListing)" :key="'collection-card-tag-' + taxonomy">
+        <div v-if="getTaxonomyName(taxonomy) && getTaxonomyName(taxonomy).length" class="tag-card">
+          <h4 class="tag-title">{{ getTaxonomyName(taxonomy) }}</h4>
           <div class="tags">
-            <button v-for="(tag, idx) in collection[tagType]" :key="'tag_' + collection.id + '_' + idx"
-              :class="'tag' + activeTag(tagType, tag.label)" @click="$emit('setFilter', tagType, tag.label)">
-              {{ getTagLabelName(tag.label) }}
+            <button v-for="term in getTaxonomyInfo(taxonomy)" :key="`term-${term}`"
+              :class="`tag${checkIfTermIsActive(taxonomy, term)}`" @click="$emit('setTermFilter', taxonomy, term)">
+              {{ term }}
             </button>
           </div>
         </div>
-      </template>
-    
+      </template>    
     </div>
     
   </div>
@@ -190,20 +185,15 @@ const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
   border-radius: 8px;
   background-color: #fff;
   position: relative;
-  // opacity: 0.85;
   scroll-margin-top: 64px;
 
   &:not(:last-child) {
     margin-bottom: 1rem;
   }
 
-  // &:hover {
-  //   opacity: 1;
-  // }
   &.active {
     border: 2px solid #2b5c8c;
     background-color: #f3f3ff;
-    /* box-shadow: inset 0px 0px 20px 0px #2b5c8c; */
   }
 }
 
@@ -273,7 +263,6 @@ dd ul {
 }
 
 a {
-  // word-wrap: break-word;
   overflow-wrap: break-word;
 }
 

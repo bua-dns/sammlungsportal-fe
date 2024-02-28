@@ -470,8 +470,12 @@ onMounted(() => {
       <CollectionCardDetails 
         :collection="getCollectionById(activeCollectionId)" 
         :tagFilter="tagFilter"
+        :termFilter="termFilter"
         :termsIndex="termsIndex"
-        :activeCollectionId="activeCollectionId" @set-filter="setFilter"
+        :termsListing="termsListing"
+        :activeCollectionId="activeCollectionId" 
+        @set-filter="setFilter"
+        @set-term-filter="setTermFilter"
         @set-active-collection-id="setActiveCollectionId" />
     </div>
   </div>
