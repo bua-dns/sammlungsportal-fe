@@ -146,53 +146,7 @@ function activeTerm(taxonomy, term) {
   return "";
 }
 
-// END PARALLEL
 
-// REFACTORING: remove when refactored
-// function setFilter(type, tag) {
-//   if (type && tag) {
-//     if (tagFilter.value[type] && tagFilter.value[type].includes(tag)) {
-//       tagFilter.value[type] = tagFilter.value[type].filter((item) => item !== tag);
-//     } else {
-//       if (!tagFilter.value[type]) {
-//         tagFilter.value[type] = [];
-//       }
-//       tagFilter.value[type].push(tag);
-//     }
-//   }
-//   data.value.data.forEach((collection) => {
-//     collection.display = true;
-//     settings.tags.forEach((tagType) => {
-//       if (tagFilter.value[tagType] && tagFilter.value[tagType].length > 0) {
-//         if (!Array.isArray(collection[tagType])) {
-//           if (!tagFilter.value[tagType].includes(collection[tagType])) {
-//             collection.display = false;
-//           }
-//         } else {
-//           let found = false;
-//           collection[tagType].forEach((item) => {
-//             if (tagFilter.value[tagType].includes(item.label)) {
-//               found = true;
-//             }
-//           });
-//           if (!found) {
-//             collection.display = false;
-//           }
-//         }
-//       }
-//     });
-//   });
-//   setQueryParams();
-//   scrollToResults();
-// }
-
-// function activeTag(type, tag) {
-//   if (tagFilter.value[type] && tagFilter.value[type].includes(tag)) {
-//     return " active";
-//   }
-//   return "";
-// }
-// END REFACTORING: remove when refactored
 
 function hasTagTypeActiveTag(type) {
   if (tagFilter.value[type] && tagFilter.value[type].length > 0) {
@@ -213,10 +167,10 @@ function toggleDetail(type, { target }) {
   filterDetails.value[type] = target.open;
 }
 // REFACTORING: noch auf neue Datenstruktur anpassen
+// WEITER
+
 function resetFilters() {
-  Object.keys(tagFilter.value).forEach((tagType) => {
-    tagFilter.value[tagType] = [];
-  });
+  termFilter.value = {};
   filterDetails.value = {};
   data.value.data.forEach((collection) => {
     collection.display = true;
