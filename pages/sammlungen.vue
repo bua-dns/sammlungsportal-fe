@@ -24,7 +24,6 @@ const w = theme.value.data.wording.de;
 const settings = theme.value.data.settings;
 // REFACTOR: es müsste taxonomies heißen, nicht terms
 const terms = theme.value.data.settings.terms;
-const tagNames = theme.value.data.names.tags;
 const cardType = ref("grid");
 async function toggleCardType() {
   cardType.value = cardType.value == "list" ? "grid" : "list";
@@ -100,53 +99,6 @@ for (let collection of data.value.data) {
 for (let taxonomy in termsListing.value) {
   termsListing.value[taxonomy].sort((a, b) => a.label.localeCompare(b.label));
 }
-
-// index of tags
-// const tags = ref({});
-// function setTags() {
-//   data.value.data.forEach((collection) => {
-//     settings.tags.forEach((tag) => {
-//       if (!tags.value[tag]) {
-//         tags.value[tag] = [];
-//       }
-//       // REFACTOR: auf neue Datenstruktur anpassen
-//       if (collection[tag] && collection[tag].length > 0) {
-//         if (!Array.isArray(collection[tag])) {
-//           if (!tags.value[tag].find((item) => item.label === collection[tag])) {
-//             tags.value[tag].push({ label: collection[tag], count: 1 });
-//           } else {
-//             tags.value[tag].find((item) => item.label === collection[tag]).count++;
-//           }
-//         } else {
-//           collection[tag].forEach((item) => {
-//             if (!tags.value[tag].find((tagItem) => tagItem.label === item.label)) {
-//               tags.value[tag].push({ label: item.label, count: 1 });
-//             } else {
-//               tags.value[tag].find((tagItem) => tagItem.label === item.label).count++;
-//             }
-//           });
-//         }
-//       }
-//     });
-//   });
-//   // sort tags by label
-//   Object.keys(tags.value).forEach((tag) => {
-//     tags.value[tag].sort((a, b) => {
-//       if (a.label < b.label) {
-//         return -1;
-//       }
-//       if (a.label > b.label) {
-//         return 1;
-//       }
-//       return 0;
-//     });
-//   });
-// }
-// setTags();
-
-// function getTagLabelName(tag) {
-//   return tagNames[tag] ? tagNames[tag] : tag;
-// }
 
 const tagFilter = ref({});
 // REFACTORED: setFilter anpassen auf neuen Datenstruktur
