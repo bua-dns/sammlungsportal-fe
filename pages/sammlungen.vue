@@ -144,9 +144,9 @@ for (let taxonomy in termsListing.value) {
 // }
 // setTags();
 
-function getTagLabelName(tag) {
-  return tagNames[tag] ? tagNames[tag] : tag;
-}
+// function getTagLabelName(tag) {
+//   return tagNames[tag] ? tagNames[tag] : tag;
+// }
 
 const tagFilter = ref({});
 // REFACTORED: setFilter anpassen auf neuen Datenstruktur
@@ -452,7 +452,7 @@ onMounted(() => {
         <div class="tags">
           <button v-for="(term, index) in termsListing[taxonomy]" :key="'filter-card-' + taxonomy + '-' + term.label"
             @click="setTermFilter(taxonomy, term.label)" :class="'tag' + activeTerm(taxonomy, term.label)">
-            <span class="tag-name">{{ getTagLabelName(term.label) }}</span>
+            <span class="tag-name">{{ term.label }}</span>
             <span class="tag-count">{{ term.count }}</span>
           </button>
         </div>
