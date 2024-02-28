@@ -22,6 +22,7 @@ const router = useRouter();
 const theme = useState('theme');
 const w = theme.value.data.wording.de;
 const settings = theme.value.data.settings;
+// REFACTOR: es müsste taxonomies heißen, nicht terms
 const terms = theme.value.data.settings.terms;
 const tagNames = theme.value.data.names.tags;
 const cardType = ref("grid");
@@ -466,7 +467,10 @@ onMounted(() => {
   </div>
   <div v-if="cardType == 'grid' && activeCollectionId" class="active-card-container" id="active-card-container">
     <div class="collection_cards_wrapper single-card">
-      <CollectionCardDetails :collection="getCollectionById(activeCollectionId)" :tagFilter="tagFilter"
+      <CollectionCardDetails 
+        :collection="getCollectionById(activeCollectionId)" 
+        :tagFilter="tagFilter"
+        :termsIndex="termsIndex"
         :activeCollectionId="activeCollectionId" @set-filter="setFilter"
         @set-active-collection-id="setActiveCollectionId" />
     </div>

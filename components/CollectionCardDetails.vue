@@ -3,12 +3,31 @@
 REFACTORING:
 - w sematisch benennen: wording (Konflikte?)
 */
-const props = defineProps(['collection', 'tagFilter', 'activeCollectionId']);
+const props = defineProps([
+  'collection',
+  'termsIndex', 
+  'tagFilter', 
+  'activeCollectionId'
+]);
 defineEmits(['setFilter', 'setActiveCollectionId']);
 const theme = useState('theme');
 const w = theme.value.data.wording.de;
 const tagTypes = theme.value.data.settings.tags;
 const tagNames = theme.value.data.names.tags;
+// REFACTOR: es müsste taxonomies heißen, nicht terms
+const terms = theme.value.data.settings.terms;
+
+function getTaxonomyInfo() {
+  // extract taxonomy info from collection
+  const index = {};
+  for (let taxonomy in props.termsIndex) {
+    index[taxonomy] = [];
+    for (let term of props.collection[taxonomy]) {
+      index[taxonomy].push(term.taxonomy_terms_id.label);
+    }
+  }
+  return index;
+}
 
 function activeTag(type, tag) {
   if (props.tagFilter[type] && props.tagFilter[type].includes(tag)) {
@@ -16,10 +35,11 @@ function activeTag(type, tag) {
   }
   return "";
 }
-
-function getTagLabelName(tag) {
-  return tagNames[tag] ? tagNames[tag] : tag;
+function getTaxonomyName(taxonomy) {
+  return terms[taxonomy] ? terms[taxonomy] : taxonomy;
 }
+
+
 
 const showLightbox = ref(false);
 const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
@@ -137,7 +157,16 @@ const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
       <!-- <pre>{{ tagTypes }}</pre> -->
       <!-- <pre>{{ collection }}</pre> -->
       <!-- PRALLEL -->
-
+      <div class="dev-output">
+        <pre>{{ collection }}</pre>
+        <pre>{{ termsIndex }}</pre>
+        <pre>{{ getTaxonomyInfo() }}</pre>
+        
+        <template v-for="taxonomy in Object.entries(getTaxonomyInfo())" :key="'collection-card-tag-' + taxonomy[0]">
+          <h4>{{ getTaxonomyName(taxonomy[0]) }}</h4>
+          <div v-for="term in taxonomy[1]" :key="`term-${term}`">{{ term }}</div>
+        </template>
+      </div>
       <template v-for="tagType in tagTypes" :key="'collection-card-tag-' + tagType">
         <div v-if="collection[tagType] && collection[tagType].length > 0 && tagType !== 'current_keeper'" class="tag-card">
           <h4 class="tag-title">{{ w[tagType] }}</h4>
