@@ -102,47 +102,47 @@ for (let taxonomy in termsListing.value) {
 }
 
 // index of tags
-const tags = ref({});
-function setTags() {
-  data.value.data.forEach((collection) => {
-    settings.tags.forEach((tag) => {
-      if (!tags.value[tag]) {
-        tags.value[tag] = [];
-      }
-      // REFACTOR: auf neue Datenstruktur anpassen
-      if (collection[tag] && collection[tag].length > 0) {
-        if (!Array.isArray(collection[tag])) {
-          if (!tags.value[tag].find((item) => item.label === collection[tag])) {
-            tags.value[tag].push({ label: collection[tag], count: 1 });
-          } else {
-            tags.value[tag].find((item) => item.label === collection[tag]).count++;
-          }
-        } else {
-          collection[tag].forEach((item) => {
-            if (!tags.value[tag].find((tagItem) => tagItem.label === item.label)) {
-              tags.value[tag].push({ label: item.label, count: 1 });
-            } else {
-              tags.value[tag].find((tagItem) => tagItem.label === item.label).count++;
-            }
-          });
-        }
-      }
-    });
-  });
-  // sort tags by label
-  Object.keys(tags.value).forEach((tag) => {
-    tags.value[tag].sort((a, b) => {
-      if (a.label < b.label) {
-        return -1;
-      }
-      if (a.label > b.label) {
-        return 1;
-      }
-      return 0;
-    });
-  });
-}
-setTags();
+// const tags = ref({});
+// function setTags() {
+//   data.value.data.forEach((collection) => {
+//     settings.tags.forEach((tag) => {
+//       if (!tags.value[tag]) {
+//         tags.value[tag] = [];
+//       }
+//       // REFACTOR: auf neue Datenstruktur anpassen
+//       if (collection[tag] && collection[tag].length > 0) {
+//         if (!Array.isArray(collection[tag])) {
+//           if (!tags.value[tag].find((item) => item.label === collection[tag])) {
+//             tags.value[tag].push({ label: collection[tag], count: 1 });
+//           } else {
+//             tags.value[tag].find((item) => item.label === collection[tag]).count++;
+//           }
+//         } else {
+//           collection[tag].forEach((item) => {
+//             if (!tags.value[tag].find((tagItem) => tagItem.label === item.label)) {
+//               tags.value[tag].push({ label: item.label, count: 1 });
+//             } else {
+//               tags.value[tag].find((tagItem) => tagItem.label === item.label).count++;
+//             }
+//           });
+//         }
+//       }
+//     });
+//   });
+//   // sort tags by label
+//   Object.keys(tags.value).forEach((tag) => {
+//     tags.value[tag].sort((a, b) => {
+//       if (a.label < b.label) {
+//         return -1;
+//       }
+//       if (a.label > b.label) {
+//         return 1;
+//       }
+//       return 0;
+//     });
+//   });
+// }
+// setTags();
 
 function getTagLabelName(tag) {
   return tagNames[tag] ? tagNames[tag] : tag;
@@ -197,49 +197,49 @@ function activeTerm(taxonomy, term) {
 // END PARALLEL
 
 // REFACTORING: remove when refactored
-function setFilter(type, tag) {
-  if (type && tag) {
-    if (tagFilter.value[type] && tagFilter.value[type].includes(tag)) {
-      tagFilter.value[type] = tagFilter.value[type].filter((item) => item !== tag);
-    } else {
-      if (!tagFilter.value[type]) {
-        tagFilter.value[type] = [];
-      }
-      tagFilter.value[type].push(tag);
-    }
-  }
-  data.value.data.forEach((collection) => {
-    collection.display = true;
-    settings.tags.forEach((tagType) => {
-      if (tagFilter.value[tagType] && tagFilter.value[tagType].length > 0) {
-        if (!Array.isArray(collection[tagType])) {
-          if (!tagFilter.value[tagType].includes(collection[tagType])) {
-            collection.display = false;
-          }
-        } else {
-          let found = false;
-          collection[tagType].forEach((item) => {
-            if (tagFilter.value[tagType].includes(item.label)) {
-              found = true;
-            }
-          });
-          if (!found) {
-            collection.display = false;
-          }
-        }
-      }
-    });
-  });
-  setQueryParams();
-  scrollToResults();
-}
+// function setFilter(type, tag) {
+//   if (type && tag) {
+//     if (tagFilter.value[type] && tagFilter.value[type].includes(tag)) {
+//       tagFilter.value[type] = tagFilter.value[type].filter((item) => item !== tag);
+//     } else {
+//       if (!tagFilter.value[type]) {
+//         tagFilter.value[type] = [];
+//       }
+//       tagFilter.value[type].push(tag);
+//     }
+//   }
+//   data.value.data.forEach((collection) => {
+//     collection.display = true;
+//     settings.tags.forEach((tagType) => {
+//       if (tagFilter.value[tagType] && tagFilter.value[tagType].length > 0) {
+//         if (!Array.isArray(collection[tagType])) {
+//           if (!tagFilter.value[tagType].includes(collection[tagType])) {
+//             collection.display = false;
+//           }
+//         } else {
+//           let found = false;
+//           collection[tagType].forEach((item) => {
+//             if (tagFilter.value[tagType].includes(item.label)) {
+//               found = true;
+//             }
+//           });
+//           if (!found) {
+//             collection.display = false;
+//           }
+//         }
+//       }
+//     });
+//   });
+//   setQueryParams();
+//   scrollToResults();
+// }
 
-function activeTag(type, tag) {
-  if (tagFilter.value[type] && tagFilter.value[type].includes(tag)) {
-    return " active";
-  }
-  return "";
-}
+// function activeTag(type, tag) {
+//   if (tagFilter.value[type] && tagFilter.value[type].includes(tag)) {
+//     return " active";
+//   }
+//   return "";
+// }
 // END REFACTORING: remove when refactored
 
 function hasTagTypeActiveTag(type) {
@@ -260,7 +260,7 @@ function isFilterDetailsOpen(type) {
 function toggleDetail(type, { target }) {
   filterDetails.value[type] = target.open;
 }
-
+// REFACTORING: noch auf neue Datenstruktur anpassen
 function resetFilters() {
   Object.keys(tagFilter.value).forEach((tagType) => {
     tagFilter.value[tagType] = [];
@@ -411,12 +411,7 @@ onMounted(() => {
       </div>
     </div>
     <!-- DEV outputs for inspection -->
-    <pre v-if="false">termsIndex: {{ termsIndex }}</pre>
-    <pre v-if="false">termsListing: {{ termsListing }}</pre>
-    <pre v-if="false">tagFilter: {{ tagFilter }}</pre>
-    <pre v-if="false">termFilter: {{ termFilter }}</pre>
 
-    <pre v-if="false">tags: {{ tags }}</pre>
     <div v-if="showFilters" class="filter-control-bar">
       <div class="filter-control-bar-controls">
         <div class="form-check form-switch gws-form-switch-right d-flex justify-content-end align-items-center">
@@ -436,7 +431,7 @@ onMounted(() => {
         </button>
       </div>
       <!-- REFACTORING: remove when refactored -->
-      <template v-if="false" id="former-implementation">
+      <!-- <template v-if="false" id="former-implementation">
         <pre>{{ tags }}</pre>
         <details v-for="(tagCloud, tagType) in tags" :id="'filter-card-' + tagType" :key="'filter-card-' + tagType"
           class="filter-card" @toggle="toggleDetail(tagType, $event)" :open="isFilterDetailsOpen(tagType) ? true : null">
@@ -449,9 +444,8 @@ onMounted(() => {
             </button>
           </div>
         </details>
-      </template>
+      </template> -->
       <!-- END REFACTORING: remove when refactored -->
-      <!-- REFACTOR: parallel -->
       <details v-for="(taxonomy) in Object.keys(termsListing)" :id="'filter-card-' + taxonomy" :key="'filter-card-' + taxonomy"
         class="filter-card" @toggle="toggleDetail(taxonomy, $event)" :open="isFilterDetailsOpen(taxonomy) ? true : null">
         <summary class="tag-title">{{ w[taxonomy] }}</summary>
