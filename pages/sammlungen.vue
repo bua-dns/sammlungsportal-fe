@@ -208,11 +208,12 @@ const errors = ref([]);
 
 function setQueryParams() {
   const params = {};
-  Object.keys(tagFilter.value).forEach((tagType) => {
-    if (tagFilter.value[tagType] && tagFilter.value[tagType].length > 0) {
-      params[tagType] = tagFilter.value[tagType].join(",");
-    }
-  });
+  // REFACTORING: für termFilter übernehmen!
+  // Object.keys(tagFilter.value).forEach((tagType) => {
+  //   if (tagFilter.value[tagType] && tagFilter.value[tagType].length > 0) {
+  //     params[tagType] = tagFilter.value[tagType].join(",");
+  //   }
+  // });
   if (activeCollectionId.value !== null) {
     params.activeCollectionId = activeCollectionId.value;
   }
@@ -225,35 +226,37 @@ function closeErrorDisplay() {
 
 const route = useRoute();
 onMounted(() => {
-  let hasFilter = false;
-  Object.keys(route.query).forEach((tagType) => {
-    if (tagType === "activeCollectionId") {
-      if (route.query[tagType] && getCollectionById(route.query[tagType])) {
-        setActiveCollectionId(route.query[tagType]);
-      } else {
-        errors.value.push("error_activeCollectionId");
-      }
-    } else {
-      if (!settings.tags.includes(tagType)) {
-        errors.value.push("error_tagType");
-      } else {
-        if (!tagFilter.value[tagType]) {
-          tagFilter.value[tagType] = [];
-        }
-        route.query[tagType].split(",").forEach((tag) => {
-          if (!tags.value[tagType].find((item) => item.label === tag)) {
-            errors.value.push("error_tagLabel");
-          } else {
-            hasFilter = true;
-            tagFilter.value[tagType].push(tag);
-          }
-        });
-      }
-    }
-  });
-  if (hasFilter) {
-    setFilter();
-  }
+  // REFACTORING: für termFilter-Logik übernehmen!
+  // let hasFilter = false;
+  // Object.keys(route.query).forEach((tagType) => {
+  //   if (tagType === "activeCollectionId") {
+  //     if (route.query[tagType] && getCollectionById(route.query[tagType])) {
+  //       setActiveCollectionId(route.query[tagType]);
+  //     } else {
+  //       errors.value.push("error_activeCollectionId");
+  //     }
+  //   } else {
+  //     if (!settings.tags.includes(tagType)) {
+  //       errors.value.push("error_tagType");
+  //     } else {
+  //       if (!tagFilter.value[tagType]) {
+  //         tagFilter.value[tagType] = [];
+  //       }
+  //       // REFACTORING: für termFilter übernehmen!
+  //       // route.query[tagType].split(",").forEach((tag) => {
+  //       //   if (!tags.value[tagType].find((item) => item.label === tag)) {
+  //       //     errors.value.push("error_tagLabel");
+  //       //   } else {
+  //       //     hasFilter = true;
+  //       //     tagFilter.value[tagType].push(tag);
+  //       //   }
+  //       // });
+  //     }
+  //   }
+  // });
+  // if (hasFilter) {
+  //   setFilter();
+  // }
 });
 
 </script>
@@ -336,22 +339,6 @@ onMounted(() => {
           </span>
         </button>
       </div>
-      <!-- REFACTORING: remove when refactored -->
-      <!-- <template v-if="false" id="former-implementation">
-        <pre>{{ tags }}</pre>
-        <details v-for="(tagCloud, tagType) in tags" :id="'filter-card-' + tagType" :key="'filter-card-' + tagType"
-          class="filter-card" @toggle="toggleDetail(tagType, $event)" :open="isFilterDetailsOpen(tagType) ? true : null">
-          <summary class="tag-title">{{ w[tagType] }}</summary>
-          <div class="tags">
-            <button v-for="(tag, tagIdx) in tagCloud" :key="'filter-card-' + tagType + '-' + tagIdx"
-              @click="setFilter(tagType, tag.label)" :class="'tag' + activeTag(tagType, tag.label)">
-              <span class="tag-name">{{ getTagLabelName(tag.label) }}</span>
-              <span class="tag-count">{{ tag.count }}</span>
-            </button>
-          </div>
-        </details>
-      </template> -->
-      <!-- END REFACTORING: remove when refactored -->
       <details v-for="(taxonomy) in Object.keys(termsListing)" :id="'filter-card-' + taxonomy" :key="'filter-card-' + taxonomy"
         class="filter-card" @toggle="toggleDetail(taxonomy, $event)" :open="isFilterDetailsOpen(taxonomy) ? true : null">
         <summary class="tag-title">{{ w[taxonomy] }}</summary>
@@ -374,7 +361,6 @@ onMounted(() => {
         :termsIndex="termsIndex"
         :termsListing="termsListing"
         :activeCollectionId="activeCollectionId" 
-        @set-filter="setFilter"
         @set-term-filter="setTermFilter"
         @set-active-collection-id="setActiveCollectionId" />
     </div>
