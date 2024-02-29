@@ -22,6 +22,7 @@ const router = useRouter();
 const route = useRoute();
 const theme = useState('theme');
 const w = theme.value.data.wording.de;
+const universities = theme.value.data.names.keepers;
 const settings = theme.value.data.settings;
 // REFACTOR: es müsste taxonomies heißen, nicht terms
 const terms = theme.value.data.settings.terms;
@@ -125,10 +126,24 @@ function setTermFilter(taxonomy, term) {
   scrollToResults();
 }
 
+function setCurrentKeeper(id) {
+  if (currentKeeper.value === id) {
+    currentKeeper.value = null;
+  } else {
+    currentKeeper.value = id;
+  }
+  applyCurrentKeeperFilter();
+  scrollToResults();
+}
+
+
+
 function applyCurrentKeeperFilter() {
   if (currentKeeper.value) {
+    const keeperName = universities.find((university) => university.id === currentKeeper.value).name;
     data.value.data.forEach((collection) => {
-      if (collection.current_keeper !== currentKeeper.value) {
+      // REFACTORING: auf id umstellen (hu nicht Humboldt-Universität zu Berlin)
+      if (collection.current_keeper !== keeperName) {
         collection.display = false;
       }
     });
@@ -160,6 +175,7 @@ function activeTerm(taxonomy, term) {
   }
   return "";
 }
+
 
 function applyTermFilter() {
   // update display property of collections based on termFilter
@@ -370,6 +386,17 @@ onMounted(() => {
           </span>
         </button>
       </div>
+      <details
+        class="filter-card" open="true">
+        <summary class="tag-title">{{ w['current_keeper'] }}</summary>
+        <div class="tags">
+          <button v-for="(university, index) in universities" :key="'filter-card-universities' + '-' + university.id"
+            @click="setCurrentKeeper(university.name)">
+            <span class="tag-name">{{ university.name }}</span>
+            <!-- <span class="tag-count">{{ term.count }}</span> -->
+          </button>
+        </div>
+      </details>
       <details v-for="(taxonomy) in Object.keys(termsListing)" :id="'filter-card-' + taxonomy" :key="'filter-card-' + taxonomy"
         class="filter-card" @toggle="toggleDetail(taxonomy, $event)" :open="isFilterDetailsOpen(taxonomy) ? true : null">
         <summary class="tag-title">{{ w[taxonomy] }}</summary>
