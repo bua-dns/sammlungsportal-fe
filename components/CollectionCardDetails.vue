@@ -26,7 +26,16 @@ function getTaxonomyInfo(taxonomy) {
     return term.taxonomy_terms_id.label;
   });
 }
-
+function checkIfAnyTermsExist() {
+  // WEITER: funktioniert noch nicht richtig
+  let empty = true;
+  for (const taxonomy in props.termsListing) {
+    if (props.termsListing[taxonomy].length > 0) {
+      empty = false;
+    }
+  }
+  return !empty;
+}
 function checkIfTermIsActive(taxonomy, term) {
   if (props.termFilter[taxonomy] && props.termFilter[taxonomy].includes(term)) {
     return " active";
@@ -157,25 +166,26 @@ const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
         </div>
       </div>
     </div>
-    <div class="tag-navigation-title"><strong>{{ w.tag_navigation_title }}</strong>{{ w.tag_navigation_hint }}</div>
-    <!-- DEV Output -->
-    <div class="dev-output">
-      <pre v-if="false">termFilter<br>{{ termFilter }}</pre>
-    </div>
-    <div class="tag-navigation" v-if="true">
-      <template v-for="taxonomy in Object.keys(termsListing)" :key="'collection-card-tag-' + taxonomy">
-        <div v-if="getTaxonomyName(taxonomy) && getTaxonomyName(taxonomy).length" class="tag-card">
-          <h4 class="tag-title">{{ getTaxonomyName(taxonomy) }}</h4>
-          <div class="tags">
-            <button v-for="term in getTaxonomyInfo(taxonomy)" :key="`term-${term}`"
-              :class="`tag${checkIfTermIsActive(taxonomy, term)}`" @click="$emit('setTermFilter', taxonomy, term)">
-              {{ term }}
-            </button>
+    <template v-if="checkIfAnyTermsExist()">
+      <div class="tag-navigation-title"><strong>{{ w.tag_navigation_title }}</strong>{{ w.tag_navigation_hint }}</div>
+      <!-- DEV Output -->
+      <div class="dev-output">
+        <pre v-if="false">termFilter<br>{{ termFilter }}</pre>
+      </div>
+      <div class="tag-navigation" v-if="true">
+        <template v-for="taxonomy in Object.keys(termsListing)" :key="'collection-card-tag-' + taxonomy">
+          <div v-if="getTaxonomyName(taxonomy) && getTaxonomyInfo(taxonomy).length" class="tag-card">
+            <h4 class="tag-title">{{ getTaxonomyName(taxonomy) }}</h4>
+            <div class="tags">
+              <button v-for="term in getTaxonomyInfo(taxonomy)" :key="`term-${term}`"
+                :class="`tag${checkIfTermIsActive(taxonomy, term)}`" @click="$emit('setTermFilter', taxonomy, term)">
+                {{ term }}
+              </button>
+            </div>
           </div>
-        </div>
-      </template>    
-    </div>
-    
+        </template>    
+      </div>
+    </template>
   </div>
 </template>
 <style scoped lang="scss">
