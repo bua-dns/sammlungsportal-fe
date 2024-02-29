@@ -1,7 +1,8 @@
 <template>
   <TheHeader />
   <TheNavigation />
-  <div v-if="$route.name === 'sammlungen'" class="bg-img" :style="bgStyle" v-html="backgroundImage()"></div>
+  <div v-if="$route.name === 'sammlungen'" class="bg-img" :style="bgStyle" v-html="backgroundImage('sammlungen')"></div>
+  <div v-if="$route.name === 'index'" class="bg-img" :style="bgStyle" v-html="backgroundImage('index')"></div>
   <main :class="mainClass">
     <slot />
   </main>
@@ -12,13 +13,16 @@
 let randomImage = null;
 const backgroundImages = useState('background_images');
 
-function getRandomImage() {
-  const images = backgroundImages.value.data;
+function getRandomImage(page) {
+  let images = backgroundImages.value.data;
+  if (page === 'index') {
+    images = [...images].filter(image => image.use_for_front_page === '1');
+  }
   const randomImage = images[Math.floor(Math.random() * images.length)];
   return randomImage;
 }
-function backgroundImage() {
-  randomImage = getRandomImage();
+function backgroundImage(page) {
+  randomImage = getRandomImage(page);
   if (randomImage) {
     return `<img src="https://sammlungsportal.bua-dns.de/assets/${randomImage.image}" alt="${randomImage.credits}" />`;
   } else {
@@ -53,13 +57,13 @@ const mainClass = computed(() => {
   width: 100%;
   height: 100%;
   z-index: -10;
-
+  background-color: black;
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center center;
-    opacity: .45;
+    opacity: .25;
   }
 }
 </style>
