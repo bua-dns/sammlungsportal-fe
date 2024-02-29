@@ -9,6 +9,7 @@
 </template>
 <script setup>
 // const theme = useState('theme');
+let randomImage = null;
 const backgroundImages = useState('background_images');
 
 function getRandomImage() {
@@ -16,9 +17,8 @@ function getRandomImage() {
   const randomImage = images[Math.floor(Math.random() * images.length)];
   return randomImage;
 }
-const randomImage = getRandomImage();
-
 function backgroundImage() {
+  randomImage = getRandomImage();
   if (randomImage) {
     return `<img src="https://sammlungsportal.bua-dns.de/assets/${randomImage.image}" alt="${randomImage.credits}" />`;
   } else {

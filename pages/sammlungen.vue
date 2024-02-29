@@ -66,36 +66,38 @@ function toggleFilters() {
 const termsIndex = ref({});
 const termsListing = ref({});
 
-for (let collection of data.value.data) {
-  for (let term of terms) {
-    const termProperty = collection[term];
-    if (termProperty && termProperty.length) {
-      for (let entry of termProperty) {
-        // Initialize the term index and listing if not already done
-        if (!termsIndex.value[term]) {
-          termsIndex.value[term] = {};
-          termsListing.value[term] = [];
-        }
-        const label = entry.taxonomy_terms_id.label;
-        const indexEntry = termsIndex.value[term];
-        // Update the termsIndex
-        if (!indexEntry[label]) {
-          indexEntry[label] = 1;
-          // Also add the entry to termsListing for the first occurrence
-          termsListing.value[term].push({ label: label, count: 1 });
-        } else {
-          indexEntry[label]++;
-          // Update the count in termsListing
-          const listingEntry = termsListing.value[term].find(entry => entry.label === label);
-          if (listingEntry) {
-            listingEntry.count = indexEntry[label];
+function setupTermListing() {
+  for (let collection of data.value.data) {
+    for (let term of terms) {
+      const termProperty = collection[term];
+      if (termProperty && termProperty.length) {
+        for (let entry of termProperty) {
+          // Initialize the term index and listing if not already done
+          if (!termsIndex.value[term]) {
+            termsIndex.value[term] = {};
+            termsListing.value[term] = [];
+          }
+          const label = entry.taxonomy_terms_id.label;
+          const indexEntry = termsIndex.value[term];
+          // Update the termsIndex
+          if (!indexEntry[label]) {
+            indexEntry[label] = 1;
+            // Also add the entry to termsListing for the first occurrence
+            termsListing.value[term].push({ label: label, count: 1 });
+          } else {
+            indexEntry[label]++;
+            // Update the count in termsListing
+            const listingEntry = termsListing.value[term].find(entry => entry.label === label);
+            if (listingEntry) {
+              listingEntry.count = indexEntry[label];
+            }
           }
         }
       }
     }
   }
 }
-
+setupTermListing();
 // Sort the termsListing for each taxonomy
 for (let taxonomy in termsListing.value) {
   termsListing.value[taxonomy].sort((a, b) => a.label.localeCompare(b.label));
@@ -119,6 +121,29 @@ function setTermFilter(taxonomy, term) {
   } else {
     termFilter.value[taxonomy].push(term);
   }
+  applyTermFilter();
+  scrollToResults();
+}
+
+function applyCurrentKeeperFilter() {
+  if (currentKeeper.value) {
+    data.value.data.forEach((collection) => {
+      if (collection.current_keeper !== currentKeeper.value) {
+        collection.display = false;
+      }
+    });
+  }
+}
+
+// for highlighting active terms
+function activeTerm(taxonomy, term) {
+  if (termFilter.value[taxonomy] && termFilter.value[taxonomy].includes(term)) {
+    return " active";
+  }
+  return "";
+}
+
+function applyTermFilter() {
   // update display property of collections based on termFilter
   for (let collection of data.value.data) {
     collection.display = true;
@@ -136,18 +161,7 @@ function setTermFilter(taxonomy, term) {
       }
     }
   }
-  scrollToResults();
 }
-
-// for highlighting active terms
-function activeTerm(taxonomy, term) {
-  if (termFilter.value[taxonomy] && termFilter.value[taxonomy].includes(term)) {
-    return " active";
-  }
-  return "";
-}
-
-
 
 // function hasTagTypeActiveTag(type) {
 //   if (tagFilter.value[type] && tagFilter.value[type].length > 0) {
@@ -234,7 +248,7 @@ function closeErrorDisplay() {
 onMounted(() => {
   // NEUANSATZ:
 
-
+  applyCurrentKeeperFilter();
   // REFACTORING: für termFilter-Logik übernehmen!
   // let hasFilter = false;
   // Object.keys(route.query).forEach((tagType) => {
