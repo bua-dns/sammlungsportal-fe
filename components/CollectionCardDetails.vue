@@ -68,7 +68,8 @@ const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
     <div class="card-cols">
       <div class="card-col">
         <div v-if="collection.description" class="card-description" v-html="convertLineBreaks(collection.description)"></div>
-        <dl v-if="collection.used_in_activity && collection.used_in_activity.length > 0" style="margin-top: 1rem;">
+        <!-- WORK IN PROGRESS: prov. switched of by v-if="false" -->
+        <dl v-if="false && collection.used_in_activity && collection.used_in_activity.length > 0" style="margin-top: 1rem;">
           <dt>{{ w.used_in_activity }}</dt>
           <dd>
             <ul>
