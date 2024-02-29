@@ -27,10 +27,10 @@ function getTaxonomyInfo(taxonomy) {
   });
 }
 function checkIfAnyTermsExist() {
-  // WEITER: funktioniert noch nicht richtig
   let empty = true;
-  for (const taxonomy in props.termsListing) {
-    if (props.termsListing[taxonomy].length > 0) {
+  const taxonomies = Object.keys(props.termsListing);
+  for (const taxonomy of taxonomies) {
+    if (props.collection[taxonomy].length > 0) {
       empty = false;
     }
   }
@@ -43,18 +43,8 @@ function checkIfTermIsActive(taxonomy, term) {
   return "";
 }
 
-function activeTag(type, tag) {
-  if (props.tagFilter[type] && props.tagFilter[type].includes(tag)) {
-    return " active";
-  }
-  return "";
-}
 function getTaxonomyName(taxonomy) {
   return taxonomies[taxonomy] ? taxonomies[taxonomy] : taxonomy;
-}
-
-function getTagLabelName(tag) {
-  return tagNames[tag] ? tagNames[tag] : tag;
 }
 
 const showLightbox = ref(false);
@@ -170,7 +160,7 @@ const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
       <div class="tag-navigation-title"><strong>{{ w.tag_navigation_title }}</strong>{{ w.tag_navigation_hint }}</div>
       <!-- DEV Output -->
       <div class="dev-output">
-        <pre v-if="false">termFilter<br>{{ termFilter }}</pre>
+
       </div>
       <div class="tag-navigation" v-if="true">
         <template v-for="taxonomy in Object.keys(termsListing)" :key="'collection-card-tag-' + taxonomy">
