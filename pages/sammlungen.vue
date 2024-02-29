@@ -19,6 +19,7 @@ const { data } = await useFetch('https://sammlungsportal.bua-dns.de/items/bua_co
   },
 });
 const router = useRouter();
+const route = useRoute();
 const theme = useState('theme');
 const w = theme.value.data.wording.de;
 const settings = theme.value.data.settings;
@@ -148,23 +149,24 @@ function activeTerm(taxonomy, term) {
 
 
 
-function hasTagTypeActiveTag(type) {
-  if (tagFilter.value[type] && tagFilter.value[type].length > 0) {
-    return true;
-  }
-  return false;
-}
+// function hasTagTypeActiveTag(type) {
+//   if (tagFilter.value[type] && tagFilter.value[type].length > 0) {
+//     return true;
+//   }
+//   return false;
+// }
 
 const filterDetails = ref({});
+// REFACTORING: Trotz Null-Funktionalität funktioniert noch alles -> kann entfernt werden?
 function isFilterDetailsOpen(type) {
-  if (type === 'current_keeper' || hasTagTypeActiveTag(type) || filterDetails.value[type]) {
-    return true;
-  }
-  return false;
+  // if (type === 'current_keeper' || hasTagTypeActiveTag(type) || filterDetails.value[type]) {
+  //   return true;
+  // }
+  // return false;
 }
-
+// REFACTORING: Trotz Null-Funktionalität funktioniert noch alles -> kann entfernt werden?
 function toggleDetail(type, { target }) {
-  filterDetails.value[type] = target.open;
+  // filterDetails.value[type] = target.open;
 }
 // REFACTORING: noch auf neue Datenstruktur anpassen
 // WEITER
@@ -187,8 +189,9 @@ function scrollToResults(always = false) {
     }, 100);
   }
 }
+const currentKeeper = ref(route.query.current_keeper);
 
-const activeCollectionId = ref(null);
+const activeCollectionId = ref(route.query.activeCollectionId);
 function setActiveCollectionId(id) {
   activeCollectionId.value = id;
   setQueryParams();
@@ -214,6 +217,8 @@ function setQueryParams() {
   //     params[tagType] = tagFilter.value[tagType].join(",");
   //   }
   // });
+  // RECONSIDER: soll die Auswahl des current_keeper bei Filterungen erhalten bleiben?
+  delete params.current_keeper;
   if (activeCollectionId.value !== null) {
     params.activeCollectionId = activeCollectionId.value;
   }
@@ -224,8 +229,12 @@ function closeErrorDisplay() {
   errors.value = [];
 }
 
-const route = useRoute();
+
+
 onMounted(() => {
+  // NEUANSATZ:
+
+
   // REFACTORING: für termFilter-Logik übernehmen!
   // let hasFilter = false;
   // Object.keys(route.query).forEach((tagType) => {
@@ -266,6 +275,10 @@ onMounted(() => {
   </Head>
   <div class="grid-control-bar" id="grid-control-bar">
     <div class="basic-controls">
+      <div class="dev-output">
+        <pre v-if="true">activeCollectionId: <br>{{ activeCollectionId }}</pre>
+        <pre v-if="true">currentKeeper: <br>{{ currentKeeper }}</pre>
+      </div>
       <div class="collections-counter">{{ w.num_collections }}: {{ data.meta.total_count }}</div>
       <div class="sort-controls">
         <div class="gws-input-group">
