@@ -134,6 +134,24 @@ function applyCurrentKeeperFilter() {
     });
   }
 }
+function getCurrentKeeperDisplay() {
+  if (currentKeeper.value) {
+    return currentKeeper.value;
+  }
+  return w.all_keepers;
+}
+function getFilterTermsDisplay() {
+  let display = "";
+  for (let taxonomy in termFilter.value) {
+    if (termFilter.value[taxonomy].length > 0) {
+      let termList = termFilter.value[taxonomy];
+      display += `<span><strong>${w[taxonomy]}</strong>: `;
+      display += termList.join(", ");
+      display += "</span>";
+    }
+  }
+  return display;
+}
 
 // for highlighting active terms
 function activeTerm(taxonomy, term) {
@@ -378,6 +396,11 @@ onMounted(() => {
         @set-active-collection-id="setActiveCollectionId" />
     </div>
   </div>
+  <div class="grid-control-bar filter-state">
+    <div class="display-element"><strong>Sammlungen von:</strong> {{ getCurrentKeeperDisplay()}}</div>
+    <div class="display-element" v-html="getFilterTermsDisplay()" />
+  </div>
+    
   <div class="collections_display" id="collections_display">
     <div v-if="errors.length > 0" class="url_errors_wrapper">
       <div class="url_errors">
@@ -452,6 +475,13 @@ onMounted(() => {
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #fff;
+  &.filter-state {
+    margin-top: 1rem;
+    .display-element {
+      display: flex;
+      gap: .75rem;
+    }
+  }
 }
 
 .basic-controls {
