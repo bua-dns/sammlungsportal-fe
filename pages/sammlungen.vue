@@ -330,20 +330,6 @@ onMounted(() => {
             </span>
           </button>
         </div>
-        <div class="grid-controls gws-group-element">
-          <button class="gws-btn btn-switch" @click="toggleCardType">
-            <span v-if="cardType == 'list'" :title="w.change_to_grid_view">
-              <svg class="icon" width="16" height="16" fill="currentColor">
-                <use xlink:href="@/assets/img/bootstrap-icons.svg#grid"></use>
-              </svg>
-            </span>
-            <span v-if="cardType == 'grid'" :title="w.change_to_list_view">
-              <svg class="icon" width="16" height="16" fill="currentColor">
-                <use xlink:href="@/assets/img/bootstrap-icons.svg#view-list"></use>
-              </svg>
-            </span>
-          </button>
-        </div>
       </div>
     </div>
     <!-- DEV outputs for inspection -->
@@ -409,11 +395,6 @@ onMounted(() => {
           </li>
         </ul>
       </div>
-    </div>
-    <div v-if="cardType == 'list'" class="collection_cards_wrapper">
-      <CollectionCardDetails v-for="collection in sortedData" :key="collection.id" :collection="collection" :tagFilter="tagFilter"
-        :activeCollectionId="activeCollectionId" @set-filter="setFilter"
-        @set-active-collection-id="setActiveCollectionId" />
     </div>
     <div v-if="cardType == 'grid'" class="collection_cards_wrapper card-grid">
       <CollectionCardGrid v-for="collection in sortedData" :key="collection.id" :collection="collection"
