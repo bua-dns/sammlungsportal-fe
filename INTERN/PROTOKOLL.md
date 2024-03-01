@@ -2,10 +2,6 @@
 
 ## ToDos
 
-- Auswahl nach current_keeper wieder funktionsfähig machen
-  - verstehen, wie der ursprünglich implementierte Filter funktionierte
-  - an neue Strutur anpassen
-
 - Hintergrundgestaltung auf der Startseite analog zu Sammlungen-Seite
 - die Taxonomien/Terms in der URL spiegeln
 
@@ -19,4 +15,10 @@
 - Hintergrundgestaltung der verschiedenen Website-Bereiche inhaltlich sinnvoll differenzieren
 
 ## Notizen und Erkenntnisse
+
+
+
+## Bug Analyse
+
+
 
