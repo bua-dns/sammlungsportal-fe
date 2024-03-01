@@ -127,31 +127,34 @@ function setTermFilter(taxonomy, term) {
 }
 
 function setCurrentKeeper(id) {
+  let keeperName = null;
+  currentKeeper.value = null;
   if (currentKeeper.value === id) {
     currentKeeper.value = null;
   } else {
     currentKeeper.value = id;
   }
-  applyCurrentKeeperFilter();
+  route.params.current_keeper = currentKeeper.value;
+  router.push({ query: route.params });
+  keeperName = universities.find((university) => university.id === currentKeeper.value)
+    ? universities.find((university) => university.id === currentKeeper.value).name
+    : null
+  console.log('setCurrentKeeper', keeperName, currentKeeper.value);
+  data.value.data.forEach((collection) => {
+    if (collection.current_keeper === keeperName) {
+        collection.display = true;
+    } else {
+        collection.display = false;
+    }
+ });
   scrollToResults();
 }
 
-
-
-function applyCurrentKeeperFilter() {
-  if (currentKeeper.value) {
-    const keeperName = universities.find((university) => university.id === currentKeeper.value).name;
-    data.value.data.forEach((collection) => {
-      // REFACTORING: auf id umstellen (hu nicht Humboldt-Universität zu Berlin)
-      if (collection.current_keeper !== keeperName) {
-        collection.display = false;
-      }
-    });
-  }
-}
 function getCurrentKeeperDisplay() {
   if (currentKeeper.value) {
-    return currentKeeper.value;
+    return universities.find((university) => university.id === currentKeeper.value)
+      ? universities.find((university) => university.id === currentKeeper.value).name
+      : w.all_keepers;
   }
   return w.all_keepers;
 }
@@ -175,8 +178,12 @@ function activeTerm(taxonomy, term) {
   }
   return "";
 }
-
-
+function activecurrentKeeper(id) {
+  if (currentKeeper.value === id) {
+    return " active";
+  }
+  return "";
+}
 function applyTermFilter() {
   // update display property of collections based on termFilter
   for (let collection of data.value.data) {
@@ -281,8 +288,8 @@ function closeErrorDisplay() {
 
 onMounted(() => {
   // NEUANSATZ:
-
-  applyCurrentKeeperFilter();
+  setCurrentKeeper(route.query.current_keeper);
+  // applyCurrentKeeperFilter();
   // REFACTORING: für termFilter-Logik übernehmen!
   // let hasFilter = false;
   // Object.keys(route.query).forEach((tagType) => {
@@ -391,7 +398,7 @@ onMounted(() => {
         <summary class="tag-title">{{ w['current_keeper'] }}</summary>
         <div class="tags">
           <button v-for="(university, index) in universities" :key="'filter-card-universities' + '-' + university.id"
-            @click="setCurrentKeeper(university.name)">
+            @click="setCurrentKeeper(university.id)" :class="'tag' + activecurrentKeeper(university.id)">
             <span class="tag-name">{{ university.name }}</span>
             <!-- <span class="tag-count">{{ term.count }}</span> -->
           </button>

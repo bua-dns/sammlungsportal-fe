@@ -2,6 +2,7 @@
 
 ## ToDos
 
+- Umgang mit Aufheben des Universitätsfilters bei der Anwendung inhaltlicher Filter entscheiden und umsetzen.
 - Hintergrundgestaltung auf der Startseite analog zu Sammlungen-Seite
 - die Taxonomien/Terms in der URL spiegeln
 
