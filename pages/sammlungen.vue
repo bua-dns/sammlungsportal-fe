@@ -122,7 +122,23 @@ function setTermFilter(taxonomy, term) {
   } else {
     termFilter.value[taxonomy].push(term);
   }
-  applyTermFilter();
+  setQueryParams();
+  for (let collection of data.value.data) {
+    collection.display = true;
+    for (let taxonomy in termFilter.value) {
+      if (termFilter.value[taxonomy].length > 0) {
+        let found = false;
+        collection[taxonomy].forEach((item) => {
+          if (termFilter.value[taxonomy].includes(item.taxonomy_terms_id.label)) {
+            found = true;
+          }
+        });
+        if (!found) {
+          collection.display = false;
+        }
+      }
+    }
+  }
   scrollToResults();
 }
 
@@ -139,9 +155,8 @@ function setCurrentKeeper(id) {
   keeperName = universities.find((university) => university.id === currentKeeper.value)
     ? universities.find((university) => university.id === currentKeeper.value).name
     : null
-  console.log('setCurrentKeeper', keeperName, currentKeeper.value);
   data.value.data.forEach((collection) => {
-    if (collection.current_keeper === keeperName) {
+    if (collection.current_keeper === keeperName || currentKeeper.value === "bua") {
         collection.display = true;
     } else {
         collection.display = false;
@@ -164,7 +179,7 @@ function getFilterTermsDisplay() {
     if (termFilter.value[taxonomy].length > 0) {
       let termList = termFilter.value[taxonomy];
       display += `<span><strong>${w[taxonomy]}</strong>: `;
-      display += termList.join(", ");
+      display += termList.join(" + ");
       display += "</span>";
     }
   }
@@ -183,25 +198,6 @@ function activecurrentKeeper(id) {
     return " active";
   }
   return "";
-}
-function applyTermFilter() {
-  // update display property of collections based on termFilter
-  for (let collection of data.value.data) {
-    collection.display = true;
-    for (let taxonomy in termFilter.value) {
-      if (termFilter.value[taxonomy].length > 0) {
-        let found = false;
-        collection[taxonomy].forEach((item) => {
-          if (termFilter.value[taxonomy].includes(item.taxonomy_terms_id.label)) {
-            found = true;
-          }
-        });
-        if (!found) {
-          collection.display = false;
-        }
-      }
-    }
-  }
 }
 
 // function hasTagTypeActiveTag(type) {
@@ -273,6 +269,13 @@ function setQueryParams() {
   //   }
   // });
   // RECONSIDER: soll die Auswahl des current_keeper bei Filterungen erhalten bleiben?
+  if(termFilter.value) {
+    for (let taxonomy in termFilter.value) {
+      if (termFilter.value[taxonomy].length > 0) {
+        params[taxonomy] = termFilter.value[taxonomy].join("|");
+      }
+    }
+  }
   delete params.current_keeper;
   if (activeCollectionId.value !== null) {
     params.activeCollectionId = activeCollectionId.value;
@@ -289,6 +292,18 @@ function closeErrorDisplay() {
 onMounted(() => {
   // NEUANSATZ:
   setCurrentKeeper(route.query.current_keeper);
+  // DEV: taxonomy/term-Auswahl aus URL-Parametern zum Filtern verwenden
+  for (let taxonomy of terms) {
+    console.log('component config: taxonomy in terms', taxonomy);
+    route.query[taxonomy]
+      ? route.query[taxonomy].split("|")
+        .forEach((term) => {
+          setTermFilter(taxonomy, term);
+        })
+      : null;
+  } 
+
+
   // applyCurrentKeeperFilter();
   // REFACTORING: für termFilter-Logik übernehmen!
   // let hasFilter = false;
