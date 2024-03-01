@@ -1,13 +1,11 @@
 <script setup>
 const collectionsFetchFields = [
-  '*.*', // get all fields - dev only
   'id', 'label', 'spws_id', 'current_keeper', 'description', 'used_in_activity', 'address', 'address.*',
   'collection_images.directus_files_id.*.*',
   'dns_taxonomy_subjects.taxonomy_terms_id.id',
   'dns_taxonomy_subjects.taxonomy_terms_id.label',
   'dns_taxonomy_genre.taxonomy_terms_id.id',
   'dns_taxonomy_genre.taxonomy_terms_id.label',
-  
 ]
 
 const { data } = await useFetch('https://sammlungsportal.bua-dns.de/items/bua_collections', {
@@ -105,7 +103,6 @@ for (let taxonomy in termsListing.value) {
 }
 
 const tagFilter = ref({});
-// REFACTORED: setFilter anpassen auf neuen Datenstruktur
 
 const termFilter = ref({});
 
@@ -116,13 +113,11 @@ function setTermFilter(taxonomy, term) {
   if (!termFilter.value[taxonomy]) {
     termFilter.value[taxonomy] = [];
   }
-  // toggle term (add or remove when already present)
   if (termFilter.value[taxonomy].includes(term)) {
     termFilter.value[taxonomy] = termFilter.value[taxonomy].filter((item) => item !== term);
   } else {
     termFilter.value[taxonomy].push(term);
   }
-  setQueryParams();
   for (let collection of data.value.data) {
     collection.display = true;
     for (let taxonomy in termFilter.value) {
@@ -139,6 +134,7 @@ function setTermFilter(taxonomy, term) {
       }
     }
   }
+  setQueryParams();
   scrollToResults();
 }
 
@@ -200,13 +196,6 @@ function activecurrentKeeper(id) {
   return "";
 }
 
-// function hasTagTypeActiveTag(type) {
-//   if (tagFilter.value[type] && tagFilter.value[type].length > 0) {
-//     return true;
-//   }
-//   return false;
-// }
-
 const filterDetails = ref({});
 // REFACTORING: Trotz Null-Funktionalität funktioniert noch alles -> kann entfernt werden?
 function isFilterDetailsOpen(type) {
@@ -219,8 +208,7 @@ function isFilterDetailsOpen(type) {
 function toggleDetail(type, { target }) {
   // filterDetails.value[type] = target.open;
 }
-// REFACTORING: noch auf neue Datenstruktur anpassen
-// WEITER
+
 
 function resetFilters() {
   termFilter.value = {};
@@ -262,13 +250,7 @@ const errors = ref([]);
 
 function setQueryParams() {
   const params = {};
-  // REFACTORING: für termFilter übernehmen!
-  // Object.keys(tagFilter.value).forEach((tagType) => {
-  //   if (tagFilter.value[tagType] && tagFilter.value[tagType].length > 0) {
-  //     params[tagType] = tagFilter.value[tagType].join(",");
-  //   }
-  // });
-  // RECONSIDER: soll die Auswahl des current_keeper bei Filterungen erhalten bleiben?
+
   if(termFilter.value) {
     for (let taxonomy in termFilter.value) {
       if (termFilter.value[taxonomy].length > 0) {
@@ -287,14 +269,9 @@ function closeErrorDisplay() {
   errors.value = [];
 }
 
-
-
 onMounted(() => {
-  // NEUANSATZ:
   setCurrentKeeper(route.query.current_keeper);
-  // DEV: taxonomy/term-Auswahl aus URL-Parametern zum Filtern verwenden
   for (let taxonomy of terms) {
-    console.log('component config: taxonomy in terms', taxonomy);
     route.query[taxonomy]
       ? route.query[taxonomy].split("|")
         .forEach((term) => {
@@ -302,40 +279,6 @@ onMounted(() => {
         })
       : null;
   } 
-
-
-  // applyCurrentKeeperFilter();
-  // REFACTORING: für termFilter-Logik übernehmen!
-  // let hasFilter = false;
-  // Object.keys(route.query).forEach((tagType) => {
-  //   if (tagType === "activeCollectionId") {
-  //     if (route.query[tagType] && getCollectionById(route.query[tagType])) {
-  //       setActiveCollectionId(route.query[tagType]);
-  //     } else {
-  //       errors.value.push("error_activeCollectionId");
-  //     }
-  //   } else {
-  //     if (!settings.tags.includes(tagType)) {
-  //       errors.value.push("error_tagType");
-  //     } else {
-  //       if (!tagFilter.value[tagType]) {
-  //         tagFilter.value[tagType] = [];
-  //       }
-  //       // REFACTORING: für termFilter übernehmen!
-  //       // route.query[tagType].split(",").forEach((tag) => {
-  //       //   if (!tags.value[tagType].find((item) => item.label === tag)) {
-  //       //     errors.value.push("error_tagLabel");
-  //       //   } else {
-  //       //     hasFilter = true;
-  //       //     tagFilter.value[tagType].push(tag);
-  //       //   }
-  //       // });
-  //     }
-  //   }
-  // });
-  // if (hasFilter) {
-  //   setFilter();
-  // }
 });
 
 </script>
