@@ -1,48 +1,50 @@
 <script setup>
-const props = defineProps(['entry', 'tagFilter', 'activeCollectionId']);
-defineEmits(['setFilter', 'setActiveCollectionId']);
+const props = defineProps(['collection', 'termFilter', 'activeCollectionId']);
+defineEmits(['setTermFilter', 'setActiveCollectionId']);
 const theme = useState('theme');
 const w = theme.value.data.wording.de;
-const tagTypes = theme.value.data.settings.tags;
-const tagNames = theme.value.data.names.tags;
+// const tagTypes = theme.value.data.settings.tags;
+const taxonomies = theme.value.data.settings.taxonomies;
 
-function activeTag(type, tag) {
-  if (props.tagFilter[type] && props.tagFilter[type].includes(tag)) {
+function activeTerm(taxonomy, term) {
+  if (props.termFilter[taxonomy] && props.termFilter[taxonomy].includes(term)) {
     return " active";
   }
   return "";
 }
 
-function getTagLabelName(tag) {
-  return tagNames[tag] ? tagNames[tag] : tag;
-}
+// const tagNames = theme.value.data.names.tags;
+// function getTagLabelName(tag) {
+//   return tagNames[tag] ? tagNames[tag] : tag;
+// }
 
 const showLightbox = ref(false);
 const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
 
 </script>
 <template>
-  <div v-if="entry.display" :class="entry.id === activeCollectionId ? 'card active-collection' : 'card'"
-    :id="'collection-' + entry.id">
-    <div v-if="entry.id === activeCollectionId" @click="$emit('setActiveCollectionId', null)" :title="w.deselect"
+  <div v-if="collection.display" :class="collection.id === activeCollectionId ? 'card active-collection' : 'card'"
+    :id="'collection-' + collection.id">
+    <div v-if="collection.id === activeCollectionId" @click="$emit('setActiveCollectionId', null)" :title="w.deselect"
       class="card-deselect"></div>
-    <div class="card-keeper" :style="getUniMarkerColors(entry.current_keeper, 'border-bottom-color')"
-      v-if="entry.current_keeper">
-      <span class="gws_uni_marker" :style="getUniMarkerColors(entry.current_keeper, 'background-color')"></span>
-      {{ entry.current_keeper }}
+    <div class="card-keeper" :style="getUniMarkerColors(collection.current_keeper, 'border-bottom-color')"
+      v-if="collection.current_keeper">
+      <span class="gws_uni_marker" :style="getUniMarkerColors(collection.current_keeper, 'background-color')"></span>
+      {{ collection.current_keeper }}
     </div>
-    <div class="card-label" v-if="entry.label">
-      <strong>{{ entry.label }}</strong>
+    <div class="card-label" v-if="collection.label">
+      <strong>{{ collection.label }}</strong>
     </div>
     <div class="card-cols">
       <div class="card-col">
-        <div v-if="entry.description" class="card-description" v-html="convertLineBreaks(entry.description)"></div>
-        <dl v-if="entry.used_in_activity && entry.used_in_activity.length > 0" style="margin-top: 1rem;">
+        <div v-if="collection.description" class="card-description" v-html="convertLineBreaks(collection.description)">
+        </div>
+        <dl v-if="collection.used_in_activity && collection.used_in_activity.length > 0" style="margin-top: 1rem;">
           <dt>{{ w.used_in_activity }}</dt>
           <dd>
             <ul>
-              <li v-for="used_in_activity in entry.used_in_activity"
-                :key="'used_in_activity_' + entry.id + '_' + used_in_activity.id">
+              <li v-for="used_in_activity in collection.used_in_activity"
+                :key="'used_in_activity_' + collection.id + '_' + used_in_activity.id">
                 {{ used_in_activity.label }}
               </li>
             </ul>
@@ -51,43 +53,43 @@ const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
       </div>
       <div class="card-col">
         <dl>
-          <template v-if="entry.address && entry.address.length > 0">
+          <template v-if="collection.address && collection.address.length > 0">
             <dt>
               <svg class="icon-inline me-1" width="16" height="16" fill="currentColor">
                 <use xlink:href="@/assets/img/bootstrap-icons.svg#buildings"></use>
               </svg>
               {{ w.address }}
             </dt>
-            <dd v-for="(address, idx) in entry.address" :key="'address_' + entry.id + '_' + idx">
+            <dd v-for="(address, idx) in collection.address" :key="'address_' + collection.id + '_' + idx">
               <span v-html="convertLineBreaks(address.address_data)"></span><br>
               {{ address.postal_code }} {{ address.city }}
             </dd>
           </template>
-          <template v-if="entry.phone">
+          <template v-if="collection.phone">
             <dt>{{ w.phone }}</dt>
             <dd>
-              <a :href="'tel:' + stripEntry(entry.phone)">{{ stripEntry(entry.phone) }}</a>
+              <a :href="'tel:' + stripEntry(collection.phone)">{{ stripEntry(collection.phone) }}</a>
             </dd>
           </template>
-          <template v-if="entry.email">
+          <template v-if="collection.email">
             <dt>
               <svg class="icon-inline me-1" width="16" height="16" fill="currentColor">
                 <use xlink:href="@/assets/img/bootstrap-icons.svg#envelope"></use>
               </svg>
               {{ w.email }}
             </dt>
-            <dd><a :href="'mailto:' + stripEntry(entry.email)">{{ stripEntry(entry.email) }}</a></dd>
+            <dd><a :href="'mailto:' + stripEntry(collection.email)">{{ stripEntry(collection.email) }}</a></dd>
           </template>
-          <template v-if="entry.opening_hours">
+          <template v-if="collection.opening_hours">
             <dt>
               <svg class="icon-inline me-1" width="16" height="16" fill="currentColor">
                 <use xlink:href="@/assets/img/bootstrap-icons.svg#clock"></use>
               </svg>
               {{ w.opening_hours }}
             </dt>
-            <dd v-html="convertLineBreaks(entry.opening_hours)"></dd>
+            <dd v-html="convertLineBreaks(collection.opening_hours)"></dd>
           </template>
-          <template v-if="entry.homepage">
+          <template v-if="collection.homepage">
             <dt>
               <svg class="icon-inline me-1" width="16" height="16" fill="currentColor">
                 <use xlink:href="@/assets/img/bootstrap-icons.svg#house"></use>
@@ -95,12 +97,12 @@ const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
               {{ w.homepage }}
             </dt>
             <dd>
-              <a :href="entry.homepage" :title="entry.homepage" target="_blank" rel="noopener">
-                {{ stripUrl(entry.homepage) }}
+              <a :href="collection.homepage" :title="collection.homepage" target="_blank" rel="noopener">
+                {{ stripUrl(collection.homepage) }}
               </a>
             </dd>
           </template>
-          <template v-if="entry.collection_portal && entry.collection_portal.length > 0">
+          <template v-if="collection.collection_portal && collection.collection_portal.length > 0">
             <dt>
               <svg class="icon-inline me-1" width="16" height="16" fill="currentColor">
                 <use xlink:href="@/assets/img/bootstrap-icons.svg#record-circle"></use>
@@ -109,34 +111,37 @@ const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
             </dt>
             <dd>
               <ul>
-                <li v-for="(portal, idx) in entry.collection_portal" :key="'portal_' + entry.id + '_' + idx">
+                <li v-for="(portal, idx) in collection.collection_portal" :key="'portal_' + collection.id + '_' + idx">
                   <a :href="portal.url" target="_blank" rel="noopener">{{ portal.name }}</a>
                 </li>
               </ul>
             </dd>
           </template>
         </dl>
-        <div v-if="entry.collection_image_main" class="card-img-container">
-          <img @click="showLightbox = true" :src="imageBasePath + entry.collection_image_main + '?key=240x240'" alt="">
+        <div v-if="collection.collection_image_main" class="card-img-container">
+          <img @click="showLightbox = true" :src="imageBasePath + collection.collection_image_main + '?key=240x240'"
+            alt="">
           <Teleport to="body">
-            <LightBox v-if="showLightbox" :imageBasePath="imageBasePath" :images="entry.collection_images"
+            <LightBox v-if="showLightbox" :imageBasePath="imageBasePath" :images="collection.collection_images"
               @close="showLightbox = false" />
           </Teleport>
-          <!-- {{ entry.collection_images }} -->
+          <!-- {{ collection.collection_images }} -->
         </div>
       </div>
     </div>
     <div class="tag-navigation-title"><strong>{{ w.tag_navigation_title }}</strong>{{ w.tag_navigation_hint }}</div>
     <div class="tag-navigation">
-      <!-- <pre>{{ tagTypes }}</pre> -->
-      <!-- <pre>{{ entry }}</pre> -->
-      <template v-for="tagType in tagTypes" :key="'collection-card-tag-' + tagType">
-        <div v-if="entry[tagType] && entry[tagType].length > 0 && tagType !== 'current_keeper'" class="tag-card">
-          <h4 class="tag-title">{{ w[tagType] }}</h4>
+      <!-- <pre>{{ taxonomies }}</pre> -->
+      <!-- <pre>{{ collection }}</pre> -->
+      <template v-for="taxonomy in taxonomies" :key="'collection-card-taxonomy-' + taxonomy">
+        <div v-if="collection[taxonomy] && collection[taxonomy].length > 0 && taxonomy !== 'current_keeper'"
+          class="tag-card">
+          <h4 class="tag-title">{{ w[taxonomy] }}</h4>
           <div class="tags">
-            <button v-for="(tag, idx) in entry[tagType]" :key="'tag_' + entry.id + '_' + idx"
-              :class="'tag' + activeTag(tagType, tag.label)" @click="$emit('setFilter', tagType, tag.label)">
-              {{ getTagLabelName(tag.label) }}
+            <button v-for="(term, idx) in collection[taxonomy]" :key="'term-' + collection.id + '_' + idx"
+              :class="'tag' + activeTerm(taxonomy, term.taxonomy_terms_id.label)"
+              @click="$emit('setTermFilter', taxonomy, term.taxonomy_terms_id.label)">
+              {{ term.taxonomy_terms_id.label }}
             </button>
           </div>
         </div>
