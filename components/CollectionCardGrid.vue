@@ -1,21 +1,21 @@
 <script setup>
-defineProps(['entry']);
+defineProps(['collection']);
 defineEmits(['setActiveCollectionId']);
 const theme = useState('theme');
 const w = theme.value.data.wording.de;
 </script>
 <template>
-  <div v-if="entry.display" @click="$emit('setActiveCollectionId', entry.id)" class="card">
-    <div class="card-keeper" :style="getUniMarkerColors(entry.current_keeper, 'border-bottom-color')"
-      v-if="entry.current_keeper">
-      <span class="gws_uni_marker" :style="getUniMarkerColors(entry.current_keeper, 'background-color')"></span>
-      {{ entry.current_keeper }}
+  <div v-if="collection.display" @click="$emit('setActiveCollectionId', collection.id)" class="card">
+    <div class="card-keeper" :style="getUniMarkerColors(collection.current_keeper, 'border-bottom-color')"
+      v-if="collection.current_keeper">
+      <span class="gws_uni_marker" :style="getUniMarkerColors(collection.current_keeper, 'background-color')"></span>
+      {{ collection.current_keeper }}
     </div>
-    <div class="card-label" v-if="entry.label">
-      <strong>{{ entry.label }}</strong>
+    <div class="card-label" v-if="collection.label">
+      <strong>{{ collection.label }}</strong>
     </div>
-    <div class="card-sm-description" v-if="entry.description"
-      v-html="truncateText(convertLineBreaks(entry.description), 240)">
+    <div class="card-sm-description" v-if="collection.description"
+      v-html="truncateText(convertLineBreaks(collection.description), 240)">
     </div>
   </div>
 </template>
