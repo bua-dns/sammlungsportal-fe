@@ -1,18 +1,83 @@
 <script setup>
+// INIT          ---------------------------------------------------------------
+
+/**
+ * The collectionsFetchFields constant declares an array and initializes it with the fields to be fetched from the API.
+ *
+ * Not used FIELDS for the time being:
+ * status, sort, date_created, date_updated, spws_id,
+ * collection_type, role, subject, genre, academic_teaching, special_form,
+ * living_being, has_collection_concept, has_usage_regulation
+ *
+ */
+const collectionsFetchFields = [
+  'id, label, current_keeper, opening_hours, phone, email, description, homepage',
+  'collection_portal, address, other_web_resource, used_in_activity',
+  'active_collection, collection_image_main',
+  'collection_images.directus_files_id.filename_disk',
+  'dns_taxonomy_subjects.taxonomy_terms_id.label',
+  'dns_taxonomy_genre.taxonomy_terms_id.label',
+];
+
+/**
+ * The 'data' reference is used to store the data collections and the meta data.
+ */
 const { data } = await useFetch('https://sammlungsportal.bua-dns.de/items/bua_collections', {
   query: {
-    fields: '*.directus_files_id.*.*',
+    fields: collectionsFetchFields.join(','),
     limit: -1,
     sort: 'label',
     meta: 'total_count',
   },
 });
+
+/**
+ * The useRouter function returns the router instance.
+ */
 const router = useRouter();
+
+/**
+ * The useRoute function returns the route instance.
+ */
+const route = useRoute();
+
+/**
+ * The useState function returns a reactive reference.
+ * The 'theme' reference holds the theme data.
+ */
 const theme = useState('theme');
+
+/**
+ * The w constant holds the wording data.
+ */
 const w = theme.value.data.wording.de;
+
+/**
+ * The settings constant holds the settings data.
+ */
 const settings = theme.value.data.settings;
-const tagNames = theme.value.data.names.tags;
+
+/**
+ * Set all collections to be visible initially.
+ */
+data.value.data.forEach((collection) => {
+  collection.display = true;
+});
+
+// CARD TYPE     ---------------------------------------------------------------
+
+/**
+ * The const cardType declares a reactive reference and initializes it with the string "grid".
+ * The 'cardType' reference is used to determine the type of card to be displayed.
+ */
 const cardType = ref("grid");
+
+/**
+ * The toggleCardType function toggles the value of the 'cardType' reference.
+ * If the value of the 'cardType' reference is "list", it is set to "grid"; otherwise, it is set to "list".
+ * If the value of the 'cardType' reference is "list" and the 'activeCollectionId' reference is not null,
+ * it scrolls to the active collection.
+ */
 async function toggleCardType() {
   cardType.value = cardType.value == "list" ? "grid" : "list";
   if (cardType.value == "list" && activeCollectionId.value !== null) {
@@ -22,14 +87,25 @@ async function toggleCardType() {
   }
 }
 
-// add display property to collections
-data.value.data.forEach((collection) => {
-  collection.display = true;
-});
+// SORT         ----------------------------------------------------------------
 
-// sort
+/**
+ * The const sortby declares a reactive reference and initializes it with the string "label".
+ * The 'sortby' reference is used to determine the property of the data collections by which they should be sorted.
+ */
 const sortby = ref("label");
+
+/**
+ * The const order declares a reactive reference and initializes it with the string "asc".
+ * The 'order' reference is used to determine the order in which the data collections should be sorted.
+ */
 const order = ref("asc");
+
+/**
+ * The sortedData constant declares a computed reference.
+ * The 'sortedData' reference is used to sort the data collections by the property specified in the 'sortby' reference.
+ * The 'sortedData' reference is used to sort the data collections in the order specified in the 'order' reference.
+ */
 const sortedData = computed(() => {
   return data.value.data.sort((a, b) => {
     if (a[sortby.value] < b[sortby.value]) {
@@ -42,41 +118,86 @@ const sortedData = computed(() => {
   });
 });
 
+// FILTER      -----------------------------------------------------------------
+
+/**
+ * The showFilters constant declares a reactive reference and initializes it with the boolean value false.
+ * The 'showFilters' reference is used to determine if the filter control bar is open.
+ */
 const showFilters = ref(false);
+
+/**
+ * The toggleFilters function toggles the value of the 'showFilters' reference.
+ */
 function toggleFilters() {
   showFilters.value = !showFilters.value;
 }
 
-// tags
-const tags = ref({});
-function setTags() {
+/**
+ * The terms constant declares a reactive reference and initializes it with an empty object.
+ * The 'terms' object will be used to store the terms for each taxonomy from the data collections.
+ * The terms are added to the object in the setupTerms function.
+ *
+ * The structure of the terms object is as follows:
+ * {
+ *   "taxonomy1": [
+ *     { label: "term1", count: 1 },
+ *     { label: "term2", count: 1 }
+ *   ],
+ *   "taxonomy2": [
+ *     { label: "term3", count: 1 },
+ *     { label: "term4", count: 1 }
+ *   ]
+ * }
+ *
+ */
+const terms = ref({});
+
+/**
+ * The setupTerms function sets up the terms for each taxonomy in the data collections.
+ * It iterates over each collection and each taxonomy, and adds the terms from
+ * the collection to the terms list for the taxonomy.
+ *
+ * If collection[taxonomy] is not an array it is a string representing the label
+ * name of a single term (e.g. as for current_keeper).
+ * If it is an array, it is a list of terms where each term has a taxonomy_terms_id.label.
+ * This means each term is represented as an object with a "taxonomy_terms_id" key,
+ * which itself is an object with a "label" key.
+ * The "label" key holds the name of the term.
+ *
+ * If a term is already present in the list, it increments the count value for the term;
+ * otherwise, it adds the term with a count of 1.
+ *
+ * After all terms have been added, it sorts the terms for each taxonomy
+ * alphabetically by label.
+ */
+function setupTerms() {
   data.value.data.forEach((collection) => {
-    settings.tags.forEach((tag) => {
-      if (!tags.value[tag]) {
-        tags.value[tag] = [];
+    settings.taxonomies.forEach((taxonomy) => {
+      if (!terms.value[taxonomy]) {
+        terms.value[taxonomy] = [];
       }
-      if (collection[tag] && collection[tag].length > 0) {
-        if (!Array.isArray(collection[tag])) {
-          if (!tags.value[tag].find((item) => item.label === collection[tag])) {
-            tags.value[tag].push({ label: collection[tag], count: 1 });
+      if (collection[taxonomy] && collection[taxonomy].length > 0) {
+        if (!Array.isArray(collection[taxonomy])) {
+          if (!terms.value[taxonomy].find((term) => term.label === collection[taxonomy])) {
+            terms.value[taxonomy].push({ label: collection[taxonomy], count: 1 });
           } else {
-            tags.value[tag].find((item) => item.label === collection[tag]).count++;
+            terms.value[taxonomy].find((term) => term.label === collection[taxonomy]).count++;
           }
         } else {
-          collection[tag].forEach((item) => {
-            if (!tags.value[tag].find((tagItem) => tagItem.label === item.label)) {
-              tags.value[tag].push({ label: item.label, count: 1 });
+          collection[taxonomy].forEach((taxonomyTerm) => {
+            if (!terms.value[taxonomy].find((term) => term.label === taxonomyTerm.taxonomy_terms_id.label)) {
+              terms.value[taxonomy].push({ label: taxonomyTerm.taxonomy_terms_id.label, count: 1 });
             } else {
-              tags.value[tag].find((tagItem) => tagItem.label === item.label).count++;
+              terms.value[taxonomy].find((term) => term.label === taxonomyTerm.taxonomy_terms_id.label).count++;
             }
           });
         }
       }
     });
   });
-  // sort tags by label
-  Object.keys(tags.value).forEach((tag) => {
-    tags.value[tag].sort((a, b) => {
+  Object.keys(terms.value).forEach((term) => {
+    terms.value[term].sort((a, b) => {
       if (a.label < b.label) {
         return -1;
       }
@@ -87,36 +208,69 @@ function setTags() {
     });
   });
 }
-setTags();
+setupTerms();
 
-function getTagLabelName(tag) {
-  return tagNames[tag] ? tagNames[tag] : tag;
-}
+/**
+ * The const termFilter declares a reactive reference and initializes it with an empty object.
+ * The 'termFilter' object is used to store the current filter values for each taxonomy.
+ * The filter values are added to the object in the setTermFilter function.
+ *
+ * The filter values are used for the following
+ * - to filter the data collections,
+ * - to set the active CSS class for a specific term in a taxonomy,
+ * - to check if a taxonomy has an active term,
+ * - to check if the filter details for a taxonomy are open,
+ * - to reset the filter,
+ * - to scroll to the results after selecting a term,
+ * - to update the query parameters,
+ * - to scroll to the active collection.
+ *
+ * The structure of the termFilter object is as follows:
+ * {
+ *   "taxonomy1": ["term1", "term2"],
+ *   "taxonomy2": ["term1", "term2"]
+ * }
+ *
+ */
+const termFilter = ref({});
 
-const tagFilter = ref({});
-function setFilter(type, tag) {
-  if (type && tag) {
-    if (tagFilter.value[type] && tagFilter.value[type].includes(tag)) {
-      tagFilter.value[type] = tagFilter.value[type].filter((item) => item !== tag);
+/**
+ * The setTermFilter function sets the termFilter for a given taxonomy.
+ * If the term is already present in the filter for the taxonomy, it is removed; otherwise, it is added.
+ * After updating the filter, it applies the filter to the data collections.
+ * Each collection is set to display true initially.
+ * If the filter value list for the given taxonomy is not empty, it checks if the collection has the term;
+ * if it does not, it sets the collection to display false.
+ * Finally, it updates the query parameters and scrolls to the results.
+ *
+ * @param {string} taxonomy - The name of the taxonomy.
+ * @param {string} term - The term to be added or removed from the filter.
+ */
+function setTermFilter(taxonomy, term) {
+  // toggle term (add or remove when already present)
+  if (taxonomy && term) {
+    if (termFilter.value[taxonomy] && termFilter.value[taxonomy].includes(term)) {
+      termFilter.value[taxonomy] = termFilter.value[taxonomy].filter((item) => item !== term);
     } else {
-      if (!tagFilter.value[type]) {
-        tagFilter.value[type] = [];
+      if (!termFilter.value[taxonomy]) {
+        termFilter.value[taxonomy] = [];
       }
-      tagFilter.value[type].push(tag);
+      termFilter.value[taxonomy].push(term);
     }
   }
+  // apply filter
   data.value.data.forEach((collection) => {
     collection.display = true;
-    settings.tags.forEach((tagType) => {
-      if (tagFilter.value[tagType] && tagFilter.value[tagType].length > 0) {
-        if (!Array.isArray(collection[tagType])) {
-          if (!tagFilter.value[tagType].includes(collection[tagType])) {
+    settings.taxonomies.forEach((settingTaxonomy) => {
+      if (termFilter.value[settingTaxonomy] && termFilter.value[settingTaxonomy].length > 0) {
+        if (!Array.isArray(collection[settingTaxonomy])) {
+          if (!termFilter.value[settingTaxonomy].includes(collection[settingTaxonomy])) {
             collection.display = false;
           }
         } else {
           let found = false;
-          collection[tagType].forEach((item) => {
-            if (tagFilter.value[tagType].includes(item.label)) {
+          collection[settingTaxonomy].forEach((term) => {
+            if (termFilter.value[settingTaxonomy].includes(term.taxonomy_terms_id.label)) {
               found = true;
             }
           });
@@ -131,35 +285,87 @@ function setFilter(type, tag) {
   scrollToResults();
 }
 
-function activeTag(type, tag) {
-  if (tagFilter.value[type] && tagFilter.value[type].includes(tag)) {
+/**
+ * The setActiveTermClass function sets the active css class for a specific term in a taxonomy.
+ * If the term is included in the current filter value list for the given taxonomy,
+ * the function returns " active" to set the CSS class for the active state.
+ * If the term is not included in the list, the function returns an empty string.
+ *
+ * @param {string} taxonomy - The name of the taxonomy.
+ * @param {string} term - The term for which the active class should be set.
+ * @returns {string} - Returns " active" if the term is included in the filter value list, otherwise "".
+ */
+function setActiveTermClass(taxonomy, term) {
+  if (termFilter.value[taxonomy] && termFilter.value[taxonomy].includes(term)) {
     return " active";
   }
   return "";
 }
 
-function hasTagTypeActiveTag(type) {
-  if (tagFilter.value[type] && tagFilter.value[type].length > 0) {
+/**
+ * The hasTaxonomyActiveTerm function checks if a taxonomy has an active term.
+ * If the filter value list for the given taxonomy is not empty, the function returns true; otherwise, it returns false.
+ * The function is used to determine if the filter details for a taxonomy are open.
+ *
+ * @param {string} taxonomy - The name of the taxonomy.
+ * @returns {boolean} - Returns true if the taxonomy has an active term, otherwise false.
+ */
+function hasTaxonomyActiveTerm(taxonomy) {
+  if (termFilter.value[taxonomy] && termFilter.value[taxonomy].length > 0) {
     return true;
   }
   return false;
 }
 
+/**
+ * The filterDetails constant declares a reactive reference and initializes it with an empty object.
+ * The 'filterDetails' object will be used to store the open state of the filter details for each taxonomy.
+ * The open state is toggled in the toggleDetail function.
+ *
+ * The structure of the filterDetails object is as follows:
+ * {
+ *   "taxonomy1": true,
+ *   "taxonomy2": false
+ * }
+ *
+ */
 const filterDetails = ref({});
-function isFilterDetailsOpen(type) {
-  if (type === 'current_keeper' || hasTagTypeActiveTag(type) || filterDetails.value[type]) {
+
+/**
+ * The isFilterDetailsOpen function checks if the filter details for a taxonomy are open.
+ * If the taxonomy is "current_keeper" or has an active term or the filter details for the taxonomy are open,
+ * the function returns true; otherwise, it returns false.
+ *
+ * @param {string} taxonomy - The name of the taxonomy.
+ * @returns {boolean} - Returns true if the filter details for the taxonomy are open, otherwise false.
+ */
+function isFilterDetailsOpen(taxonomy) {
+  if (taxonomy === 'current_keeper' || hasTaxonomyActiveTerm(taxonomy) || filterDetails.value[taxonomy]) {
     return true;
   }
   return false;
 }
 
-function toggleDetail(type, { target }) {
-  filterDetails.value[type] = target.open;
+/**
+ * The toggleDetail function toggles the open state of the filter details for a taxonomy.
+ * If the filter details for the taxonomy are open, it sets the open state to false; otherwise, it sets it to true.
+ *
+ * @param {string} taxonomy - The name of the taxonomy.
+ * @param {Event} event - The event object.
+ */
+function toggleDetail(taxonomy, { target }) {
+  filterDetails.value[taxonomy] = target.open;
 }
 
+/**
+ * The resetFilters function resets the filter values for each taxonomy.
+ * It sets the filter value list for each taxonomy to an empty array.
+ * It sets the display value for each collection to true.
+ * It updates the query parameters.
+ */
 function resetFilters() {
-  Object.keys(tagFilter.value).forEach((tagType) => {
-    tagFilter.value[tagType] = [];
+  Object.keys(termFilter.value).forEach((term) => {
+    termFilter.value[term] = [];
   });
   filterDetails.value = {};
   data.value.data.forEach((collection) => {
@@ -168,7 +374,23 @@ function resetFilters() {
   setQueryParams();
 }
 
+// UTILS              ----------------------------------------------------------
+
+
+/**
+ * The scrollToResultsAfterSelect constant declares a reactive reference and initializes it with the boolean value true.
+ * The 'scrollToResultsAfterSelect' reference is used to determine if the page should scroll to the results after selecting a term.
+ */
 const scrollToResultsAfterSelect = ref(true);
+
+/**
+ * The scrollToResults function scrolls to the results after selecting a term.
+ * If the value of the 'scrollToResultsAfterSelect' reference is true, or the always parameter is true,
+ * it scrolls to the results.
+ * If the value of the 'scrollToResultsAfterSelect' reference is false, it does not scroll to the results.
+ *
+ * @param {boolean} always - The always parameter is used to determine if the page should always scroll to the results.
+ */
 function scrollToResults(always = false) {
   if (scrollToResultsAfterSelect.value || always) {
     const scrollTarget = document.getElementById("collections_display");
@@ -178,73 +400,114 @@ function scrollToResults(always = false) {
   }
 }
 
+/**
+ * The activeCollectionId constant declares a reactive reference and initializes it with the value null.
+ * The 'activeCollectionId' reference is used to determine the id of the active collection.
+ * The value of the 'activeCollectionId' reference is set in the setActiveCollectionId function.
+ */
 const activeCollectionId = ref(null);
+
+/**
+ * The setActiveCollectionId function sets the active collection id.
+ * It sets the value of the 'activeCollectionId' reference to the given id.
+ * It updates the query parameters.
+ * If the id is not null, it scrolls to the active collection.
+ *
+ * @param {string} id - The id of the active collection.
+ */
 function setActiveCollectionId(id) {
   activeCollectionId.value = id;
   setQueryParams();
   if (id !== null) {
-    // scrollToResults(true);
     setTimeout(() => {
-      // const scrollTarget = document.getElementById("collection-" + id);
       const scrollTarget = document.getElementById("active-card-container");
       scrollTarget.scrollIntoView({ behavior: "smooth" });
     }, 100);
   }
 }
 
+/**
+ * The getCollectionById function returns the collection with the given id.
+ *
+ * @param {string} id - The id of the collection.
+ * @returns {object} - The collection with the given id.
+ */
 function getCollectionById(id) {
   return data.value.data.find((collection) => collection.id === id);
 }
 
+/**
+ * The errors constant declares a reactive reference and initializes it with an empty array.
+ * The 'errors' reference is used to store the errors.
+ * The errors are added to the array in the onMounted function.
+ */
 const errors = ref([]);
 
-function setQueryParams() {
-  const params = {};
-  Object.keys(tagFilter.value).forEach((tagType) => {
-    if (tagFilter.value[tagType] && tagFilter.value[tagType].length > 0) {
-      params[tagType] = tagFilter.value[tagType].join(",");
-    }
-  });
-  if (activeCollectionId.value !== null) {
-    params.activeCollectionId = activeCollectionId.value;
-  }
-  router.push({ query: params });
-}
-
+/**
+ * The closeErrorDisplay function closes the error display.
+ * It sets the value of the 'errors' reference to an empty array.
+ */
 function closeErrorDisplay() {
   errors.value = [];
 }
 
-const route = useRoute();
+/**
+ * The setQueryParams function sets the query parameters.
+ * It sets the query parameters for each taxonomy with a filter value list that is not empty.
+ * It sets the query parameter for the active collection id if it is not null.
+ */
+function setQueryParams() {
+  const params = {};
+  Object.keys(termFilter.value).forEach((taxonomy) => {
+    if (termFilter.value[taxonomy] && termFilter.value[taxonomy].length > 0) {
+      params[taxonomy] = termFilter.value[taxonomy].join(",");
+    }
+  });
+  if (activeCollectionId.value !== null) {
+    params.acid = activeCollectionId.value;
+  }
+  router.push({ query: params });
+}
+
+
+/**
+ * The onMounted function is called when the Vue.js component is mounted.
+ * It checks the query parameters and sets the active collection id and term filter accordingly.
+ * If the query parameters contain an active collection id, it checks if the collection exists in the data collections;
+ * if it does, it sets the active collection id; otherwise, it adds an error to the errors list.
+ * If the query parameters contain a term filter, it sets the term filter accordingly.
+ * If the query parameters contain an unknown taxonomy, it adds an error to the errors list.
+ * If the query parameters contain an unknown term label, it adds an error to the errors list.
+ */
 onMounted(() => {
   let hasFilter = false;
-  Object.keys(route.query).forEach((tagType) => {
-    if (tagType === "activeCollectionId") {
-      if (route.query[tagType] && getCollectionById(route.query[tagType])) {
-        setActiveCollectionId(route.query[tagType]);
+  Object.keys(route.query).forEach((taxonomy) => {
+    if (taxonomy === "acid") {
+      if (route.query[taxonomy] && getCollectionById(route.query[taxonomy])) {
+        setActiveCollectionId(route.query[taxonomy]);
       } else {
         errors.value.push("error_activeCollectionId");
       }
     } else {
-      if (!settings.tags.includes(tagType)) {
+      if (!settings.taxonomies.includes(taxonomy)) {
         errors.value.push("error_tagType");
       } else {
-        if (!tagFilter.value[tagType]) {
-          tagFilter.value[tagType] = [];
+        if (!termFilter.value[taxonomy]) {
+          termFilter.value[taxonomy] = [];
         }
-        route.query[tagType].split(",").forEach((tag) => {
-          if (!tags.value[tagType].find((item) => item.label === tag)) {
+        route.query[taxonomy].split(",").forEach((term) => {
+          if (!terms.value[taxonomy].find((item) => item.label === term)) {
             errors.value.push("error_tagLabel");
           } else {
             hasFilter = true;
-            tagFilter.value[tagType].push(tag);
+            termFilter.value[taxonomy].push(term);
           }
         });
       }
     }
   });
   if (hasFilter) {
-    setFilter();
+    setTermFilter();
   }
 });
 
@@ -253,16 +516,6 @@ onMounted(() => {
   <Head>
     <Title>{{ w.page_collections }}</Title>
   </Head>
-  <!--
-  <div class="hero">
-    <img style="width:100%;height:auto;" src="@/assets/img/Collage_01.png" alt="hero image" />
-  </div>
-  -->
-  <!-- <div v-if="cardType == 'grid' && activeCollectionId" class="collection_cards_wrapper single-card">
-    <CollectionCard :entry="getCollectionById(activeCollectionId)" :tagFilter="tagFilter"
-      :activeCollectionId="activeCollectionId" @set-filter="setFilter"
-      @set-active-collection-id="setActiveCollectionId" />
-  </div> -->
   <div class="grid-control-bar" id="grid-control-bar">
     <div class="basic-controls">
       <div class="collections-counter">{{ w.num_collections }}: {{ data.meta.total_count }}</div>
@@ -318,7 +571,7 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <!-- <pre>{{ tags }}</pre> -->
+    <!-- <pre>{{ terms }}</pre> -->
     <div v-if="showFilters" class="filter-control-bar">
       <div class="filter-control-bar-controls">
         <div class="form-check form-switch gws-form-switch-right d-flex justify-content-end align-items-center">
@@ -337,14 +590,14 @@ onMounted(() => {
           </span>
         </button>
       </div>
-      <details v-for="(tagCloud, tagType) in tags" :id="'filter-card-' + tagType" :key="'filter-card-' + tagType"
-        class="filter-card" @toggle="toggleDetail(tagType, $event)" :open="isFilterDetailsOpen(tagType) ? true : null">
-        <summary class="tag-title">{{ w[tagType] }}</summary>
+      <details v-for="(taxonomyTerms, taxonomy) in terms" :id="'filter-card-' + taxonomy" :key="'filter-card-' + taxonomy"
+        class="filter-card" @toggle="toggleDetail(taxonomy, $event)" :open="isFilterDetailsOpen(taxonomy) ? true : null">
+        <summary class="tag-title">{{ w[taxonomy] }}</summary>
         <div class="tags">
-          <button v-for="(tag, tagIdx) in tagCloud" :key="'filter-card-' + tagType + '-' + tagIdx"
-            @click="setFilter(tagType, tag.label)" :class="'tag' + activeTag(tagType, tag.label)">
-            <span class="tag-name">{{ getTagLabelName(tag.label) }}</span>
-            <span class="tag-count">{{ tag.count }}</span>
+          <button v-for="(term, termIdx) in taxonomyTerms" :key="'filter-card-' + taxonomy + '-' + termIdx"
+            @click="setTermFilter(taxonomy, term.label)" :class="'tag' + setActiveTermClass(taxonomy, term.label)">
+            <span class="tag-name">{{ term.label }}</span>
+            <span class="tag-count">{{ term.count }}</span>
           </button>
         </div>
       </details>
@@ -355,8 +608,8 @@ onMounted(() => {
   <!-- <pre>{{ activeCollectionId }}</pre> -->
   <div v-if="cardType == 'grid' && activeCollectionId" class="active-card-container" id="active-card-container">
     <div class="collection_cards_wrapper single-card">
-      <CollectionCard :entry="getCollectionById(activeCollectionId)" :tagFilter="tagFilter"
-        :activeCollectionId="activeCollectionId" @set-filter="setFilter"
+      <CollectionCardDetails :collection="getCollectionById(activeCollectionId)" :termFilter="termFilter"
+        :activeCollectionId="activeCollectionId" @set-term-filter="setTermFilter"
         @set-active-collection-id="setActiveCollectionId" />
     </div>
   </div>
@@ -379,17 +632,12 @@ onMounted(() => {
       </div>
     </div>
     <div v-if="cardType == 'list'" class="collection_cards_wrapper">
-      <CollectionCard v-for="collection in sortedData" :key="collection.id" :entry="collection" :tagFilter="tagFilter"
-        :activeCollectionId="activeCollectionId" @set-filter="setFilter"
+      <CollectionCardDetails v-for="collection in sortedData" :key="collection.id" :collection="collection"
+        :termFilter="termFilter" :activeCollectionId="activeCollectionId" @set-term-filter="setTermFilter"
         @set-active-collection-id="setActiveCollectionId" />
     </div>
-    <!-- <div v-if="cardType == 'grid' && activeCollectionId" class="collection_cards_wrapper single-card">
-      <CollectionCard :entry="getCollectionById(activeCollectionId)" :tagFilter="tagFilter"
-        :activeCollectionId="activeCollectionId" @set-filter="setFilter"
-        @set-active-collection-id="setActiveCollectionId" />
-    </div> -->
     <div v-if="cardType == 'grid'" class="collection_cards_wrapper card-grid">
-      <CollectionCardGrid v-for="collection in sortedData" :key="collection.id" :entry="collection"
+      <CollectionCardGrid v-for="collection in sortedData" :key="collection.id" :collection="collection"
         @set-active-collection-id="setActiveCollectionId" />
     </div>
   </div>
