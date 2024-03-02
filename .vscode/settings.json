@@ -10,10 +10,17 @@
   "editor.tabSize": 2,
   "editor.detectIndentation": true,
   "cSpell.words": [
+    "greyscale",
     "impressum",
+    "kontakt",
+    "lightbox",
+    "nuxt",
     "Nuxt",
+    "offcanvas",
     "sammlungen",
     "Sammlungsportal",
-    "sitenav"
+    "scrollbars",
+    "sitenav",
+    "tabindex"
   ]
 }
