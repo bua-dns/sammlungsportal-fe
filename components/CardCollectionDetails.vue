@@ -17,6 +17,7 @@ const tagNames = theme.value.data.names.tags;
 const terms = theme.value.data.settings.terms;
 const taxonomies = theme.value.data.names.taxonomies;
 
+const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
 function getTaxonomyInfo(taxonomy) {
   // extract taxonomy info from collection
   if (!props.collection[taxonomy]) {
@@ -48,7 +49,6 @@ function getTaxonomyName(taxonomy) {
 }
 
 const showLightbox = ref(false);
-const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
 
 </script>
 <template>
