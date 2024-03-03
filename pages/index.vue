@@ -43,7 +43,7 @@ const objectTypes = computed(() => {
     <div class="cardset-intro" v-html="homepage.data.cardset_collections_intro"/>
     <!-- University cards -->
     <div class="mt-4 cards d-flex flex-wrap flex-column flex-lg-row gap-2">
-      <div v-for="(card, idx) in homepage.data.cardset_collections" :key="idx" class="card university-card"
+      <div v-for="(card, idx) in homepage.data.cardset_collections" :key="idx" class="card dns-card university-card"
         :style="'border-color:' + card.navigation_cards_id.background_color + ';'">
         <NuxtLink :to="card.navigation_cards_id.more_button_link" class="card-link large light">
           {{ card.navigation_cards_id.title }}
@@ -53,7 +53,7 @@ const objectTypes = computed(() => {
     <!-- Subjects cards -->
     <div class="intro" v-html="homepage.data.subject_selection_intro"/>
     <div class="subject-grid">
-      <div v-for="(subject, idx) in subjects" :key="idx" class="card selection-card">
+      <div v-for="(subject, idx) in subjects" :key="idx" class="card dns-card selection-card">
         <NuxtLink :to="`/sammlungen/?dns_taxonomy_subjects=${subject.label}`" class="card-link medium">
           {{ subject.label }}
         </NuxtLink>
@@ -62,7 +62,7 @@ const objectTypes = computed(() => {
     <!-- Object type cards -->
     <div class="intro" v-html="homepage.data.object_type_selection_intro"/>
     <div class="subject-grid">
-      <div v-for="(type, idx) in objectTypes" :key="idx" class="card selection-card">
+      <div v-for="(type, idx) in objectTypes" :key="idx" class="card dns-card selection-card">
         <NuxtLink :to="`/sammlungen/?dns_taxonomy_genre=${type.label}`" class="card-link medium">
           {{ type.label }}
         </NuxtLink>
@@ -70,16 +70,16 @@ const objectTypes = computed(() => {
     </div>
     <!-- Featured cards -->
     <div class="intro" v-html="homepage.data.cardset_featured_intro"/>
-    <div v-for="(card, idx) in homepage.data.cardset_featured" :key="idx" class="card feature-card"
-      :style="'border-color:' + card.navigation_cards_id.background_color + ';'">
-      <NuxtLink :to="card.navigation_cards_id.more_button_link" class="card-link large light">
-        {{ card.navigation_cards_id.title }}
-      </NuxtLink>
-    </div>
+    <div class="features-grid">
+      <div v-for="(card, idx) in homepage.data.cardset_featured" :key="idx" class="feature-card">
+        <FeatureCard :cardContent="card.navigation_cards_id"/>
+      </div>
+  </div>
+
   </div>
 </template>
 <style scoped lang="scss">
-.card {
+.dns-card {
   flex: 1;
   border-radius: 4px;
   border-left: 1px;
@@ -107,6 +107,13 @@ const objectTypes = computed(() => {
     justify-content: center;
   
   }
+}
+.features-grid {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: .5rem;
+
 }
 .card-link {
   height: 100%;
