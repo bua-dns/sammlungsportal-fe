@@ -26,7 +26,7 @@ const subjects = computed(() => {
     <div class="mt-4 cards d-flex flex-wrap flex-column flex-lg-row gap-2">
       <div v-for="(card, idx) in homepage.data.cardset_collections" :key="idx" class="card university-card"
         :style="'border-color:' + card.navigation_cards_id.background_color + ';'">
-        <NuxtLink :to="card.navigation_cards_id.more_button_link" class="card-keeper light">
+        <NuxtLink :to="card.navigation_cards_id.more_button_link" class="card-link large light">
           {{ card.navigation_cards_id.title }}
         </NuxtLink>
       </div>
@@ -37,7 +37,7 @@ const subjects = computed(() => {
     </div>
     <div class="subject-grid">
       <div v-for="(subject, idx) in subjects" :key="idx" class="card subject-card">
-        <NuxtLink :to="'/'" class="card-keeper">
+        <NuxtLink :to="`/sammlungen/?dns_taxonomy_subjects=${subject.label}`" class="card-link medium">
           {{ subject.label }}
         </NuxtLink>
       </div>
@@ -62,23 +62,38 @@ const subjects = computed(() => {
 .subject-grid {
   margin-top: 2rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
   gap: 1rem;
-  .grid-card {
-    font-size: .85rem;
+  .subject-card {
+    border: none;
+    background-color: #ccc;
+    min-height: 3.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
   }
 }
-
-.card-keeper {
-  // border-bottom: 2px solid #333;
-  display: block;
-  padding: 1rem;
+.card-link {
   height: 100%;
-  font-size: 1.125rem;
   color: var(--color-text);
-
+  &.medium {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .75rem;
+    padding: .5rem;
+    text-align: center;
+  }
+  &.large {
+    display: block;
+    padding: 1rem;
+    font-size: 1.125rem;
+    color: var(--color-text);
+  }
   &.light {
     color: var(--color-text-inv);
   }
 }
+
 </style>
