@@ -288,10 +288,6 @@ onMounted(() => {
   </Head>
   <div class="grid-control-bar" id="grid-control-bar">
     <div class="basic-controls">
-      <div class="dev-output">
-        <pre v-if="true">activeCollectionId: <br>{{ activeCollectionId }}</pre>
-        <pre v-if="true">currentKeeper: <br>{{ currentKeeper }}</pre>
-      </div>
       <div class="collections-counter">{{ w.num_collections }}: {{ data.meta.total_count }}</div>
       <div class="sort-controls">
         <div class="gws-input-group">
