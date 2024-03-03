@@ -50,7 +50,7 @@ const objectTypes = computed(() => {
     </div>
     <div class="intro" v-html="homepage.data.subject_selection_intro"/>
     <div class="subject-grid">
-      <div v-for="(subject, idx) in subjects" :key="idx" class="card subject-card">
+      <div v-for="(subject, idx) in subjects" :key="idx" class="card selection-card">
         <NuxtLink :to="`/sammlungen/?dns_taxonomy_subjects=${subject.label}`" class="card-link medium">
           {{ subject.label }}
         </NuxtLink>
@@ -62,7 +62,7 @@ const objectTypes = computed(() => {
     </div>
     <div class="intro" v-html="homepage.data.object_type_selection_intro"/>
     <div class="subject-grid">
-      <div v-for="(type, idx) in objectTypes" :key="idx" class="card subject-card">
+      <div v-for="(type, idx) in objectTypes" :key="idx" class="card selection-card">
         <NuxtLink :to="`/sammlungen/?dns_taxonomy_genre=${type.label}`" class="card-link medium">
           {{ type.label }}
         </NuxtLink>
@@ -80,7 +80,7 @@ const objectTypes = computed(() => {
   
   cursor: pointer;
   &.university-card {
-    flex-basis: 22%;
+    flex-basis: 14%;
     min-height: 5rem;
   }
 
@@ -88,9 +88,9 @@ const objectTypes = computed(() => {
 .subject-grid {
   margin-top: 2rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-  gap: 1rem;
-  .subject-card {
+  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+  gap: .5rem;
+  .selection-card {
     border: none;
     background-color: #ccc;
     min-height: 3.2rem;
