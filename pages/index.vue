@@ -2,9 +2,18 @@
 const theme = useState('theme');
 const taxonomyTerms = useState('taxonomyTerms');
 const w = theme.value.data.wording.de;
+
+const fields = [
+  'title',
+  'intro',
+  'cardset_collections_intro',
+  'cardset_collections.navigation_cards_id.*.*',
+  'subject_selection_intro',
+].join(',');
+
 const { data: homepage } = await useFetch('https://sammlungsportal.bua-dns.de/items/homepage', {
   query: {
-    fields: '*.navigation_cards_id.*.*',
+    fields
   },
 });
 const subjects = computed(() => {
