@@ -8,10 +8,17 @@ const { data: taxonomyTermsData } = await useFetch('https://sammlungsportal.bua-
     meta: 'total_count',
   }
 });
+const { data: projectsData } = await useFetch('https://sammlungsportal.bua-dns.de/items/projects', {
+  query: {
+    fields: 'id, slug, sub_line, description, affiliation, images.*.*',
+    limit: 3,
+  }
+});
 
 const theme = useState('theme', () => themeContent);
 const taxonomyTerms = useState('taxonomyTerms', () => taxonomyTermsData);
 useState('background_images', () => backgroundImages);
+const projects = useState('projects', () => projectsData);
 const w = theme.value.data.wording.de;
 useHead({
   titleTemplate: (titleChunk) => {

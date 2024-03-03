@@ -37,7 +37,7 @@ const objectTypes = computed(() => {
   </Head>
   <div class="page">
     <pre v-if="false">{{ subjects }}</pre>
-    <pre v-if="true">{{ homepage.data }}</pre>
+    <pre v-if="false">{{ homepage.data }}</pre>
     <h1 class="text-center">{{ homepage.data.title }}</h1>
     <div class="intro" v-html="homepage.data.intro"></div>
     <div class="cardset-intro" v-html="homepage.data.cardset_collections_intro"/>
