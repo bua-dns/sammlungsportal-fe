@@ -9,6 +9,7 @@ const fields = [
   'cardset_collections_intro',
   'cardset_collections.navigation_cards_id.*.*',
   'subject_selection_intro',
+  'object_type_selection_intro',
 ].join(',');
 
 const { data: homepage } = await useFetch('https://sammlungsportal.bua-dns.de/items/homepage', {
@@ -19,6 +20,9 @@ const { data: homepage } = await useFetch('https://sammlungsportal.bua-dns.de/it
 const subjects = computed(() => {
   return taxonomyTerms.value.data.filter((term) => term.spws_taxonomy === 'subjects');
 });
+const objectTypes = computed(() => {
+  return taxonomyTerms.value.data.filter((term) => term.spws_taxonomy === 'genre');
+});
 
 </script>
 <template>
@@ -26,8 +30,8 @@ const subjects = computed(() => {
     <Title>{{ taxonomyTerms }}</Title>
   </Head>
   <div class="page">
-    <!-- {{ homepage.data }} -->
     <pre v-if="false">{{ subjects }}</pre>
+    <pre v-if="false">{{ homepage.data }}</pre>
     <h1 class="text-center">{{ homepage.data.title }}</h1>
     <div class="intro" v-html="homepage.data.intro"></div>
     <div class="cardset-intro" v-html="homepage.data.cardset_collections_intro"/>
@@ -41,13 +45,26 @@ const subjects = computed(() => {
       </div>
     </div>
     <!-- Subjects cards -->
-    <div class="intro">
-      
+    <div class="subject-selection-intro">
+      <h2>Wissenschaftliche Disziplinen</h2>
     </div>
+    <div class="intro" v-html="homepage.data.subject_selection_intro"/>
     <div class="subject-grid">
       <div v-for="(subject, idx) in subjects" :key="idx" class="card subject-card">
         <NuxtLink :to="`/sammlungen/?dns_taxonomy_subjects=${subject.label}`" class="card-link medium">
           {{ subject.label }}
+        </NuxtLink>
+      </div>
+    </div>
+    <!-- Object type cards -->
+    <div class="object-type-selection-intro">
+      <h2>Objekttypen</h2>
+    </div>
+    <div class="intro" v-html="homepage.data.object_type_selection_intro"/>
+    <div class="subject-grid">
+      <div v-for="(type, idx) in objectTypes" :key="idx" class="card subject-card">
+        <NuxtLink :to="`/sammlungen/?dns_taxonomy_genre=${type.label}`" class="card-link medium">
+          {{ type.label }}
         </NuxtLink>
       </div>
     </div>
