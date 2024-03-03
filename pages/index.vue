@@ -5,11 +5,16 @@ const w = theme.value.data.wording.de;
 
 const fields = [
   'title',
+  // cardsets
+  'cardset_collections.navigation_cards_id.*.*',
+  'cardset_featured.navigation_cards_id.*.*',
+  
+  // intros
   'intro',
   'cardset_collections_intro',
-  'cardset_collections.navigation_cards_id.*.*',
   'subject_selection_intro',
   'object_type_selection_intro',
+  'cardset_featured_intro',
 ].join(',');
 
 const { data: homepage } = await useFetch('https://sammlungsportal.bua-dns.de/items/homepage', {
@@ -24,6 +29,7 @@ const objectTypes = computed(() => {
   return taxonomyTerms.value.data.filter((term) => term.spws_taxonomy === 'genre');
 });
 
+
 </script>
 <template>
   <Head>
@@ -31,7 +37,7 @@ const objectTypes = computed(() => {
   </Head>
   <div class="page">
     <pre v-if="false">{{ subjects }}</pre>
-    <pre v-if="false">{{ homepage.data }}</pre>
+    <pre v-if="true">{{ homepage.data }}</pre>
     <h1 class="text-center">{{ homepage.data.title }}</h1>
     <div class="intro" v-html="homepage.data.intro"></div>
     <div class="cardset-intro" v-html="homepage.data.cardset_collections_intro"/>
@@ -45,9 +51,6 @@ const objectTypes = computed(() => {
       </div>
     </div>
     <!-- Subjects cards -->
-    <div class="subject-selection-intro">
-      <h2>Wissenschaftliche Disziplinen</h2>
-    </div>
     <div class="intro" v-html="homepage.data.subject_selection_intro"/>
     <div class="subject-grid">
       <div v-for="(subject, idx) in subjects" :key="idx" class="card selection-card">
@@ -57,9 +60,6 @@ const objectTypes = computed(() => {
       </div>
     </div>
     <!-- Object type cards -->
-    <div class="object-type-selection-intro">
-      <h2>Objekttypen</h2>
-    </div>
     <div class="intro" v-html="homepage.data.object_type_selection_intro"/>
     <div class="subject-grid">
       <div v-for="(type, idx) in objectTypes" :key="idx" class="card selection-card">
@@ -67,6 +67,14 @@ const objectTypes = computed(() => {
           {{ type.label }}
         </NuxtLink>
       </div>
+    </div>
+    <!-- Featured cards -->
+    <div class="intro" v-html="homepage.data.cardset_featured_intro"/>
+    <div v-for="(card, idx) in homepage.data.cardset_featured" :key="idx" class="card feature-card"
+      :style="'border-color:' + card.navigation_cards_id.background_color + ';'">
+      <NuxtLink :to="card.navigation_cards_id.more_button_link" class="card-link large light">
+        {{ card.navigation_cards_id.title }}
+      </NuxtLink>
     </div>
   </div>
 </template>

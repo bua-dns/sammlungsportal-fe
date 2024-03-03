@@ -3,6 +3,8 @@
 ## ToDos
 
 - Featured Cards auf Startseite einbinden
+  - bootstrap cards nachschauen
+  - attraktives Format für die feature-card entwickeln
 - Projekteseite grob anlegen
 - Ideen entwickeln, wie man die Startseite gestalterisch auf einen vernünftigen Minimalstandard bringen kann
 
