@@ -2,12 +2,11 @@
 
 ## ToDos
 
-- beim Klick auf eine bereits gewählte Universität soll diese aus dem Filter entfernt werden.
-- beim Setzen des Term-Filters dafür sorgen, das der Parameter in der url gesetzt wird
-  - beim Setzen IN DIE URL: die LISTE aller gerade ausgewählten Terms in der betreffenden Taxonomy setzen, nicht nur den letzten Wert!
+- Featured Cards auf Startseite einbinden
+- Projekteseite grob anlegen
+- Ideen entwickeln, wie man die Startseite gestalterisch auf einen vernünftigen Minimalstandard bringen kann
+
 - Umgang mit Aufheben des Universitätsfilters bei der Anwendung inhaltlicher Filter entscheiden und umsetzen.
-- Hintergrundgestaltung auf der Startseite analog zu Sammlungen-Seite
-- die Taxonomien/Terms in der URL spiegeln
 
 
 ## Backlist
