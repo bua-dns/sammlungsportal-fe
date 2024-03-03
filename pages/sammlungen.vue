@@ -373,7 +373,7 @@ onMounted(() => {
   </div>
   <div v-if="cardType == 'grid' && activeCollectionId" class="active-card-container" id="active-card-container">
     <div class="collection_cards_wrapper single-card">
-      <CollectionCardDetails 
+      <CardCollectionDetails 
         :collection="getCollectionById(activeCollectionId)" 
         :tagFilter="tagFilter"
         :termFilter="termFilter"
@@ -408,7 +408,7 @@ onMounted(() => {
       </div>
     </div>
     <div v-if="cardType == 'grid'" class="collection_cards_wrapper card-grid">
-      <CollectionCardGrid v-for="collection in sortedData" :key="collection.id" :collection="collection"
+      <CardCollectionGrid v-for="collection in sortedData" :key="collection.id" :collection="collection"
         @set-active-collection-id="setActiveCollectionId" />
     </div>
   </div>

@@ -72,7 +72,7 @@ const objectTypes = computed(() => {
     <div class="intro" v-html="homepage.data.cardset_featured_intro"/>
     <div class="features-grid">
       <div v-for="(card, idx) in homepage.data.cardset_featured" :key="idx" class="feature-card">
-        <FeatureCard :cardContent="card.navigation_cards_id"/>
+        <CardFeatured :cardContent="card.navigation_cards_id"/>
       </div>
   </div>
 
