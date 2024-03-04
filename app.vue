@@ -15,6 +15,7 @@ const { data: projectsData } = await useFetch('https://sammlungsportal.bua-dns.d
   }
 });
 
+
 const theme = useState('theme', () => themeContent);
 const taxonomyTerms = useState('taxonomyTerms', () => taxonomyTermsData);
 useState('background_images', () => backgroundImages);

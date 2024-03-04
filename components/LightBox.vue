@@ -1,10 +1,12 @@
 <script setup>
-const props = defineProps(['images', 'imageBasePath']);
+
+const props = defineProps(['images', 'startImage', 'imageBasePath']);
 const emit = defineEmits(['close']);
 const theme = useState('theme');
 const w = theme.value.data.wording.de;
 const numImages = ref(props.images.length);
-const currentImage = ref(0);
+const currentImage = ref(props.startImage || 0);
+console.log('startImage', props.startImage);
 
 // emit close on escape key
 const closeLightbox = (e) => {
@@ -44,7 +46,7 @@ onUnmounted(() => {
       </div>
     </div>
     <div class="lightbox-content">
-      <img :src="props.imageBasePath + props.images[currentImage].directus_files_id.filename_disk" alt="lightbox image" />
+      <img :src="imageBasePath + props.images[currentImage].directus_files_id.filename_disk" alt="lightbox image" />
     </div>
   </div>
 </template>

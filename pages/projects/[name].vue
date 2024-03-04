@@ -6,7 +6,8 @@ const projects = useState('projects');
 const project = computed(() => {
   return projects.value.data.find((project) => project.slug === projectName.value);
 });
-const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
+const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/"
+
 const showLightbox = ref(false);
 
 </script>
@@ -26,7 +27,10 @@ const showLightbox = ref(false);
           class="preview-image"
         >
         <Teleport to="body">
-          <LightBox v-if="showLightbox" :imageBasePath="imageBasePath" :images="[image]"
+          <LightBox v-if="showLightbox" 
+            :imageBasePath="imageBasePath" 
+            :images="project.images"
+            :startImage="index"
             @close="showLightbox = false" />
         </Teleport>
       </div>
