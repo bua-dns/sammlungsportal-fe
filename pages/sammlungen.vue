@@ -242,6 +242,14 @@ function setTermFilter(taxonomy, term) {
 }
 
 /**
+ * The activeCollectionsNum constant declares a computed reference.
+ * The 'activeCollectionsNum' reference is used to determine the number of collections that are displayed.
+ */
+const activeCollectionsNum = computed(() => {
+  return data.value.data.filter((collection) => collection.display).length;
+});
+
+/**
  * The setActiveTermClass function sets the active css class for a specific term in a taxonomy.
  * If the term is included in the current filter value list for the given taxonomy,
  * the function returns " active" to set the CSS class for the active state.
@@ -475,7 +483,9 @@ onMounted(() => {
   </Head>
   <div class="grid-control-bar" id="grid-control-bar">
     <div class="basic-controls">
-      <div class="collections-counter">{{ w.num_collections }}: {{ data.meta.total_count }}</div>
+      <div class="collections-counter">
+        {{ w.num_collections }}: {{ data.meta.total_count }} {{ w.shown }}: {{ activeCollectionsNum }}
+      </div>
       <div class="sort-controls">
         <div class="gws-input-group">
           <label for="tag-cloud-sort-select" class="sort-label">
