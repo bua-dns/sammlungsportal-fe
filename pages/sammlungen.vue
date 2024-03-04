@@ -98,10 +98,10 @@ const sortedData = computed(() => {
 // FILTER      -----------------------------------------------------------------
 
 /**
- * The showFilters constant declares a reactive reference and initializes it with the boolean value false.
+ * The showFilters constant declares a reactive reference and initializes it with the boolean value true.
  * The 'showFilters' reference is used to determine if the filter control bar is open.
  */
-const showFilters = ref(false);
+const showFilters = ref(true);
 
 /**
  * The toggleFilters function toggles the value of the 'showFilters' reference.
