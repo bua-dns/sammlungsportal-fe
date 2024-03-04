@@ -424,11 +424,11 @@ function setQueryParams() {
   const params = {};
   Object.keys(termFilter.value).forEach((taxonomy) => {
     if (termFilter.value[taxonomy] && termFilter.value[taxonomy].length > 0) {
-      params[taxonomy] = termFilter.value[taxonomy].join(",");
+      params[taxonomy] = termFilter.value[taxonomy].map((term) => encodeURIComponent(term)).join(",");
     }
   });
   if (activeCollectionId.value !== null) {
-    params.acid = activeCollectionId.value;
+    params.acid = encodeURIComponent(activeCollectionId.value);
   }
   router.push({ query: params });
 }
@@ -446,9 +446,11 @@ function setQueryParams() {
 onMounted(() => {
   let hasFilter = false;
   Object.keys(route.query).forEach((taxonomy) => {
+    const decoded = decodeURIComponent(route.query[taxonomy]);
+    console.log("decoded", decoded);
     if (taxonomy === "acid") {
-      if (route.query[taxonomy] && getCollectionById(route.query[taxonomy])) {
-        setActiveCollectionId(route.query[taxonomy]);
+      if (decoded && getCollectionById(decoded)) {
+        setActiveCollectionId(decoded);
       } else {
         errors.value.push("error_activeCollectionId");
       }
@@ -460,11 +462,12 @@ onMounted(() => {
           termFilter.value[taxonomy] = [];
         }
         route.query[taxonomy].split(",").forEach((term) => {
-          if (!terms.value[taxonomy].find((item) => item.label === term)) {
+          const decodedTerm = decodeURIComponent(term);
+          if (!terms.value[taxonomy].find((item) => item.label === decodedTerm)) {
             errors.value.push("error_tagLabel");
           } else {
             hasFilter = true;
-            termFilter.value[taxonomy].push(term);
+            termFilter.value[taxonomy].push(decodedTerm);
           }
         });
       }
@@ -485,20 +488,6 @@ onMounted(() => {
     <div class="basic-controls">
       <div class="collections-counter">
         {{ w.num_collections }}: {{ data.meta.total_count }} {{ w.shown }}: {{ activeCollectionsNum }}
-      </div>
-      <div class="sort-controls">
-        <div class="gws-input-group">
-          <label for="tag-cloud-sort-order" class="order-label">
-            <svg class="icon-sm me-1" width="16" height="16" fill="currentColor">
-              <use xlink:href="@/assets/img/bootstrap-icons.svg#sort-alpha-down"></use>
-            </svg>
-            <span class="description">{{ w.order }}</span>
-          </label>
-          <select id="tag-cloud-sort-order" class="order-select" v-model="order">
-            <option value="asc">{{ w.ascending }}</option>
-            <option value="desc">{{ w.descending }}</option>
-          </select>
-        </div>
       </div>
       <div class="gws-btn-group">
         <div class="filter-controls gws-group-element">
@@ -556,24 +545,40 @@ onMounted(() => {
         @set-active-collection-id="setActiveCollectionId" />
     </div>
   </div>
-  <div class="grid-control-bar filter-state">
-    <dl class="display-element">
-      <dt>{{ w.collections_of }}:</dt>
-      <dd v-if="termFilter.current_keeper && termFilter.current_keeper.length > 0"
-        v-for="(keeper, idx) in termFilter.current_keeper" :key="'filter-state-keeper-' + idx">
-        {{ keeper }}
-      </dd>
-      <dd v-else>{{ w.all_keepers }}</dd>
-    </dl>
-    <div class="display-element-container">
-      <template v-for="(terms, taxonomy) in termFilter" :key="'filter-state-terms-' + taxonomy">
-        <dl v-if="taxonomy !== 'current_keeper' && terms.length > 0" class="display-element">
-          <dt>{{ w[taxonomy] }}:</dt>
-          <dd v-for="(term, idx) in terms" :key="'filter-state-term-' + idx">
-            {{ term }}
-          </dd>
-        </dl>
-      </template>
+  <div class="grid-control-bar state-and-sort">
+    <div class="filter-state">
+      <dl class="display-element">
+        <dt>{{ w.collections_of }}:</dt>
+        <dd v-if="termFilter.current_keeper && termFilter.current_keeper.length > 0"
+          v-for="(keeper, idx) in termFilter.current_keeper" :key="'filter-state-keeper-' + idx">
+          {{ keeper }}
+        </dd>
+        <dd v-else>{{ w.all_keepers }}</dd>
+      </dl>
+      <div class="display-element-container">
+        <template v-for="(terms, taxonomy) in termFilter" :key="'filter-state-terms-' + taxonomy">
+          <dl v-if="taxonomy !== 'current_keeper' && terms.length > 0" class="display-element">
+            <dt>{{ w[taxonomy] }}:</dt>
+            <dd v-for="(term, idx) in terms" :key="'filter-state-term-' + idx">
+              {{ term }}
+            </dd>
+          </dl>
+        </template>
+      </div>
+    </div>
+    <div class="sort-controls">
+      <div class="gws-input-group">
+        <label for="tag-cloud-sort-order" class="order-label">
+          <svg class="icon-sm me-1" width="16" height="16" fill="currentColor">
+            <use xlink:href="@/assets/img/bootstrap-icons.svg#sort-alpha-down"></use>
+          </svg>
+          <span class="description">{{ w.order }}</span>
+        </label>
+        <select id="tag-cloud-sort-order" class="order-select" v-model="order">
+          <option value="asc">{{ w.ascending }}</option>
+          <option value="desc">{{ w.descending }}</option>
+        </select>
+      </div>
     </div>
   </div>
   <div class="collections_display" id="collections_display">
@@ -661,8 +666,17 @@ onMounted(() => {
   border-radius: 8px;
   background-color: #fff;
 
-  &.filter-state {
+  &.state-and-sort {
     margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+
+  .filter-state {
+    flex: 1 1;
 
     .display-element-container {
       display: flex;
@@ -672,17 +686,22 @@ onMounted(() => {
     }
 
     dl.display-element {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.25rem 0.5rem;
       margin: 0;
       line-height: 1;
 
       dt {
-        display: inline-block;
+        // display: inline-block;
         font-weight: bold;
       }
 
       dd {
-        display: inline-block;
-        margin: 0 0 0 0.5rem;
+        // display: inline-block;
+        margin: 0;
         font-size: 0.9rem;
         font-weight: 300;
         line-height: 1;
