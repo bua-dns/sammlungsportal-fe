@@ -488,18 +488,6 @@ onMounted(() => {
       </div>
       <div class="sort-controls">
         <div class="gws-input-group">
-          <label for="tag-cloud-sort-select" class="sort-label">
-            <svg class="icon-sm me-1" width="16" height="16" fill="currentColor">
-              <use xlink:href="@/assets/img/bootstrap-icons.svg#list-ol"></use>
-            </svg>
-            <span class="description">{{ w.sortby }}</span>
-          </label>
-          <select id="tag-cloud-sort-select" class="sort-select" v-model="sortby">
-            <option value="label">{{ w.label }}</option>
-            <option value="current_keeper">{{ w.current_keeper }}</option>
-          </select>
-        </div>
-        <div class="gws-input-group">
           <label for="tag-cloud-sort-order" class="order-label">
             <svg class="icon-sm me-1" width="16" height="16" fill="currentColor">
               <use xlink:href="@/assets/img/bootstrap-icons.svg#sort-alpha-down"></use>
