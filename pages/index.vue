@@ -89,7 +89,8 @@ const objectTypes = computed(() => {
   
   cursor: pointer;
   &.university-card {
-    flex-basis: 14%;
+    flex: 1 1 14%;
+    // flex-basis: 20%;
     min-height: 5rem;
   }
 
