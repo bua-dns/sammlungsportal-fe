@@ -1,28 +1,32 @@
 <script setup>
-/* Used auto-imported composables: projectConfig */
 
-const props = defineProps(["images", "startImage"])
-const emit = defineEmits(["close"])
-const theme = useState("theme")
-const w = theme.value.data.wording.de
-const numImages = ref(props.images.length)
-const currentImage = ref(props.startImage || 0)
+const props = defineProps({
+  images: Array,
+  startImage: Number,
+  previewMode: String, // 'gallery' or 'single'
+});
+const emit = defineEmits(['close']);
+const theme = useState('theme');
+const w = theme.value.data.wording.de;
+const numImages = ref(props.images.length);
+const currentImage = ref(props.startImage || 0);
 
 // emit close on escape key
 const closeLightbox = (e) => {
   if (e.key === "Escape") {
-    emit("close")
+    emit('close');
   }
-}
+};
 onMounted(() => {
-  window.addEventListener("keydown", closeLightbox)
-})
+  window.addEventListener('keydown', closeLightbox);
+});
 onUnmounted(() => {
-  window.removeEventListener("keydown", closeLightbox)
-})
+  window.removeEventListener('keydown', closeLightbox);
+});
+
 </script>
 <template>
-  <div class="lightbox">
+  <!-- <div class="lightbox">
     <div class="lightbox-close" @click="$emit('close')">
       <svg class="icon" width="24" height="24" fill="currentColor">
         <use xlink:href="@/assets/img/bootstrap-icons.svg#x"></use>
@@ -45,10 +49,7 @@ onUnmounted(() => {
       </div>
     </div>
     <div class="lightbox-content">
-      <img
-        :src="`${projectConfig.imageBaseUrl}/${props.images[currentImage].directus_files_id.filename_disk}`"
-        alt="lightbox image"
-      />
+      <img :src="imageBasePath + props.images[currentImage].directus_files_id.filename_disk" alt="lightbox image" />
     </div>
-  </div>
+  </div> -->
 </template>

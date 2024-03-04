@@ -1,4 +1,5 @@
 <script setup>
+/* Used auto-imported composables: projectConfig */
 const theme = useState('theme');
 const taxonomyTerms = useState('taxonomyTerms');
 const w = theme.value.data.wording.de;
@@ -17,7 +18,7 @@ const fields = [
   'cardset_featured_intro',
 ].join(',');
 
-const { data: homepage } = await useFetch('https://sammlungsportal.bua-dns.de/items/homepage', {
+const { data: homepage } = await useFetch(`${projectConfig.dataBaseUrl}/homepage`, {
   query: {
     fields
   },

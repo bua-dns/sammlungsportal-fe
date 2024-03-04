@@ -1,6 +1,11 @@
 <script setup>
+/* Used auto-imported composables: projectConfig */
+
 const collectionsFetchFields = [
-  'id', 'label', 'spws_id', 'current_keeper', 'description', 'used_in_activity', 'address', 'address.*',
+  // 1st level
+  'id', 'label', 'spws_id', 'current_keeper', 'description', 'used_in_activity', 'address', 
+  // nested
+  'address.*',
   'collection_image_main.*.*',
   'collection_images.directus_files_id.*.*',
   'dns_taxonomy_subjects.taxonomy_terms_id.id',
@@ -9,7 +14,7 @@ const collectionsFetchFields = [
   'dns_taxonomy_genre.taxonomy_terms_id.label',
 ]
 
-const { data } = await useFetch('https://sammlungsportal.bua-dns.de/items/bua_collections', {
+const { data } = await useFetch(`${projectConfig.dataBaseUrl}/bua_collections`, {
   query: {
     fields: collectionsFetchFields.join(','),
     limit: -1,
@@ -26,14 +31,6 @@ const settings = theme.value.data.settings;
 // REFACTOR: es müsste taxonomies heißen, nicht terms
 const terms = theme.value.data.settings.terms;
 const cardType = ref("grid");
-async function toggleCardType() {
-  cardType.value = cardType.value == "list" ? "grid" : "list";
-  if (cardType.value == "list" && activeCollectionId.value !== null) {
-    await nextTick();
-    const scrollTarget = document.getElementById("collection-" + activeCollectionId.value);
-    scrollTarget.scrollIntoView({ behavior: "smooth" });
-  }
-}
 
 // add display property to collections
 data.value.data.forEach((collection) => {

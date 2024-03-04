@@ -1,4 +1,5 @@
 <script setup>
+/* Used auto-imported composables: projectConfig */
 /*
 REFACTORING:
 - w sematisch benennen: wording (Konflikte?)
@@ -17,7 +18,6 @@ const tagNames = theme.value.data.names.tags;
 const terms = theme.value.data.settings.terms;
 const taxonomies = theme.value.data.names.taxonomies;
 
-const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
 function getTaxonomyInfo(taxonomy) {
   // extract taxonomy info from collection
   if (!props.collection[taxonomy]) {
@@ -149,9 +149,9 @@ const showLightbox = ref(false);
           </template>
         </dl>
         <div v-if="collection.collection_image_main" class="card-img-container">
-          <img @click="showLightbox = true" :src="imageBasePath + collection.collection_image_main.filename_disk + '?key=240x240'" alt="">
+          <img @click="showLightbox = true" :src="`${projectConfig.imageBaseUrl}/${collection.collection_image_main.filename_disk}?key=240x240`" alt="">
           <Teleport to="body">
-            <LightBox v-if="showLightbox" :imageBasePath="imageBasePath" :images="collection.collection_images"
+            <LightBox v-if="showLightbox" :images="collection.collection_images"
               @close="showLightbox = false" />
           </Teleport>
         </div>
