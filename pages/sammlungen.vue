@@ -1,6 +1,7 @@
 <script setup>
 const collectionsFetchFields = [
   'id', 'label', 'spws_id', 'current_keeper', 'description', 'used_in_activity', 'address', 'address.*',
+  'collection_image_main.*.*',
   'collection_images.directus_files_id.*.*',
   'dns_taxonomy_subjects.taxonomy_terms_id.id',
   'dns_taxonomy_subjects.taxonomy_terms_id.label',
