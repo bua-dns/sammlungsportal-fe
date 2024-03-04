@@ -64,29 +64,6 @@ data.value.data.forEach((collection) => {
   collection.display = true;
 });
 
-// CARD TYPE     ---------------------------------------------------------------
-
-/**
- * The const cardType declares a reactive reference and initializes it with the string "grid".
- * The 'cardType' reference is used to determine the type of card to be displayed.
- */
-const cardType = ref("grid");
-
-/**
- * The toggleCardType function toggles the value of the 'cardType' reference.
- * If the value of the 'cardType' reference is "list", it is set to "grid"; otherwise, it is set to "list".
- * If the value of the 'cardType' reference is "list" and the 'activeCollectionId' reference is not null,
- * it scrolls to the active collection.
- */
-async function toggleCardType() {
-  cardType.value = cardType.value == "list" ? "grid" : "list";
-  if (cardType.value == "list" && activeCollectionId.value !== null) {
-    await nextTick();
-    const scrollTarget = document.getElementById("collection-" + activeCollectionId.value);
-    scrollTarget.scrollIntoView({ behavior: "smooth" });
-  }
-}
-
 // SORT         ----------------------------------------------------------------
 
 /**
@@ -535,20 +512,6 @@ onMounted(() => {
             </span>
           </button>
         </div>
-        <div class="grid-controls gws-group-element">
-          <button class="gws-btn btn-switch" @click="toggleCardType">
-            <span v-if="cardType == 'list'" :title="w.change_to_grid_view">
-              <svg class="icon" width="16" height="16" fill="currentColor">
-                <use xlink:href="@/assets/img/bootstrap-icons.svg#grid"></use>
-              </svg>
-            </span>
-            <span v-if="cardType == 'grid'" :title="w.change_to_list_view">
-              <svg class="icon" width="16" height="16" fill="currentColor">
-                <use xlink:href="@/assets/img/bootstrap-icons.svg#view-list"></use>
-              </svg>
-            </span>
-          </button>
-        </div>
       </div>
     </div>
     <!-- <pre>{{ terms }}</pre> -->
@@ -588,7 +551,7 @@ onMounted(() => {
   <!-- <pre>{{ data }}</pre> -->
   <!-- <pre>{{ sortedData }}</pre> -->
   <!-- <pre>{{ activeCollectionId }}</pre> -->
-  <div v-if="cardType == 'grid' && activeCollectionId" class="active-card-container" id="active-card-container">
+  <div v-if="activeCollectionId" class="active-card-container" id="active-card-container">
     <div class="collection_cards_wrapper single-card">
       <CollectionCardDetails :collection="getCollectionById(activeCollectionId)" :termFilter="termFilter"
         :activeCollectionId="activeCollectionId" @set-term-filter="setTermFilter"
@@ -633,12 +596,7 @@ onMounted(() => {
         </ul>
       </div>
     </div>
-    <div v-if="cardType == 'list'" class="collection_cards_wrapper">
-      <CollectionCardDetails v-for="collection in sortedData" :key="collection.id" :collection="collection"
-        :termFilter="termFilter" :activeCollectionId="activeCollectionId" @set-term-filter="setTermFilter"
-        @set-active-collection-id="setActiveCollectionId" />
-    </div>
-    <div v-if="cardType == 'grid'" class="collection_cards_wrapper card-grid">
+    <div class="collection_cards_wrapper card-grid">
       <CollectionCardGrid v-for="collection in sortedData" :key="collection.id" :collection="collection"
         @set-active-collection-id="setActiveCollectionId" />
     </div>
