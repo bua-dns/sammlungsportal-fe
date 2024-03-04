@@ -27,7 +27,7 @@ onUnmounted(() => {
         <use xlink:href="@/assets/img/bootstrap-icons.svg#x"></use>
       </svg>
     </div>
-    <div class="lightbox-nav">
+    <div class="lightbox-nav" v-if="numImages > 1">
       <div class="lightbox-prev" @click="currentImage = (currentImage - 1 + numImages) % numImages">
         <div class="icon-container">
           <svg class="icon" width="24" height="24" fill="currentColor">
