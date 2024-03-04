@@ -56,7 +56,7 @@ const sortedData = computed(() => {
   });
 });
 
-const showFilters = ref(false);
+const showFilters = ref(true);
 function toggleFilters() {
   showFilters.value = !showFilters.value;
 }
@@ -289,33 +289,8 @@ onMounted(() => {
   </Head>
   <div class="grid-control-bar" id="grid-control-bar">
     <div class="basic-controls">
-      <div class="collections-counter">{{ w.num_collections }}: {{ data.meta.total_count }}</div>
-      <div class="sort-controls">
-        <div class="gws-input-group">
-          <label for="tag-cloud-sort-select" class="sort-label">
-            <svg class="icon-sm me-1" width="16" height="16" fill="currentColor">
-              <use xlink:href="@/assets/img/bootstrap-icons.svg#list-ol"></use>
-            </svg>
-            <span class="description">{{ w.sortby }}</span>
-          </label>
-          <select id="tag-cloud-sort-select" class="sort-select" v-model="sortby">
-            <option value="label">{{ w.label }}</option>
-            <option value="current_keeper">{{ w.current_keeper }}</option>
-          </select>
-        </div>
-        <div class="gws-input-group">
-          <label for="tag-cloud-sort-order" class="order-label">
-            <svg class="icon-sm me-1" width="16" height="16" fill="currentColor">
-              <use xlink:href="@/assets/img/bootstrap-icons.svg#sort-alpha-down"></use>
-            </svg>
-            <span class="description">{{ w.order }}</span>
-          </label>
-          <select id="tag-cloud-sort-order" class="order-select" v-model="order">
-            <option value="asc">{{ w.ascending }}</option>
-            <option value="desc">{{ w.descending }}</option>
-          </select>
-        </div>
-      </div>
+      <h2>Die {{ data.meta.total_count }} digital erfassten Sammlungen der BUA-Universitäten</h2>
+
       <div class="gws-btn-group">
         <div class="filter-controls gws-group-element">
           <button :class="(showFilters) ? 'gws-btn btn-filter active' : 'gws-btn btn-filter'" @click="toggleFilters">
@@ -385,9 +360,25 @@ onMounted(() => {
         @set-active-collection-id="setActiveCollectionId" />
     </div>
   </div>
-  <div class="grid-control-bar filter-state">
-    <div class="display-element"><strong>Sammlungen von:</strong> {{ getCurrentKeeperDisplay()}}</div>
-    <div class="display-element" v-html="getFilterTermsDisplay()" />
+  <div class="grid-control-bar state-and-sort">
+    <div class="filter-state-display">
+      <div class="display-element"><strong>Sammlungen von:</strong> {{ getCurrentKeeperDisplay()}}</div>
+      <div class="display-element" v-html="getFilterTermsDisplay()" />
+    </div>
+    <div class="controls">
+      <div class="gws-input-group">
+          <label for="tag-cloud-sort-order" class="order-label">
+            <svg class="icon-sm me-1" width="16" height="16" fill="currentColor">
+              <use xlink:href="@/assets/img/bootstrap-icons.svg#sort-alpha-down"></use>
+            </svg>
+            <span class="description">{{ w.order }}</span>
+          </label>
+          <select id="tag-cloud-sort-order" class="order-select" v-model="order">
+            <option value="asc">{{ w.ascending }}</option>
+            <option value="desc">{{ w.descending }}</option>
+          </select>
+        </div>
+    </div>
   </div>
     
   <div class="collections_display" id="collections_display">
@@ -457,29 +448,42 @@ onMounted(() => {
 }
 
 .grid-control-bar {
-
   width: min(100%, 1200px);
   margin: 132px auto 0;
   padding: 1rem;
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #fff;
-  &.filter-state {
+  &.state-and-sort {
     margin-top: 1rem;
-    .display-element {
-      display: flex;
-      gap: .75rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2.5rem;
+    .filter-state-display {
+      flex: 1;
+      .display-element {
+        display: flex;
+        gap: .75rem;
+      }
     }
+    .controls {
+      flex-basis: 1;
+      align-self: flex-end;
+      .gws-input-group {
+        margin-left: auto;
+      }
+    }
+  }
+  .basic-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
   }
 }
 
-.basic-controls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-}
 
 .collections-counter {
   font-size: 0.85rem;
