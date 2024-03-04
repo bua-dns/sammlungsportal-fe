@@ -10,9 +10,14 @@ const project = computed(() => {
 </script>
 
 <template>
+  <Head>
+    <Title>Projekte</Title>
+  </Head>
   <div class="page">
-    project page: {{ projectName }}<br>
-    <pre>{{ project }}</pre>
+    <h1 class="text-center">{{ project.title }}</h1>
+    <h3 class="text-center mb-4">{{ project.sub_line }}</h3>
+    <div v-html="project.description" />
+    <pre v-if="true">{{ project }}</pre>
   </div>
 </template>
 

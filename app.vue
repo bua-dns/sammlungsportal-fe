@@ -10,7 +10,7 @@ const { data: taxonomyTermsData } = await useFetch('https://sammlungsportal.bua-
 });
 const { data: projectsData } = await useFetch('https://sammlungsportal.bua-dns.de/items/projects', {
   query: {
-    fields: 'id, slug, sub_line, description, affiliation, images.*.*',
+    fields: 'title, id, slug, sub_line, description, affiliation, images.*.*',
     limit: 3,
   }
 });
