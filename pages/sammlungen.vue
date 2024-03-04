@@ -174,9 +174,7 @@ const terms = ref({});
 function setupTerms() {
   data.value.data.forEach((collection) => {
     settings.taxonomies.forEach((taxonomy) => {
-      if (!terms.value[taxonomy]) {
-        terms.value[taxonomy] = [];
-      }
+      terms.value[taxonomy] = terms.value[taxonomy] || [];
       if (collection[taxonomy] && collection[taxonomy].length > 0) {
         if (!Array.isArray(collection[taxonomy])) {
           if (!terms.value[taxonomy].find((term) => term.label === collection[taxonomy])) {
@@ -196,16 +194,8 @@ function setupTerms() {
       }
     });
   });
-  Object.keys(terms.value).forEach((term) => {
-    terms.value[term].sort((a, b) => {
-      if (a.label < b.label) {
-        return -1;
-      }
-      if (a.label > b.label) {
-        return 1;
-      }
-      return 0;
-    });
+  Object.keys(terms.value).forEach((taxonomy) => {
+    terms.value[taxonomy].sort((a, b) => a.label.localeCompare(b.label));
   });
 }
 setupTerms();
@@ -249,36 +239,25 @@ const termFilter = ref({});
 function setTermFilter(taxonomy, term) {
   // toggle term (add or remove when already present)
   if (taxonomy && term) {
+    termFilter.value[taxonomy] = termFilter.value[taxonomy] || [];
     if (termFilter.value[taxonomy] && termFilter.value[taxonomy].includes(term)) {
       termFilter.value[taxonomy] = termFilter.value[taxonomy].filter((item) => item !== term);
     } else {
-      if (!termFilter.value[taxonomy]) {
-        termFilter.value[taxonomy] = [];
-      }
       termFilter.value[taxonomy].push(term);
     }
   }
   // apply filter
   data.value.data.forEach((collection) => {
-    collection.display = true;
-    settings.taxonomies.forEach((settingTaxonomy) => {
-      if (termFilter.value[settingTaxonomy] && termFilter.value[settingTaxonomy].length > 0) {
-        if (!Array.isArray(collection[settingTaxonomy])) {
-          if (!termFilter.value[settingTaxonomy].includes(collection[settingTaxonomy])) {
-            collection.display = false;
-          }
-        } else {
-          let found = false;
-          collection[settingTaxonomy].forEach((term) => {
-            if (termFilter.value[settingTaxonomy].includes(term.taxonomy_terms_id.label)) {
-              found = true;
-            }
-          });
-          if (!found) {
-            collection.display = false;
-          }
-        }
+    collection.display = settings.taxonomies.every((settingTaxonomy) => {
+      if (!termFilter.value[settingTaxonomy] || termFilter.value[settingTaxonomy].length === 0) {
+        return true;
       }
+      return termFilter.value[settingTaxonomy].some((filterValue) =>
+        (Array.isArray(collection[settingTaxonomy])
+          ? collection[settingTaxonomy].map((term) => term.taxonomy_terms_id.label)
+          : [collection[settingTaxonomy]]
+        ).includes(filterValue)
+      );
     });
   });
   setQueryParams();
@@ -510,9 +489,10 @@ onMounted(() => {
     setTermFilter();
   }
 });
-
 </script>
+
 <template>
+
   <Head>
     <Title>{{ w.page_collections }}</Title>
   </Head>
@@ -590,8 +570,9 @@ onMounted(() => {
           </span>
         </button>
       </div>
-      <details v-for="(taxonomyTerms, taxonomy) in terms" :id="'filter-card-' + taxonomy" :key="'filter-card-' + taxonomy"
-        class="filter-card" @toggle="toggleDetail(taxonomy, $event)" :open="isFilterDetailsOpen(taxonomy) ? true : null">
+      <details v-for="(taxonomyTerms, taxonomy) in terms" :id="'filter-card-' + taxonomy"
+        :key="'filter-card-' + taxonomy" class="filter-card" @toggle="toggleDetail(taxonomy, $event)"
+        :open="isFilterDetailsOpen(taxonomy) ? true : null">
         <summary class="tag-title">{{ w[taxonomy] }}</summary>
         <div class="tags">
           <button v-for="(term, termIdx) in taxonomyTerms" :key="'filter-card-' + taxonomy + '-' + termIdx"
@@ -642,6 +623,7 @@ onMounted(() => {
     </div>
   </div>
 </template>
+
 <style scoped lang="scss">
 .active-card-container {
   scroll-margin-top: 48px;
