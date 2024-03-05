@@ -21,6 +21,17 @@ function activeTerm(taxonomy, term) {
 const showLightbox = ref(false);
 const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
 
+function getImageUrls(images){
+  let imageUrls = [];
+  if (images && images.length > 0) {
+    images.forEach(image => {
+      if (image.directus_files_id) {
+        imageUrls.push(image.directus_files_id.filename_disk);
+      }
+    });
+  }
+  return imageUrls;
+};
 </script>
 <template>
   <div v-if="collection.display" :class="collection.id === activeCollectionId ? 'card active-collection' : 'card'"
@@ -118,14 +129,9 @@ const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
             </dd>
           </template>
         </dl>
-        <div v-if="collection.collection_image_main" class="card-img-container">
-          <img @click="showLightbox = true" :src="imageBasePath + collection.collection_image_main + '?key=240x240'"
-            alt="">
-          <Teleport to="body">
-            <LightBox v-if="showLightbox" :imageBasePath="imageBasePath" :images="collection.collection_images"
-              @close="showLightbox = false" />
-          </Teleport>
-          <!-- {{ collection.collection_images }} -->
+        <!-- images: <pre>{{ collection }}</pre> -->
+        <div v-if="collection.collection_images && collection.collection_images.length" class="collection-images">
+          <ImageViewer :images="getImageUrls(collection.collection_images)" previewMode="gallery" previewImageWidth="120" />
         </div>
       </div>
     </div>
@@ -172,7 +178,10 @@ const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
     /* box-shadow: inset 0px 0px 20px 0px #2b5c8c; */
   }
 }
-
+.collection-images {
+  margin: 1rem auto;
+  max-width: 80%;
+}
 .card-keeper {
   border-bottom: 2px solid #333;
   font-size: 0.85rem;
