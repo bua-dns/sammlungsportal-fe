@@ -39,7 +39,7 @@ data.value.data.forEach((collection) => {
 
 // SORT         ----------------------------------------------------------------
 
-// By now, the value ist fixed to "label" and can't be changed.
+// By now, the value ist fixed to "label" and can't be changed in UI.
 
 const sortby = ref("label");
 const order = ref("asc");
@@ -66,26 +66,19 @@ function toggleFilters() {
   showFilters.value = !showFilters.value;
 }
 
-/**
-  * Terms data strurcture:
+ /**
+  * collection[taxonomy] can be array or string
+  * data structure gets nomalized for both cases, always:
   * {
   *   "taxonomy1": [
   *     { label: "term1", count: 1 },
   *     { label: "term2", count: 1 }
   *   ],
-  *   "taxonomy2": [
-  *     { label: "term3", count: 1 },
-  *     { label: "term4", count: 1 }
-  *   ]
+  *   ...
   * }
+  * sort by label alphabetically
   */
 const terms = ref({});
-
-/**
- * collection[taxonomy] can be array or string
- * data structure gets nomalized for both cases
- * sort by label alphabetically
- */
 function setupTerms() {
   data.value.data.forEach((collection) => {
     settings.taxonomies.forEach((taxonomy) => {
@@ -116,41 +109,17 @@ function setupTerms() {
 setupTerms();
 
 /**
- * The const termFilter declares a reactive reference and initializes it with an empty object.
- * The 'termFilter' object is used to store the current filter values for each taxonomy.
- * The filter values are added to the object in the setTermFilter function.
- *
- * The filter values are used for the following
- * - to filter the data collections,
- * - to set the active CSS class for a specific term in a taxonomy,
- * - to check if a taxonomy has an active term,
- * - to check if the filter details for a taxonomy are open,
- * - to reset the filter,
- * - to scroll to the results after selecting a term,
- * - to update the query parameters,
- * - to scroll to the active collection.
- *
- * The structure of the termFilter object is as follows:
+ * 'termFilter': current filter values for each taxonomy set by setTermFilter function
+ * Data structure:
  * {
  *   "taxonomy1": ["term1", "term2"],
- *   "taxonomy2": ["term1", "term2"]
+ *   ...
  * }
- *
  */
 const termFilter = ref({});
 
-/**
- * The setTermFilter function sets the termFilter for a given taxonomy.
- * If the term is already present in the filter for the taxonomy, it is removed; otherwise, it is added.
- * After updating the filter, it applies the filter to the data collections.
- * Each collection is set to display true initially.
- * If the filter value list for the given taxonomy is not empty, it checks if the collection has the term;
- * if it does not, it sets the collection to display false.
- * Finally, it updates the query parameters and scrolls to the results.
- *
- * @param {string} taxonomy - The name of the taxonomy.
- * @param {string} term - The term to be added or removed from the filter.
- */
+// sets the termFilter for a given taxonomy by changing display prop of collection
+
 function setTermFilter(taxonomy, term) {
   // toggle term (add or remove when already present)
   if (taxonomy && term) {
@@ -179,24 +148,11 @@ function setTermFilter(taxonomy, term) {
   scrollToResults();
 }
 
-/**
- * The activeCollectionsNum constant declares a computed reference.
- * The 'activeCollectionsNum' reference is used to determine the number of collections that are displayed.
- */
 const activeCollectionsNum = computed(() => {
   return data.value.data.filter((collection) => collection.display).length;
 });
 
-/**
- * The setActiveTermClass function sets the active css class for a specific term in a taxonomy.
- * If the term is included in the current filter value list for the given taxonomy,
- * the function returns " active" to set the CSS class for the active state.
- * If the term is not included in the list, the function returns an empty string.
- *
- * @param {string} taxonomy - The name of the taxonomy.
- * @param {string} term - The term for which the active class should be set.
- * @returns {string} - Returns " active" if the term is included in the filter value list, otherwise "".
- */
+// sets the  css class 'active' for a specific term in a taxonomy.
 function setActiveTermClass(taxonomy, term) {
   if (termFilter.value[taxonomy] && termFilter.value[taxonomy].includes(term)) {
     return " active";
@@ -204,14 +160,7 @@ function setActiveTermClass(taxonomy, term) {
   return "";
 }
 
-/**
- * The hasTaxonomyActiveTerm function checks if a taxonomy has an active term.
- * If the filter value list for the given taxonomy is not empty, the function returns true; otherwise, it returns false.
- * The function is used to determine if the filter details for a taxonomy are open.
- *
- * @param {string} taxonomy - The name of the taxonomy.
- * @returns {boolean} - Returns true if the taxonomy has an active term, otherwise false.
- */
+// checks if a taxonomy has an active term to control if filter details for this taxonomy shall be open
 function hasTaxonomyActiveTerm(taxonomy) {
   if (termFilter.value[taxonomy] && termFilter.value[taxonomy].length > 0) {
     return true;
@@ -219,28 +168,8 @@ function hasTaxonomyActiveTerm(taxonomy) {
   return false;
 }
 
-/**
- * The filterDetails constant declares a reactive reference and initializes it with an empty object.
- * The 'filterDetails' object will be used to store the open state of the filter details for each taxonomy.
- * The open state is toggled in the toggleDetail function.
- *
- * The structure of the filterDetails object is as follows:
- * {
- *   "taxonomy1": true,
- *   "taxonomy2": false
- * }
- *
- */
+// filter details for each taxonomy: open or closed (state, check for taxonomy, toggle state)
 const filterDetails = ref({});
-
-/**
- * The isFilterDetailsOpen function checks if the filter details for a taxonomy are open.
- * If the taxonomy is "current_keeper" or has an active term or the filter details for the taxonomy are open,
- * the function returns true; otherwise, it returns false.
- *
- * @param {string} taxonomy - The name of the taxonomy.
- * @returns {boolean} - Returns true if the filter details for the taxonomy are open, otherwise false.
- */
 function isFilterDetailsOpen(taxonomy) {
   if (taxonomy === 'current_keeper' || hasTaxonomyActiveTerm(taxonomy) || filterDetails.value[taxonomy]) {
     return true;
@@ -248,23 +177,11 @@ function isFilterDetailsOpen(taxonomy) {
   return false;
 }
 
-/**
- * The toggleDetail function toggles the open state of the filter details for a taxonomy.
- * If the filter details for the taxonomy are open, it sets the open state to false; otherwise, it sets it to true.
- *
- * @param {string} taxonomy - The name of the taxonomy.
- * @param {Event} event - The event object.
- */
 function toggleDetail(taxonomy, { target }) {
   filterDetails.value[taxonomy] = target.open;
 }
 
-/**
- * The resetFilters function resets the filter values for each taxonomy.
- * It sets the filter value list for each taxonomy to an empty array.
- * It sets the display value for each collection to true.
- * It updates the query parameters.
- */
+// reset filters for all taxonomies
 function resetFilters() {
   Object.keys(termFilter.value).forEach((term) => {
     termFilter.value[term] = [];
@@ -278,21 +195,10 @@ function resetFilters() {
 
 // UTILS              ----------------------------------------------------------
 
-
-/**
- * The scrollToResultsAfterSelect constant declares a reactive reference and initializes it with the boolean value true.
- * The 'scrollToResultsAfterSelect' reference is used to determine if the page should scroll to the results after selecting a term.
- */
+// state of UI option to scroll to results after selecting a term
 const scrollToResultsAfterSelect = ref(true);
 
-/**
- * The scrollToResults function scrolls to the results after selecting a term.
- * If the value of the 'scrollToResultsAfterSelect' reference is true, or the always parameter is true,
- * it scrolls to the results.
- * If the value of the 'scrollToResultsAfterSelect' reference is false, it does not scroll to the results.
- *
- * @param {boolean} always - The always parameter is used to determine if the page should always scroll to the results.
- */
+// scroll to results after selecting a term
 function scrollToResults(always = false) {
   if (scrollToResultsAfterSelect.value || always) {
     const scrollTarget = document.getElementById("collections_display");
@@ -302,21 +208,9 @@ function scrollToResults(always = false) {
   }
 }
 
-/**
- * The activeCollectionId constant declares a reactive reference and initializes it with the value null.
- * The 'activeCollectionId' reference is used to determine the id of the active collection.
- * The value of the 'activeCollectionId' reference is set in the setActiveCollectionId function.
- */
+// handle user's selection of a collection for detailed display (only one at a time)
 const activeCollectionId = ref(null);
 
-/**
- * The setActiveCollectionId function sets the active collection id.
- * It sets the value of the 'activeCollectionId' reference to the given id.
- * It updates the query parameters.
- * If the id is not null, it scrolls to the active collection.
- *
- * @param {string} id - The id of the active collection.
- */
 function setActiveCollectionId(id) {
   activeCollectionId.value = id;
   setQueryParams();
@@ -328,36 +222,19 @@ function setActiveCollectionId(id) {
   }
 }
 
-/**
- * The getCollectionById function returns the collection with the given id.
- *
- * @param {string} id - The id of the collection.
- * @returns {object} - The collection with the given id.
- */
 function getCollectionById(id) {
   return data.value.data.find((collection) => collection.id === id);
 }
 
-/**
- * The errors constant declares a reactive reference and initializes it with an empty array.
- * The 'errors' reference is used to store the errors.
- * The errors are added to the array in the onMounted function.
- */
+// store errors in array, added in the onMounted function
 const errors = ref([]);
 
-/**
- * The closeErrorDisplay function closes the error display.
- * It sets the value of the 'errors' reference to an empty array.
- */
+// closes the error display.
 function closeErrorDisplay() {
   errors.value = [];
 }
 
-/**
- * The setQueryParams function sets the query parameters.
- * It sets the query parameters for each taxonomy with a filter value list that is not empty.
- * It sets the query parameter for the active collection id if it is not null.
- */
+// sets the query parameters: taxonomies and active collection
 function setQueryParams() {
   const params = {};
   Object.keys(termFilter.value).forEach((taxonomy) => {
@@ -373,14 +250,14 @@ function setQueryParams() {
 
 
 /**
- * The onMounted function is called when the Vue.js component is mounted.
- * It checks the query parameters and sets the active collection id and term filter accordingly.
+ * checks the query parameters and sets the active collection id and term filter accordingly.
  * If the query parameters contain an active collection id, it checks if the collection exists in the data collections;
  * if it does, it sets the active collection id; otherwise, it adds an error to the errors list.
  * If the query parameters contain a term filter, it sets the term filter accordingly.
  * If the query parameters contain an unknown taxonomy, it adds an error to the errors list.
  * If the query parameters contain an unknown term label, it adds an error to the errors list.
  */
+
 onMounted(() => {
   let hasFilter = false;
   Object.keys(route.query).forEach((taxonomy) => {
