@@ -14,9 +14,7 @@ const collectionsFetchFields = [
   'dns_taxonomy_genre.taxonomy_terms_id.label',
 ]
 
-/**
- * The 'data' reference is used to store the data collections and the meta data.
- */
+// data fetch from directus
 const { data } = await useFetch('https://sammlungsportal.bua-dns.de/items/bua_collections', {
   query: {
     fields: collectionsFetchFields.join(','),
@@ -32,8 +30,6 @@ const w = theme.value.data.wording.de;
 
 const universities = theme.value.data.names.keepers;
 const settings = theme.value.data.settings;
-// REFACTOR: es müsste taxonomies heißen, nicht terms
-// const terms = theme.value.data.settings.terms;
 const cardType = ref("grid");
 
 // add display property to collections
@@ -64,56 +60,31 @@ const sortedData = computed(() => {
 
 // FILTER      -----------------------------------------------------------------
 
-/**
- * The showFilters constant declares a reactive reference and initializes it with the boolean value true.
- * The 'showFilters' reference is used to determine if the filter control bar is open.
- */
+// Toggle the filter control bar
 const showFilters = ref(true);
-
-/**
- * The toggleFilters function toggles the value of the 'showFilters' reference.
- */
 function toggleFilters() {
   showFilters.value = !showFilters.value;
 }
 
 /**
- * The terms constant declares a reactive reference and initializes it with an empty object.
- * The 'terms' object will be used to store the terms for each taxonomy from the data collections.
- * The terms are added to the object in the setupTerms function.
- *
- * The structure of the terms object is as follows:
- * {
- *   "taxonomy1": [
- *     { label: "term1", count: 1 },
- *     { label: "term2", count: 1 }
- *   ],
- *   "taxonomy2": [
- *     { label: "term3", count: 1 },
- *     { label: "term4", count: 1 }
- *   ]
- * }
- *
- */
+  * Terms data strurcture:
+  * {
+  *   "taxonomy1": [
+  *     { label: "term1", count: 1 },
+  *     { label: "term2", count: 1 }
+  *   ],
+  *   "taxonomy2": [
+  *     { label: "term3", count: 1 },
+  *     { label: "term4", count: 1 }
+  *   ]
+  * }
+  */
 const terms = ref({});
 
 /**
- * The setupTerms function sets up the terms for each taxonomy in the data collections.
- * It iterates over each collection and each taxonomy, and adds the terms from
- * the collection to the terms list for the taxonomy.
- *
- * If collection[taxonomy] is not an array it is a string representing the label
- * name of a single term (e.g. as for current_keeper).
- * If it is an array, it is a list of terms where each term has a taxonomy_terms_id.label.
- * This means each term is represented as an object with a "taxonomy_terms_id" key,
- * which itself is an object with a "label" key.
- * The "label" key holds the name of the term.
- *
- * If a term is already present in the list, it increments the count value for the term;
- * otherwise, it adds the term with a count of 1.
- *
- * After all terms have been added, it sorts the terms for each taxonomy
- * alphabetically by label.
+ * collection[taxonomy] can be array or string
+ * data structure gets nomalized for both cases
+ * sort by label alphabetically
  */
 function setupTerms() {
   data.value.data.forEach((collection) => {
@@ -467,6 +438,7 @@ onMounted(() => {
       </div>
     </div>
     <!-- DEV outputs for inspection -->
+    <pre v-if="false">{{ terms }}</pre>
     <div v-if="showFilters" class="filter-control-bar">
       <div class="filter-control-bar-controls">
         <div class="form-check form-switch gws-form-switch-right d-flex justify-content-end align-items-center">
