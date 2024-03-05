@@ -348,10 +348,7 @@ onMounted(() => {
     <div class="collection_cards_wrapper single-card">
       <CardCollectionDetails 
         :collection="getCollectionById(activeCollectionId)" 
-        :tagFilter="tagFilter"
         :termFilter="termFilter"
-        :termsIndex="termsIndex"
-        :termsListing="termsListing"
         :activeCollectionId="activeCollectionId" 
         @set-term-filter="setTermFilter"
         @set-active-collection-id="setActiveCollectionId" />
