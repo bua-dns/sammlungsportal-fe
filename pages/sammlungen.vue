@@ -77,6 +77,7 @@ function setupTermListing() {
             termsIndex.value[term] = {};
             termsListing.value[term] = [];
           }
+          
           const label = entry.taxonomy_terms_id.label;
           const indexEntry = termsIndex.value[term];
           // Update the termsIndex
@@ -380,7 +381,42 @@ onMounted(() => {
         </div>
     </div>
   </div>
-    
+    <div class="grid-control-bar state-and-sort">
+    <div class="filter-state">
+      <dl class="display-element">
+        <dt>{{ w.collections_of }}:</dt>
+        <dd v-if="termFilter.current_keeper && termFilter.current_keeper.length > 0"
+          v-for="(keeper, idx) in termFilter.current_keeper" :key="'filter-state-keeper-' + idx">
+          {{ keeper }}
+        </dd>
+        <dd v-else>{{ w.all_keepers }}</dd>
+      </dl>
+      <div class="display-element-container">
+        <template v-for="(terms, taxonomy) in termFilter" :key="'filter-state-terms-' + taxonomy">
+          <dl v-if="taxonomy !== 'current_keeper' && terms.length > 0" class="display-element">
+            <dt>{{ w[taxonomy] }}:</dt>
+            <dd v-for="(term, idx) in terms" :key="'filter-state-term-' + idx">
+              {{ term }}
+            </dd>
+          </dl>
+        </template>
+      </div>
+    </div>
+    <div class="sort-controls">
+      <div class="gws-input-group">
+        <label for="tag-cloud-sort-order" class="order-label">
+          <svg class="icon-sm me-1" width="16" height="16" fill="currentColor">
+            <use xlink:href="@/assets/img/bootstrap-icons.svg#sort-alpha-down"></use>
+          </svg>
+          <span class="description">{{ w.order }}</span>
+        </label>
+        <select id="tag-cloud-sort-order" class="order-select" v-model="order">
+          <option value="asc">{{ w.ascending }}</option>
+          <option value="desc">{{ w.descending }}</option>
+        </select>
+      </div>
+    </div>
+  </div>  
   <div class="collections_display" id="collections_display">
     <div v-if="errors.length > 0" class="url_errors_wrapper">
       <div class="url_errors">
@@ -447,43 +483,107 @@ onMounted(() => {
   grid-gap: 1rem;
 }
 
+// .grid-control-bar {
+//   width: min(100%, 1200px);
+//   margin: 132px auto 0;
+//   padding: 1rem;
+//   border: 1px solid #ccc;
+//   border-radius: 8px;
+//   background-color: #fff;
+//   &.state-and-sort {
+//     margin-top: 1rem;
+//     display: flex;
+//     flex-wrap: wrap;
+//     justify-content: space-between;
+//     gap: 2.5rem;
+//     .filter-state-display {
+//       flex: 1;
+//       .display-element {
+//         display: flex;
+//         gap: .75rem;
+//       }
+//     }
+//     .controls {
+//       flex-basis: 1;
+//       align-self: flex-end;
+//       .gws-input-group {
+//         margin-left: auto;
+//       }
+//     }
+//   }
+//   .basic-controls {
+//     display: flex;
+//     flex-wrap: wrap;
+//     align-items: center;
+//     justify-content: space-between;
+//     gap: 0.5rem;
+//   }
+// }
 .grid-control-bar {
+  // display: flex;
+  // flex-wrap: wrap;
+  // align-items: center;
+  // justify-content: space-between;
+  // gap: 0.5rem;
   width: min(100%, 1200px);
   margin: 132px auto 0;
+  // margin: 1rem auto 0;
   padding: 1rem;
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #fff;
+
   &.state-and-sort {
     margin-top: 1rem;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 2.5rem;
-    .filter-state-display {
-      flex: 1;
-      .display-element {
-        display: flex;
-        gap: .75rem;
-      }
-    }
-    .controls {
-      flex-basis: 1;
-      align-self: flex-end;
-      .gws-input-group {
-        margin-left: auto;
-      }
-    }
-  }
-  .basic-controls {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
+    align-items: flex-end;
+    justify-content: flex-end;
     gap: 0.5rem;
   }
-}
 
+  .filter-state {
+    flex: 1 1;
+
+    .display-element-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0.5rem 0 0;
+    }
+
+    dl.display-element {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.25rem 0.5rem;
+      margin: 0;
+      line-height: 1;
+
+      dt {
+        // display: inline-block;
+        font-weight: bold;
+      }
+
+      dd {
+        // display: inline-block;
+        margin: 0;
+        font-size: 0.9rem;
+        font-weight: 300;
+        line-height: 1;
+        padding: 0.4em 0.6em;
+        border: 0;
+        border-radius: 4px;
+        background-color: var(--color-base-d0);
+        border-color: var(--color-nav-brd);
+        border-style: solid;
+        border-width: 1px;
+        color: #000;
+      }
+    }
+  }
+}
 
 .collections-counter {
   font-size: 0.85rem;
