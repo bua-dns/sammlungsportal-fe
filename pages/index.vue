@@ -51,24 +51,33 @@ const objectTypes = computed(() => {
         </NuxtLink>
       </div>
     </div>
-    <!-- Subjects cards -->
-    <div class="intro" v-html="homepage.data.subject_selection_intro"/>
-    <div class="subject-grid">
-      <div v-for="(subject, idx) in subjects" :key="idx" class="card dns-card selection-card">
-        <NuxtLink :to="`/sammlungen/?dns_taxonomy_subjects=${subject.label}`" class="card-link medium">
-          {{ subject.label }}
-        </NuxtLink>
+    <div class="my-4 select-cards row">
+      <div class="select-cards-section subjects col-lg">
+        <div class="intro" v-html="homepage.data.subject_selection_intro"/>
+          <div class="subject-grid">
+            <div v-for="(subject, idx) in subjects" :key="idx" class="card dns-card selection-card">
+              <NuxtLink :to="`/sammlungen/?dns_taxonomy_subjects=${subject.label}`" class="card-link medium">
+                {{ subject.label }}
+              </NuxtLink>
+            </div>
+          </div>
+          
+      
       </div>
-    </div>
-    <!-- Object type cards -->
-    <div class="intro" v-html="homepage.data.object_type_selection_intro"/>
-    <div class="subject-grid">
-      <div v-for="(type, idx) in objectTypes" :key="idx" class="card dns-card selection-card">
-        <NuxtLink :to="`/sammlungen/?dns_taxonomy_genre=${type.label}`" class="card-link medium">
-          {{ type.label }}
-        </NuxtLink>
+      <div class="select-cards-section object-types col-lg">
+        
+        <div class="intro" v-html="homepage.data.object_type_selection_intro"/>
+          <div class="subject-grid">
+            <div v-for="(type, idx) in objectTypes" :key="idx" class="card dns-card selection-card">
+              <NuxtLink :to="`/sammlungen/?dns_taxonomy_genre=${type.label}`" class="card-link medium">
+                {{ type.label }}
+              </NuxtLink>
+            </div>
+          </div>
+      
       </div>
-    </div>
+
+    </div>    
     <!-- Featured cards -->
     <div class="intro" v-html="homepage.data.cardset_featured_intro"/>
     <div class="features-grid">
@@ -95,6 +104,13 @@ const objectTypes = computed(() => {
   }
 
 }
+.select-card {
+  .select-cards-section {
+    flex: 1;
+
+  }
+}
+
 .subject-grid {
   margin-top: 2rem;
   display: grid;
