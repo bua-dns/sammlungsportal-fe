@@ -51,24 +51,33 @@ const objectTypes = computed(() => {
         </NuxtLink>
       </div>
     </div>
-    <!-- Subjects cards -->
-    <div class="intro" v-html="homepage.data.subject_selection_intro"/>
-    <div class="subject-grid">
-      <div v-for="(subject, idx) in subjects" :key="idx" class="card dns-card selection-card">
-        <NuxtLink :to="`/sammlungen/?dns_taxonomy_subjects=${subject.label}`" class="card-link medium">
-          {{ subject.label }}
-        </NuxtLink>
+    <div class="my-4 select-cards row">
+      <div class="select-cards-section subjects col-lg">
+        <div class="intro" v-html="homepage.data.subject_selection_intro"/>
+          <div class="subject-grid">
+            <div v-for="(subject, idx) in subjects" :key="idx" class="card dns-card selection-card">
+              <NuxtLink :to="`/sammlungen/?dns_taxonomy_subjects=${subject.label}`" class="card-link medium">
+                {{ subject.label }}
+              </NuxtLink>
+            </div>
+          </div>
+          
+      
       </div>
-    </div>
-    <!-- Object type cards -->
-    <div class="intro" v-html="homepage.data.object_type_selection_intro"/>
-    <div class="subject-grid">
-      <div v-for="(type, idx) in objectTypes" :key="idx" class="card dns-card selection-card">
-        <NuxtLink :to="`/sammlungen/?dns_taxonomy_genre=${type.label}`" class="card-link medium">
-          {{ type.label }}
-        </NuxtLink>
+      <div class="select-cards-section object-types col-lg">
+        
+        <div class="intro" v-html="homepage.data.object_type_selection_intro"/>
+          <div class="subject-grid">
+            <div v-for="(type, idx) in objectTypes" :key="idx" class="card dns-card selection-card">
+              <NuxtLink :to="`/sammlungen/?dns_taxonomy_genre=${type.label}`" class="card-link medium">
+                {{ type.label }}
+              </NuxtLink>
+            </div>
+          </div>
+      
       </div>
-    </div>
+
+    </div>    
     <!-- Featured cards -->
     <div class="intro" v-html="homepage.data.cardset_featured_intro"/>
     <div class="features-grid">
@@ -95,18 +104,34 @@ const objectTypes = computed(() => {
   }
 
 }
+.select-card {
+  .select-cards-section {
+    flex: 1;
+
+  }
+}
+
 .subject-grid {
   margin-top: 2rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
   gap: .5rem;
   .selection-card {
-    border: none;
-    background-color: #ccc;
+    border: 1px solid var(--color-subject-card-text);
+    background-color: var(--color-subject-card-fill);
+    color: var(--color-subject-card-text);
+    font-weight: 400;
+    font-size: 3rem;
     min-height: 3.2rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    &:hover {
+      background-color: var(--color-subject-card-fill-hover);
+    }
+    .card-link {
+      color: var(--color-subject-card-text);
+    }
   
   }
 }
@@ -119,12 +144,11 @@ const objectTypes = computed(() => {
 }
 .card-link {
   height: 100%;
-  color: var(--color-text);
   &.medium {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: .75rem;
+    font-size: .8rem;
     padding: .5rem;
     text-align: center;
   }
