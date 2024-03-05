@@ -4,7 +4,7 @@
       <h3 class="nav-title text-center">{{ w.navigation }}</h3>
       <ul>
         <li><nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/">{{ w.page_start }}</nuxt-link></li>
-        <li><nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/sammlungen?current_keeper=bua">{{ w.page_collections
+        <li><nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/sammlungen">{{ w.page_collections
         }}</nuxt-link></li>
         <li><nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/kontakt">{{ w.page_contact }}</nuxt-link>
         </li>

@@ -55,7 +55,7 @@
           <nuxt-link to="/">{{ w.page_start }}</nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/sammlungen?current_keeper=bua">{{ w.page_collections }}</nuxt-link>
+          <nuxt-link to="/sammlungen">{{ w.page_collections }}</nuxt-link>
         </li>
         <li>
           <nuxt-link to="/kontakt">{{ w.page_contact }}</nuxt-link>
