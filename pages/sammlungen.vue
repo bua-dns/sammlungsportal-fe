@@ -39,12 +39,11 @@ data.value.data.forEach((collection) => {
 
 // SORT         ----------------------------------------------------------------
 
+// Sort and order for collections listing
 // By now, the value ist fixed to "label" and can't be changed in UI.
-
 const sortby = ref("label");
 const order = ref("asc");
 
-// Based on the sortby and order values.
 const sortedData = computed(() => {
   return data.value.data
   .sort((a, b) => {
@@ -72,7 +71,6 @@ function toggleFilters() {
   * {
   *   "taxonomy1": [
   *     { label: "term1", count: 1 },
-  *     { label: "term2", count: 1 }
   *   ],
   *   ...
   * }
@@ -119,7 +117,6 @@ setupTerms();
 const termFilter = ref({});
 
 // sets the termFilter for a given taxonomy by changing display prop of collection
-
 function setTermFilter(taxonomy, term) {
   // toggle term (add or remove when already present)
   if (taxonomy && term) {
@@ -247,7 +244,6 @@ function setQueryParams() {
   }
   router.push({ query: params });
 }
-
 
 /**
  * checks the query parameters and sets the active collection id and term filter accordingly.
