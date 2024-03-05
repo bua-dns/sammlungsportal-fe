@@ -1,58 +1,25 @@
 <script setup>
-/* Used auto-imported composables: projectConfig */
-/*
-REFACTORING:
-- w sematisch benennen: wording (Konflikte?)
-*/
-const props = defineProps([
-  'collection',
-  'termsListing',
-  'termFilter',
-  'activeCollectionId'
-]);
+const props = defineProps(['collection', 'termFilter', 'activeCollectionId']);
 defineEmits(['setTermFilter', 'setActiveCollectionId']);
 const theme = useState('theme');
 const w = theme.value.data.wording.de;
-const tagTypes = theme.value.data.settings.tags;
-const tagNames = theme.value.data.names.tags;
-const terms = theme.value.data.settings.terms;
-const taxonomies = theme.value.data.names.taxonomies;
+// const tagTypes = theme.value.data.settings.tags;
+const taxonomies = theme.value.data.settings.taxonomies;
 
-function getTaxonomyInfo(taxonomy) {
-  // extract taxonomy info from collection
-  if (!props.collection[taxonomy]) {
-    return [];
-  }
-  return props.collection[taxonomy].map((term) => {
-    return term.taxonomy_terms_id.label;
-  });
-}
-function checkIfAnyTermsExist() {
-  let empty = true;
-  const taxonomies = Object.keys(props.termsListing);
-  for (const taxonomy of taxonomies) {
-    if (props.collection[taxonomy].length > 0) {
-      empty = false;
-    }
-  }
-  return !empty;
-}
-function checkIfTermIsActive(taxonomy, term) {
+function activeTerm(taxonomy, term) {
   if (props.termFilter[taxonomy] && props.termFilter[taxonomy].includes(term)) {
     return " active";
   }
   return "";
 }
 
-function getTaxonomyName(taxonomy) {
-  return taxonomies[taxonomy] ? taxonomies[taxonomy] : taxonomy;
-}
-function getImageFilenames(images) {
-  return images.map((image) => {
-    return image.directus_files_id.filename_disk;
-  });
-}
+// const tagNames = theme.value.data.names.tags;
+// function getTagLabelName(tag) {
+//   return tagNames[tag] ? tagNames[tag] : tag;
+// }
+
 const showLightbox = ref(false);
+const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
 
 </script>
 <template>
@@ -68,12 +35,11 @@ const showLightbox = ref(false);
     <div class="card-label" v-if="collection.label">
       <strong>{{ collection.label }}</strong>
     </div>
-    <pre v-if="false">{{ collection }}</pre>
     <div class="card-cols">
       <div class="card-col">
-        <div v-if="collection.description" class="card-description" v-html="convertLineBreaks(collection.description)"></div>
-        <!-- WORK IN PROGRESS: prov. switched of by v-if="false" -->
-        <dl v-if="false && collection.used_in_activity && collection.used_in_activity.length > 0" style="margin-top: 1rem;">
+        <div v-if="collection.description" class="card-description" v-html="convertLineBreaks(collection.description)">
+        </div>
+        <dl v-if="collection.used_in_activity && collection.used_in_activity.length > 0" style="margin-top: 1rem;">
           <dt>{{ w.used_in_activity }}</dt>
           <dd>
             <ul>
@@ -153,35 +119,34 @@ const showLightbox = ref(false);
           </template>
         </dl>
         <div v-if="collection.collection_image_main" class="card-img-container">
-          <ImageViewer :images="getImageFilenames(collection.collection_images)" :startImage="0" previewMode="gallery"/>
-          <!-- <img @click="showLightbox = true" :src="`${projectConfig.imageBaseUrl}/${collection.collection_image_main.filename_disk}?key=240x240`" alt="">
+          <img @click="showLightbox = true" :src="imageBasePath + collection.collection_image_main + '?key=240x240'"
+            alt="">
           <Teleport to="body">
-            <LightBox v-if="showLightbox" :images="collection.collection_images"
+            <LightBox v-if="showLightbox" :imageBasePath="imageBasePath" :images="collection.collection_images"
               @close="showLightbox = false" />
-          </Teleport> -->
+          </Teleport>
+          <!-- {{ collection.collection_images }} -->
         </div>
       </div>
     </div>
-    <template v-if="checkIfAnyTermsExist()">
-      <div class="tag-navigation-title"><strong>{{ w.tag_navigation_title }}</strong>{{ w.tag_navigation_hint }}</div>
-      <!-- DEV Output -->
-      <div class="dev-output">
-
-      </div>
-      <div class="tag-navigation" v-if="true">
-        <template v-for="taxonomy in Object.keys(termsListing)" :key="'collection-card-tag-' + taxonomy">
-          <div v-if="getTaxonomyName(taxonomy) && getTaxonomyInfo(taxonomy).length" class="tag-card">
-            <h4 class="tag-title">{{ getTaxonomyName(taxonomy) }}</h4>
-            <div class="tags">
-              <button v-for="term in getTaxonomyInfo(taxonomy)" :key="`term-${term}`"
-                :class="`tag${checkIfTermIsActive(taxonomy, term)}`" @click="$emit('setTermFilter', taxonomy, term)">
-                {{ term }}
-              </button>
-            </div>
+    <div class="tag-navigation-title"><strong>{{ w.tag_navigation_title }}</strong>{{ w.tag_navigation_hint }}</div>
+    <div class="tag-navigation">
+      <!-- <pre>{{ taxonomies }}</pre> -->
+      <!-- <pre>{{ collection }}</pre> -->
+      <template v-for="taxonomy in taxonomies" :key="'collection-card-taxonomy-' + taxonomy">
+        <div v-if="collection[taxonomy] && collection[taxonomy].length > 0 && taxonomy !== 'current_keeper'"
+          class="tag-card">
+          <h4 class="tag-title">{{ w[taxonomy] }}</h4>
+          <div class="tags">
+            <button v-for="(term, idx) in collection[taxonomy]" :key="'term-' + collection.id + '_' + idx"
+              :class="'tag' + activeTerm(taxonomy, term.taxonomy_terms_id.label)"
+              @click="$emit('setTermFilter', taxonomy, term.taxonomy_terms_id.label)">
+              {{ term.taxonomy_terms_id.label }}
+            </button>
           </div>
-        </template>    
-      </div>
-    </template>
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 <style scoped lang="scss">
@@ -191,15 +156,20 @@ const showLightbox = ref(false);
   border-radius: 8px;
   background-color: #fff;
   position: relative;
+  // opacity: 0.85;
   scroll-margin-top: 64px;
 
   &:not(:last-child) {
     margin-bottom: 1rem;
   }
 
+  // &:hover {
+  //   opacity: 1;
+  // }
   &.active {
     border: 2px solid #2b5c8c;
     background-color: #f3f3ff;
+    /* box-shadow: inset 0px 0px 20px 0px #2b5c8c; */
   }
 }
 
@@ -269,6 +239,7 @@ dd ul {
 }
 
 a {
+  // word-wrap: break-word;
   overflow-wrap: break-word;
 }
 

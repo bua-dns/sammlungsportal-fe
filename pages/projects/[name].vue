@@ -6,10 +6,11 @@ const projects = useState('projects');
 const project = computed(() => {
   return projects.value.data.find((project) => project.slug === projectName.value);
 });
-const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/"
 
-const showLightbox = ref(false);
-
+// extract image filenames from images property of project
+const images = project.value.images.map((image) => {
+  return image.directus_files_id.filename_disk;
+});
 </script>
 
 <template>
@@ -20,22 +21,10 @@ const showLightbox = ref(false);
     <h1 class="text-center">{{ project.title }}</h1>
     <h3 class="text-center mb-4">{{ project.sub_line }}</h3>
     <div class="description" v-html="project.description" />
-    <div class="image-gallery" v-if="project.images && project.images.length">
-      <div v-for="(image, index) in project.images" :key="`image-${index}`" class="image-container">
-        <img @click="showLightbox = true" 
-          :src="imageBasePath + image.directus_files_id.filename_disk + '?key=preview-image'" alt=""
-          class="preview-image"
-        >
-        <Teleport to="body">
-          <LightBox v-if="showLightbox" 
-            :imageBasePath="imageBasePath" 
-            :images="project.images"
-            :startImage="index"
-            @close="showLightbox = false" />
-        </Teleport>
-      </div>
-    </div>
-    <pre v-if="false">{{ project }}</pre>
+    <pre v-if="false">{{ images }}</pre>
+    <ImageViewer :images="images" previewMode="gallery" previewImageWidth="240"/>
+
+    <pre v-if="false">{{ images }}</pre>
   </div>
 </template>
 
