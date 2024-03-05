@@ -1,26 +1,25 @@
 <script setup>
+/* Used auto-imported composables: projectConfig */
 
-const props = defineProps(['images', 'startImage', 'imageBasePath']);
-const emit = defineEmits(['close']);
-const theme = useState('theme');
-const w = theme.value.data.wording.de;
-const numImages = ref(props.images.length);
-const currentImage = ref(props.startImage || 0);
-console.log('startImage', props.startImage);
+const props = defineProps(["images", "startImage"])
+const emit = defineEmits(["close"])
+const theme = useState("theme")
+const w = theme.value.data.wording.de
+const numImages = ref(props.images.length)
+const currentImage = ref(props.startImage || 0)
 
 // emit close on escape key
 const closeLightbox = (e) => {
   if (e.key === "Escape") {
-    emit('close');
+    emit("close")
   }
-};
+}
 onMounted(() => {
-  window.addEventListener('keydown', closeLightbox);
-});
+  window.addEventListener("keydown", closeLightbox)
+})
 onUnmounted(() => {
-  window.removeEventListener('keydown', closeLightbox);
-});
-
+  window.removeEventListener("keydown", closeLightbox)
+})
 </script>
 <template>
   <div class="lightbox">
@@ -46,7 +45,10 @@ onUnmounted(() => {
       </div>
     </div>
     <div class="lightbox-content">
-      <img :src="imageBasePath + props.images[currentImage].directus_files_id.filename_disk" alt="lightbox image" />
+      <img
+        :src="`${projectConfig.imageBaseUrl}/${props.images[currentImage].directus_files_id.filename_disk}`"
+        alt="lightbox image"
+      />
     </div>
   </div>
 </template>

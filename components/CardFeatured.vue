@@ -1,4 +1,5 @@
 <script setup>
+/* Used auto-imported composables: projectConfig */
 
 const props = defineProps({
   'cardContent': {
@@ -6,18 +7,18 @@ const props = defineProps({
     required: true,
   },
 });
-const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
-
 
 </script>
 
 <template>
   <div class="feature-card">
     <div class="card-image">
-      <img :src="imageBasePath + cardContent.card_image.filename_disk + '?key=feature-card'" alt="">
+      <img 
+        :src="`${projectConfig.imageBaseUrl}/${cardContent.card_image.filename_disk}?key=feature-card`" 
+        alt=""
+      >
     </div>
     <div class="card-body">
-      
       <div class="card-title"><span>{{ cardContent.title }}</span></div>
       <div class="card-text" v-html="cardContent.card_text"/>
       <NuxtLink :to="cardContent.more_button_link" class="card-link large">
