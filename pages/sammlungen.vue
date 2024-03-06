@@ -485,87 +485,9 @@ onMounted(() => {
   grid-gap: 1rem;
 }
 
-// .grid-control-bar {
-//   width: min(100%, 1200px);
-//   margin: 132px auto 0;
-//   padding: 1rem;
-//   border: 1px solid #ccc;
-//   border-radius: 8px;
-//   background-color: #fff;
-//   &.state-and-sort {
-//     margin-top: 1rem;
-//     display: flex;
-//     flex-wrap: wrap;
-//     justify-content: space-between;
-//     gap: 2.5rem;
-//     .filter-state-display {
-//       flex: 1;
-//       .display-element {
-//         display: flex;
-//         gap: .75rem;
-//       }
-//     }
-//     .controls {
-//       flex-basis: 1;
-//       align-self: flex-end;
-//       .gws-input-group {
-//         margin-left: auto;
-//       }
-//     }
-//   }
-//   .basic-controls {
-//     display: flex;
-//     flex-wrap: wrap;
-//     align-items: center;
-//     justify-content: space-between;
-//     gap: 0.5rem;
-//   }
-// }
-// .grid-control-bar {
-//   width: min(100%, 1200px);
-//   margin: 132px auto 0;
-//   padding: 1rem;
-//   border: 1px solid #ccc;
-//   border-radius: 8px;
-//   background-color: #fff;
-//   &.state-and-sort {
-//     margin-top: 1rem;
-//     display: flex;
-//     flex-wrap: wrap;
-//     justify-content: space-between;
-//     gap: 2.5rem;
-//     .filter-state-display {
-//       flex: 1;
-//       .display-element {
-//         display: flex;
-//         gap: .75rem;
-//       }
-//     }
-//     .controls {
-//       flex-basis: 1;
-//       align-self: flex-end;
-//       .gws-input-group {
-//         margin-left: auto;
-//       }
-//     }
-//   }
-//   .basic-controls {
-//     display: flex;
-//     flex-wrap: wrap;
-//     align-items: center;
-//     justify-content: space-between;
-//     gap: 0.5rem;
-//   }
-// }
 .grid-control-bar {
-  // display: flex;
-  // flex-wrap: wrap;
-  // align-items: center;
-  // justify-content: space-between;
-  // gap: 0.5rem;
   width: min(100%, 1200px);
   margin: 132px auto 0;
-  // margin: 1rem auto 0;
   padding: 1rem;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -600,12 +522,10 @@ onMounted(() => {
       line-height: 1;
 
       dt {
-        // display: inline-block;
         font-weight: bold;
       }
 
       dd {
-        // display: inline-block;
         margin: 0;
         font-size: 0.9rem;
         font-weight: 300;
@@ -621,6 +541,14 @@ onMounted(() => {
       }
     }
   }
+}
+
+.basic-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
 }
 
 .collections-counter {
