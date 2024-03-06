@@ -125,7 +125,7 @@ setupTerms();
 const termFilter = ref({});
 
 // The setTermFilter function sets the termFilter for a given taxonomy
-// and changes the display property of collections accordingly.
+// and changes the display property of all collections accordingly.
 function setTermFilter(taxonomy, term) {
   // toggle term (add or remove when already present)
   if (taxonomy && term) {
@@ -307,8 +307,10 @@ onMounted(() => {
   </Head>
   <div class="grid-control-bar" id="grid-control-bar">
     <div class="basic-controls">
-      <h2>Die {{ data.meta.total_count }} digital erfassten Sammlungen der BUA-Universitäten</h2>
-
+      <!-- <h2>Die {{ data.meta.total_count }} digital erfassten Sammlungen der BUA-Universitäten</h2> -->
+      <div class="collections-counter">
+        {{ w.num_collections }}: {{ data.meta.total_count }} {{ w.shown }}: {{ activeCollectionsNum }}
+      </div>
       <div class="gws-btn-group">
         <div class="filter-controls gws-group-element">
           <button :class="(showFilters) ? 'gws-btn btn-filter active' : 'gws-btn btn-filter'" @click="toggleFilters">
