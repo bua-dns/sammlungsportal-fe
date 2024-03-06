@@ -1,9 +1,8 @@
 <script setup>
-/* Used auto-imported composables: projectConfig */
 
 const collectionsFetchFields = [
   // 1st level
-  'id', 'label', 'spws_id', 'current_keeper', 'description', 'used_in_activity', 'address', 
+  'id', 'label', 'spws_id', 'current_keeper', 'description', 'used_in_activity', 'address',
   // nested
   'address.*',
   'collection_image_main.*.*',
@@ -46,15 +45,15 @@ const order = ref("asc");
 
 const sortedData = computed(() => {
   return data.value.data
-  .sort((a, b) => {
-    if (a[sortby.value] < b[sortby.value]) {
-      return order.value == "asc" ? -1 : 1;
-    }
-    if (a[sortby.value] > b[sortby.value]) {
-      return order.value == "asc" ? 1 : -1;
-    }
-    return 0;
-  });
+    .sort((a, b) => {
+      if (a[sortby.value] < b[sortby.value]) {
+        return order.value == "asc" ? -1 : 1;
+      }
+      if (a[sortby.value] > b[sortby.value]) {
+        return order.value == "asc" ? 1 : -1;
+      }
+      return 0;
+    });
 });
 
 // FILTER      -----------------------------------------------------------------
@@ -65,17 +64,17 @@ function toggleFilters() {
   showFilters.value = !showFilters.value;
 }
 
- /**
-  * collection[taxonomy] can be array or string
-  * data structure gets nomalized for both cases, always:
-  * {
-  *   "taxonomy1": [
-  *     { label: "term1", count: 1 },
-  *   ],
-  *   ...
-  * }
-  * sort by label alphabetically
-  */
+/**
+ * collection[taxonomy] can be array or string
+ * data structure gets nomalized for both cases, always:
+ * {
+ *   "taxonomy1": [
+ *     { label: "term1", count: 1 },
+ *   ],
+ *   ...
+ * }
+ * sort by label alphabetically
+ */
 const terms = ref({});
 function setupTerms() {
   data.value.data.forEach((collection) => {
@@ -290,7 +289,9 @@ onMounted(() => {
 });
 
 </script>
+
 <template>
+
   <Head>
     <Title>{{ w.page_collections }}</Title>
   </Head>
@@ -346,11 +347,8 @@ onMounted(() => {
   </div>
   <div v-if="cardType == 'grid' && activeCollectionId" class="active-card-container" id="active-card-container">
     <div class="collection_cards_wrapper single-card">
-      <CardCollectionDetails 
-        :collection="getCollectionById(activeCollectionId)" 
-        :termFilter="termFilter"
-        :activeCollectionId="activeCollectionId" 
-        @set-term-filter="setTermFilter"
+      <CardCollectionDetails :collection="getCollectionById(activeCollectionId)" :termFilter="termFilter"
+        :activeCollectionId="activeCollectionId" @set-term-filter="setTermFilter"
         @set-active-collection-id="setActiveCollectionId" />
     </div>
   </div>
@@ -434,6 +432,7 @@ onMounted(() => {
     </div>
   </div>
 </template>
+
 <style scoped lang="scss">
 .active-card-container {
   scroll-margin-top: 48px;
