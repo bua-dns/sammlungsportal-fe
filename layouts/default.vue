@@ -1,41 +1,35 @@
 <template>
   <TheHeader />
   <TheNavigation />
-  <div v-if="$route.name === 'sammlungen'" class="bg-img" :style="bgStyle" v-html="backgroundImage('sammlungen')"></div>
-  <div v-if="$route.name === 'index'" class="bg-img" :style="bgStyle" v-html="backgroundImage('index')"></div>
+  <div v-if="randImageRoutes.includes($route.name)" class="bg-img">
+    <img :src="projectConfig.imageBaseUrl + '/' + randomImage[$route.name].image + '?key=bg-image'"
+      :alt="randomImage[$route.name].credits">
+  </div>
   <main :class="mainClass">
     <slot />
   </main>
   <TheFooter />
 </template>
+
 <script setup>
-// const theme = useState('theme');
-let randomImage = null;
+const route = useRoute();
 const backgroundImages = useState('background_images');
+const randImageRoutes = ['sammlungen', 'index'];
 
 function getRandomImage(page) {
-  let images = backgroundImages.value.data;
-  if (page === 'index') {
-    images = [...images].filter(image => image.use_for_front_page === '1');
-  }
-  const randomImage = images[Math.floor(Math.random() * images.length)];
-  return randomImage;
+  const images = (page === 'index')
+    ? backgroundImages.value.data.filter(image => image.use_for_front_page === '1')
+    : backgroundImages.value.data.filter(image => image.use_for_front_page !== '1');
+  return images[Math.floor(Math.random() * images.length)];
 }
-function backgroundImage(page) {
-  randomImage = getRandomImage(page);
-  if (randomImage) {
-    return `<img src="https://sammlungsportal.bua-dns.de/assets/${randomImage.image}" alt="${randomImage.credits}" />`;
-  } else {
-    return '';
-  }
-}
-const bgStyle = computed(() => {
-  if (randomImage) {
-    // return `background-color: ${theme.value.data.settings.ciColors[randomImage.university]};`;
-    return `background-color: hsl(0deg 0% 0%);`;
-  }
-  else {
-    return '';
+const randomImage = ref({});
+randImageRoutes.forEach(page => {
+  randomImage.value[page] = getRandomImage(page);
+});
+
+watch(() => route.name, () => {
+  if (randImageRoutes.includes(route.name)) {
+    randomImage.value[route.name] = getRandomImage(route.name);
   }
 });
 
@@ -49,6 +43,7 @@ const mainClass = computed(() => {
   }
 });
 </script>
+
 <style lang="scss">
 .bg-img {
   position: fixed;
@@ -58,6 +53,7 @@ const mainClass = computed(() => {
   height: 100%;
   z-index: -10;
   background-color: black;
+
   img {
     width: 100%;
     height: 100%;
