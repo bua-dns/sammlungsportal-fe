@@ -284,7 +284,6 @@ onMounted(() => {
   let hasFilter = false;
   Object.keys(route.query).forEach((taxonomy) => {
     const decoded = decodeURIComponent(route.query[taxonomy]);
-    console.log("decoded", decoded);
     if (taxonomy === "acid") {
       if (decoded && getCollectionById(decoded)) {
         setActiveCollectionId(decoded);
