@@ -34,9 +34,7 @@ const router = useRouter();
 const route = useRoute();
 const theme = useState('theme');
 const w = theme.value.data.wording.de;
-
 const settings = theme.value.data.settings;
-const cardType = ref("grid");
 
 // add display property to collections
 data.value.data.forEach((collection) => {
@@ -352,33 +350,13 @@ onMounted(() => {
       </details>
     </div>
   </div>
-  <div v-if="cardType == 'grid' && activeCollectionId" class="active-card-container" id="active-card-container">
+  <div v-if="activeCollectionId" class="active-card-container" id="active-card-container">
     <div class="collection_cards_wrapper single-card">
       <CardCollectionDetails :collection="getCollectionById(activeCollectionId)" :termFilter="termFilter"
         :activeCollectionId="activeCollectionId" @set-term-filter="setTermFilter"
         @set-active-collection-id="setActiveCollectionId" />
     </div>
   </div>
-  <!-- <div class="grid-control-bar state-and-sort">
-    <div class="filter-state-display">
-      <div class="display-element"><strong>Sammlungen von:</strong> {{ getCurrentKeeperDisplay()}}</div>
-      <div class="display-element" v-html="getFilterTermsDisplay()" />
-    </div>
-    <div class="controls">
-      <div class="gws-input-group">
-          <label for="tag-cloud-sort-order" class="order-label">
-            <svg class="icon-sm me-1" width="16" height="16" fill="currentColor">
-              <use xlink:href="@/assets/img/bootstrap-icons.svg#sort-alpha-down"></use>
-            </svg>
-            <span class="description">{{ w.order }}</span>
-          </label>
-          <select id="tag-cloud-sort-order" class="order-select" v-model="order">
-            <option value="asc">{{ w.ascending }}</option>
-            <option value="desc">{{ w.descending }}</option>
-          </select>
-        </div>
-    </div>
-  </div> -->
   <div class="grid-control-bar state-and-sort">
     <div class="filter-state">
       <dl class="display-element">
@@ -433,7 +411,7 @@ onMounted(() => {
         </ul>
       </div>
     </div>
-    <div v-if="cardType == 'grid'" class="collection_cards_wrapper card-grid">
+    <div class="collection_cards_wrapper card-grid">
       <CardCollectionGrid v-for="collection in sortedData" :key="collection.id" :collection="collection"
         @set-active-collection-id="setActiveCollectionId" />
     </div>
