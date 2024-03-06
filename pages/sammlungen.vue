@@ -70,15 +70,17 @@ function toggleFilters() {
 }
 
 /**
- * collection[taxonomy] can be array or string
- * data structure gets nomalized for both cases, always:
+ * collection[taxonomy] can be array or string, but the
+ * data structure gets normalized for both cases.
+ *
+ * The structure of the terms object is always:
  * {
  *   "taxonomy1": [
  *     { label: "term1", count: 1 },
+ *     ...
  *   ],
  *   ...
  * }
- * sort by label alphabetically
  */
 const terms = ref({});
 function setupTerms() {
@@ -111,7 +113,9 @@ function setupTerms() {
 setupTerms();
 
 /**
- * 'termFilter': current filter values for each taxonomy set by setTermFilter function
+ * The 'termFilter' object stores current filter values for each taxonomy.
+ * The filter values are added to the object in the setTermFilter function.
+ *
  * Data structure:
  * {
  *   "taxonomy1": ["term1", "term2"],
@@ -120,7 +124,8 @@ setupTerms();
  */
 const termFilter = ref({});
 
-// sets the termFilter for a given taxonomy by changing display prop of collection
+// The setTermFilter function sets the termFilter for a given taxonomy
+// and changes the display property of collections accordingly.
 function setTermFilter(taxonomy, term) {
   // toggle term (add or remove when already present)
   if (taxonomy && term) {
