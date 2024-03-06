@@ -18,9 +18,9 @@ const { data: projectsData } = await useFetch(`${projectConfig.dataBaseUrl}/proj
 
 
 const theme = useState('theme', () => themeContent);
-const taxonomyTerms = useState('taxonomyTerms', () => taxonomyTermsData);
+useState('taxonomyTerms', () => taxonomyTermsData);
 useState('background_images', () => backgroundImages);
-const projects = useState('projects', () => projectsData);
+useState('projects', () => projectsData);
 const w = theme.value.data.wording.de;
 useHead({
   titleTemplate: (titleChunk) => {
