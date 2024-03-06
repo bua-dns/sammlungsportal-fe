@@ -154,11 +154,12 @@ function setTermFilter(taxonomy, term) {
   scrollToResults();
 }
 
+// The 'activeCollectionsNum' computed reference is used to determine the number of collections that are displayed.
 const activeCollectionsNum = computed(() => {
   return data.value.data.filter((collection) => collection.display).length;
 });
 
-// sets the  css class 'active' for a specific term in a taxonomy.
+// Sets the css class 'active' for a specific term in a taxonomy.
 function setActiveTermClass(taxonomy, term) {
   if (termFilter.value[taxonomy] && termFilter.value[taxonomy].includes(term)) {
     return " active";
@@ -166,7 +167,7 @@ function setActiveTermClass(taxonomy, term) {
   return "";
 }
 
-// checks if a taxonomy has an active term to control if filter details for this taxonomy shall be open
+// Checks if a taxonomy has an active term to control if filter details for this taxonomy shall be open
 function hasTaxonomyActiveTerm(taxonomy) {
   if (termFilter.value[taxonomy] && termFilter.value[taxonomy].length > 0) {
     return true;
@@ -174,8 +175,18 @@ function hasTaxonomyActiveTerm(taxonomy) {
   return false;
 }
 
-// filter details for each taxonomy: open or closed (state, check for taxonomy, toggle state)
+/**
+ * The 'filterDetails' object stores the open state of the filter details for each taxonomy.
+ *
+ * The structure of the filterDetails object:
+ * {
+ *   "taxonomy1": true|false,
+ *   ...
+ * }
+ */
 const filterDetails = ref({});
+
+// The isFilterDetailsOpen function checks if the filter details for a taxonomy are open.
 function isFilterDetailsOpen(taxonomy) {
   if (taxonomy === 'current_keeper' || hasTaxonomyActiveTerm(taxonomy) || filterDetails.value[taxonomy]) {
     return true;
@@ -183,6 +194,12 @@ function isFilterDetailsOpen(taxonomy) {
   return false;
 }
 
+/**
+ * The toggleDetail function toggles the open state of the filter details for a taxonomy.
+ *
+ * @param {string} taxonomy - The name of the taxonomy.
+ * @param {Event} event - The event object. Deconstructs the 'open' property from the event target.
+ */
 function toggleDetail(taxonomy, { target }) {
   filterDetails.value[taxonomy] = target.open;
 }
@@ -228,6 +245,7 @@ function setActiveCollectionId(id) {
   }
 }
 
+// Returns the collection with the given id.
 function getCollectionById(id) {
   return data.value.data.find((collection) => collection.id === id);
 }
@@ -255,14 +273,13 @@ function setQueryParams() {
 }
 
 /**
- * checks the query parameters and sets the active collection id and term filter accordingly.
+ * Checks the query parameters and sets the active collection id and term filter accordingly.
  * If the query parameters contain an active collection id, it checks if the collection exists in the data collections;
  * if it does, it sets the active collection id; otherwise, it adds an error to the errors list.
  * If the query parameters contain a term filter, it sets the term filter accordingly.
  * If the query parameters contain an unknown taxonomy, it adds an error to the errors list.
  * If the query parameters contain an unknown term label, it adds an error to the errors list.
  */
-
 onMounted(() => {
   let hasFilter = false;
   Object.keys(route.query).forEach((taxonomy) => {
