@@ -35,7 +35,6 @@ const route = useRoute();
 const theme = useState('theme');
 const w = theme.value.data.wording.de;
 
-const universities = theme.value.data.names.keepers;
 const settings = theme.value.data.settings;
 const cardType = ref("grid");
 
