@@ -60,12 +60,9 @@ const objectTypes = computed(() => {
                 {{ subject.label }}
               </NuxtLink>
             </div>
-          </div>
-          
-      
+          </div>      
       </div>
       <div class="select-cards-section object-types col-lg">
-        
         <div class="intro" v-html="homepage.data.object_type_selection_intro"/>
           <div class="subject-grid">
             <div v-for="(type, idx) in objectTypes" :key="idx" class="card dns-card selection-card">
@@ -74,7 +71,6 @@ const objectTypes = computed(() => {
               </NuxtLink>
             </div>
           </div>
-      
       </div>
 
     </div>    
@@ -138,7 +134,7 @@ const objectTypes = computed(() => {
 .features-grid {
   margin-top: 2rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(var(--feature-card-width), 1fr));
   gap: .5rem;
 
 }

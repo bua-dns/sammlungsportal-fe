@@ -354,26 +354,6 @@ onMounted(() => {
         @set-active-collection-id="setActiveCollectionId" />
     </div>
   </div>
-  <!-- <div class="grid-control-bar state-and-sort">
-    <div class="filter-state-display">
-      <div class="display-element"><strong>Sammlungen von:</strong> {{ getCurrentKeeperDisplay()}}</div>
-      <div class="display-element" v-html="getFilterTermsDisplay()" />
-    </div>
-    <div class="controls">
-      <div class="gws-input-group">
-          <label for="tag-cloud-sort-order" class="order-label">
-            <svg class="icon-sm me-1" width="16" height="16" fill="currentColor">
-              <use xlink:href="@/assets/img/bootstrap-icons.svg#sort-alpha-down"></use>
-            </svg>
-            <span class="description">{{ w.order }}</span>
-          </label>
-          <select id="tag-cloud-sort-order" class="order-select" v-model="order">
-            <option value="asc">{{ w.ascending }}</option>
-            <option value="desc">{{ w.descending }}</option>
-          </select>
-        </div>
-    </div>
-  </div> -->
   <div class="grid-control-bar state-and-sort">
     <div class="filter-state">
       <dl class="display-element">
