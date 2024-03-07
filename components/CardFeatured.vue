@@ -4,7 +4,6 @@
 const props = defineProps({
   'cardContent': {
     type: Object,
-    required: true,
   },
 });
 
@@ -19,9 +18,11 @@ const props = defineProps({
       >
     </div>
     <div class="card-body">
-      <div class="card-title"><span>{{ cardContent.title }}</span></div>
-      <div class="card-text" v-html="cardContent.card_text"/>
-      <NuxtLink :to="cardContent.more_button_link" class="card-link large">
+      <div class="card-body-content">
+        <div class="mt-2 card-title">{{ cardContent.title }}</div>
+        <div class="card-text" v-html="cardContent.card_text"/>
+      </div>
+      <NuxtLink :to="cardContent.more_button_link" class="card-link">
         {{ cardContent.more_button_label}}
       </NuxtLink>
     </div>
@@ -31,33 +32,43 @@ const props = defineProps({
 <style scoped lang="scss">
 
 .feature-card {
-  color: var(--color-text);
-  border: none;
-  min-height: 20rem;
-  border: 2px solid #ccc;
-  border-radius: 4px;
+  color: var(--color-feature-card-text);
+  border: 2px solid var(--color-feature-card-border);
+  background-color: var(--color-feature-card-fill);
+  min-height: var(--feature-card-height);
+  border-radius: 6px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   .card-image {
-    position: relative;
-    height: 10rem;
     overflow: hidden;
+    flex: 0 0 calc(var(--feature-card-height) * 0.42);
     img {
       display: block;
       width: 100%;
-      max-height: 12rem;
       object-fit: cover;
     }
   }
   .card-body {
-    padding: .25rem;
-    .card-title {
-
+    flex: 1;
+    padding: .5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .card-body-content {
+      .card-title {
+        font-size: .85rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+      .card-text {
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+      }
     }
-    .card-text {
-      font-size: 0.85rem;
-      margin-bottom: 1rem;
+    .card-link {
+      display: block;
+      color: var(--color-link);
+      text-align: right;
     }
   }
 }

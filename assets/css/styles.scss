@@ -66,10 +66,17 @@ $navbar-height-expanded: 100px;
   --color-subject-card-text: hsl(232, 32%, 30%);
   --color-subject-card-border: hsl(232, 32%, 44%);
 
+  --color-feature-card-fill: hsl(232,28%,93%);
+  --color-feature-card-fill-hover: hsl(232,16%,98%);
+  --color-feature-card-text: hsl(0,0%,20%);
+  --color-feature-card-border: hsl(232,32%,64%);
+
+  --color-link: red; //
+
   --color-text: #121212;
   --color-text-inv: #fff;
-  --color-link: #0033cc;
-  --color-link-bg: #06f;
+  --color-link: hsl(232, 32%, 44%);
+  --color-link-bg: hsl(232, 32%, 64%);
   --color-bg: #fff;
   --color-border: #eaeaea;
 
@@ -106,6 +113,13 @@ $navbar-height-expanded: 100px;
   // --breakpoint-lg: 992px;
   // --breakpoint-xl: 1200px;
   // --breakpoint-xxl: 1400px;
+
+  // Layout for elements
+
+  // feature cards
+
+  --feature-card-width: 16rem;
+  --feature-card-height: 20rem;
 }
 
 // presets
@@ -128,13 +142,13 @@ h5 {
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
 
   a {
-    color: var(--color-text);
+    color: var(--color-link);
     text-decoration: none;
 
     &:hover,
     &:focus,
     &:active {
-      color: var(--color-text);
+      color: var(--color-link);
       text-decoration: underline;
     }
   }
