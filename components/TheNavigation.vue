@@ -3,10 +3,22 @@
     <div class="sitenav">
       <h3 class="nav-title text-center">{{ w.navigation }}</h3>
       <ul>
-        <li><nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/">{{ w.page_start }}</nuxt-link></li>
-        <li><nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/sammlungen">{{ w.page_collections
-        }}</nuxt-link></li>
-        <li><nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/kontakt">{{ w.page_contact }}</nuxt-link>
+        <li>
+          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/">{{ w.page_start }}</nuxt-link>
+        </li>
+        <li>
+          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/sammlungen">{{ w.page_collections
+        }}</nuxt-link>
+        </li>
+        <li>
+          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/dns">{{ w.page_dns
+        }}</nuxt-link>
+        </li>
+        <li>
+          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/kontakt">{{ w.page_contact }}</nuxt-link>
+        </li>
+        <li>
+          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/impressum">{{ w.page_imprint }}</nuxt-link>
         </li>
       </ul>
     </div>
