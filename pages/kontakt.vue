@@ -4,7 +4,7 @@ const theme = useState("theme")
 const w = theme.value.data.wording.de
 import { parseMarkdown } from "~/utils/parseMarkdown"
 const content = ref("")
-const { data } = await useFetch(`${projectConfig.dataBaseUrl}/pages?filter[slug][_eq]=contact`)
+const { data } = await useFetchPage('contact')
 content.value = await parseMarkdown(data.value.data[0].content)
 // useHead({ title: data.value.data[0].title });
 </script>
