@@ -39,52 +39,80 @@ const objectTypes = computed(() => {
   <div class="page">
     <pre v-if="false">{{ subjects }}</pre>
     <pre v-if="false">{{ homepage.data }}</pre>
-    <h1 class="text-center">{{ homepage.data.title }}</h1>
-    <div class="intro" v-html="homepage.data.intro"></div>
-    <div class="cardset-intro" v-html="homepage.data.cardset_collections_intro"/>
-    <!-- University cards -->
-    <div class="mt-4 cards d-flex flex-wrap flex-column flex-lg-row gap-2">
-      <div v-for="(card, idx) in homepage.data.cardset_collections" :key="idx" class="card dns-card university-card"
-        :style="'border-color:' + card.navigation_cards_id.background_color + ';'">
-        <NuxtLink :to="card.navigation_cards_id.more_button_link" class="card-link large light">
-          {{ card.navigation_cards_id.title }}
-        </NuxtLink>
-      </div>
+    <div class="homepage-intro">
+      <h1 class="text-center intro-heading">{{ homepage.data.title }}</h1>
+      <div class="intro-text" v-html="homepage.data.intro"></div>
     </div>
-    <div class="my-4 select-cards row">
+    <!-- University cards -->
+    <section class="university-collections">
+      <h3 class="text-center section-heading">{{ w.university_collections_heading }}</h3>
+      <div class="cardset-intro" v-html="homepage.data.cardset_collections_intro"/>
+      <div class="mt-4 cards d-flex flex-wrap flex-column flex-lg-row gap-2">
+        <div v-for="(card, idx) in homepage.data.cardset_collections" :key="idx" class="card dns-card university-card"
+          :style="'border-color:' + card.navigation_cards_id.background_color + ';'">
+          <NuxtLink :to="card.navigation_cards_id.more_button_link" class="card-link large light">
+            {{ card.navigation_cards_id.title }}
+          </NuxtLink>
+        </div>
+      </div>
+    </section>
+    <section class="row taxonomy-cards">
       <div class="select-cards-section subjects col-lg">
         <div class="intro" v-html="homepage.data.subject_selection_intro"/>
-          <div class="subject-grid">
-            <div v-for="(subject, idx) in subjects" :key="idx" class="card dns-card selection-card">
-              <NuxtLink :to="`/sammlungen/?dns_taxonomy_subjects=${subject.label}`" class="card-link medium">
-                {{ subject.label }}
-              </NuxtLink>
-            </div>
-          </div>      
-      </div>
+        <div class="subject-grid">
+          <div v-for="(subject, idx) in subjects" :key="idx" class="card dns-card selection-card">
+            <NuxtLink :to="`/sammlungen/?dns_taxonomy_subjects=${subject.label}`" class="card-link medium">
+              {{ subject.label }}
+            </NuxtLink>
+          </div>
+        </div>
+      </div>      
       <div class="select-cards-section object-types col-lg">
         <div class="intro" v-html="homepage.data.object_type_selection_intro"/>
-          <div class="subject-grid">
-            <div v-for="(type, idx) in objectTypes" :key="idx" class="card dns-card selection-card">
-              <NuxtLink :to="`/sammlungen/?dns_taxonomy_genre=${type.label}`" class="card-link medium">
-                {{ type.label }}
-              </NuxtLink>
-            </div>
+        <div class="subject-grid">
+          <div v-for="(type, idx) in objectTypes" :key="idx" class="card dns-card selection-card">
+            <NuxtLink :to="`/sammlungen/?dns_taxonomy_genre=${type.label}`" class="card-link medium">
+              {{ type.label }}
+            </NuxtLink>
           </div>
+        </div>
       </div>
-
-    </div>    
-    <!-- Featured cards -->
-    <div class="intro" v-html="homepage.data.cardset_featured_intro"/>
-    <div class="features-grid">
-      <div v-for="(card, idx) in homepage.data.cardset_featured" :key="idx" class="feature-card">
-        <CardFeatured :cardContent="card.navigation_cards_id"/>
+    </section>
+    <section class="featured-cards">
+      <div class="text-center section-heading">{{ w.featured_heading  }}</div>
+      <div class="intro" v-if="homepage.data.cardset_featured_intro" v-html="homepage.data.cardset_featured_intro"/>
+      <div class="features-grid">
+        <div v-for="(card, idx) in homepage.data.cardset_featured" :key="idx" class="feature-card">
+          <CardFeatured :cardContent="card.navigation_cards_id"/>
+        </div>
       </div>
-  </div>
-
+    </section>
   </div>
 </template>
 <style scoped lang="scss">
+// DEV: Reorganize CSS!
+section {
+  margin-bottom: 2rem;
+}
+.homepage-intro {
+  padding: 2rem;
+  .intro-heading {
+    font-size: 2rem;
+    line-height: 1.2;
+    margin: 0 0 2.5rem;
+  }
+  .intro-text {
+    font-size: 1.25rem;
+    line-height: 1.5;
+  }
+}
+.section-heading {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+section.university-collections {
+  
+}
 .dns-card {
   flex: 1;
   border-radius: 4px;
@@ -135,7 +163,7 @@ const objectTypes = computed(() => {
   margin-top: 2rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(var(--feature-card-width), 1fr));
-  gap: .5rem;
+  gap: 1.5rem;
 
 }
 .card-link {

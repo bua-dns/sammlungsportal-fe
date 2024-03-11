@@ -33,19 +33,29 @@ const props = defineProps({
 
 .feature-card {
   color: var(--color-feature-card-text);
-  border: 2px solid var(--color-feature-card-border);
+  border: 1px solid var(--color-feature-card-border);
   background-color: var(--color-feature-card-fill);
   min-height: var(--feature-card-height);
-  border-radius: 6px;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
+  // &:hover {
+  //   background-color: var(--color-feature-card-fill-hover);
+  // }
   .card-image {
     overflow: hidden;
-    flex: 0 0 calc(var(--feature-card-height) * 0.42);
+    flex: 0 0 calc(var(--feature-card-height) * 0.425);
+    cursor: pointer;
     img {
       display: block;
       width: 100%;
       object-fit: cover;
+      border-radius: 6px;
+    }
+    &:hover {
+      img {
+        transform: scale(1.05);
+      }
     }
   }
   .card-body {
