@@ -34,19 +34,17 @@ const objectTypes = computed(() => {
 </script>
 <template>
   <Head>
-    <Title>{{ taxonomyTerms }}</Title>
+    <Title>BUA Sammlungsplattform</Title>
   </Head>
   <div class="page">
-    <pre v-if="false">{{ subjects }}</pre>
-    <pre v-if="false">{{ homepage.data }}</pre>
-    <div class="homepage-intro">
+    <section class="mt-4 px-5 homepage-intro">
       <h1 class="text-center intro-heading">{{ homepage.data.title }}</h1>
       <div class="intro-text" v-html="homepage.data.intro"></div>
-    </div>
+    </section>
     <!-- University cards -->
-    <section class="university-collections">
-      <h3 class="text-center section-heading">{{ w.university_collections_heading }}</h3>
-      <div class="cardset-intro" v-html="homepage.data.cardset_collections_intro"/>
+    <section class="mt-5 university-collections">
+      <h3 class="px-5 text-center section-heading">{{ w.university_collections_heading }}</h3>
+      <div class="px-5 cardset-intro" v-html="homepage.data.cardset_collections_intro"/>
       <div class="mt-4 cards d-flex flex-wrap flex-column flex-lg-row gap-2">
         <div v-for="(card, idx) in homepage.data.cardset_collections" :key="idx" class="card dns-card university-card"
           :style="'border-color:' + card.navigation_cards_id.background_color + ';'">
@@ -78,7 +76,7 @@ const objectTypes = computed(() => {
         </div>
       </div>
     </section>
-    <section class="featured-cards">
+    <section class="mt-5 featured-cards">
       <div class="text-center section-heading">{{ w.featured_heading  }}</div>
       <div class="intro" v-if="homepage.data.cardset_featured_intro" v-html="homepage.data.cardset_featured_intro"/>
       <div class="features-grid">
@@ -95,7 +93,6 @@ section {
   margin-bottom: 2rem;
 }
 .homepage-intro {
-  padding: 2rem;
   .intro-heading {
     font-size: 2rem;
     line-height: 1.2;
@@ -115,12 +112,15 @@ section.university-collections {
 }
 .dns-card {
   flex: 1;
-  border-radius: 4px;
+  border-radius: 12px;
   border-left: 1px;
-  border-left: .6rem solid black;
-  background-color: hsl(0, 0%, 40%);
+  border-left: .75rem solid black;
+  background-color: hsl(0, 0%, 28%);
   
   cursor: pointer;
+  &:hover {
+    background-color: hsl(0, 0%, 38%);
+  }
   &.university-card {
     flex: 1 1 14%;
     // flex-basis: 20%;
@@ -136,12 +136,11 @@ section.university-collections {
 }
 
 .subject-grid {
-  margin-top: 2rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
   gap: .5rem;
   .selection-card {
-    border: 1px solid var(--color-subject-card-text);
+    border: 1px solid var(--color-subject-card-border);
     background-color: var(--color-subject-card-fill);
     color: var(--color-subject-card-text);
     font-weight: 400;
@@ -160,7 +159,6 @@ section.university-collections {
   }
 }
 .features-grid {
-  margin-top: 2rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(var(--feature-card-width), 1fr));
   gap: 1.5rem;
