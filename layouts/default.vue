@@ -59,7 +59,7 @@ const mainClass = computed(() => {
     height: 100%;
     object-fit: cover;
     object-position: center center;
-    opacity: .25;
+    opacity: .65;
   }
 }
 </style>
