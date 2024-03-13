@@ -2,10 +2,10 @@
 const theme = useState("theme");
 const w = theme.value.data.wording.de;
 
-const navState = useState("nav", () => "close");
-const toggleNav = () => {
-  navState.value = navState.value === "close" ? "open" : "close";
-};
+// const navState = useState("nav", () => "close");
+// const toggleNav = () => {
+//   navState.value = navState.value === "close" ? "open" : "close";
+// };
 
 onMounted(() => {
   window.addEventListener("scroll", handleScroll);
@@ -94,16 +94,7 @@ const handleScroll = () => {
       </ul>
     </nav>
     <div class="dns-navbar-controls">
-      <button
-        @click="toggleNav"
-        :class="navState === 'open' ? 'burger open' : 'burger'"
-        :aria-expanded="navState === 'open' ? true : false"
-        aria-label="navigation menu"
-      >
-        <span class="burger__line burger__line-1" aria-hidden="true" focusable="false"></span>
-        <span class="burger__line burger__line-2" aria-hidden="true" focusable="false"></span>
-        <span class="burger__line burger__line-3" aria-hidden="true" focusable="false"></span>
-      </button>
+      <Hamburger />
     </div>
   </header>
 </template>
@@ -160,9 +151,7 @@ const handleScroll = () => {
     }
   }
   .dns-navbar-controls {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
+    margin: 0 1.5rem 0 0;
   }
   .dns-main-navigation {
     display: none;
@@ -220,14 +209,6 @@ const handleScroll = () => {
         font-size: 0.8rem;
         margin-left: 0.25rem;
       }
-    }
-  }
-  button.burger:not([disabled]):not([tabindex^="-"]):focus {
-    outline: 0;
-    background-color: var(--color-nav-hover-bg);
-    color: #fff;
-    .burger__line {
-      background-color: #fff;
     }
   }
 }
