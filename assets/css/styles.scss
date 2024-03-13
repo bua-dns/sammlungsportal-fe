@@ -50,9 +50,6 @@ $blue: #2b5c8c;
 @import "bootstrap/utilities/api";
 // scss-docs-end import-stack
 
-// scss variables
-$navbar-height: 48px;
-$navbar-height-expanded: 100px;
 
 // custom variables
 :root {
@@ -436,93 +433,14 @@ em {
   margin-right: 0.25rem;
   border-radius: 0;
 }
-
-// navigation drawer
-.navigation-drawer {
-  position: fixed;
-  top: $navbar-height-expanded;
-  right: 0;
-  bottom: 0;
-  width: 100vw;
-  max-width: 414px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 1.5rem;
-  z-index: 100;
-  transition: transform 0.5s ease-out, top 0.25s;
-  transform: translateX(100%);
-  background-color: var(--color-bg);
-  border-left: 1px solid var(--color-border);
-  // @include scrollbars(10px, var(--clr-base-sl-d600), var(--clr-base-sl-d500), var(--clr-base-d600), 7px, 3px);
-  &.scrolled {
-    top: $navbar-height;
-  }
-  .nav-title {
-    margin: 0 0 0.75rem;
-    font-weight: 300;
-    font-stretch: 125%;
-    font-size: 2.25rem;
-    color: var(--clr-base-l75);
-  }
-  .sitenav {
-    padding: 1.5rem 0;
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      li {
-        margin-bottom: 0.75rem;
-        a {
-          display: inline-block;
-          width: 100%;
-          padding: 0.4rem 0.5rem;
-          font-size: 0.875rem;
-          font-weight: 400;
-          line-height: 1;
-          text-align: center;
-          text-decoration: none;
-          color: var(--color-nav-text);
-          background-color: var(--color-nav-bg);
-          border-radius: 6px;
-          border: 1px solid var(--color-nav-brd);
-          transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
-          &:hover,
-          &.router-link-active:hover,
-          &.router-link-exact-active:hover,
-          &:focus,
-          &.router-link-active:focus,
-          &.router-link-exact-active:focus {
-            // outline: 0;
-            background-color: var(--color-nav-hover-bg);
-            border-color: var(--color-nav-hover-brd);
-            color: var(--color-text-inv);
-          }
-          &:active {
-            background-color: var(--color-nav-hover-bg);
-            color: var(--color-text-inv);
-          }
-          &.router-link-active,
-          &.router-link-exact-active {
-            background-color: var(--color-nav-active-bg);
-            border: 1px solid var(--color-nav-active-brd);
-            color: var(--color-text-inv);
-          }
-        }
-      }
-    }
-  }
-}
-
 // MAIN
 
 main {
-  margin: $navbar-height-expanded + 32 0 2rem;
+  margin: 132px 0 2rem;
   padding: 0 1rem;
   transition: margin-top 0.25s;
   &.scrolled {
-    margin-top: $navbar-height + 32;
+    margin-top: 80px;
   }
 }
 
@@ -531,7 +449,6 @@ main {
 .container-fluid {
   width: min(100%, 1200px);
   margin-inline: auto;
-  // padding: 1.5rem;
   padding: 1rem;
 }
 
@@ -549,23 +466,15 @@ main {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  // margin: 1rem 0;
   margin: 0;
-  // border-top: 1px solid var(--color-base-d25);
-  // border-top: 1px solid var(--color-nav-brd);
-  // padding-top: 1rem;
 }
 
 .filter-card,
 .tag-card {
-  // padding: 0.75rem;
   padding: 0.5rem;
-  // border: 1px solid var(--color-base-d25);
   border: 1px solid var(--color-nav-brd);
-  // border: 1px solid var(--color-base-d10);
   border-radius: 6px;
   background-color: var(--color-base-d0);
-  // flex: 1 1 19ch;
 
   .tag-title {
     font-size: 1rem;
@@ -574,10 +483,7 @@ main {
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-weight: 320;
     margin: 0;
-    // padding: 0 0 0.5rem 0;
     text-align: center;
-    // border-bottom: 1px solid var(--color-base-d10);
-    // border-bottom: 1px solid var(--color-nav-brd);
   }
 
   .tags {
@@ -585,13 +491,11 @@ main {
     flex-wrap: wrap;
     justify-content: center;
     gap: 0.75rem;
-    // margin: 1rem 0 0;
     margin: 0.5rem 0 0;
     padding-top: 0.5rem;
     border-top: 1px solid var(--color-nav-brd);
 
     .tag {
-      // background-color: var(--color-base-d50);
       background-color: var(--color-nav-bg);
       font-size: 0.9rem;
       font-weight: 500;
@@ -601,9 +505,6 @@ main {
       border: 0;
       border-radius: 4px;
       cursor: pointer;
-
-      // &:hover,
-      // &:focus,
       &:active,
       &.active {
         background-color: var(--color-nav-hover-bg);
@@ -615,7 +516,6 @@ main {
 }
 
 .tag-card {
-  // flex: 1 1 19ch;
   flex: 1;
 }
 
@@ -627,7 +527,6 @@ main {
   height: 2rem;
   border-radius: 50%;
   z-index: 10;
-  // background-color: #eee;
   cursor: pointer;
 
   &::before,
@@ -640,17 +539,13 @@ main {
     content: "";
     background-color: var(--color-text);
     text-align: right;
-    // transform: translateY(-50%);
-    // transition: transform .2s ease-in-out;
   }
 
   &::before {
-    // transform: translateY(-50%) rotate(-45deg);
     transform: rotate(-45deg);
   }
 
   &::after {
-    // transform: translateY(-50%) rotate(45deg);
     transform: rotate(45deg);
   }
 

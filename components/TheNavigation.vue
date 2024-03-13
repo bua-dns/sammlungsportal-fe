@@ -1,29 +1,3 @@
-<template>
-  <nav :class="navClass" aria-label="Main menu" :style="navStyle">
-    <div class="sitenav">
-      <h3 class="nav-title text-center">{{ w.navigation }}</h3>
-      <ul>
-        <li>
-          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/">{{ w.page_start }}</nuxt-link>
-        </li>
-        <li>
-          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/sammlungen">{{ w.page_collections
-        }}</nuxt-link>
-        </li>
-        <li>
-          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/dns">{{ w.page_dns
-        }}</nuxt-link>
-        </li>
-        <li>
-          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/kontakt">{{ w.page_contact }}</nuxt-link>
-        </li>
-        <li>
-          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/impressum">{{ w.page_imprint }}</nuxt-link>
-        </li>
-      </ul>
-    </div>
-  </nav>
-</template>
 <script setup>
 const theme = useState('theme');
 const w = theme.value.data.wording.de;
@@ -58,3 +32,107 @@ const tabIndex = computed(() => {
   }
 });
 </script>
+<template>
+  <nav :class="navClass" aria-label="Main menu" :style="navStyle">
+    <div class="sitenav">
+      <h3 class="nav-title text-center">{{ w.navigation }}</h3>
+      <ul>
+        <li>
+          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/">{{ w.page_start }}</nuxt-link>
+        </li>
+        <li>
+          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/sammlungen">{{ w.page_collections
+        }}</nuxt-link>
+        </li>
+        <li>
+          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/dns">{{ w.page_dns
+        }}</nuxt-link>
+        </li>
+        <li>
+          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/kontakt">{{ w.page_contact }}</nuxt-link>
+        </li>
+        <li>
+          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/impressum">{{ w.page_imprint }}</nuxt-link>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</template>
+<style scoped lang="scss">
+$navbar-height: 48px;
+.navigation-drawer {
+  position: fixed;
+  top: 100px;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  max-width: 414px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1.5rem;
+  z-index: 100;
+  transition: transform 0.5s ease-out, top 0.25s;
+  transform: translateX(100%);
+  background-color: var(--color-bg);
+  border-left: 1px solid var(--color-border);
+  &.scrolled {
+    top: $navbar-height;
+  }
+  .nav-title {
+    margin: 0 0 0.75rem;
+    font-weight: 300;
+    font-stretch: 125%;
+    font-size: 2.25rem;
+    color: var(--clr-base-l75);
+  }
+  .sitenav {
+    padding: 1.5rem 0;
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      li {
+        margin-bottom: 0.75rem;
+        a {
+          display: inline-block;
+          width: 100%;
+          padding: 0.4rem 0.5rem;
+          font-size: 0.875rem;
+          font-weight: 400;
+          line-height: 1;
+          text-align: center;
+          text-decoration: none;
+          color: var(--color-nav-text);
+          background-color: var(--color-nav-bg);
+          border-radius: 6px;
+          border: 1px solid var(--color-nav-brd);
+          transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+          &:hover,
+          &.router-link-active:hover,
+          &.router-link-exact-active:hover,
+          &:focus,
+          &.router-link-active:focus,
+          &.router-link-exact-active:focus {
+            // outline: 0;
+            background-color: var(--color-nav-hover-bg);
+            border-color: var(--color-nav-hover-brd);
+            color: var(--color-text-inv);
+          }
+          &:active {
+            background-color: var(--color-nav-hover-bg);
+            color: var(--color-text-inv);
+          }
+          &.router-link-active,
+          &.router-link-exact-active {
+            background-color: var(--color-nav-active-bg);
+            border: 1px solid var(--color-nav-active-brd);
+            color: var(--color-text-inv);
+          }
+        }
+      }
+    }
+  }
+}
+</style>
