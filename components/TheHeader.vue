@@ -110,13 +110,6 @@ const handleScroll = () => {
 
 <style scoped lang="scss">
 .dns-page-header {
-  .dns-logo-container {
-    margin: 0 1.5rem 0 .5rem;
-  }
-}
-// DEV integrate with above
-
-.navbar {
   position: fixed;
   top: 0;
   right: 0;
@@ -127,8 +120,6 @@ const handleScroll = () => {
   align-items: center;
   background-color: var(--color-bg);
   line-height: 1;
-  // border-bottom: 1px solid var(--color-border);
-  // box-shadow: 0 0 8px 0 rgba(0,0,0,0.8);
   box-shadow: 0 0 0.625rem 0 rgba(0, 0, 0, 0.4);
   .dns-branding {
     display: flex;
@@ -138,15 +129,17 @@ const handleScroll = () => {
     flex-wrap: nowrap;
     text-decoration: none;
     color: var(--color-text);
-    .dns-navbar-logo {
-      width: 76px;
-      height: 76px;
-      flex-grow: 1;
-      flex-shrink: 0;
-      box-sizing: content-box;
-      // padding: 0.5rem 0 0.5rem 0.5rem;
-      padding: 0.75rem 0 0.75rem 0.5rem;
-      transition: height 0.25s, padding 0.25s;
+    .dns-logo-container {
+      margin: 0 1.5rem 0 .5rem;
+      .dns-navbar-logo {
+        width: 76px;
+        height: 76px;
+        flex-grow: 1;
+        flex-shrink: 0;
+        box-sizing: content-box;
+        padding: 0.75rem 0 0.75rem 0.5rem;
+        transition: height 0.25s, padding 0.25s;
+      }
     }
     .dns-site-title-container {
       margin-left: 0.5rem;
@@ -154,7 +147,6 @@ const handleScroll = () => {
     .dns-site-title {
       font-weight: 900;
       font-size: 2rem;
-      // font-size: clamp(1rem, 3.3333vw, 2rem);
       font-size: clamp(1.25rem, 4.1667vw, 2rem);
       line-height: 1.125;
       transition: all 0.25s;
@@ -162,7 +154,6 @@ const handleScroll = () => {
     .dns-site-subtitle {
       font-weight: 400;
       font-size: 1.27rem;
-      // font-size: clamp(1rem, 3.3333vw, 1.27rem);
       font-size: clamp(0.8rem, 2.6667vw, 1.27rem);
       line-height: 1.125;
       transition: all 0.25s;
@@ -190,8 +181,6 @@ const handleScroll = () => {
           padding: 0;
           a {
             display: block;
-            // padding: 0.5rem 1rem;
-            // padding: 11px;
             padding: 1rem;
             text-decoration: none;
             color: var(--color-text);
@@ -203,7 +192,6 @@ const handleScroll = () => {
             &.router-link-exact-active:focus,
             &.router-link-exact-active:active {
               color: var(--color-text-inv);
-              // background-color: var(--color-link-bg);
               background-color: var(--color-nav-hover-bg);
             }
             &.router-link-exact-active,
@@ -220,10 +208,8 @@ const handleScroll = () => {
   &.shrink {
     .dns-branding {
       .dns-navbar-logo {
-        // padding: 0.125rem 0 0.125rem 0.25rem;
         padding: 0.25rem 0 0.25rem 0.25rem;
         width: auto;
-        // height: 2rem;
         height: 2.5rem;
       }
       .dns-site-title {
