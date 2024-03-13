@@ -88,7 +88,6 @@ const objectTypes = computed(() => {
   </div>
 </template>
 <style scoped lang="scss">
-// DEV: Reorganize CSS!
 section {
   margin-bottom: 2rem;
 }
@@ -106,9 +105,6 @@ section {
 .section-heading {
   font-size: 1.5rem;
   margin-bottom: 2rem;
-}
-section.university-collections {
-  
 }
 .dns-card {
   flex: 1;
@@ -131,7 +127,6 @@ section.university-collections {
 .select-card {
   .select-cards-section {
     flex: 1;
-
   }
 }
 
@@ -184,5 +179,4 @@ section.university-collections {
     color: var(--color-text-inv);
   }
 }
-
 </style>

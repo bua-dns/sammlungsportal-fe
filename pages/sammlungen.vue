@@ -339,9 +339,6 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <!-- DEV outputs for inspection -->
-    <pre v-if="false">{{ terms }}</pre>
-    <pre v-if="false">{{ termFilter }}</pre>
     <div v-if="showFilters" class="filter-control-bar">
       <div class="filter-control-bar-controls">
         <div class="form-check form-switch gws-form-switch-right d-flex justify-content-end align-items-center">
