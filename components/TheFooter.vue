@@ -64,7 +64,7 @@ const w = theme.value.data.wording.de;
       </div>
       <div class="row">
         <div class="order-0 col-sm-6">
-          <p class="small text-center text-sm-start">© 2023 - BUA All rights reserved</p>
+          <p class="small text-center text-sm-start">{{ w.site_copy_rights }}</p>
         </div>
         <div class="order-1 col-sm-6">
           <p class="small text-center text-sm-end">
