@@ -77,7 +77,7 @@ const objectTypes = computed(() => {
       </div>
     </section>
     <section class="mt-5 featured-cards">
-      <div class="text-center section-heading">{{ w.featured_heading  }}</div>
+      <h3 class="text-center section-heading">{{ w.featured_heading  }}</h3>
       <div class="intro" v-if="homepage.data.cardset_featured_intro" v-html="homepage.data.cardset_featured_intro"/>
       <div class="features-grid">
         <div v-for="(card, idx) in homepage.data.cardset_featured" :key="idx" class="feature-card">
