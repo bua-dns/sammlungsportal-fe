@@ -1,16 +1,14 @@
 <script setup>
 const route = useRoute();
-const projectName = ref(route.params.name);
+const projectName = route.params.name;
 
 const projects = useState('projects');
-const project = computed(() => {
-  return projects.value.data.find((project) => project.slug === projectName.value);
-});
+const project = projects.value.data.find((project) => project.slug === projectName);
 
 // extract image filenames from images property of project
-const images = project.value.images.map((image) => {
+const images = project.images.map((image) => {
   return image.directus_files_id.filename_disk;
-});
+}) ;
 </script>
 
 <template>

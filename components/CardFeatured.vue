@@ -69,6 +69,7 @@ const props = defineProps({
         font-size: .85rem;
         font-weight: 600;
         margin-bottom: 1rem;
+        min-height: 2.4rem;
       }
       .card-text {
         font-size: 0.85rem;
