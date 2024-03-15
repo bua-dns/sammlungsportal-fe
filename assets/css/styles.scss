@@ -643,4 +643,13 @@ main {
 }
 
 
-
+.page {
+  .page-content {
+    img {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      margin: 1.5rem auto;
+    }
+  }
+}
