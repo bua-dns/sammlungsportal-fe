@@ -50,7 +50,7 @@ const props = defineProps({
       display: block;
       width: 100%;
       object-fit: cover;
-      border-radius: 6px;
+      border-radius: 6px 6px 0 0;
     }
     &:hover {
       img {
@@ -69,6 +69,7 @@ const props = defineProps({
         font-size: .85rem;
         font-weight: 600;
         margin-bottom: 1rem;
+        min-height: 3rem;
       }
       .card-text {
         font-size: 0.85rem;

@@ -116,7 +116,7 @@ $blue: #2b5c8c;
   // feature cards
 
   --feature-card-width: 16rem;
-  --feature-card-height: 20rem;
+  --feature-card-height: 24rem;
 }
 
 // presets
@@ -642,5 +642,10 @@ main {
   }
 }
 
-
+.page-content img {
+  display: block;
+  max-width: 90%;
+  max-height: 60vh;
+  margin: 1.5rem auto;
+}
 

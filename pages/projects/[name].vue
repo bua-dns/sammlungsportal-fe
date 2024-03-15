@@ -6,10 +6,12 @@ const projects = useState('projects');
 const project = computed(() => {
   return projects.value.data.find((project) => project.slug === projectName.value);
 });
-
+console.log('projects.value',projects.value);
 // extract image filenames from images property of project
-const images = project.value.images.map((image) => {
-  return image.directus_files_id.filename_disk;
+const images = computed(() => {
+  return project.value.images.map((image) => {
+    return image.directus_files_id.filename_disk;
+  });
 });
 </script>
 
@@ -17,7 +19,7 @@ const images = project.value.images.map((image) => {
   <Head>
     <Title>Projekte</Title>
   </Head>
-  <div class="page">
+  <div class="page" v-if="project">
     <h1 class="text-center">{{ project.title }}</h1>
     <h3 class="text-center mb-4">{{ project.sub_line }}</h3>
     <div class="description" v-html="project.description" />

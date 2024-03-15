@@ -56,7 +56,7 @@ const objectTypes = computed(() => {
     </section>
     <section class="row taxonomy-cards">
       <div class="select-cards-section subjects col-lg">
-        <div class="intro" v-html="homepage.data.subject_selection_intro"/>
+        <div class="intro" v-if="homepage.data.subject_selection_intro" v-html="homepage.data.subject_selection_intro"/>
         <div class="subject-grid">
           <div v-for="(subject, idx) in subjects" :key="idx" class="card dns-card selection-card">
             <NuxtLink :to="`/sammlungen/?dns_taxonomy_subjects=${subject.label}`" class="card-link medium">
@@ -66,7 +66,7 @@ const objectTypes = computed(() => {
         </div>
       </div>      
       <div class="select-cards-section object-types col-lg">
-        <div class="intro" v-html="homepage.data.object_type_selection_intro"/>
+        <div class="intro" v-if="homepage.data.subject_selection_intro" v-html="homepage.data.object_type_selection_intro"/>
         <div class="subject-grid">
           <div v-for="(type, idx) in objectTypes" :key="idx" class="card dns-card selection-card">
             <NuxtLink :to="`/sammlungen/?dns_taxonomy_genre=${type.label}`" class="card-link medium">
