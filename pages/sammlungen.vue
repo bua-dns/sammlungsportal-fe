@@ -11,7 +11,7 @@
  */
 const collectionsFetchFields = [
   // 1st level
-  'id, label, current_keeper, opening_hours, phone, email, description, homepage',
+  'id, label, current_keeper, opening_hours, phone, email, description, homepage', 'exclude_from_listing',
   'collection_portal, used_in_activity, active_collection',
   // nested
   'address.*',
@@ -39,6 +39,10 @@ const settings = theme.value.data.settings;
 // add display property to collections
 data.value.data.forEach((collection) => {
   collection.display = true;
+  // general opt-out via directus field 'exclude_from_listing'
+  if (collection.exclude_from_listing === '1') {
+    collection.display = false;
+  }
 });
 
 // SORT         ----------------------------------------------------------------
@@ -149,6 +153,10 @@ function setTermFilter(taxonomy, term) {
         ).includes(filterValue)
       );
     });
+    // general opt-out via directus field 'exclude_from_listing'
+    if (collection.exclude_from_listing === '1') {
+      collection.display = false;
+    }
   });
   setQueryParams();
   scrollToResults();
@@ -212,6 +220,10 @@ function resetFilters() {
   filterDetails.value = {};
   data.value.data.forEach((collection) => {
     collection.display = true;
+    // general opt-out via directus field 'exclude_from_listing'
+    if (collection.exclude_from_listing === '1') {
+      collection.display = false;
+    }
   });
   setQueryParams();
 }
