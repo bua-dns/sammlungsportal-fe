@@ -6,6 +6,9 @@ const props = defineProps({
   icon: {
     type: String,
   },
+  iconClose: {
+    type: String,
+  },
   content: {
     type: String,
   },
@@ -37,7 +40,12 @@ onUnmounted(() => {
 <template>
   <div class="c_info-badge">
     <div class="badge" @click="toggleShowInfo()">
-      <img src="~/assets/img/icons/Background-Image-Info.svg" alt="show and hide info about background image">
+      <template v-if="!showInfo">
+        <img src="~/assets/img/icons/Background-Image-Info.svg" alt="show and hide info about background image">
+      </template>
+      <template v-if="showInfo">
+        <img src="~/assets/img/icons/Background-Image-Info-Close.svg" alt="show and hide info about background image">
+      </template>
     </div>
     <div class="info" :class="{ 'show': showInfo }">
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quo consequatur ratione expedita animi a rerum cumque nisi, reiciendis recusandae molestiae aliquid nihil odit mollitia consectetur quia eos atque repellendus!
