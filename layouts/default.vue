@@ -1,16 +1,3 @@
-<template>
-  <TheHeader />
-  <TheNavigation />
-  <div v-if="randImageRoutes.includes($route.name)" class="bg-img">
-    <img :src="projectConfig.imageBaseUrl + '/' + randomImage[$route.name].image + '?key=bg-image'"
-      :alt="randomImage[$route.name].credits">
-  </div>
-  <main :class="mainClass">
-    <slot />
-  </main>
-  <TheFooter />
-</template>
-
 <script setup>
 const route = useRoute();
 const backgroundImages = useState('background_images');
@@ -43,8 +30,27 @@ const mainClass = computed(() => {
   }
 });
 </script>
+<template>
+  <div class="t_default">
+    <TheHeader />
+    <TheNavigation />
+    <div v-if="randImageRoutes.includes($route.name)" class="bg-img">
+      <img :src="projectConfig.imageBaseUrl + '/' + randomImage[$route.name].image + '?key=bg-image'"
+        :alt="randomImage[$route.name].credits">
+    </div>
+    <main :class="mainClass">
+      <slot />
+    </main>
+    <TheFooter />
+    <InfoBadge />
+  </div>
+</template>
+
 
 <style lang="scss">
+.t_default {
+  position: relative;
+}
 .bg-img {
   position: fixed;
   top: 0;

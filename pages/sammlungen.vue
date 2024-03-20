@@ -541,7 +541,7 @@ onMounted(() => {
         padding: 0.4em 0.6em;
         border: 0;
         border-radius: 4px;
-        background-color: var(--color-base-d0);
+        background-color: hsl(0, 0%, 100%);
         border-color: var(--color-nav-brd);
         border-style: solid;
         border-width: 1px;
