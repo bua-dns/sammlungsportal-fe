@@ -37,14 +37,14 @@ const objectTypes = computed(() => {
     <Title>BUA Sammlungsplattform</Title>
   </Head>
   <div class="page">
-    <section class="mt-4 px-5 homepage-intro">
-      <h1 class="text-center intro-heading">{{ homepage.data.title }}</h1>
-      <div class="intro-text" v-html="homepage.data.intro"></div>
+    <section class="mt-4 px-lg-3 homepage-intro">
+      <h1 class="mb-lg-4 text-center intro-heading">{{ homepage.data.title }}</h1>
+      <div class="intro-text dns-lead-text" v-html="homepage.data.intro"></div>
     </section>
     <!-- University cards -->
     <section class="mt-5 university-collections">
-      <h3 class="px-5 text-center section-heading">{{ w.university_collections_heading }}</h3>
-      <div class="px-5 cardset-intro" v-html="homepage.data.cardset_collections_intro"/>
+      <h2 class="mb-lg-3 text-center section-heading">{{ w.university_collections_heading }}</h2>
+      <div class="cardset-intro" v-html="homepage.data.cardset_collections_intro"/>
       <div class="mt-4 cards d-flex flex-wrap flex-column flex-lg-row gap-2">
         <div v-for="(card, idx) in homepage.data.cardset_collections" :key="idx" class="card dns-card university-card"
           :style="'border-color:' + card.navigation_cards_id.background_color + ';'">
@@ -56,7 +56,7 @@ const objectTypes = computed(() => {
     </section>
     <section class="row taxonomy-cards">
       <div class="select-cards-section subjects col-lg">
-        <div class="intro" v-html="homepage.data.subject_selection_intro"/>
+        <div class="mb-3 intro" v-html="homepage.data.subject_selection_intro"/>
         <div class="subject-grid">
           <div v-for="(subject, idx) in subjects" :key="idx" class="card dns-card selection-card">
             <NuxtLink :to="`/sammlungen/?dns_taxonomy_subjects=${subject.label}`" class="card-link medium">
@@ -66,7 +66,7 @@ const objectTypes = computed(() => {
         </div>
       </div>      
       <div class="select-cards-section object-types col-lg">
-        <div class="intro" v-html="homepage.data.object_type_selection_intro"/>
+        <div class="mb-3 intro" v-html="homepage.data.object_type_selection_intro"/>
         <div class="subject-grid">
           <div v-for="(type, idx) in objectTypes" :key="idx" class="card dns-card selection-card">
             <NuxtLink :to="`/sammlungen/?dns_taxonomy_genre=${type.label}`" class="card-link medium">
@@ -77,7 +77,7 @@ const objectTypes = computed(() => {
       </div>
     </section>
     <section class="mt-5 featured-cards">
-      <h3 class="text-center section-heading">{{ w.featured_heading  }}</h3>
+      <h2 class="mb-lg-3 text-center section-heading">{{ w.featured_heading  }}</h2>
       <div class="intro" v-if="homepage.data.cardset_featured_intro" v-html="homepage.data.cardset_featured_intro"/>
       <div class="features-grid">
         <div v-for="(card, idx) in homepage.data.cardset_featured" :key="idx" class="feature-card">
@@ -93,17 +93,12 @@ section {
 }
 .homepage-intro {
   .intro-heading {
-    font-size: var(--font-size-h1);
-    line-height: 1.2;
-    margin: 0 0 2.5rem;
   }
   .intro-text {
-    font-size: 1.25rem;
-    line-height: 1.5;
+
   }
 }
 .section-heading {
-  font-size: 1.5rem;
   margin-bottom: 2rem;
 }
 .dns-card {

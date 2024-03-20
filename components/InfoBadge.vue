@@ -74,4 +74,9 @@ onUnmounted(() => {
     }
   } 
 }
+@media screen and (max-width: 576px){
+  .c_info-badge {
+    display: none;
+  }
+}
 </style>

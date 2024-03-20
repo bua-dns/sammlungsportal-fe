@@ -19,8 +19,8 @@ const props = defineProps({
     </div>
     <div class="card-body">
       <div class="card-body-content">
-        <div class="mt-2 card-title">{{ cardContent.title }}</div>
-        <div class="card-text" v-html="cardContent.card_text"/>
+        <h5 class="mt-1 card-title">{{ cardContent.title }}</h5>
+        <div class="mb-2 card-text" v-html="cardContent.card_text"/>
       </div>
       <NuxtLink :to="cardContent.more_button_link" class="card-link">
         {{ cardContent.more_button_label}}
@@ -66,13 +66,10 @@ const props = defineProps({
     justify-content: space-between;
     .card-body-content {
       .card-title {
-        font-size: .85rem;
-        font-weight: 600;
-        margin-bottom: 1rem;
+        min-height: 2.25rem;
       }
       .card-text {
-        font-size: 0.85rem;
-        margin-bottom: 1rem;
+        font-size: var(--font-size-extra-small);
       }
     }
     .card-link {

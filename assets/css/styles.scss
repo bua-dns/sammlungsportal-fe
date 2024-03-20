@@ -62,23 +62,84 @@ $blue: #2b5c8c;
 
   --color-btn-brd: #a7aaaf;
 
+  --font-size-text: 1rem;
+  --font-size-text-small: 0.875rem;
+  --font-size-text-lead: 1.125rem;
+
   --font-size-h1: 1.25rem;
+  --font-size-h2: 1.125rem;
+  --font-size-h3: 1.125rem;
+  --font-size-h4: 1rem;
+  --font-size-h5: .875rem;
 
   // Layout for elements
 
   // feature cards
 
   --feature-card-width: 16rem;
-  --feature-card-height: 20rem;
+  --feature-card-height: 22rem;
 }
 
 // responsive typography
 
 @media screen and (min-width: 576px) {
   :root {
+    --font-size-text: 1.25rem;
+    --font-size-text-small: 1rem;
+    --font-size-extra-small: 0.875rem;
+    --font-size-text-lead: 1.4rem;
+
     --font-size-h1: 2rem;
+    --font-size-h2: 1.5rem;
+    --font-size-h3: 1.125rem;
+    --font-size-h4: 1rem;
+    --font-size-h5: .875rem;
   }
 }
+
+// default header styling
+
+h1, h2, h3, h4, h5 {
+  line-height: 1.2;
+  // by convention: use bootstrap utility classes for margin 
+  margin: 0;
+}
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: 700;
+}
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: 700;
+
+}
+h3 {
+  font-size: var(--font-size-h3);
+  font-weight: 700;
+}
+h4 {
+  font-size: var(--font-size-h4);
+  font-weight: 700;
+}
+h5 {
+  font-size: var(--font-size-h5);
+  font-weight: 700;
+}
+
+// default text styling
+
+.dns-lead-text {
+  font-size: var(--font-size-text-lead);
+  font-weight: normal;
+  line-height: 1.25;
+}
+
+
+em {
+  font-style: italic;
+}
+
+
 
 // presets
 body {
@@ -269,25 +330,7 @@ figcaption {
   display: block;
 }
 
-h1 {
-  font-size: 2rem;
-}
-h2 {
-  font-size: 1.5rem;
-}
-h3 {
-  font-size: 1.25rem;
-}
-h4 {
-  font-size: 1rem;
-}
-h5 {
-  font-size: 0.875rem;
-}
 
-em {
-  font-style: italic;
-}
 
 // utility classes
 
