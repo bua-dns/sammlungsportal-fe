@@ -93,7 +93,7 @@ section {
 }
 .homepage-intro {
   .intro-heading {
-    font-size: 2rem;
+    font-size: var(--font-size-h1);
     line-height: 1.2;
     margin: 0 0 2.5rem;
   }

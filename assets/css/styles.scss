@@ -1,7 +1,11 @@
+
+
 $blue: #2b5c8c;
 // $blue: #597493;
 
+
 // Bootstrap
+// other modules available see end of file
 // Configuration
 @import "bootstrap/functions";
 @import "bootstrap/variables";
@@ -9,39 +13,9 @@ $blue: #2b5c8c;
 @import "bootstrap/mixins";
 @import "bootstrap/utilities";
 
-// Layout & components
-// @import "bootstrap/root";
-// @import "bootstrap/reboot";
-// @import "bootstrap/type";
-// @import "bootstrap/images";
 @import "bootstrap/containers";
 @import "bootstrap/grid";
-// @import "bootstrap/tables";
-// @import "bootstrap/forms";
 @import "bootstrap/forms/form-check";
-// @import "bootstrap/buttons";
-// @import "bootstrap/transitions";
-// @import "bootstrap/dropdown";
-// @import "bootstrap/button-group";
-// @import "bootstrap/nav";
-// @import "bootstrap/navbar";
-// @import "bootstrap/card";
-// @import "bootstrap/accordion";
-// @import "bootstrap/breadcrumb";
-// @import "bootstrap/pagination";
-// @import "bootstrap/badge";
-// @import "bootstrap/alert";
-// @import "bootstrap/progress";
-// @import "bootstrap/list-group";
-// @import "bootstrap/close";
-// @import "bootstrap/toasts";
-// @import "bootstrap/modal";
-// @import "bootstrap/tooltip";
-// @import "bootstrap/popover";
-// @import "bootstrap/carousel";
-// @import "bootstrap/spinners";
-// @import "bootstrap/offcanvas";
-// @import "bootstrap/placeholders";
 
 // Helpers
 @import "bootstrap/helpers";
@@ -86,30 +60,9 @@ $blue: #2b5c8c;
   --color-nav-active-bg: #597493;
   --color-nav-active-brd: #4d6887;
 
-  // greyscale
-  --color-base-d900: #121212;
-  --color-base-d800: #242424;
-  --color-base-d700: #363636;
-  --color-base-d600: #484848;
-  --color-base-d500: #5a5a5a;
-  --color-base-d400: #6c6c6c;
-  --color-base-d300: #7e7e7e;
-  --color-base-d200: #909090;
-  --color-base-d100: #a2a2a2;
-  --color-base-d75: #b4b4b4;
-  --color-base-d50: #c6c6c6;
-  --color-base-d25: #d8d8d8;
-  --color-base-d10: #eaeaea;
-  --color-base-d5: #f4f4f4;
-  --color-base-d0: #ffffff;
-
   --color-btn-brd: #a7aaaf;
 
-  // --breakpoint-sm: 576px;
-  // --breakpoint-md: 768px;
-  // --breakpoint-lg: 992px;
-  // --breakpoint-xl: 1200px;
-  // --breakpoint-xxl: 1400px;
+  --font-size-h1: 1.25rem;
 
   // Layout for elements
 
@@ -117,6 +70,14 @@ $blue: #2b5c8c;
 
   --feature-card-width: 16rem;
   --feature-card-height: 20rem;
+}
+
+// responsive typography
+
+@media screen and (min-width: 576px) {
+  :root {
+    --font-size-h1: 2rem;
+  }
 }
 
 // presets
@@ -474,7 +435,7 @@ main {
   padding: 0.5rem;
   border: 1px solid var(--color-nav-brd);
   border-radius: 6px;
-  background-color: var(--color-base-d0);
+  background-color: hsl(0,0%,100%);
 
   .tag-title {
     font-size: 1rem;
@@ -653,3 +614,40 @@ main {
     }
   }
 }
+
+/* all bootstrap modules available
+// Layout & components
+// @import "bootstrap/root";
+// @import "bootstrap/reboot";
+// @import "bootstrap/type";
+// @import "bootstrap/images";
+@import "bootstrap/containers";
+@import "bootstrap/grid";
+// @import "bootstrap/tables";
+// @import "bootstrap/forms";
+@import "bootstrap/forms/form-check";
+// @import "bootstrap/buttons";
+// @import "bootstrap/transitions";
+// @import "bootstrap/dropdown";
+// @import "bootstrap/button-group";
+// @import "bootstrap/nav";
+// @import "bootstrap/navbar";
+// @import "bootstrap/card";
+// @import "bootstrap/accordion";
+// @import "bootstrap/breadcrumb";
+// @import "bootstrap/pagination";
+// @import "bootstrap/badge";
+// @import "bootstrap/alert";
+// @import "bootstrap/progress";
+// @import "bootstrap/list-group";
+// @import "bootstrap/close";
+// @import "bootstrap/toasts";
+// @import "bootstrap/modal";
+// @import "bootstrap/tooltip";
+// @import "bootstrap/popover";
+// @import "bootstrap/carousel";
+// @import "bootstrap/spinners";
+// @import "bootstrap/offcanvas";
+// @import "bootstrap/placeholders";
+
+*/
