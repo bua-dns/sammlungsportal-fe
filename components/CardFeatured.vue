@@ -12,10 +12,12 @@ const props = defineProps({
 <template>
   <div class="feature-card">
     <div class="card-image">
-      <img 
-        :src="`${projectConfig.imageBaseUrl}/${cardContent.card_image.filename_disk}?key=feature-card`" 
-        alt=""
-      >
+      <NuxtLink :to="cardContent.more_button_link">
+        <img 
+          :src="`${projectConfig.imageBaseUrl}/${cardContent.card_image.filename_disk}?key=feature-card`" 
+          alt=""
+        >
+      </NuxtLink>
     </div>
     <div class="card-body">
       <div class="card-body-content">
