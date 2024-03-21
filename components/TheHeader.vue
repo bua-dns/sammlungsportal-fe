@@ -18,11 +18,11 @@ const scrollOffset = 40;
 const scrollState = useState("scroll", () => false);
 const handleScroll = () => {
   const navbar = document.querySelector(".navbar");
-  if (window.scrollY > scrollOffset && !navbar.classList.contains("shrink")) {
-    navbar.classList.add("shrink");
+  if (window.scrollY > scrollOffset && !navbar.classList.contains("scrolled")) {
+    navbar.classList.add("scrolled");
     scrollState.value = true;
-  } else if (window.scrollY <= scrollOffset && navbar.classList.contains("shrink")) {
-    navbar.classList.remove("shrink");
+  } else if (window.scrollY <= scrollOffset && navbar.classList.contains("scrolled")) {
+    navbar.classList.remove("scrolled");
     scrollState.value = false;
   }
 };
@@ -194,7 +194,7 @@ const handleScroll = () => {
       }
     }
   }
-  &.shrink {
+  &.scrolled {
     .dns-branding {
       .dns-navbar-logo {
         padding: 0.25rem 0 0.25rem 0.25rem;
