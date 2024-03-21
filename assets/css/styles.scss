@@ -84,6 +84,8 @@ $blue: #2b5c8c;
   --main-margin-bottom: 4rem;
   --main-padding: 0 1rem;
 
+  --section-gap: 4rem;
+
 
   // Layout for elements
 
@@ -477,6 +479,10 @@ main {
 .page {
   background-color: #fff;
   border-radius: 8px;
+}
+
+section {
+  margin: 0 0 var(--section-gap) 0;
 }
 
 // tags

@@ -36,9 +36,9 @@ const objectTypes = computed(() => {
   <Head>
     <Title>BUA Sammlungsplattform</Title>
   </Head>
-  <div class="page pb-4">
+  <div class="page pt-4 pb-1">
     <section class="homepage-intro">
-      <h1 class="mb-lg-4 mt-4 text-center intro-heading">{{ homepage.data.title }}</h1>
+      <h1 class="mb-lg-4  text-center intro-heading">{{ homepage.data.title }}</h1>
       <div class="intro-text dns-text-lead" v-html="homepage.data.intro"></div>
     </section>
     <!-- University cards -->
@@ -54,6 +54,7 @@ const objectTypes = computed(() => {
         </div>
       </div>
     </section>
+    <!-- Taxonomy cards -->
     <section class="mt-lg-4 row taxonomy-cards">
       <div class="select-cards-section subjects col-lg">
         <div class="mb-3 intro" v-html="homepage.data.subject_selection_intro"/>
@@ -76,6 +77,7 @@ const objectTypes = computed(() => {
         </div>
       </div>
     </section>
+    <!-- Featured cards -->
     <section class="mt-4 featured-cards">
       <h2 class=" mb-lg-4 text-center section-heading">{{ w.featured_heading  }}</h2>
       <div class="intro" v-if="homepage.data.cardset_featured_intro" v-html="homepage.data.cardset_featured_intro"/>
@@ -88,9 +90,7 @@ const objectTypes = computed(() => {
   </div>
 </template>
 <style scoped lang="scss">
-section {
-  border: 4px solid red;
-}
+
 .dns-card {
   flex: 1;
   border-radius: 12px;
@@ -142,7 +142,6 @@ section {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(var(--feature-card-width), 1fr));
   gap: 1.5rem;
-
 }
 .card-link {
   height: 100%;
