@@ -231,7 +231,7 @@ function resetFilters() {
 // UTILS              ----------------------------------------------------------
 
 // state of UI option to scroll to results after selecting a term
-const scrollToResultsAfterSelect = ref(true);
+const scrollToResultsAfterSelect = ref(false);
 
 // scroll to results after selecting a term
 function scrollToResults(always = false) {
