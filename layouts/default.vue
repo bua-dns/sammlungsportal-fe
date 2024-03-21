@@ -3,6 +3,8 @@ const route = useRoute();
 const backgroundImages = useState('background_images');
 const randImageRoutes = ['sammlungen', 'index'];
 
+const showInfoBadge = ref(false);
+
 function getRandomImage(page) {
   const images = (page === 'index')
     ? backgroundImages.value.data.filter(image => image.use_for_front_page === '1')
@@ -14,10 +16,17 @@ randImageRoutes.forEach(page => {
   randomImage.value[page] = getRandomImage(page);
 });
 
-watch(() => route.name, () => {
+function provideRandomImage() {
   if (randImageRoutes.includes(route.name)) {
     randomImage.value[route.name] = getRandomImage(route.name);
+    showInfoBadge.value = true;
+  } else {
+    showInfoBadge.value = false;
   }
+}
+provideRandomImage()
+watch(() => route.name, () => {
+  provideRandomImage();
 });
 
 const scrollState = useState('scroll');
@@ -42,7 +51,7 @@ const mainClass = computed(() => {
       <slot />
     </main>
     <TheFooter />
-    <InfoBadge />
+    <InfoBadge v-if="showInfoBadge"/>
   </div>
 </template>
 
