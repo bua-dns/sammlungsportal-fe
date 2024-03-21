@@ -4,7 +4,7 @@ const { data: themeContent } = await useFetch(`${projectConfig.dataBaseUrl}/them
 const { data: backgroundImages } = await useFetch(`${projectConfig.dataBaseUrl}/background_images`,
   {
     query: {
-      fields: '*,object_from_collection.label,object_from_collection.current_keeper',
+      fields: '*,object_from_collection.id,object_from_collection.label,object_from_collection.current_keeper',
       limit: -1
     }
   });
