@@ -17,12 +17,12 @@ onUnmounted(() => {
 const scrollOffset = 40;
 const scrollState = useState("scroll", () => false);
 const handleScroll = () => {
-  const navbar = document.querySelector(".navbar");
-  if (window.scrollY > scrollOffset && !navbar.classList.contains("shrink")) {
-    navbar.classList.add("shrink");
+  const navbar = document.querySelector(".dns-page-header");
+  if (window.scrollY > scrollOffset && !navbar.classList.contains("scrolled")) {
+    navbar.classList.add("scrolled");
     scrollState.value = true;
-  } else if (window.scrollY <= scrollOffset && navbar.classList.contains("shrink")) {
-    navbar.classList.remove("shrink");
+  } else if (window.scrollY <= scrollOffset && navbar.classList.contains("scrolled")) {
+    navbar.classList.remove("scrolled");
     scrollState.value = false;
   }
 };
@@ -105,6 +105,8 @@ const handleScroll = () => {
   top: 0;
   right: 0;
   left: 0;
+  height: var(--header-height);
+  transition: all .25s, padding 0.25s;
   z-index: 200;
   display: flex;
   justify-content: space-between;
@@ -121,22 +123,20 @@ const handleScroll = () => {
     text-decoration: none;
     color: var(--color-text);
     .dns-logo-container {
-      margin: 0 1.5rem 0 .5rem;
+      height: calc(var(--header-height) - 2rem);
+      transition: all 0.25s;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
       .dns-navbar-logo {
-        width: 76px;
-        height: 76px;
-        flex-grow: 1;
-        flex-shrink: 0;
-        box-sizing: content-box;
-        padding: 0.75rem 0 0.75rem 0.5rem;
-        transition: height 0.25s, padding 0.25s;
+        height: 100%;
       }
     }
     .dns-site-title-container {
       margin-left: 0.5rem;
     }
     .dns-site-title {
-      font-weight: 900;
+      font-weight: 700;
       font-size: 2rem;
       font-size: clamp(1.25rem, 4.1667vw, 2rem);
       line-height: 1.125;
@@ -194,20 +194,22 @@ const handleScroll = () => {
       }
     }
   }
-  &.shrink {
+  &.scrolled {
+    height: var(--header-height-scrolled);
     .dns-branding {
-      .dns-navbar-logo {
-        padding: 0.25rem 0 0.25rem 0.25rem;
-        width: auto;
-        height: 2.5rem;
+      .dns-logo-container {
+        height: calc(var(--header-height-scrolled) - 1.25rem);
+        display: flex;
+        align-items: center;
+        .dns-navbar-logo {
+          height: 100%;
+        }
       }
       .dns-site-title {
         font-size: 1.25rem;
-        margin-left: 0.25rem;
       }
       .dns-site-subtitle {
         font-size: 0.8rem;
-        margin-left: 0.25rem;
       }
     }
   }

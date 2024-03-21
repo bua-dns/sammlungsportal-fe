@@ -36,13 +36,13 @@ const objectTypes = computed(() => {
   <Head>
     <Title>BUA Sammlungsplattform</Title>
   </Head>
-  <div class="page">
-    <section class="mt-4 px-lg-3 homepage-intro">
-      <h1 class="mb-lg-4 text-center intro-heading">{{ homepage.data.title }}</h1>
-      <div class="intro-text dns-lead-text" v-html="homepage.data.intro"></div>
+  <div class="page pt-4 pb-1">
+    <section class="homepage-intro">
+      <h1 class="mb-lg-4  text-center intro-heading">{{ homepage.data.title }}</h1>
+      <div class="intro-text dns-text-lead" v-html="homepage.data.intro"></div>
     </section>
     <!-- University cards -->
-    <section class="mt-5 university-collections">
+    <section class="mt-4 university-collections">
       <h2 class="mb-lg-3 text-center section-heading">{{ w.university_collections_heading }}</h2>
       <div class="cardset-intro" v-html="homepage.data.cardset_collections_intro"/>
       <div class="mt-4 cards d-flex flex-wrap flex-column flex-lg-row gap-2">
@@ -54,7 +54,8 @@ const objectTypes = computed(() => {
         </div>
       </div>
     </section>
-    <section class="row taxonomy-cards">
+    <!-- Taxonomy cards -->
+    <section class="mt-lg-4 row taxonomy-cards">
       <div class="select-cards-section subjects col-lg">
         <div class="mb-3 intro" v-html="homepage.data.subject_selection_intro"/>
         <div class="subject-grid">
@@ -76,8 +77,9 @@ const objectTypes = computed(() => {
         </div>
       </div>
     </section>
-    <section class="mt-5 featured-cards">
-      <h2 class="mb-lg-3 text-center section-heading">{{ w.featured_heading  }}</h2>
+    <!-- Featured cards -->
+    <section class="mt-4 featured-cards">
+      <h2 class=" mb-lg-4 text-center section-heading">{{ w.featured_heading  }}</h2>
       <div class="intro" v-if="homepage.data.cardset_featured_intro" v-html="homepage.data.cardset_featured_intro"/>
       <div class="features-grid">
         <div v-for="(card, idx) in homepage.data.cardset_featured" :key="idx" class="feature-card">
@@ -88,19 +90,7 @@ const objectTypes = computed(() => {
   </div>
 </template>
 <style scoped lang="scss">
-section {
-  margin-bottom: 2rem;
-}
-.homepage-intro {
-  .intro-heading {
-  }
-  .intro-text {
 
-  }
-}
-.section-heading {
-  margin-bottom: 2rem;
-}
 .dns-card {
   flex: 1;
   border-radius: 12px;
@@ -152,7 +142,6 @@ section {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(var(--feature-card-width), 1fr));
   gap: 1.5rem;
-
 }
 .card-link {
   height: 100%;
