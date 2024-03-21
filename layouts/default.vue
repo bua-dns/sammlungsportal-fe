@@ -8,7 +8,7 @@ const showInfoBadge = ref(false);
 function getRandomImage(page) {
   const images = (page === 'index')
     ? backgroundImages.value.data.filter(image => image.use_for_front_page === '1')
-    : backgroundImages.value.data.filter(image => image.use_for_front_page !== '1');
+    : backgroundImages.value.data;
   return images[Math.floor(Math.random() * images.length)];
 }
 const randomImage = ref({});

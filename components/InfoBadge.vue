@@ -9,6 +9,9 @@ const props = defineProps({
   content: {
     type: String,
   },
+  collection: {
+    type: Object,
+  },
 
 });
 

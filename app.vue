@@ -1,7 +1,13 @@
 <script setup>
 /* Used auto-imported composables: projectConfig */
 const { data: themeContent } = await useFetch(`${projectConfig.dataBaseUrl}/theme_content`);
-const { data: backgroundImages } = await useFetch(`${projectConfig.dataBaseUrl}/background_images`);
+const { data: backgroundImages } = await useFetch(`${projectConfig.dataBaseUrl}/background_images`,
+  {
+    query: {
+      fields: '*,object_from_collection.label,object_from_collection.current_keeper',
+      limit: -1
+    }
+  });
 const { data: taxonomyTermsData } = await useFetch(`${projectConfig.dataBaseUrl}/taxonomy_terms`, {
   query: {
     fields: 'id, label, spws_taxonomy',
