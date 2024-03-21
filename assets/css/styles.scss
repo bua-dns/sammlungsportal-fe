@@ -72,6 +72,13 @@ $blue: #2b5c8c;
   --font-size-h4: 1rem;
   --font-size-h5: .875rem;
 
+  // general Layout 
+  --main-margin: 132px 0 4rem;
+  --main-padding: 0 1rem;
+
+  --heder-height: 4rem;
+  --header-height-shrinked: 4rem;
+
   // Layout for elements
 
   // feature cards
@@ -84,20 +91,26 @@ $blue: #2b5c8c;
 
 @media screen and (min-width: 576px) {
   :root {
-    --font-size-text: 1.25rem;
+    --font-size-text: 1rem;
     --font-size-text-small: 1rem;
     --font-size-extra-small: 0.875rem;
-    --font-size-text-lead: 1.4rem;
+    --font-size-text-lead: 1.125rem;
 
     --font-size-h1: 2rem;
     --font-size-h2: 1.5rem;
     --font-size-h3: 1.125rem;
-    --font-size-h4: 1rem;
+    --font-size-h4: 1.125rem;
     --font-size-h5: .875rem;
   }
 }
 
 // default header styling
+
+.dns-text-lead {
+  font-size: var(--font-size-text-lead);
+  font-weight: normal;
+  line-height: 1.2;
+}
 
 h1, h2, h3, h4, h5 {
   line-height: 1.2;
@@ -440,11 +453,11 @@ figcaption {
 // MAIN
 
 main {
-  margin: 132px 0 2rem;
-  padding: 0 1rem;
+  margin: var(--main-margin);
   transition: margin-top 0.25s;
   &.scrolled {
-    margin-top: 80px;
+    // DEV: noch dynamisch von den elementaren Höhen abhängig machen
+    margin-top: calc(132 - 52);
   }
 }
 

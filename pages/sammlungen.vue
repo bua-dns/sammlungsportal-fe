@@ -353,14 +353,16 @@ onMounted(() => {
     </div>
     <div v-if="showFilters" class="filter-control-bar">
       <div class="filter-control-bar-controls">
+        <!-- deactivated for the time being
         <div class="form-check form-switch gws-form-switch-right d-flex justify-content-end align-items-center">
           <label class="form-check-label small" for="flexSwitchCheckChecked">
             {{ w.scroll_to_results_after_select }}
           </label>
-          <input @click="scrollToResultsAfterSelect = !scrollToResultsAfterSelect" class="form-check-input"
+            <input @click="scrollToResultsAfterSelect = !scrollToResultsAfterSelect" class="form-check-input"
             type="checkbox" role="switch" id="flexSwitchCheckChecked"
-            :checked="(scrollToResultsAfterSelect) ? true : null">
-        </div>
+            :checked="(scrollToResultsAfterSelect) ? true : null"> 
+          </div>
+        -->
         <button class="gws-btn btn-filter" @click="resetFilters">
           <span :title="w.reset_all_filters">
             <svg class="icon" width="16" height="16" fill="currentColor">
