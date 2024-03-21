@@ -4,9 +4,6 @@ const theme = useState("theme")
 const w = theme.value.data.wording.de
 // useHead({ title: data.value.data[0].title });
 
-// config for specific page
-
-// DEV: replace by slug from path
 const slug = 'impressum'
 const titleWording = 'page_imprint'
 
@@ -16,7 +13,7 @@ const pageContent = data.value.data[0].page_content
 
 <template>
   <Head>
-    <Title>{{ w.page_contact }}</Title>
+    <Title>{{ w.page_imprint }}</Title>
   </Head>
   <div class="page" v-if="data">
     <h1 class="text-center">{{ w[titleWording] }}</h1>
