@@ -4,6 +4,7 @@ const backgroundImages = useState('background_images');
 const randImageRoutes = ['sammlungen', 'index'];
 
 const showInfoBadge = ref(false);
+const currentImage = ref({});
 
 function getRandomImage(page) {
   const images = (page === 'index')
@@ -11,14 +12,10 @@ function getRandomImage(page) {
     : backgroundImages.value.data;
   return images[Math.floor(Math.random() * images.length)];
 }
-const randomImage = ref({});
-randImageRoutes.forEach(page => {
-  randomImage.value[page] = getRandomImage(page);
-});
 
 function provideRandomImage() {
   if (randImageRoutes.includes(route.name)) {
-    randomImage.value[route.name] = getRandomImage(route.name);
+    currentImage.value = getRandomImage(route.name);
     showInfoBadge.value = true;
   } else {
     showInfoBadge.value = false;
@@ -44,8 +41,8 @@ const mainClass = computed(() => {
     <TheHeader />
     <TheNavigation />
     <div v-if="randImageRoutes.includes($route.name)" class="bg-img">
-      <img :src="projectConfig.imageBaseUrl + '/' + randomImage[$route.name].image + '?key=bg-image'"
-        :alt="randomImage[$route.name].credits">
+      <img :src="projectConfig.imageBaseUrl + '/' + currentImage.image + '?key=bg-image'"
+        :alt="currentImage.credits">
     </div>
     <main :class="mainClass">
       <slot />
