@@ -25,7 +25,7 @@ function filterListableImages(images) {
     <section class="cms-page">
       <h1 class="text-center">{{ pageTitle }}</h1>
       <div class="page-content" v-html="pageContent" />
-      <pre>listable {{ listableImages }}</pre>
+
     </section>
     <section class="listing">
       <div class="mb-4 entry" v-for="image in filterListableImages(backgroundImages.data)" :key="image.id">

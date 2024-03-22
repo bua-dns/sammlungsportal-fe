@@ -13,7 +13,7 @@ const props = defineProps({
 
 <template>
   <div class="c_info-badge">
-    <div class="badge" @click="toggleShowInfo()">
+    <div class="badge">
       <NuxtLink to="/images">
         <img src="~/assets/img/icons/Background-Image-Info.svg" alt="go to page with info about background images">
       </NuxtLink>

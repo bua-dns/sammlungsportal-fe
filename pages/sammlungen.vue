@@ -253,8 +253,10 @@ function setActiveCollectionId(id) {
     setTimeout(() => {
       const scrollTarget = document.getElementById("active-card-container");
       scrollTarget.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+    }, 1250);
+    console.log('setActiveCollectionId: scrollToResults');
   }
+  
 }
 
 // Returns the collection with the given id.
@@ -298,6 +300,7 @@ onMounted(() => {
     const decoded = decodeURIComponent(route.query[taxonomy]);
     if (taxonomy === "acid") {
       if (decoded && getCollectionById(decoded)) {
+        console.log('onMounted: setActiveCollectionId', decoded);
         setActiveCollectionId(decoded);
       } else {
         errors.value.push("error_activeCollectionId");
@@ -455,11 +458,11 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .active-card-container {
-  scroll-margin-top: 48px;
+  scroll-margin-top: var(--collections-scroll-margin-top);
 }
 
 .collections_display {
-  scroll-margin-top: 48px;
+  scroll-margin-top:var(--collections-scroll-margin-top);
   margin-bottom: -1rem;
 }
 
