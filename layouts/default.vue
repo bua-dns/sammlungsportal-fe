@@ -59,14 +59,24 @@ const mainClass = computed(() => {
   width: 100%;
   height: 100%;
   z-index: -10;
-  background-color: black;
+  background-color: var(--color-background);
 
   img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
-    opacity: .65;
+    display: none;
+    
+  }
+}
+@media screen and (min-width: 1400px){
+  .bg-img {
+    background-color: hsl(0, 0%, 0%);
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      opacity: .65;
+    }
   }
 }
 </style>

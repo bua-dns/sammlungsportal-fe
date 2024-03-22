@@ -15,8 +15,11 @@ const w = theme.value.data.wording.de;
       <strong>{{ collection.label }}</strong>
     </div>
     <div class="card-sm-description" v-if="collection.description"
-      v-html="truncateText(convertLineBreaks(collection.description), 240)">
+      v-html="truncateText(convertLineBreaks(collection.description), 240)" />
+    <div class="card-sm-description" v-if="!collection.description">
+      {{ w.no_collection_description }}
     </div>
+
   </div>
 </template>
 <style scoped lang="scss">

@@ -130,10 +130,12 @@ function getImageUrls(images){
           </template>
         </dl>
         <!-- images: <pre>{{ collection }}</pre> -->
-        <div v-if="collection.collection_images && collection.collection_images.length" class="collection-images">
-          <ImageViewer :images="getImageUrls(collection.collection_images)" previewMode="gallery" previewImageWidth="120" />
-        </div>
+
       </div>
+    </div>
+    <div v-if="collection.collection_images && collection.collection_images.length" class="my-5 collection-images">
+      <ImageViewer :images="getImageUrls(collection.collection_images) " previewMode="gallery"
+        previewImageWidth="120" />
     </div>
     <div class="tag-navigation-title"><strong>{{ w.tag_navigation_title }}</strong>{{ w.tag_navigation_hint }}</div>
     <div class="tag-navigation">

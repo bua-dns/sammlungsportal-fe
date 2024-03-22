@@ -28,7 +28,7 @@ const page = data.value.data[0]
       <div class="page-container">
         <div class="page-content" v-html="page.page_content"/>
         <div class="sidebar">
-          <div class="mt-3 mb-5 sidbar-header">
+          <div class="mt-3 mb-5 sidebar-header">
             <img :src="projectConfig.imageBaseUrl + '/' + page.sidebar_header_image + '?key=sidebar-header'" alt="sidebar image"/>
           </div>
           <div class="sidebar-content" v-html="page.sidebar_content"/>
@@ -42,16 +42,38 @@ const page = data.value.data[0]
 
 .p_dns-page {
   .page-container {
-    display: flex;
-    gap: 2.5rem;
+    display: block;
     .page-content {
-      flex: 2;
     }
     .sidebar {
-      flex: 1;
+      .sidebar-header {
+        display: none;
+        img {
+          
+        }
+      }
     }
   }
 }
-
+@media screen and (min-width: 768px){
+  .p_dns-page {
+    .page-container {
+        display: flex;
+        gap: 2.5rem;
+    
+        .page-content {
+          flex: 2;
+        }
+    
+        .sidebar {
+          .sidebar-header {
+            display: block;
+          }
+          flex: 1;
+        }
+      }
+  }
+  
+}
 
 </style>
