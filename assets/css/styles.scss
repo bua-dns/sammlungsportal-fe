@@ -27,6 +27,8 @@
   --color-tu: #c50e1f; // #c50d1f;
   --color-ch: #a3a3a3;
 
+  --color-background: hsl(0, 0%, 68%);
+
   --color-subject-card-fill: hsl(232, 28%, 95%);
   --color-subject-card-fill-hover: hsl(232, 28%, 98%);
   --color-subject-card-text: hsl(232, 32%, 40%);
@@ -69,13 +71,13 @@
   
   // general Layout 
 
-  --header-height: 6.5rem;
-  --header-height-scrolled: 4.5rem;
+  --header-height: 4rem;
+  --header-height-scrolled: 4rem;
 
   --page-padding: 0 2rem;
   --page-width: 74rem;
 
-  --main-margin-top: calc(var(--header-height) + 2rem);
+  --main-margin-top: calc(var(--header-height) + 1rem);
   --main-margin-bottom: 4rem;
   --main-padding: 0 1rem;
 
@@ -94,6 +96,11 @@
 
 @media screen and (min-width: 576px) {
   :root {
+    --header-height: 6.5rem;
+    --header-height-scrolled: 4.5rem;
+
+    --main-margin-top: calc(var(--header-height) + 2rem);
+
     --font-size-text: 1rem;
     --font-size-text-small: 1rem;
     --font-size-extra-small: 0.75rem;
