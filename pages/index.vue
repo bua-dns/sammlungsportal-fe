@@ -160,7 +160,7 @@ const objectTypes = computed(() => {
     color: var(--color-text);
   }
   &.light {
-    color: var(--color-text-inv);
+    color: var(--color-text-inverted);
   }
 }
 </style>

@@ -262,7 +262,7 @@ a {
     display: block;
     padding: 1.5rem;
     border-radius: 8px;
-    border: 1px solid var(--color-nav-brd);
+    border: 1px solid var(--color-navigation-border);
     cursor: pointer;
   }
 }

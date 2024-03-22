@@ -1,8 +1,4 @@
 
-
-$blue: #2b5c8c;
-// $blue: #597493;
-
 // Bootstrap
 // other modules available see end of file
 // Configuration
@@ -41,25 +37,24 @@ $blue: #2b5c8c;
   --color-feature-card-text: hsl(0,0%,20%);
   --color-feature-card-border: hsl(232,32%,64%);
 
-  --color-link: red; //
-
-  --color-text: #121212;
-  --color-text-inv: #fff;
+  --color-text: hsl(0,0%,12%);
+  --color-text-inverted: hsl(0,0%,98%);
   --color-link: hsl(232, 32%, 44%);
-  --color-link-bg: hsl(232, 32%, 64%);
-  --color-bg: #fff;
-  --color-border: #eaeaea;
+  --color-link-background: hsl(232, 32%, 64%);
+  --color-border: hsl(0,0%,92%);
+  --color-page-content-background: hsl(0, 0%, 100%);
+  --color-header-background: hsl(0, 0%, 100%);
 
-  --color-nav-bg: #e3e6ec;
-  --color-nav-bg-marked: #d1d6e0;
-  --color-nav-text: #121212;
-  --color-nav-brd: #cdcfd2;
-  --color-nav-hover-bg: #2b5c8c;
-  --color-nav-hover-brd: #003366;
-  --color-nav-active-bg: #597493;
-  --color-nav-active-brd: #4d6887;
+  --color-navigation-background: hsl(220, 19%, 91%);
+  --color-navigation-background-marked: hsl(220, 19%, 85%);
+  --color-navigation-text: var(--color-text);
+  --color-navigation-border: hsl(216, 5%, 81%);
+  --color-navigation-hover-background: hsl(210, 32%, 36%);
+  --color-navigation-hover-border: hsl(210, 100%, 20%);
+  --color-navigation-active-background: hsl(212, 25%, 46%);
+  --color-navigation-active-border: hsl(212, 27%, 42%);
 
-  --color-btn-brd: #a7aaaf;
+  --color-btn-border: hsl(218, 5%, 67%);
 
   --font-size-text: 1rem;
   --font-size-text-small: 0.875rem;
@@ -209,6 +204,17 @@ a {
 
 @import "variable-fonts";
 
+ h1,
+ h2,
+ h3,
+ h4,
+ h5,
+ .title {
+   font-family: "Merriweather", Georgia, Cambria, "Times New Roman", Times, serif;
+   font-weight: 600;
+ }
+
+
 // reboot & basics
 @media (prefers-reduced-motion: no-preference) {
   :root {
@@ -234,38 +240,15 @@ figcaption {
   display: block;
 }
 
+img {
+  display: block;
+  max-width: 100%;
+}
+
 
 
 // utility classes
 
-// serif & sans-serif
-.fw-light {
-  font-weight: 300;
-}
-// serif & sans-serif
-.fw-regular {
-  font-weight: 400;
-}
-// sans-serif
-.fw-medium {
-  font-weight: 500;
-}
-// sans-serif
-.fw-semibold {
-  font-weight: 600;
-}
-// serif & sans-serif
-.fw-bold {
-  font-weight: 700;
-}
-// sans-serif
-.fw-extrabold {
-  font-weight: 800;
-}
-// serif & sans-serif
-.fw-black {
-  font-weight: 900;
-}
 
 .text-center {
   text-align: center;
@@ -309,27 +292,27 @@ figcaption {
   padding: 0.25rem;
   line-height: 1;
   font-size: 0;
-  color: var(--color-nav-text);
-  background-color: var(--color-nav-bg);
-  border: 1px solid var(--color-btn-brd);
+  color: var(--color-navigation-text);
+  background-color: var(--color-navigation-background);
+  border: 1px solid var(--color-btn-border);
   border-radius: 6px;
   cursor: pointer;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
   &:hover,
   &:focus {
     outline: 0;
-    background-color: var(--color-nav-hover-bg);
-    border-color: var(--color-nav-hover-brd);
-    color: var(--color-text-inv);
+    background-color: var(--color-navigation-hover-background);
+    border-color: var(--color-navigation-hover-border);
+    color: var(--color-text-inverted);
   }
   &:active,
   &.active {
     outline: 0;
-    background-color: var(--color-nav-hover-bg);
-    border: 1px solid var(--color-nav-hover-brd);
-    // background-color: var(--color-nav-active-bg);
-    // border: 1px solid var(--color-nav-active-brd);
-    color: var(--color-text-inv);
+    background-color: var(--color-navigation-hover-background);
+    border: 1px solid var(--color-navigation-hover-border);
+    // background-color: var(--color-navigation-active-background);
+    // border: 1px solid var(--color-navigation-active-border);
+    color: var(--color-text-inverted);
   }
 }
 
@@ -360,7 +343,7 @@ main {
 }
 
 .page {
-  background-color: #fff;
+  background-color: var(--color-page-content-background);
   border-radius: 8px;
 }
 
@@ -383,7 +366,7 @@ section {
 .filter-card,
 .tag-card {
   padding: 0.5rem;
-  border: 1px solid var(--color-nav-brd);
+  border: 1px solid var(--color-navigation-border);
   border-radius: 6px;
   background-color: hsl(0,0%,100%);
 
@@ -404,10 +387,10 @@ section {
     gap: 0.75rem;
     margin: 0.5rem 0 0;
     padding-top: 0.5rem;
-    border-top: 1px solid var(--color-nav-brd);
+    border-top: 1px solid var(--color-navigation-border);
 
     .tag {
-      background-color: var(--color-nav-bg);
+      background-color: var(--color-navigation-background);
       font-size: 0.9rem;
       font-weight: 500;
       line-height: 1;
@@ -418,9 +401,9 @@ section {
       cursor: pointer;
       &:active,
       &.active {
-        background-color: var(--color-nav-hover-bg);
-        border-color: var(--color-nav-hover-brd);
-        color: var(--color-text-inv);
+        background-color: var(--color-navigation-hover-background);
+        border-color: var(--color-navigation-hover-border);
+        color: var(--color-text-inverted);
       }
     }
   }
@@ -463,7 +446,7 @@ section {
   &.card-deselect-inverse {
     &::before,
     &::after {
-      background-color: var(--color-text-inv);
+      background-color: var(--color-text-inverted);
     }
   }
 }

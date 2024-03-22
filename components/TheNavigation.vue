@@ -79,7 +79,7 @@ $navbar-height: 48px;
   z-index: 100;
   transition: transform 0.5s ease-out, top 0.25s;
   transform: translateX(100%);
-  background-color: var(--color-bg);
+  background-color: var(--color-header-background);
   border-left: 1px solid var(--color-border);
   &.scrolled {
     top: $navbar-height;
@@ -108,10 +108,10 @@ $navbar-height: 48px;
           line-height: 1;
           text-align: center;
           text-decoration: none;
-          color: var(--color-nav-text);
-          background-color: var(--color-nav-bg);
+          color: var(--color-navigation-text);
+          background-color: var(--color-navigation-background);
           border-radius: 6px;
-          border: 1px solid var(--color-nav-brd);
+          border: 1px solid var(--color-navigation-border);
           transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
           &:hover,
           &.router-link-active:hover,
@@ -120,19 +120,19 @@ $navbar-height: 48px;
           &.router-link-active:focus,
           &.router-link-exact-active:focus {
             // outline: 0;
-            background-color: var(--color-nav-hover-bg);
-            border-color: var(--color-nav-hover-brd);
-            color: var(--color-text-inv);
+            background-color: var(--color-navigation-hover-background);
+            border-color: var(--color-navigation-hover-border);
+            color: var(--color-text-inverted);
           }
           &:active {
-            background-color: var(--color-nav-hover-bg);
-            color: var(--color-text-inv);
+            background-color: var(--color-navigation-hover-background);
+            color: var(--color-text-inverted);
           }
           &.router-link-active,
           &.router-link-exact-active {
-            background-color: var(--color-nav-active-bg);
-            border: 1px solid var(--color-nav-active-brd);
-            color: var(--color-text-inv);
+            background-color: var(--color-navigation-active-background);
+            border: 1px solid var(--color-navigation-active-border);
+            color: var(--color-text-inverted);
           }
         }
       }

@@ -17,7 +17,7 @@ const w = theme.value.data.wording.de;
           </div>
           <div class="row">
             <div class="col text-center text-lg-start">
-              <p v-html="w.contact" class="text-uppercase fw-semibold mt-4 small-xs"></p>
+              <h4 v-html="w.contact" class="mt-4 small-xs"></h4>
               <p v-html="convertLineBreaks(w.project_contact)" class="small-xs"></p>
             </div>
           </div>
