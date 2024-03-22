@@ -11,15 +11,47 @@ const slug = 'dns'
 const titleWording = 'page_dns'
 
 const { data } = await useFetchPage(slug)
-const pageContent = data.value.data[0].page_content
+const page = data.value.data[0]
 </script>
 
 <template>
   <Head>
     <Title>{{ w.page_contact }}</Title>
   </Head>
-  <div class="page" v-if="data">
-    <h1 class="text-center">{{ w[titleWording] }}</h1>
-    <div class="page-content" v-html="pageContent"/>
+  <div class="page p_dns-page" v-if="data">
+    <pre v-if="false">{{ page }}</pre>
+    <h1 class="mb-4 text-center">{{ w[titleWording] }}</h1>
+    <template v-if="!page.display_sidebar">
+      <div class="page-content" v-html="page.page_content"/>
+    </template>
+    <template v-if="page.display_sidebar">
+      <div class="page-container">
+        <div class="page-content" v-html="page.page_content"/>
+        <div class="sidebar">
+          <div class="mt-3 mb-5 sidbar-header">
+            <img :src="projectConfig.imageBaseUrl + '/' + page.sidebar_header_image + '?key=sidebar-header'" alt="sidebar image"/>
+          </div>
+          <div class="sidebar-content" v-html="page.sidebar_content"/>
+        </div> 
+      </div>
+    </template>
   </div>
 </template>
+
+<style lang='scss'>
+
+.p_dns-page {
+  .page-container {
+    display: flex;
+    gap: 2.5rem;
+    .page-content {
+      flex: 2;
+    }
+    .sidebar {
+      flex: 1;
+    }
+  }
+}
+
+
+</style>
