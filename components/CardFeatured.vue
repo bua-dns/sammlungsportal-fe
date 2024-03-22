@@ -22,7 +22,7 @@ const props = defineProps({
     <div class="card-body">
       <div class="card-body-content">
         <h5 class="mt-1 card-title">{{ cardContent.title }}</h5>
-        <div class="mb-2 card-text" v-html="cardContent.card_text"/>
+        <div class="mb-2 card-text" v-html="truncateText(cardContent.card_text,240)" />
       </div>
       <NuxtLink :to="cardContent.more_button_link" class="card-link">
         {{ cardContent.more_button_label}}
