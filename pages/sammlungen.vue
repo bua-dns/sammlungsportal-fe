@@ -544,7 +544,7 @@ onMounted(() => {
         border: 0;
         border-radius: 4px;
         background-color: hsl(0, 0%, 100%);
-        border-color: var(--color-nav-brd);
+        border-color: var(--color-navigation-border);
         border-style: solid;
         border-width: 1px;
         color: #000;
@@ -583,7 +583,7 @@ onMounted(() => {
   line-height: 1;
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
-  border: 1px solid var(--color-btn-brd);
+  border: 1px solid var(--color-btn-border);
   border-right: 0;
 }
 
@@ -593,7 +593,7 @@ onMounted(() => {
   margin: 0;
   padding: .5rem .25rem .5rem .25rem;
   line-height: 1;
-  border: 1px solid var(--color-btn-brd);
+  border: 1px solid var(--color-btn-border);
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
 }
@@ -601,7 +601,7 @@ onMounted(() => {
 .filter-control-bar {
   margin-top: 1rem;
   padding-top: 0.5rem;
-  border-top: 1px solid var(--color-nav-brd);
+  border-top: 1px solid var(--color-navigation-border);
 }
 
 .filter-control-bar-controls {
@@ -627,7 +627,7 @@ onMounted(() => {
     display: inline-block;
     margin-left: 0.5rem;
     color: var(--color-text);
-    background-color: var(--color-nav-bg-marked);
+    background-color: var(--color-navigation-background-marked);
     min-width: 1.9rem;
     border-radius: 4px;
     font-size: .85rem;

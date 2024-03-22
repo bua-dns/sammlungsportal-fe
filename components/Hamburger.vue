@@ -77,7 +77,7 @@ const toggleNav = () => {
 }
 button.hamburger:not([disabled]):not([tabindex^="-"]):focus {
     outline: 0;
-    background-color: var(--color-nav-hover-bg);
+    background-color: var(--color-navigation-hover-background);
     color: #fff;
     .hamburger__line {
       background-color: #fff;

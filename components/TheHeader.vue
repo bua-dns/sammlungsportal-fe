@@ -111,7 +111,7 @@ const handleScroll = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--color-bg);
+  background-color: var(--color-header-background);
   line-height: 1;
   box-shadow: 0 0 0.625rem 0 rgba(0, 0, 0, 0.4);
   .dns-branding {
@@ -180,14 +180,14 @@ const handleScroll = () => {
             &.router-link-exact-active:hover,
             &.router-link-exact-active:focus,
             &.router-link-exact-active:active {
-              color: var(--color-text-inv);
-              background-color: var(--color-nav-hover-bg);
+              color: var(--color-text-inverted);
+              background-color: var(--color-navigation-hover-background);
             }
             &.router-link-exact-active,
             &.router-link-exact-active,
             &.router-link-exact-active {
-              color: var(--color-text-inv);
-              background-color: var(--color-nav-active-bg);
+              color: var(--color-text-inverted);
+              background-color: var(--color-navigation-active-background);
             }
           }
         }
