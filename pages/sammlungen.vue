@@ -499,7 +499,7 @@ onMounted(() => {
 
 .grid-control-bar {
   width: min(100%, 1200px);
-  margin: 132px auto 0;
+  margin: 116px auto 0;
   padding: 1rem;
   border: 1px solid #ccc;
   border-radius: 8px;
