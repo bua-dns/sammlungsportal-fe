@@ -253,7 +253,7 @@ function setActiveCollectionId(id) {
     setTimeout(() => {
       const scrollTarget = document.getElementById("active-card-container");
       scrollTarget.scrollIntoView({ behavior: "smooth" });
-    }, 1250);
+    }, 100);
     console.log('setActiveCollectionId: scrollToResults');
   }
 
