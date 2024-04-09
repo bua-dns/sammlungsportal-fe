@@ -53,6 +53,7 @@ const mainClass = computed(() => {
   position: relative;
 }
 .bg-img {
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -60,6 +61,10 @@ const mainClass = computed(() => {
   height: 100%;
   z-index: -10;
   background-color: black;
+
+  @media (min-width: 1248px) {
+    display: block;
+  }
 
   img {
     width: 100%;
