@@ -1,5 +1,5 @@
 <script setup>
-/* Used auto-imported composables:
+/* Used auto-imported composables and utils:
  * - projectConfig
  * - getLabelUrl
  */
@@ -48,7 +48,7 @@ const objectTypes = computed(() => {
     <section class="mt-4 university-collections">
       <h2 class="mb-lg-3 text-center section-heading">{{ w.university_collections_heading }}</h2>
       <div class="cardset-intro" v-html="homepage.data.cardset_collections_intro" />
-      <div class="mt-4 cards d-flex flex-wrap flex-column flex-lg-row gap-2">
+      <div class="mt-4 cards d-flex flex-wrap flex-column flex-md-row gap-2">
         <div v-for="(card, idx) in homepage.data.cardset_collections" :key="idx" class="card dns-card university-card"
           :style="'border-color:' + card.navigation_cards_id.background_color + ';'">
           <NuxtLink :to="card.navigation_cards_id.more_button_link" class="card-link large light">
@@ -59,7 +59,7 @@ const objectTypes = computed(() => {
     </section>
     <!-- Taxonomy cards -->
     <section class="mt-lg-4 row taxonomy-cards">
-      <div class="select-cards-section subjects col-lg">
+      <div class="select-cards-section subjects col-lg mt-4 mt-lg-0">
         <div class="mb-3 intro" v-html="homepage.data.subject_selection_intro" />
         <div class="subject-grid">
           <div v-for="(subject, idx) in subjects" :key="idx" class="card dns-card selection-card">
@@ -69,7 +69,7 @@ const objectTypes = computed(() => {
           </div>
         </div>
       </div>
-      <div class="select-cards-section object-types col-lg">
+      <div class="select-cards-section object-types col-lg mt-4 mt-lg-0">
         <div class="mb-3 intro" v-html="homepage.data.object_type_selection_intro" />
         <div class="subject-grid">
           <div v-for="(type, idx) in objectTypes" :key="idx" class="card dns-card selection-card">
