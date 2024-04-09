@@ -14,6 +14,17 @@ function filterListableImages(images) {
   return images.filter(image => image.image)
 }
 
+onMounted(() => {
+  if (window.location.hash) {
+    const element = document.getElementById(window.location.hash.slice(1));
+    if (element) {
+      setTimeout(() => {
+        element.scrollIntoView({ behavior: "smooth" });
+      }, 500);
+    }
+  }
+});
+
 </script>
 
 <template>
@@ -28,7 +39,8 @@ function filterListableImages(images) {
 
     </section>
     <section class="listing">
-      <div class="mb-4 entry" v-for="image in filterListableImages(backgroundImages.data)" :key="image.id">
+      <div class="mb-4 entry" v-for="image in filterListableImages(backgroundImages.data)" :key="image.id"
+        :id="'image-' + image.id">
         <div class="image-part">
           <img :src="projectConfig.imageBaseUrl + '/' + image.image + '?key=listing-image'"
             :alt="`image ${image.credits} `">
@@ -53,41 +65,45 @@ function filterListableImages(images) {
 .image-listing-page {
   .listing {
     .entry {
+      scroll-margin-top: 88px;
       display: flex;
       gap: 2.5rem;
+
       .image-part {
         flex: 1;
+
         img {
           width: 100%;
           height: auto;
         }
+
         .credits {
           font-size: var(--font-size-text-extra-small);
         }
       }
+
       .text-part {
         flex: 1;
         font-size: var(--font-size-text-small);
+
         .description {
           font-size: var(--font-size-text-small);
+
           p {
             margin: 0;
           }
         }
+
         .link {
           display: flex;
           flex-direction: column;
           justify-content: flex-start;
           gap: 0.5rem;
-        
-          a {
-            
-          }
+
+          a {}
         }
       }
     }
   }
 }
-
 </style>
-
