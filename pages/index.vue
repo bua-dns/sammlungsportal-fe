@@ -48,8 +48,13 @@ const objectTypes = computed(() => {
     <section class="mt-4 university-collections">
       <h2 class="mb-lg-3 text-center section-heading">{{ w.university_collections_heading }}</h2>
       <div class="cardset-intro" v-html="homepage.data.cardset_collections_intro" />
-      <div class="mt-4 cards d-flex flex-wrap flex-column flex-md-row gap-2">
-        <div v-for="(card, idx) in homepage.data.cardset_collections" :key="idx" class="card dns-card university-card"
+      <!-- <pre>
+        {{ homepage.data.cardset_collections }}
+      </pre> -->
+      <!-- <div class="mt-4 cards d-flex flex-wrap flex-column flex-sm-row gap-2"> -->
+      <div class="mt-4 university-cards">
+        <div v-for="(card, idx) in homepage.data.cardset_collections" :key="idx"
+          :class="'card dns-card university-card ' + card.navigation_cards_id.label"
           :style="'border-color:' + card.navigation_cards_id.background_color + ';'">
           <NuxtLink :to="card.navigation_cards_id.more_button_link" class="card-link large light">
             {{ card.navigation_cards_id.title }}
@@ -94,12 +99,10 @@ const objectTypes = computed(() => {
 </template>
 <style scoped lang="scss">
 .dns-card {
-  flex: 1;
   border-radius: 12px;
   border-left: 1px;
   border-left: .75rem solid black;
   background-color: hsl(0, 0%, 28%);
-
   cursor: pointer;
 
   &:hover {
@@ -107,16 +110,55 @@ const objectTypes = computed(() => {
   }
 
   &.university-card {
-    flex: 1 1 14%;
-    // flex-basis: 20%;
     min-height: 5rem;
   }
 
 }
 
-.select-card {
-  .select-cards-section {
-    flex: 1;
+.BUA-Sammlungen {
+  grid-area: bua;
+}
+
+.FU-Sammlungen {
+  grid-area: fu;
+}
+
+.HU-Sammlungen {
+  grid-area: hu;
+}
+
+.TU-Sammlungen {
+  grid-area: tu;
+}
+
+.CH-Sammlungen {
+  grid-area: ch;
+}
+
+.university-cards {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-areas:
+    'bua'
+    'fu'
+    'hu'
+    'tu'
+    'ch';
+
+  @media (min-width: 568px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      'bua bua'
+      'fu hu'
+      'tu ch';
+
+  }
+
+  @media screen and (min-width: 992px) {
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-areas:
+      'bua fu hu tu ch';
+
   }
 }
 
@@ -154,7 +196,7 @@ const objectTypes = computed(() => {
 }
 
 .card-link {
-  height: 100%;
+  // height: 100%;
 
   &.medium {
     display: flex;
@@ -168,6 +210,7 @@ const objectTypes = computed(() => {
   &.large {
     display: block;
     padding: 1rem;
+    // padding: 1.75rem 1rem;
     font-size: 1.125rem;
     color: var(--color-text);
   }
