@@ -28,3 +28,9 @@ GET {{host}}/items/homepage
 
 ### Get homepage with navigation cards
 GET {{host}}/items/homepage?fields=*.navigation_cards_id.*.*
+
+### homepage
+GET {{host}}/items/homepage?fields=title,cardset_collections.navigation_cards_id.*.*,cardset_featured.navigation_cards_id.*.*,intro,cardset_collections_intro,subject_selection_intro,object_type_selection_intro,cardset_featured_intro
+
+### taxonomy_terms
+GET {{host}}/items/taxonomy_terms?fields=id,label,spws_taxonomy&limit=-1&meta=total_count
