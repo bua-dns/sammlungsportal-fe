@@ -27,7 +27,7 @@ const { data: homepage } = await useFetch(`${projectConfig.dataBaseUrl}/homepage
   },
 });
 const subjects = computed(() => {
-  return taxonomyTerms.value.data.filter((term) => term.spws_taxonomy === 'subjects');
+  return taxonomyTerms.value.data.filter((term) => term.spws_taxonomy === 'subject');
 });
 const objectTypes = computed(() => {
   return taxonomyTerms.value.data.filter((term) => term.spws_taxonomy === 'genre');
