@@ -253,10 +253,10 @@ function setActiveCollectionId(id) {
     setTimeout(() => {
       const scrollTarget = document.getElementById("active-card-container");
       scrollTarget.scrollIntoView({ behavior: "smooth" });
-    }, 1250);
-    console.log('setActiveCollectionId: scrollToResults');
+    }, 100);
+    // console.log('setActiveCollectionId: scrollToResults');
   }
-  
+
 }
 
 // Returns the collection with the given id.
@@ -300,7 +300,6 @@ onMounted(() => {
     const decoded = decodeURIComponent(route.query[taxonomy]);
     if (taxonomy === "acid") {
       if (decoded && getCollectionById(decoded)) {
-        console.log('onMounted: setActiveCollectionId', decoded);
         setActiveCollectionId(decoded);
       } else {
         errors.value.push("error_activeCollectionId");
@@ -363,7 +362,7 @@ onMounted(() => {
           </label>
             <input @click="scrollToResultsAfterSelect = !scrollToResultsAfterSelect" class="form-check-input"
             type="checkbox" role="switch" id="flexSwitchCheckChecked"
-            :checked="(scrollToResultsAfterSelect) ? true : null"> 
+            :checked="(scrollToResultsAfterSelect) ? true : null">
           </div>
         -->
         <button class="gws-btn btn-filter" @click="resetFilters">
@@ -462,7 +461,7 @@ onMounted(() => {
 }
 
 .collections_display {
-  scroll-margin-top:var(--collections-scroll-margin-top);
+  scroll-margin-top: var(--collections-scroll-margin-top);
   margin-bottom: -1rem;
 }
 
@@ -500,7 +499,7 @@ onMounted(() => {
 
 .grid-control-bar {
   width: min(100%, 1200px);
-  margin: 132px auto 0;
+  margin: 116px auto 0;
   padding: 1rem;
   border: 1px solid #ccc;
   border-radius: 8px;

@@ -27,7 +27,8 @@ function filterListableImages(images) {
       <div class="page-content" v-html="pageContent" />
     </section>
     <section class="listing">
-      <div class="mb-lg-4 mb-5 entry" v-for="image in filterListableImages(backgroundImages.data)" :key="image.id">
+      <div class="mb-lg-4 mb-5 entry" v-for="image in filterListableImages(backgroundImages.data)" :key="image.id"
+        :id="'image-' + image.id">
         <div class="image-part">
           <img :src="projectConfig.imageBaseUrl + '/' + image.image + '?key=listing-image'"
             :alt="`image ${image.credits} `">
@@ -52,88 +53,46 @@ function filterListableImages(images) {
 .image-listing-page {
   .listing {
     .entry {
+      scroll-margin-top: 88px;
       display: flex;
-      flex-direction: column;
-      gap: 1.5rem;  
+      gap: 2.5rem;
+
       .image-part {
         flex: 1;
+
         img {
           width: 100%;
           height: auto;
         }
+
         .credits {
           font-size: var(--font-size-text-extra-small);
         }
       }
+
       .text-part {
         flex: 1;
         font-size: var(--font-size-text-small);
+
         .description {
           font-size: var(--font-size-text-small);
+
           p {
             margin: 0;
           }
         }
+
         .link {
           display: flex;
           flex-direction: column;
           justify-content: flex-start;
           gap: 0.5rem;
-        
-          a {
-            
-          }
+
+          a {}
         }
       }
     }
   }
-}
-@media screen and (min-width: 768px) {
-  .image-listing-page {
-      .listing {
-        .entry {
-          display: flex;
-          flex-direction: row;
-          gap: 2.5rem;
-  
-          .image-part {
-            flex: 1;
-  
-            img {
-              width: 100%;
-              height: auto;
-            }
-  
-            .credits {
-              font-size: var(--font-size-text-extra-small);
-            }
-          }
-  
-          .text-part {
-            flex: 1;
-            font-size: var(--font-size-text-small);
-  
-            .description {
-              font-size: var(--font-size-text-small);
-  
-              p {
-                margin: 0;
-              }
-            }
-  
-            .link {
-              display: flex;
-              flex-direction: column;
-              justify-content: flex-start;
-              gap: 0.5rem;
-  
-              a {}
-            }
-          }
-        }
-      }
-    }
-  
 }
 </style>
 
