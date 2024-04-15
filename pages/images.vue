@@ -55,8 +55,14 @@ function filterListableImages(images) {
     .entry {
       scroll-margin-top: 88px;
       display: flex;
-      gap: 2.5rem;
+      flex-direction: column;
+      gap: 1.5rem;
 
+      @media screen and (min-width: 768px) {
+        flex-direction: row;
+        gap: 2.5rem;
+      }
+      
       .image-part {
         flex: 1;
 
@@ -87,8 +93,6 @@ function filterListableImages(images) {
           flex-direction: column;
           justify-content: flex-start;
           gap: 0.5rem;
-
-          a {}
         }
       }
     }
