@@ -7,8 +7,8 @@ const w = theme.value.data.wording.de
 // config for specific page
 
 // DEV: replace by slug from path
-const slug = 'dns'
-const titleWording = 'page_dns'
+const slug = 'projekte'
+const titleWording = 'page_projekte'
 
 const { data } = await useFetchPage(slug)
 const page = data.value.data[0]
@@ -16,7 +16,7 @@ const page = data.value.data[0]
 
 <template>
   <Head>
-    <Title>{{ w.page_dns }}</Title>
+    <Title>{{ w.page_projekte }}</Title>
   </Head>
   <div class="page p_dns-page" v-if="data">
     <pre v-if="false">{{ page }}</pre>
@@ -43,6 +43,7 @@ const page = data.value.data[0]
 .p_dns-page {
   .page-container {
     display: block;
+
     .page-content {
     }
     .sidebar {
