@@ -13,5 +13,11 @@
     "@types/node": "^18",
     "nuxt": "^3.4.2",
     "sass": "^1.62.0"
-  }
+  },
+  "description": "Dieses Frontend ist mit [Nuxt 3](https://nuxt.com/) erstellt.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
