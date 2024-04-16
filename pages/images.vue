@@ -62,7 +62,7 @@ function filterListableImages(images) {
         flex-direction: row;
         gap: 2.5rem;
       }
-      
+
       .image-part {
         flex: 1;
 
