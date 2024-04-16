@@ -26,7 +26,7 @@ const projects = projectsData.value.data
   </Head>
   <div class="page p_dns-page" v-if="data && page.status === 'published'">
     <pre v-if="false">{{ projects }}</pre>
-    <h1 class="mb-4 text-center">{{ w[titleWording] }}</h1>
+    <h1 class="mb-4 text-center">{{ page.title }}</h1>
     <template v-if="!page.display_sidebar">
       <div class="page-content" v-html="page.page_content" />
     </template>
@@ -43,7 +43,7 @@ const projects = projectsData.value.data
         </div>
       </div>
     </template>
-    <div v-if="true" class="projects-listing page-card-grid">
+    <div v-if="true" class="projects-listing page-card-grid mt-5">
       <!-- <pre>{{ projects.data[0] }}</pre> -->
       <div class="project-display" 
         v-for="(project, idx) in projects" :key="`page-card-${idx}`"
