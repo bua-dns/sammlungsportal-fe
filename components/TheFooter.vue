@@ -68,7 +68,8 @@ const w = theme.value.data.wording.de;
         </div>
         <div class="order-1 col-sm-6">
           <p class="small text-center text-sm-end">
-            <NuxtLink to="/impressum">Impressum</NuxtLink> | <NuxtLink to="/datenschutz">Datenschutz</NuxtLink>
+            <NuxtLink to="/impressum">Impressum</NuxtLink> | <NuxtLink
+              to="https://www.berlin-university-alliance.de/privacy-policy/index.html">Datenschutz</NuxtLink>
           </p>
         </div>
       </div>
