@@ -31,7 +31,7 @@ const w = theme.value.data.wording.de;
                   alt="Bundesministerium für Bildung und Forschung Logo" decoding="async" loading="lazy" />
               </figure>
               <figure class="site-footer__partnerlogo pt-4 pt-md-2">
-                <img class="logo-sen-kanz-wif" src="@/assets/img/logo/logo-sen-kanz-wif.png"
+                <img class="logo-sen-kanz-wif" src="@/assets/img/logo/B_SEN_WGPG_Logo_DE_V_PT_RGB.png"
                   alt="Der Regierende Bürgermeister von Berlin, Senatskanzlei, Wissenschaft und Forschung Logo"
                   decoding="async" loading="lazy" />
               </figure>
