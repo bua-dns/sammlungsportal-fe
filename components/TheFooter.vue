@@ -120,7 +120,7 @@ footer {
 }
 
 .logo-sen-kanz-wif {
-  height: 37px;
+  height: 80px;
 }
 
 @media (min-width: 768px) {
@@ -133,7 +133,7 @@ footer {
   }
 
   .logo-sen-kanz-wif {
-    height: 30px;
+    height: 64px;
   }
 }
 
@@ -147,7 +147,7 @@ footer {
   }
 
   .logo-sen-kanz-wif {
-    height: 37px;
+    height: 80px;
   }
 }
 
