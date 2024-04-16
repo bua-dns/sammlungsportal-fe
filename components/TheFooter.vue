@@ -42,7 +42,7 @@ const w = theme.value.data.wording.de;
               <div
                 class="logos-universities d-md-flex flex-row flex-wrap align-items-end justify-content-center justify-content-lg-end gap-0 gap-md-4 pt-3 ">
                 <figure class="site-footer__partnerlogo">
-                  <img class="logo-university" src="@/assets/img/logo/logo-fu.webp" alt="Freie Universität Berlin Logo"
+                  <img class="logo-university" src="@/assets/img/logo/FU-neu.svg" alt="Freie Universität Berlin Logo"
                     decoding="async" loading="lazy" />
                 </figure>
                 <figure class="site-footer__partnerlogo">
