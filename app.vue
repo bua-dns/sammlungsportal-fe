@@ -17,7 +17,7 @@ const { data: taxonomyTermsData } = await useFetch(`${projectConfig.dataBaseUrl}
 });
 const { data: projectsData } = await useFetch(`${projectConfig.dataBaseUrl}/projects`, {
   query: {
-    fields: '*, title, id, slug, sub_line, description, affiliation, images.directus_files_id.*',
+    fields: '*, title, id, slug, sub_line, description, affiliation, images.directus_files_id.*, preview_image.*.*',
     limit: -1,
   }
 });
