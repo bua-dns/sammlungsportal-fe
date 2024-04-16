@@ -15,6 +15,7 @@ const page = data.value.data[0]
 </script>
 
 <template>
+
   <Head>
     <Title>{{ w.page_dns }}</Title>
   </Head>
@@ -22,17 +23,18 @@ const page = data.value.data[0]
     <pre v-if="false">{{ page }}</pre>
     <h1 class="mb-4 text-center">{{ w[titleWording] }}</h1>
     <template v-if="!page.display_sidebar">
-      <div class="page-content" v-html="page.page_content"/>
+      <div class="page-content" v-html="page.page_content" />
     </template>
     <template v-if="page.display_sidebar">
       <div class="page-container">
-        <div class="page-content" v-html="page.page_content"/>
+        <div class="page-content" v-html="page.page_content" />
         <div class="sidebar">
-          <div class="mt-3 mb-5 sidebar-header">
-            <img :src="projectConfig.imageBaseUrl + '/' + page.sidebar_header_image + '?key=sidebar-header'" alt="sidebar image"/>
+          <div class="mt-3 mb-5 sidebar-header" v-if="page.sidebar_header_image">
+            <img :src="projectConfig.imageBaseUrl + '/' + page.sidebar_header_image + '?key=sidebar-header'"
+              alt="sidebar image" />
           </div>
-          <div class="sidebar-content" v-html="page.sidebar_content"/>
-        </div> 
+          <div class="sidebar-content" v-if="page.sidebar_content" v-html="page.sidebar_content" />
+        </div>
       </div>
     </template>
   </div>
