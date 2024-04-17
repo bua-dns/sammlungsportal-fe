@@ -25,6 +25,16 @@
   --color-tu: #c50e1f; // #c50d1f;
   --color-ch: #a3a3a3;
 
+  --color-bua-brown-dark: hsl(38, 21%, 31%);
+  --color-bua-brown-normal: hsl(38, 21%, 66%);
+  --color-bua-brown-light: hsl(38, 21%, 91%);
+  --color-bua-brown-extra-light: hsl(38, 21%, 96%);
+  
+  --color-bua-blue-dark: hsl(221, 18%, 31%);
+  --color-bua-blue-normal: hsl(221, 18%, 66%);
+  --color-bua-blue-light: hsl(221, 18%, 91%);
+  --color-bua-blue-extra-light: hsl(221, 18%, 96%);
+
   --color-background: hsl(0, 0%, 68%);
 
   --color-subject-card-fill: hsl(232, 28%, 95%);
@@ -32,10 +42,9 @@
   --color-subject-card-text: hsl(232, 32%, 40%);
   --color-subject-card-border: hsl(232, 32%, 84%);
 
-  --color-feature-card-fill: hsl(232, 28%, 95%);
-  --color-feature-card-fill-hover: hsl(232, 16%, 98%);
+  --color-feature-card-fill: var(--color-bua-brown-light);
   --color-feature-card-text: hsl(0, 0%, 20%);
-  --color-feature-card-border: hsl(232, 32%, 64%);
+  --color-feature-card-border: var(--color-bua-brown-dark);
 
   --color-text: hsl(0, 0%, 12%);
   --color-text-inverted: hsl(0, 0%, 98%);
@@ -44,16 +53,33 @@
   --color-border: hsl(0, 0%, 92%);
   --color-page-content-background: hsl(0, 0%, 100%);
   --color-header-background: hsl(0, 0%, 100%);
-
-  --color-navigation-background: hsl(220, 19%, 91%);
-  --color-navigation-background-marked: hsl(220, 19%, 85%);
+  
   --color-navigation-text: var(--color-text);
-  --color-navigation-border: hsl(216, 5%, 81%);
-  --color-navigation-hover-background: hsl(210, 32%, 36%);
-  --color-navigation-hover-border: hsl(210, 100%, 20%);
-  --color-navigation-active-background: hsl(212, 25%, 46%);
-  --color-navigation-active-border: hsl(212, 27%, 42%);
+  --color-navigation-text-active: hsl(38, 21%, 21%);
+  
+  --color-navigation-background: var(--color-bua-brown-normal);
+  --color-navigation-background-marked: var(--color-bua-brown-dark);
+  --color-navigation-background-hover: var(--color-bua-brown-dark);
+  --color-navigation-background-active: var(--color-bua-brown-light);
+  
+  --color-navigation-border: var(--color-bua-brown-normal);
+  --color-navigation-border-active: var(--color-bua-brown-light);
+  --color-navigation-border-hover: var(--color-bua-brown-dark);
 
+  --color-taxonomy-button-background: var(--color-bua-blue-light);
+  --color-taxonomy-button-background-marked: var(--color-bua-blue-normal);
+  --color-taxonomy-button-background-hover: var(--color-bua-blue-dark);
+  --color-taxonomy-button-border: var(--color-bua-blue-dark);
+  --color-taxonomy-button-border-hover: var(--color-bua-blue-dark);
+  
+  --color-button-background: var(--color-bua-blue-light);
+  --color-button-background-marked: var(--color-bua-blue-normal);
+  --color-button-background-hover: var(--color-bua-blue-dark);
+  --color-button-border: var(--color-bua-blue-dark);
+  --color-button-border-hover: var(--color-bua-blue-dark);
+  
+  --color-footer-background: var(--color-bua-brown-extra-light);
+  
   --color-btn-border: hsl(218, 5%, 67%);
 
   --font-size-text: 1rem;
@@ -295,27 +321,29 @@ img {
   padding: 0.25rem;
   line-height: 1;
   font-size: 0;
-  color: var(--color-navigation-text);
-  background-color: var(--color-navigation-background);
-  border: 1px solid var(--color-btn-border);
+  color: var(--color-button-text);
+  background-color: var(--color-button-background);
+  border: 1px solid var(--color-button-border);
   border-radius: 6px;
   cursor: pointer;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
   &:hover,
   &:focus {
     outline: 0;
-    background-color: var(--color-navigation-hover-background);
-    border-color: var(--color-navigation-hover-border);
+    background-color: var(--color-button-background-hover);
+    border-color: var(--color-button-border-hover);
     color: var(--color-text-inverted);
   }
   &:active,
   &.active {
     outline: 0;
-    background-color: var(--color-navigation-hover-background);
-    border: 1px solid var(--color-navigation-hover-border);
-    // background-color: var(--color-navigation-active-background);
-    // border: 1px solid var(--color-navigation-active-border);
-    color: var(--color-text-inverted);
+    background-color: var(--color-button-background-hover);
+    border: 1px solid var(--color-button-border-hover);
+    // background-color: var(--color-navigation-background-active);
+    // border: 1px solid var(--color-navigation-border-active);
+    // color: var(--color-text-inverted);
+    color: var(--color-button-text-active);
+
   }
 }
 
@@ -369,7 +397,7 @@ section {
 .filter-card,
 .tag-card {
   padding: 0.5rem;
-  border: 1px solid var(--color-navigation-border);
+  border: 1px solid var(--color-taxonomy-button-border);
   border-radius: 6px;
   background-color: hsl(0, 0%, 100%);
 
@@ -390,10 +418,10 @@ section {
     gap: 0.75rem;
     margin: 0.5rem 0 0;
     padding-top: 0.5rem;
-    border-top: 1px solid var(--color-navigation-border);
+    border-top: 1px solid var(--color-taxonomy-button-border);
 
     .tag {
-      background-color: var(--color-navigation-background);
+      background-color: var(--color-taxonomy-button-background);
       font-size: 0.9rem;
       font-weight: 500;
       line-height: 1;
@@ -404,8 +432,8 @@ section {
       cursor: pointer;
       &:active,
       &.active {
-        background-color: var(--color-navigation-hover-background);
-        border-color: var(--color-navigation-hover-border);
+        background-color: var(--color-taxonomy-button-background-hover);
+        border-color: var(--color-taxonomy-button-border-hover);
         color: var(--color-text-inverted);
       }
     }

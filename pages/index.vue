@@ -102,11 +102,14 @@ const objectTypes = computed(() => {
   border-radius: 12px;
   border-left: 1px;
   border-left: .75rem solid black;
-  background-color: hsl(0, 0%, 28%);
+  // background-color: hsl(0, 0%, 28%);
+  // background-color: hsl(38, 21%, 31%);
+  background-color: hsl(38, 21%, 88%);
   cursor: pointer;
 
   &:hover {
     background-color: hsl(0, 0%, 38%);
+    // background-color: hsl(38, 21%, 41%);
   }
 
   &.university-card {
@@ -216,7 +219,8 @@ const objectTypes = computed(() => {
   }
 
   &.light {
-    color: var(--color-text-inverted);
+    // color: var(--color-text-inverted);
+    color: hsl(38, 21%, 21%);
   }
 }
 </style>

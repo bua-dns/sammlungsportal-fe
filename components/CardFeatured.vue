@@ -41,9 +41,6 @@ const props = defineProps({
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  // &:hover {
-  //   background-color: var(--color-feature-card-fill-hover);
-  // }
   .card-image {
     overflow: hidden;
     flex: 0 0 calc(var(--feature-card-height) * 0.425);
