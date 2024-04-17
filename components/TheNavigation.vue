@@ -124,19 +124,19 @@ $navbar-height: 48px;
           &.router-link-active:focus,
           &.router-link-exact-active:focus {
             // outline: 0;
-            background-color: var(--color-navigation-hover-background);
-            border-color: var(--color-navigation-hover-border);
+            background-color: var(--color-navigation-background-hover);
+            border-color: var(--color-navigation-border-hover);
             color: var(--color-text-inverted);
           }
           &:active {
-            background-color: var(--color-navigation-hover-background);
-            color: var(--color-text-inverted);
+            background-color: var(--color-navigation-background-hover);
+            color: var(--color-text);
           }
           &.router-link-active,
           &.router-link-exact-active {
-            background-color: var(--color-navigation-active-background);
-            border: 1px solid var(--color-navigation-active-border);
-            color: var(--color-text-inverted);
+            background-color: var(--color-navigation-background-active);
+            border: 1px solid var(--color-navigation-border-active);
+            color: var(--color-text);
           }
         }
       }

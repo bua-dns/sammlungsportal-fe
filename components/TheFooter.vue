@@ -79,7 +79,8 @@ const w = theme.value.data.wording.de;
 <style lang="scss" scoped>
 footer {
   // background-color: rgba(245, 245, 245, 0.66);
-  background-color: #f3f3f3;
+  // background-color: #f3f3f3;
+  background-color: var(--color-footer-background);
 
   a {
     color: var(--color-text);

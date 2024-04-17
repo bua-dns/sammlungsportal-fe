@@ -546,7 +546,7 @@ onMounted(() => {
         border: 0;
         border-radius: 4px;
         background-color: hsl(0, 0%, 100%);
-        border-color: var(--color-navigation-border);
+        border-color: var(--color-taxonomy-button-border);
         border-style: solid;
         border-width: 1px;
         color: #000;
@@ -603,7 +603,7 @@ onMounted(() => {
 .filter-control-bar {
   margin-top: 1rem;
   padding-top: 0.5rem;
-  border-top: 1px solid var(--color-navigation-border);
+  border-top: 1px solid var(--color-taxonomy-button-border);
 }
 
 .filter-control-bar-controls {
@@ -629,7 +629,7 @@ onMounted(() => {
     display: inline-block;
     margin-left: 0.5rem;
     color: var(--color-text);
-    background-color: var(--color-navigation-background-marked);
+    background-color: var(--color-taxonomy-button-background-marked);
     min-width: 1.9rem;
     border-radius: 4px;
     font-size: .85rem;

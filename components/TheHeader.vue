@@ -185,13 +185,14 @@ const handleScroll = () => {
             &.router-link-exact-active:focus,
             &.router-link-exact-active:active {
               color: var(--color-text-inverted);
-              background-color: var(--color-navigation-hover-background);
+              background-color: var(--color-navigation-background-hover);
             }
             &.router-link-exact-active,
             &.router-link-exact-active,
             &.router-link-exact-active {
-              color: var(--color-text-inverted);
-              background-color: var(--color-navigation-active-background);
+              // color: var(--color-text-inverted);
+              color: var(--color-navigation-text-active);
+              background-color: var(--color-navigation-background-active);
             }
           }
         }
