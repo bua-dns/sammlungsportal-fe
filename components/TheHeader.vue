@@ -143,13 +143,12 @@ const handleScroll = () => {
       .dns-site-title {
         font-weight: 700;
         font-size: 1rem;
-        line-height: 1.125;
+        line-height: 1.25;
         transition: all 0.25s;
       }
       .dns-site-subtitle {
         font-weight: 400;
         font-size: .75rem;
-        line-height: 1.125;
         transition: all 0.25s;
       }
     }
@@ -199,23 +198,6 @@ const handleScroll = () => {
       }
     }
   }
-  // &.scrolled {
-  //   height: var(--header-height-scrolled);
-  //   .dns-branding {
-  //     .dns-logo-container {
-  //       height: calc(var(--header-height-scrolled) - 1.25rem);
-  //       display: flex;
-  //       align-items: center;
-  //       .dns-navbar-logo {
-  //         height: 100%;
-  //       }
-  //     }
-  //     .dns-site-title {
-  //     }
-  //     .dns-site-subtitle {
-  //     }
-  //   }
-  // }
 }
 
 @media screen and (min-width: 576px) {
@@ -229,15 +211,13 @@ const handleScroll = () => {
       .dns-site-title-container {
         margin-left: 0.5rem;
         .dns-site-title {
-          font-size: 2rem;
-          font-size: clamp(1.25rem, 4.1667vw, 2rem);
-          line-height: 1.125;
+          font-size: 1.75rem;
+          line-height: 1.5;
         }
   
         .dns-site-subtitle {
           font-size: 1.27rem;
-          font-size: clamp(0.8rem, 2.6667vw, 1.27rem);
-          line-height: 1.125;
+          line-height: 1.5;
         }
       }
       }
@@ -245,7 +225,7 @@ const handleScroll = () => {
       .dns-navbar-controls {
       }  
       &.scrolled {
-  
+        height: var(--header-height-scrolled);
         .dns-branding {
           .dns-logo-container {
             height: calc(var(--header-height-scrolled) - 1.25rem);
