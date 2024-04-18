@@ -111,7 +111,7 @@ const objectTypes = computed(() => {
   &.university-card {
     min-height: 5rem;
     border-left: .5rem solid transparent;
-    border-right: .5rem solid transparent;
+    // border-right: .5rem solid transparent;
     background-color: var(--color-university-card-fill);
   }
 
