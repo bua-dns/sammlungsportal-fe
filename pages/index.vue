@@ -99,12 +99,8 @@ const objectTypes = computed(() => {
 </template>
 <style scoped lang="scss">
 .dns-card {
-  border-radius: 12px;
-  border-left: 1px;
-  border-left: .75rem solid black;
-  // background-color: hsl(0, 0%, 28%);
-  // background-color: hsl(38, 21%, 31%);
-  background-color: hsl(38, 21%, 88%);
+  border-radius: var(--selection-card-border-radius);
+  
   cursor: pointer;
 
   &:hover {
@@ -114,6 +110,9 @@ const objectTypes = computed(() => {
 
   &.university-card {
     min-height: 5rem;
+    border-left: .5rem solid transparent;
+    border-right: .5rem solid transparent;
+    background-color: var(--color-university-card-fill);
   }
 
 }
@@ -171,9 +170,9 @@ const objectTypes = computed(() => {
   gap: .5rem;
 
   .selection-card {
-    border: 1px solid var(--color-subject-card-border);
-    background-color: var(--color-subject-card-fill);
-    color: var(--color-subject-card-text);
+    border: 1px solid var(--color-selection-card-border);
+    background-color: var(--color-selection-card-fill);
+    color: var(--color-selection-card-text);
     font-weight: 400;
     font-size: 3rem;
     min-height: 3.2rem;
@@ -182,11 +181,11 @@ const objectTypes = computed(() => {
     justify-content: center;
 
     &:hover {
-      background-color: var(--color-subject-card-fill-hover);
+      background-color: var(--color-selection-card-fill-hover);
     }
 
     .card-link {
-      color: var(--color-subject-card-text);
+      color: var(--color-selection-card-text);
     }
 
   }

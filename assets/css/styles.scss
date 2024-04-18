@@ -37,10 +37,15 @@
 
   --color-background: hsl(0, 0%, 68%);
 
-  --color-subject-card-fill: hsl(232, 28%, 95%);
-  --color-subject-card-fill-hover: hsl(232, 28%, 98%);
-  --color-subject-card-text: hsl(232, 32%, 40%);
-  --color-subject-card-border: hsl(232, 32%, 84%);
+  --color-university-card-fill: var(--color-bua-brown-light);
+  --color-university-card-fill-hover: var(--color-bua-brown-extra-light);
+  --color-university-card-text: var(--color-bua-brown-dark);
+  --color-university-card-border: var(--colorbrown-blue-normal);
+  
+  --color-selection-card-fill: var(--color-bua-blue-light);
+  --color-selection-card-fill-hover: var(--color-bua-blue-extra-light);
+  --color-selection-card-text: var(--color-bua-blue-dark);
+  --color-selection-card-border: var(--color-bua-blue-normal);
 
   --color-feature-card-fill: var(--color-bua-brown-light);
   --color-feature-card-text: hsl(0, 0%, 20%);
@@ -74,7 +79,7 @@
   
   --color-button-background: var(--color-bua-blue-light);
   --color-button-background-marked: var(--color-bua-blue-normal);
-  --color-button-background-hover: var(--color-bua-blue-dark);
+  --color-button-background-hover: var(--color-bua-blue-normal);
   --color-button-border: var(--color-bua-blue-dark);
   --color-button-border-hover: var(--color-bua-blue-dark);
   
@@ -115,7 +120,10 @@
 
   --feature-card-width: 16rem;
   --feature-card-height: 21rem;
+
   --page-card-height: 18rem;
+
+  --selection-card-border-radius: 6px;
 }
 
 // responsive typography
@@ -307,7 +315,7 @@ img {
 
 // Basic theme elements
 
-.gws-btn-group {
+.dns-button-group {
   display: inline-flex;
   flex-direction: row;
   padding: 0;
@@ -315,7 +323,7 @@ img {
   gap: 0.5rem;
 }
 
-.gws-btn {
+.dns-button {
   display: inline-block;
   margin: 0;
   padding: 0.25rem;
@@ -337,8 +345,8 @@ img {
   &:active,
   &.active {
     outline: 0;
-    background-color: var(--color-button-background-hover);
-    border: 1px solid var(--color-button-border-hover);
+    background-color: var(--color-button-background);
+    border: 1px solid var(--color-button-border);
     // background-color: var(--color-navigation-background-active);
     // border: 1px solid var(--color-navigation-border-active);
     // color: var(--color-text-inverted);
@@ -347,7 +355,7 @@ img {
   }
 }
 
-.gws_uni_marker {
+.dns_uni_marker {
   width: 20px;
   height: 20px;
   display: inline-block;
