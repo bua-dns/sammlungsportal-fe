@@ -341,9 +341,9 @@ onMounted(() => {
       <div class="collections-counter">
         {{ w.num_collections }}: {{ data.meta.total_count }} {{ w.shown }}: {{ activeCollectionsNum }}
       </div>
-      <div class="gws-btn-group">
-        <div class="filter-controls gws-group-element">
-          <button :class="(showFilters) ? 'gws-btn btn-filter active' : 'gws-btn btn-filter'" @click="toggleFilters">
+      <div class="dns-button-group">
+        <div class="filter-controls dns-group-element">
+          <button :class="(showFilters) ? 'dns-button btn-filter active' : 'dns-button btn-filter'" @click="toggleFilters">
             <span :title="w.show_filters">
               <svg class="icon" width="16" height="16" fill="currentColor">
                 <use xlink:href="@/assets/img/bootstrap-icons.svg#filter"></use>
@@ -356,7 +356,7 @@ onMounted(() => {
     <div v-if="showFilters" class="filter-control-bar">
       <div class="filter-control-bar-controls">
         <!-- deactivated for the time being
-        <div class="form-check form-switch gws-form-switch-right d-flex justify-content-end align-items-center">
+        <div class="form-check form-switch dns-form-switch-right d-flex justify-content-end align-items-center">
           <label class="form-check-label small" for="flexSwitchCheckChecked">
             {{ w.scroll_to_results_after_select }}
           </label>
@@ -365,7 +365,7 @@ onMounted(() => {
             :checked="(scrollToResultsAfterSelect) ? true : null">
           </div>
         -->
-        <button class="gws-btn btn-filter" @click="resetFilters">
+        <button class="dns-button btn-filter" @click="resetFilters">
           <span :title="w.reset_all_filters">
             <svg class="icon" width="16" height="16" fill="currentColor">
               <use xlink:href="@/assets/img/bootstrap-icons.svg#arrow-counterclockwise"></use>
@@ -416,7 +416,7 @@ onMounted(() => {
       </div>
     </div>
     <div class="sort-controls">
-      <div class="gws-input-group">
+      <div class="dns-input-group">
         <label for="tag-cloud-sort-order" class="order-label">
           <svg class="icon-sm me-1" width="16" height="16" fill="currentColor">
             <use xlink:href="@/assets/img/bootstrap-icons.svg#sort-alpha-down"></use>
@@ -564,7 +564,7 @@ onMounted(() => {
 }
 
 .collections-counter {
-  font-size: 0.85rem;
+  font-size: 1rem;
 }
 
 .sort-controls {
@@ -629,11 +629,12 @@ onMounted(() => {
     display: inline-block;
     margin-left: 0.5rem;
     color: var(--color-text);
-    background-color: var(--color-taxonomy-button-background-marked);
+    background-color: var(--color-taxonomy-button-background);
+    border: 1px solid var(--color-taxonomy-button-background-marked);
     min-width: 1.9rem;
-    border-radius: 4px;
+    border-radius: 3px;
     font-size: .85rem;
-    padding: 0.15em 0.5em;
+    padding: 0.25em 0.5em;
   }
 }
 
@@ -674,7 +675,7 @@ summary {
 
 }
 
-.gws-input-group {
+.dns-input-group {
   display: flex;
   flex-grow: 1;
 }
@@ -689,7 +690,7 @@ summary {
   height: 1.25rem;
 }
 
-.gws-form-switch-right {
+.dns-form-switch-right {
   margin: 0;
   padding-left: 0;
 

@@ -8,7 +8,7 @@ const w = theme.value.data.wording.de;
   <div v-if="collection.display" @click="$emit('setActiveCollectionId', collection.id)" class="card">
     <div class="card-keeper" :style="getUniMarkerColors(collection.current_keeper, 'border-bottom-color')"
       v-if="collection.current_keeper">
-      <span class="gws_uni_marker" :style="getUniMarkerColors(collection.current_keeper, 'background-color')"></span>
+      <span class="dns_uni_marker" :style="getUniMarkerColors(collection.current_keeper, 'background-color')"></span>
       {{ collection.current_keeper }}
     </div>
     <div class="card-label" v-if="collection.label">
