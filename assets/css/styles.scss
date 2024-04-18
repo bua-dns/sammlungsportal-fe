@@ -47,9 +47,9 @@
   --color-selection-card-text: var(--color-bua-blue-dark);
   --color-selection-card-border: var(--color-bua-blue-normal);
 
-  --color-feature-card-fill: var(--color-bua-brown-light);
-  --color-feature-card-text: hsl(0, 0%, 20%);
-  --color-feature-card-border: var(--color-bua-brown-dark);
+  --color-feature-card-fill: var(--color-bua-brown-extra-light);
+  --color-feature-card-text: var(--color-text);
+  --color-feature-card-border: var(--color-bua-brown-normal);
 
   --color-text: hsl(0, 0%, 12%);
   --color-text-inverted: hsl(0, 0%, 98%);
@@ -369,7 +369,7 @@ main {
   margin: var(--main-margin-top) 0 var(--main-margin-bottom);
   transition: margin-top 0.25s;
   &.scrolled {
-    margin-top: calc(var(--main-margin-top) - (var(--header-height) - var(--header-height-scrolled)));
+    margin-top: var(--header-height-scrolled);
   }
 }
 
