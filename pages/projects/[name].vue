@@ -21,7 +21,6 @@ const images = project.images.map((image) => {
     <div class="description" v-html="project.description" />
     <pre v-if="false">{{ images }}</pre>
     <ImageViewer :images="images" previewMode="gallery" previewImageWidth="240"/>
-
     <pre v-if="false">{{ images }}</pre>
   </div>
 </template>
