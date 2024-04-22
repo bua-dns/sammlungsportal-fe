@@ -31,6 +31,7 @@
   --color-bua-brown-extra-light: hsl(38, 21%, 96%);
   
   --color-bua-blue-dark: hsl(221, 18%, 31%);
+  --color-bua-blue-mid-dark: hsl(221, 22%, 44%);
   --color-bua-blue-normal: hsl(221, 18%, 66%);
   --color-bua-blue-light: hsl(221, 18%, 91%);
   --color-bua-blue-extra-light: hsl(221, 18%, 96%);
@@ -53,7 +54,7 @@
 
   --color-text: hsl(0, 0%, 12%);
   --color-text-inverted: hsl(0, 0%, 98%);
-  --color-link: hsl(232, 32%, 44%);
+  --color-link: var(--color-bua-blue-mid-dark);
   --color-link-background: hsl(232, 32%, 64%);
   --color-border: hsl(0, 0%, 92%);
   --color-page-content-background: hsl(0, 0%, 100%);
@@ -207,7 +208,7 @@ body {
     "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 1rem;
   font-weight: 400;
-  line-height: 1.25;
+  line-height: 1.45;
   color: var(--color-text);
 }
 
@@ -266,6 +267,16 @@ h5,
 *:before,
 *:after {
   box-sizing: border-box;
+}
+ul {
+
+  list-style-type: disc;
+  margin-left: 0;
+  padding-left: 1rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
 }
 
 header,
