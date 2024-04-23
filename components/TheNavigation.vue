@@ -62,6 +62,9 @@ const tabIndex = computed(() => {
         <li>
           <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/impressum">{{ w.page_imprint }}</nuxt-link>
         </li>
+        <li>
+          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/datenschutz">{{ w.page_privacy_policy }}</nuxt-link>
+        </li>
       </ul>
     </div>
   </nav>

@@ -51,75 +51,10 @@ const w = theme.value.data.wording.de;
             </figure>
           </div>
         </div>
-      </div>
-    </div>
-    <!-- old Footer Version -->
-    <div class="container-fluid" v-if="false">
-      <div class="row">
-        <div class="col-lg-4 pb-4 pb-lg-0">
-          <div class="row">
-            <div class="col text-center text-lg-start">
-              <figure class="site-footer__logo">
-                <img src="@/assets/img/logo/logo-bua.jpg" alt="Berlin University Alliance Logo" />
-              </figure>
-              <p v-html="convertLineBreaks(w.project_funding)" class="small-xs"></p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col text-center text-lg-start">
-              <h4 v-html="w.contact" class="mt-4 small-xs"></h4>
-              <p v-html="convertLineBreaks(w.project_contact)" class="small-xs"></p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-8">
-          <div class="row">
-            <div
-              class="col d-md-flex flex-row flex-wrap align-items-start justify-content-center justify-content-lg-end gap-0 gap-md-4 pb-5 pb-md-4">
-              <figure class="site-footer__partnerlogo">
-                <img class="logo-bmbf" src="@/assets/img/logo/logo-bmbf.svg"
-                  alt="Bundesministerium für Bildung und Forschung Logo" decoding="async" loading="lazy" />
-              </figure>
-              <figure class="site-footer__partnerlogo pt-4 pt-md-2">
-                <img class="logo-sen-kanz-wif" src="@/assets/img/logo/B_SEN_WGPG_Logo_DE_V_PT_RGB.png"
-                  alt="Der Regierende Bürgermeister von Berlin, Senatskanzlei, Wissenschaft und Forschung Logo"
-                  decoding="async" loading="lazy" />
-              </figure>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <div
-                class="logos-universities d-md-flex flex-row flex-wrap align-items-end justify-content-center justify-content-lg-end gap-0 gap-md-4 pt-3 ">
-                <figure class="site-footer__partnerlogo">
-                  <img class="logo-university" src="@/assets/img/logo/FU-neu.svg" alt="Freie Universität Berlin Logo"
-                    decoding="async" loading="lazy" />
-                </figure>
-                <figure class="site-footer__partnerlogo">
-                  <img class="logo-university" src="@/assets/img/logo/logo-hu.webp"
-                    alt="Humboldt Universität zu Berlin Logo" decoding="async" loading="lazy" />
-                </figure>
-                <figure class="site-footer__partnerlogo">
-                  <img class="logo-university" src="@/assets/img/logo/logo-tu.jpg"
-                    alt="Technische Universität Berlin Logo" decoding="async" loading="lazy" />
-                </figure>
-                <figure class="site-footer__partnerlogo">
-                  <img class="logo-university" src="@/assets/img/logo/logo-charite.webp" alt="Charité Logo"
-                    decoding="async" loading="lazy" />
-                </figure>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="order-0 col-sm-6">
-          <p class="small text-center text-sm-start">{{ w.site_copy_rights }}</p>
-        </div>
         <div class="order-1 col-sm-6">
           <p class="small text-center text-sm-end">
             <NuxtLink to="/impressum">Impressum</NuxtLink> | <NuxtLink
-              to="https://www.berlin-university-alliance.de/privacy-policy/index.html">Datenschutz</NuxtLink>
+              to="/datenschutz">Datenschutz</NuxtLink>
           </p>
         </div>
       </div>
