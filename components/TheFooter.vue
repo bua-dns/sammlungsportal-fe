@@ -50,7 +50,7 @@ const w = theme.value.data.wording.de;
                     alt="Humboldt Universität zu Berlin Logo" decoding="async" loading="lazy" />
                 </figure>
                 <figure class="site-footer__partnerlogo">
-                  <img class="logo-university" src="@/assets/img/logo/logo-tu.webp"
+                  <img class="logo-university" src="@/assets/img/logo/logo-tu.jpg"
                     alt="Technische Universität Berlin Logo" decoding="async" loading="lazy" />
                 </figure>
                 <figure class="site-footer__partnerlogo">
