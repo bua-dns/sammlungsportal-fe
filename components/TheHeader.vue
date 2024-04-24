@@ -135,6 +135,9 @@ const handleScroll = () => {
         display: block;
         width: 3.2rem;
         height: auto;
+        @media screen and (min-width: 576px) {
+          width: 5.0rem;
+        }
       }
     }
     .dns-site-title-container {
@@ -150,6 +153,19 @@ const handleScroll = () => {
         font-weight: 400;
         font-size: .75rem;
         transition: all 0.25s;
+      }
+      @media screen and (min-width: 576px) {
+        margin-left: 0.5rem;
+
+        .dns-site-title {
+          font-size: 1.75rem;
+          line-height: 1.5;
+        }
+
+        .dns-site-subtitle {
+          font-size: 1.27rem;
+          line-height: 1.5;
+        }
       }
     }
   }
@@ -201,51 +217,28 @@ const handleScroll = () => {
 }
 
 @media screen and (min-width: 576px) {
-  .dns-page-header {
-      .dns-branding {
-        .dns-logo-container {
-          .dns-navbar-logo {
-            width: 5.25rem;
+
+  .scrolled {
+    height: var(--header-height-scrolled);
+    .dns-branding {
+      .dns-logo-container {
+        height: calc(var(--header-height-scrolled) - 1.25rem);
+
+        .dns-navbar-logo {
+          width: 4rem;
         }
       }
-      .dns-site-title-container {
-        margin-left: 0.5rem;
-        .dns-site-title {
-          font-size: 1.75rem;
-          line-height: 1.5;
-        }
-  
-        .dns-site-subtitle {
-          font-size: 1.27rem;
-          line-height: 1.5;
-        }
+
+      .dns-site-title {
+        font-size: 1.25rem;
       }
-      }
-  
-      .dns-navbar-controls {
-      }  
-      &.scrolled {
-        height: var(--header-height-scrolled);
-        .dns-branding {
-          .dns-logo-container {
-            height: calc(var(--header-height-scrolled) - 1.25rem);
-  
-            .dns-navbar-logo {
-              width: 4rem;
-            }
-          }
-  
-          .dns-site-title {
-            font-size: 1.25rem;
-          }
-  
-          .dns-site-subtitle {
-            font-size: 0.8rem;
-          }
-        }
+
+      .dns-site-subtitle {
+        font-size: 0.8rem;
       }
     }
-  
+  }
 }
+  
 </style>
 

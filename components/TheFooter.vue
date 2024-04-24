@@ -19,7 +19,7 @@ const w = theme.value.data.wording.de;
                 alt="Bundesministerium für Bildung und Forschung Logo" decoding="async" loading="lazy" />
             </figure>
             <figure class="partner-logo bund-berlin">
-              <img class="logo-sen-kanz-wif" src="@/assets/img/logo/B_SEN_WGPG_Logo_DE_V_PT_RGB.png"
+              <img class="logo-sen-kanz-wif" src="@/assets/img/logo/B_SEN_WGP_Logo.png"
                 alt="Der Regierende Bürgermeister von Berlin, Senatskanzlei, Wissenschaft und Forschung Logo"
                 decoding="async" loading="lazy" />
             </figure>
