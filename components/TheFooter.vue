@@ -1,6 +1,10 @@
 <script setup>
 const theme = useState('theme');
+const institutions = useState('institutions');
 const w = theme.value.data.wording.de;
+function getInstitution(abbreviation) {
+  return institutions.value.data.find((i) => i.abbreviation === abbreviation);
+}
 </script>
 <template>
   <footer class="pt-4">
@@ -33,28 +37,35 @@ const w = theme.value.data.wording.de;
             </div>
           </div>
           <div class="footer-content-box logo-box universities">
-            <figure class="partner-logo universities">
-              <img class="logo-university" src="@/assets/img/logo/FU-neu.svg" alt="Freie Universität Berlin Logo"
+            <a :href="getInstitution('FU').website" class="partner-logo university" target="_blank">
+              <img class="logo-university"
+                :src="`${projectConfig.imageBaseUrl}/${getInstitution('FU')?.logo}?key=feature-card`"
+                :alt="`Logo ${getInstitution('FU')?.name_short}`" 
                 decoding="async" loading="lazy" />
-            </figure>
-            <figure class="partner-logo universities">
-              <img class="logo-university" src="@/assets/img/logo/logo-hu.webp"
-                alt="Humboldt Universität zu Berlin Logo" decoding="async" loading="lazy" />
-            </figure>
-            <figure class="partner-logo universities">
-              <img class="logo-university" src="@/assets/img/logo/logo-tu.jpg" alt="Technische Universität Berlin Logo"
+            </a>
+            <a :href="getInstitution('HU').website" class="partner-logo university" target="_blank">
+              <img class="logo-university"
+                :src="`${projectConfig.imageBaseUrl}/${getInstitution('HU')?.logo}?key=feature-card`"
+                :alt="`Logo ${getInstitution('HU')?.name_short}`" 
                 decoding="async" loading="lazy" />
-            </figure>
-            <figure class="partner-logo universities">
-              <img class="logo-university" src="@/assets/img/logo/logo-charite.webp" alt="Charité Logo" decoding="async"
-                loading="lazy" />
-            </figure>
+            </a>
+            <a :href="getInstitution('TU').website" class="partner-logo university" target="_blank">
+              <img class="logo-university"
+                :src="`${projectConfig.imageBaseUrl}/${getInstitution('TU')?.logo}?key=feature-card`"
+                :alt="`Logo ${getInstitution('TU')?.name_short}`" 
+                 decoding="async" loading="lazy" />
+            </a>
+            <a :href="getInstitution('CH').website" class="partner-logo university" target="_blank">
+              <img class="logo-university"
+                :src="`${projectConfig.imageBaseUrl}/${getInstitution('CH')?.logo}?key=feature-card`"
+                :alt="`Logo ${getInstitution('CH')?.name_short}`" 
+                decoding="async" loading="lazy" />
+            </a>
           </div>
         </div>
         <div class="order-1 col-sm-6">
           <p class="small text-center text-sm-end">
-            <NuxtLink to="/impressum">Impressum</NuxtLink> | <NuxtLink
-              to="/datenschutz">Datenschutz</NuxtLink>
+            <NuxtLink to="/impressum">Impressum</NuxtLink> | <NuxtLink to="/datenschutz">Datenschutz</NuxtLink>
           </p>
         </div>
       </div>
@@ -122,19 +133,23 @@ footer {
             display: flex;
             flex-direction: row;
             gap: 1.5rem;
-            justify-content: center;
             flex-wrap: wrap;
             justify-content: center;
+            .university {
+              .logo-university {
+                width: 100%;
+              }
+            }
 
 
             @media screen and (min-width: 768px) {
                 justify-content: flex-end;
               }
-            .partner-logo {
-              display: flex;
-              align-items: center;
-              flex: 0 1 6rem;
-              margin: 0;
+              .partner-logo {
+                display: flex;
+                align-items: center;
+                flex: 0 1 6rem;
+                margin: 0;
               &.bund-berlin {
 
                 @media screen and (min-width: 768px) {
@@ -145,7 +160,7 @@ footer {
                   flex: 0 1 10rem;
                 }
               }
-              &.universities {
+              &.university {
                 
                 @media screen and (min-width: 768px) {
                   flex: 0 1 14rem;
