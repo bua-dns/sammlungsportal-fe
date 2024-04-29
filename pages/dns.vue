@@ -21,7 +21,7 @@ const page = data.value.data[0]
   </Head>
   <div class="page p_dns-page" v-if="data">
     <pre v-if="false">{{ page }}</pre>
-    <h1 class="mb-4 text-center">{{ w[titleWording] }}</h1>
+    <h1 class="page-header text-center">{{ w[titleWording] }}</h1>
     <template v-if="!page.display_sidebar">
       <div class="page-content" v-html="page.page_content" />
     </template>
@@ -48,6 +48,7 @@ const page = data.value.data[0]
     .page-content {
     }
     .sidebar {
+      font-size: var(--font-size-text-small);
       .sidebar-header {
         display: none;
         img {

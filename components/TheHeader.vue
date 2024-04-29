@@ -163,7 +163,7 @@ const handleScroll = () => {
         }
 
         .dns-site-subtitle {
-          font-size: 1.27rem;
+          font-size: 1.25rem;
           line-height: 1.5;
         }
       }

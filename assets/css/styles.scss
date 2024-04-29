@@ -99,6 +99,10 @@
   --font-size-h4: 1rem;
   --font-size-h5: 0.875rem;
 
+  // specific Layout for elements
+
+  --margin-bottom-page-header: 3rem;
+
   // general Layout
 
   --header-height: 4rem;
@@ -137,7 +141,7 @@
     --main-margin-top: calc(var(--header-height) + 2rem);
 
     --font-size-text: 1rem;
-    --font-size-text-small: 1rem;
+    --font-size-text-small: .875rem;
     --font-size-extra-small: 0.75rem;
     --font-size-text-extra-small: 0.625rem;
     --font-size-text-lead: 1.125rem;
@@ -210,6 +214,11 @@ body {
   font-weight: 400;
   line-height: 1.45;
   color: var(--color-text);
+}
+
+p {
+  margin: 0 0 1rem;
+
 }
 
 h1,
@@ -325,6 +334,17 @@ img {
 }
 
 // Basic theme elements
+
+h1.page-header {
+  margin-bottom: var(--margin-bottom-page-header);
+}
+h1.page-header-with-subtitle {
+  // main margin applied to subtitle
+  margin: 0 0 .5rem;
+}
+h2.page-header-subtitle {
+  margin-bottom: var(--margin-bottom-page-header);
+}
 
 .dns-button-group {
   display: inline-flex;
