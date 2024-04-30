@@ -39,27 +39,23 @@ function getInstitution(abbreviation) {
           <div class="footer-content-box logo-box universities">
             <a :href="getInstitution('FU').website" class="partner-logo university" target="_blank">
               <img class="logo-university"
-                :src="`${projectConfig.imageBaseUrl}/${getInstitution('FU')?.logo}?key=feature-card`"
-                :alt="`Logo ${getInstitution('FU')?.name_short}`" 
-                decoding="async" loading="lazy" />
+                :src="`${projectConfig.imageBaseUrl}/${getInstitution('FU')?.logo_footer}?key=feature-card`"
+                :alt="`Logo ${getInstitution('FU')?.name_short}`" decoding="async" loading="lazy" />
             </a>
             <a :href="getInstitution('HU').website" class="partner-logo university" target="_blank">
               <img class="logo-university"
-                :src="`${projectConfig.imageBaseUrl}/${getInstitution('HU')?.logo}?key=feature-card`"
-                :alt="`Logo ${getInstitution('HU')?.name_short}`" 
-                decoding="async" loading="lazy" />
+                :src="`${projectConfig.imageBaseUrl}/${getInstitution('HU')?.logo_footer}?key=feature-card`"
+                :alt="`Logo ${getInstitution('HU')?.name_short}`" decoding="async" loading="lazy" />
             </a>
             <a :href="getInstitution('TU').website" class="partner-logo university" target="_blank">
               <img class="logo-university"
-                :src="`${projectConfig.imageBaseUrl}/${getInstitution('TU')?.logo}?key=feature-card`"
-                :alt="`Logo ${getInstitution('TU')?.name_short}`" 
-                 decoding="async" loading="lazy" />
+                :src="`${projectConfig.imageBaseUrl}/${getInstitution('TU')?.logo_footer}?key=feature-card`"
+                :alt="`Logo ${getInstitution('TU')?.name_short}`" decoding="async" loading="lazy" />
             </a>
             <a :href="getInstitution('CH').website" class="partner-logo university" target="_blank">
               <img class="logo-university"
-                :src="`${projectConfig.imageBaseUrl}/${getInstitution('CH')?.logo}?key=feature-card`"
-                :alt="`Logo ${getInstitution('CH')?.name_short}`" 
-                decoding="async" loading="lazy" />
+                :src="`${projectConfig.imageBaseUrl}/${getInstitution('CH')?.logo_footer}?key=feature-card`"
+                :alt="`Logo ${getInstitution('CH')?.name_short}`" decoding="async" loading="lazy" />
             </a>
           </div>
         </div>
