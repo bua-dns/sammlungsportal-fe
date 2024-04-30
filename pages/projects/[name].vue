@@ -32,7 +32,8 @@ const images = project.images.map((image) => {
           <ul>
             <li v-for="partner in project.cooperation_partners">
               <a :href="partner.institutions_id.website" target="_blank">
-                <img :src="`${projectConfig.imageBaseUrl}/${partner.institutions_id.logo}?key=feature-card`"
+                <img v-if="partner.institutions_id.logo"
+                  :src="`${projectConfig.imageBaseUrl}/${partner.institutions_id.logo}?key=sidebar-logo`"
                   :alt="`Logo ${partner.institutions_id.name_short}`" />
               </a>
             </li>
