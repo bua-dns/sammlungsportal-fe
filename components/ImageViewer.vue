@@ -73,7 +73,6 @@ function getPreviewImageGridStyles() {
   if(props.previewMode !== 'gallery') return '';
   return `grid-template-columns: repeat(auto-fill, minmax(${props.previewImageWidth || 220}px, 250px));`;
 }
-
 </script>
 
 <template>
@@ -157,6 +156,4 @@ function getPreviewImageGridStyles() {
     }
   }
 }
-
-
 </style>
