@@ -1,6 +1,7 @@
 <script setup>
 /* Used auto-imported composables: projectConfig */
 const { data: themeContent } = await useFetch(`${projectConfig.dataBaseUrl}/theme_content`);
+const { data: personsTeamContent } = await useFetch(`${projectConfig.dataBaseUrl}/persons_team`);
 const { data: institutionsContent } = await useFetch(`${projectConfig.dataBaseUrl}/institutions`);
 const { data: backgroundImages } = await useFetch(`${projectConfig.dataBaseUrl}/background_images`,
   {
@@ -25,6 +26,7 @@ const { data: projectsData } = await useFetch(`${projectConfig.dataBaseUrl}/proj
 
 
 const theme = useState('theme', () => themeContent);
+useState('personsTeam', () => personsTeamContent);
 useState('institutions', () => institutionsContent);
 useState('taxonomyTerms', () => taxonomyTermsData);
 useState('background_images', () => backgroundImages);
