@@ -108,6 +108,9 @@ const handleScroll = () => {
   right: 0;
   left: 0;
   height: var(--header-height);
+  @media screen and (min-width: 576px) {
+    height: var(--header-height);
+  }
   transition: all .25s, padding 0.25s;
   z-index: 200;
   display: flex;
@@ -136,42 +139,13 @@ const handleScroll = () => {
         width: 3.2rem;
         height: auto;
         @media screen and (min-width: 576px) {
+          height: calc(var(--header-height) - 1.25rem);
           width: 5.0rem;
         }
       }
     }
-    .dns-site-title-container {
-      flex: 1;
-      margin-left: 0.5rem;
-      .dns-site-title {
-        font-weight: 700;
-        font-size: 1rem;
-        line-height: 1.25;
-        transition: all 0.25s;
-      }
-      .dns-site-subtitle {
-        font-weight: 400;
-        font-size: .75rem;
-        transition: all 0.25s;
-      }
-      @media screen and (min-width: 576px) {
-        margin-left: 0.5rem;
-
-        .dns-site-title {
-          font-size: 1.75rem;
-          line-height: 1.5;
-        }
-
-        .dns-site-subtitle {
-          font-size: 1.25rem;
-          line-height: 1.5;
-        }
-      }
-    }
   }
-  .dns-navbar-controls {
-    
-  }
+
   .dns-main-navigation {
     display: none;
     @media (min-width: 1200px) {
@@ -215,26 +189,68 @@ const handleScroll = () => {
     }
   }
 }
+.dns-site-title-container {
+  flex: 1;
+  margin-left: 0.5rem;
 
+  .dns-site-title {
+    font-weight: 700;
+    font-size: .9rem;
+    line-height: 1.1;
+    transition: all 0.25s;
+
+    @media screen and (min-width: 576px) {
+      font-size: 1.5rem;
+      line-height: 1.25;
+    }
+  }
+  .dns-site-subtitle {
+    font-size: .75rem;
+    font-weight: 400;
+    transition: all 0.25s;
+  }
+
+  @media screen and (min-width: 576px) {
+    margin-left: 0.5rem;
+  }
+}
 @media screen and (min-width: 576px) {
+  header.scrolled {
+    .dns-logo-container {
+      
+    }
+    .dns-site-title-container {
+      .dns-site-title {
+        font-size: 1.125rem;
+      }
+      .dns-site-subtitle {
+        font-size: .875rem;
+      }
+    }
+  }
+  header {
+    .dns-site-title-container {
+      .dns-site-title {
+        
+        font-size: 1.5rem;
+        line-height: 1.5;
+      }
+      .dns-site-subtitle {
+        font-size: 1.125rem;
+        line-height: 1;
+      }
+    }
+  }
 
   .scrolled {
     height: var(--header-height-scrolled);
     .dns-branding {
       .dns-logo-container {
-        height: calc(var(--header-height-scrolled) - 1.25rem);
+        
 
         .dns-navbar-logo {
           width: 4rem;
         }
-      }
-
-      .dns-site-title {
-        font-size: 1.25rem;
-      }
-
-      .dns-site-subtitle {
-        font-size: 0.8rem;
       }
     }
   }
