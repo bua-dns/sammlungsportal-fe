@@ -113,6 +113,9 @@ const objectTypes = computed(() => {
     border-left: .5rem solid transparent;
     // border-right: .5rem solid transparent;
     background-color: var(--color-university-card-fill);
+    &:hover {
+      background-color: var(--color-university-card-fill-hover);
+    }
   }
 
 }
