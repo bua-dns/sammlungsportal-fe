@@ -44,6 +44,9 @@ const props = defineProps({
   h5, h6 {
     margin: 0;
   }
+  h6 {
+    font-weight: 400;
+  }
   .card-image {
     overflow: hidden;
     flex: 0 0 calc(var(--page-card-height) * 0.425);
