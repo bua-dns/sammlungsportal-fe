@@ -42,6 +42,10 @@ function getPreview() {
   }
   return props.images[0];
 }
+function openLightbox(index) {
+  currentImage.value = index;
+  showLightbox.value = true;
+}
 const showLightbox = ref(false);
 
 // close lightbox on escape key
@@ -79,7 +83,7 @@ function getPreviewImageGridStyles() {
   <div class="image-viewer-component">
     <template v-if="props.previewMode === 'single' || !props.previewMode">
       <div class="preview-single">
-        <img @click="showLightbox = true" 
+        <img @click="openLightbox(0)" 
           :src="composeImageUrl(getPreview(), 'preview')" 
           alt=""
           :style="getPreviewImageStyles()"
@@ -92,7 +96,7 @@ function getPreviewImageGridStyles() {
           :key="index" 
           :src="composeImageUrl(image, 'preview')" 
           alt=""
-          @click="showLightbox = true"
+          @click="openLightbox(index)"
         >
       </div>
     </template>
