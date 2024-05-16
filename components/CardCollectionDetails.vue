@@ -3,7 +3,6 @@ const props = defineProps(['collection', 'termFilter', 'activeCollectionId']);
 defineEmits(['setTermFilter', 'setActiveCollectionId']);
 const theme = useState('theme');
 const w = theme.value.data.wording.de;
-// const tagTypes = theme.value.data.settings.tags;
 const taxonomies = theme.value.data.settings.taxonomies;
 
 function activeTerm(taxonomy, term) {
@@ -12,11 +11,6 @@ function activeTerm(taxonomy, term) {
   }
   return "";
 }
-
-// const tagNames = theme.value.data.names.tags;
-// function getTagLabelName(tag) {
-//   return tagNames[tag] ? tagNames[tag] : tag;
-// }
 
 const showLightbox = ref(false);
 const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
@@ -118,8 +112,6 @@ function getImageUrls(images){
             </dd>
           </template>
         </dl>
-        <!-- images: <pre>{{ collection }}</pre> -->
-
       </div>
     </div>
     <div v-if="collection.collection_images && collection.collection_images.length" class="my-5 collection-images">
@@ -128,8 +120,6 @@ function getImageUrls(images){
     </div>
     <div class="tag-navigation-title"><strong>{{ w.tag_navigation_title }}</strong>{{ w.tag_navigation_hint }}</div>
     <div class="tag-navigation">
-      <!-- <pre>{{ taxonomies }}</pre> -->
-      <!-- <pre>{{ collection }}</pre> -->
       <template v-for="taxonomy in taxonomies" :key="'collection-card-taxonomy-' + taxonomy">
         <div v-if="collection[taxonomy] && collection[taxonomy].length > 0 && taxonomy !== 'current_keeper'"
           class="tag-card">
@@ -153,20 +143,14 @@ function getImageUrls(images){
   border-radius: 8px;
   background-color: #fff;
   position: relative;
-  // opacity: 0.85;
   scroll-margin-top: 64px;
 
   &:not(:last-child) {
     margin-bottom: 1rem;
   }
-
-  // &:hover {
-  //   opacity: 1;
-  // }
   &.active {
     border: 2px solid #2b5c8c;
     background-color: #f3f3ff;
-    /* box-shadow: inset 0px 0px 20px 0px #2b5c8c; */
   }
 }
 .collection-images {
