@@ -50,17 +50,6 @@ function getImageUrls(images){
       <div class="card-col">
         <div v-if="collection.description" class="card-description" v-html="convertLineBreaks(collection.description)">
         </div>
-        <dl v-if="collection.used_in_activity && collection.used_in_activity.length > 0" style="margin-top: 1rem;">
-          <dt>{{ w.used_in_activity }}</dt>
-          <dd>
-            <ul>
-              <li v-for="used_in_activity in collection.used_in_activity"
-                :key="'used_in_activity_' + collection.id + '_' + used_in_activity.id">
-                {{ used_in_activity.label }}
-              </li>
-            </ul>
-          </dd>
-        </dl>
       </div>
       <div class="card-col">
         <dl>
