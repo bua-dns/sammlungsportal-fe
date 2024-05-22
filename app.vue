@@ -19,11 +19,16 @@ const { data: taxonomyTermsData } = await useFetch(`${projectConfig.dataBaseUrl}
 });
 const { data: projectsData } = await useFetch(`${projectConfig.dataBaseUrl}/projects`, {
   query: {
-    fields: '*, title, id, slug, sub_line, description, affiliation, images.directus_files_id.*, preview_image.*.*, display_sidebar, sidebar_content, cooperation_partners.institutions_id.name_short,cooperation_partners.institutions_id.logo',
+    fields: projectConfig.fields.projects.join(','),
     limit: -1,
   }
 });
-
+const { data: resourcesData } = await useFetch(`${projectConfig.dataBaseUrl}/online_resources`, {
+  query: {
+    fields: projectConfig.fields.resources.join(','),
+    limit: -1,
+  }
+});
 
 const theme = useState('theme', () => themeContent);
 useState('personsTeam', () => personsTeamContent);
@@ -31,6 +36,7 @@ useState('institutions', () => institutionsContent);
 useState('taxonomyTerms', () => taxonomyTermsData);
 useState('background_images', () => backgroundImages);
 useState('projects', () => projectsData);
+useState('resources', () => resourcesData);
 const w = theme.value.data.wording.de;
 useHead({
   titleTemplate: (titleChunk) => {

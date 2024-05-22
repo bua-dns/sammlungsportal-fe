@@ -108,10 +108,14 @@ const resources = resourcesData.value.data;
           flex: 3;
         }
         .screenshot {
+          display: none;
           flex: 1;
           .main-screenshot {
             width: 36rem;
             height: auto;
+          }
+          @media screen and (min-width: 768px){
+            display: flex;
           }
         }
       }
