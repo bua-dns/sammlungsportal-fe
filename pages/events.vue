@@ -14,7 +14,22 @@ const { data } = await useFetchPage(slug)
 const page = data.value.data[0]
 
 const eventsData = useState('events');
-const events = eventsData.value.data;
+const events = eventsData.value.data
+  .filter(event => {
+    const currentDate = new Date();
+    const eventDate = new Date(event.date);
+    const twoDaysAgo = new Date(currentDate.setDate(currentDate.getDate() - 2));
+    return eventDate > twoDaysAgo;
+  })
+  .sort((a, b) => new Date(a.date) - new Date(b.date));
+const pastEvents = eventsData.value.data
+  .filter(event => {
+    const currentDate = new Date();
+    const eventDate = new Date(event.date);
+    const twoDaysAgo = new Date(currentDate.setDate(currentDate.getDate() - 2));
+    return eventDate <= twoDaysAgo;
+  })
+  .sort((a, b) => new Date(b.date) - new Date(a.date));
 function formatDate(date) {
   return new Date(`${date}T12:00:00`).toLocaleDateString('de-DE', {
     year: 'numeric',
@@ -41,7 +56,7 @@ function getTimeFormat(time) {
     <Title>{{ w.page_projekte }}</Title>
   </Head>
   <div class="page p_dns-page" v-if="data && page.status === 'published'">
-    <pre v-if="false">{{ projects }}</pre>
+    <pre v-if="false">{{ pastEvents }}</pre>
     <h1 class="mb-4 text-center">{{ page.title }}</h1>
     <template v-if="!page.display_sidebar">
       <div class="page-content" v-html="page.page_content" />
@@ -59,26 +74,18 @@ function getTimeFormat(time) {
         </div>
       </div>
     </template>
-    <div v-if="true" class="events-listing mt-5">
+    <div v-if="events && events.length" class="events-listing mt-5">
       <div v-for="event in events" :key="event.id" class="event-entry">
-        <div class="event-header">
-          <h3>{{ event.title }}</h3>
-          <h4>{{ event.subtitle }}</h4>
-          <div class="date-time">{{ formatDate(event.date) }}, {{ getTimeFormat(event.time_start) }}
-            <span v-if="event.time_end"> - {{ getTimeFormat(event.time_end) }}</span> 
-            Uhr
-          </div>
-          <div class="location" v-html="event.venue" />
-          <div class="description" v-html="event.description" />
-          <div class="event-type">{{ w[event.event_type] }}</div>
-          <div class="registration-info">{{ w[event.registration] }}</div>
-        </div>
-
-        
+        <Event :event="event" />
       </div>
-
-      <pre v-if="false">{{ events }}</pre>
     </div>
+    <h3>frühere Veranstaltungen</h3>
+    <div v-if="pastEvents && pastEvents.length" class="events-listing mt-5">
+      <div v-for="event in pastEvents" :key="event.id" class="event-entry">
+        <Event :event="event" />
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -106,16 +113,7 @@ function getTimeFormat(time) {
 }
 .events-listing {
   .event-entry {
-    margin-bottom: 2rem;
-    h3 {
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
-    }
-    h4 {
-      font-size: 1.125rem;
-      font-weight: 400;
-      margin-bottom: 0.5rem;
-    }
+    margin-bottom: 3rem;
   }
 }
 
