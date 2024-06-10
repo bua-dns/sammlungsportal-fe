@@ -23,6 +23,12 @@ const { data: projectsData } = await useFetch(`${projectConfig.dataBaseUrl}/proj
     limit: -1,
   }
 });
+const { data: eventsData } = await useFetch(`${projectConfig.dataBaseUrl}/events`, {
+  query: {
+    fields: projectConfig.fields.projects.join(','),
+    limit: -1,
+  }
+});
 const { data: resourcesData } = await useFetch(`${projectConfig.dataBaseUrl}/online_resources`, {
   query: {
     fields: projectConfig.fields.resources.join(','),
@@ -36,6 +42,7 @@ useState('institutions', () => institutionsContent);
 useState('taxonomyTerms', () => taxonomyTermsData);
 useState('background_images', () => backgroundImages);
 useState('projects', () => projectsData);
+useState('events', () => eventsData);
 useState('resources', () => resourcesData);
 const w = theme.value.data.wording.de;
 useHead({

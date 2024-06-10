@@ -11,5 +11,8 @@ export const projectConfig = {
       '*', 'title', 'id', 'slug', 'sub_line', 'description', 'affiliation', 
       'images.directus_files_id.*', 'preview_image.*.*', 'display_sidebar', 'sidebar_content', 'cooperation_partners.institutions_id.name_short','cooperation_partners.institutions_id.logo'
     ],
+    events: [
+      '*.*'
+    ],
   }
 };
