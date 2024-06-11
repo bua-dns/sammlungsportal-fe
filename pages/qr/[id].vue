@@ -7,5 +7,5 @@ await navigateTo(`/?utm_source=qr-${id.value}`)
 <template>
   <div>
     <h1>QR</h1>
-  </div>
+  </div>  
 </template>
