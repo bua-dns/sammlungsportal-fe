@@ -1,5 +1,7 @@
 <script setup>
-await navigateTo('/?utm_source=qr-1')
+const route = useRoute();
+const id = ref(route.params.id);
+await navigateTo(`/?utm_source=qr-${id.value}`)
 </script>
 
 <template>
