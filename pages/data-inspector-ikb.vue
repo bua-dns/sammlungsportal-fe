@@ -10,7 +10,7 @@ const w = theme.value.data.wording.de
 const results = ref([]);
 const wdEntities = computed(() => {
   // if (!results.value.length) return [];
-  return results.value 
+  return results.value
     ? results.value.data
     : [];
 });
@@ -38,7 +38,7 @@ watch(term, (newTerm) => {
   if (newTerm.length === 2) {
     results.value = [];
   }
-  
+
 });
 </script>
 
