@@ -9,9 +9,9 @@ const results = ref([]);
 const wdEntities = computed(() => {
   if (!results.value || !results.value.data || results.value.data.length === 0) return [];
   return results.value.data
-    // .filter((entry) => {
-    //   return entry.search_pool.includes(term.value.toLowerCase());
-    // });
+    .filter((entry) => {
+      return entry.search_pool.includes(normalizedTerm.value);
+    });
 });
 
 // testweise
@@ -26,30 +26,19 @@ const normalizedTerm = computed(() => {
 
 
 async function searchWdEntities() {
-  
-
   const url = `https://ikb-lbs-hub.bua-dns.de/items/wd_entities?limit=-1&search=${normalizedTerm.value}`;
   const searchResponse = await $fetch(url);
   return results.value = searchResponse;
 }
-
-// Initial fetch when the component is mounted
-if (process.client) {
-  // searchWdEntities()
-};
 // Watch the term variable and call searchWdEntities whenever it changes
 watch(term, (newTerm) => {
-  // if (!newTerm.length === 0) results.value = [];
-  // if (!newTerm.length < 3) return;
   if (newTerm.length > 2) {
     searchWdEntities();
   };
-  if (newTerm.length === 2) {
+  if (newTerm.length <= 2) {
     results.value = [];
   }
 });
-
-
 
 const selectedEntities = ref([]);
 const allEntitiesSelected = computed(() => {
@@ -78,12 +67,6 @@ function clearEntitiesSelection() {
   term.value = "";
   selectedEntities.value = [];
 }
-/* Import
-
-*/
-
-
-
 </script>
 
 <template>
@@ -100,11 +83,6 @@ function clearEntitiesSelection() {
         <input type="text" v-model="term" placeholder="dargestelltes Objekt" />
         <input type="submit" value="auswählen" class="submit search-box-submit"
           v-if="selectedEntities?.length > 0 && term" @click="selectEntity()" />
-        <!-- <div>current term: {{ normalizedTerm }}</div> -->
-        <div class="dev-output" v-if="false">
-          term.length: {{ term?.length }}<br>
-          {{ wdEntities }}
-        </div>
         <div class="suggestions" v-if="true && term?.length > 2">
           <label class="suggestion-list-item">
             <input type="checkbox" value="" :checked="allEntitiesSelected" @click="selectAllEntities()" />
