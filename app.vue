@@ -47,7 +47,7 @@ useState('resources', () => resourcesData);
 const w = theme.value.data.wording.de;
 useHead({
   titleTemplate: (titleChunk) => {
-    return titleChunk ? `${titleChunk} - ${w.collection_portal}` : w.collection_portal;
+    return titleChunk ? `${titleChunk} - ${w.collection_portal_title}` : w.collection_portal_title;
   }
 });
 </script>
