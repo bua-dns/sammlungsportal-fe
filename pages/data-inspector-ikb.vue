@@ -8,6 +8,27 @@ const slug = 'data-inspector-lehrbildsammlung-ikb'
 const { data } = await useFetchPage(slug)
 const page = data.value.data[0]
 
+
+const sampleMediaSmallSlides = ref([]);
+async function getMediaSamples() {
+  const sampleMediaUrl = `https://ikb-lbs-hub.bua-dns.de/items/ikb_items`;
+  const sampleMediaSmallSlidesResponse = await $fetch(sampleMediaUrl, {
+    query: {
+      limit: 10,
+      page: Math.floor(Math.random() * 180),
+      fields: '*.*',
+      // DEV: Filterfunktion noch nicht korrekt
+      filter: {
+        'dns_medium_type': {
+          '_eq': 'Kleinbilddia'
+        }
+      }
+    }
+  });
+  sampleMediaSmallSlides.value = sampleMediaSmallSlidesResponse.data;
+}
+
+
 const results = ref([]);
 const wdEntities = computed(() => {
   if (!results.value || !results.value.data || results.value.data.length === 0) return [];
@@ -37,8 +58,6 @@ async function searchWdEntities() {
         }
       }
     });
-  
-
   const query = {
     limit: -1,
     fields: 'handle, q_number',
@@ -61,6 +80,14 @@ watch(term, (newTerm) => {
   if (newTerm.length <= 2) {
     results.value = [];
   }
+});
+
+onMounted(async () => {
+  await getMediaSamples();
+});
+
+onUnmounted(() => {
+  // Clean up any resources here
 });
 
 const selectedEntities = ref([]);
@@ -121,7 +148,7 @@ function clearEntitiesSelection() {
         <pre>{{ data }}</pre>
       </div>
     </div>
-      
+
     <div class="intro" v-html="page.page_content" />
     <div class="search-box">
       <input type="text" v-model="term" placeholder="dargestelltes Objekt" v-if="displayMode=='search'">
@@ -142,7 +169,7 @@ function clearEntitiesSelection() {
           <label class="suggestion-list-item">
             <input type="checkbox" :value="entry" :checked="selectedEntities.includes(entry)"
               @click="addEntity(entry)" />
-            {{ entry.handle }} - {{ entry.q_number }}
+            {{ entry.handle }}
 
           </label>
         </div>
@@ -152,6 +179,16 @@ function clearEntitiesSelection() {
       <template v-if="displayMode === 'display'" {{ selectedEntitiesForDisplay.length }}>
         <WDEntity v-for="entity in selectedEntitiesForDisplay" :key="`entity${entity.id}`" :entity="entity" />
       </template>
+    </div>
+    <div v-if="displayMode === 'search'">
+      <div class="samples" v-if="sampleMediaSmallSlides">
+        <h3>Beispielobjekte aus der Lehrbilder-Datenbank des IKB der HU Berlin</h3>
+        <div class="samples-listing">
+          <div class="item" v-for="item in sampleMediaSmallSlides" :key="`item-${item.id}`">
+            <IKBItem :item="item" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -174,7 +211,17 @@ function clearEntitiesSelection() {
   }
   .display-entities {
     margin-top: 2rem;
-    min-height: 40vh;
+  }
+  .samples {
+    margin-top: 4rem;
+    h3 {
+      margin-bottom: 1rem;
+    }
+    .samples-listing {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
   }
 }
 .search-box {

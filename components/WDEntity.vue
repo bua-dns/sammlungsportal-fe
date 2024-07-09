@@ -54,7 +54,8 @@ const endItemIndex = computed(() => Math.min(page.value * pageSize, relatedItems
 <template>
   <div class="wd-entity">
     <h2>{{ entity.handle }}</h2>
-    <div class="pagination">{{ relatedItems.length }} Medien
+    <div class="pagination">
+      <div class="counter">{{ relatedItems.length }} Medien, die dieses Objekt zeigen</div> 
       <div class="pagination-nav" v-if="numberOfPages > 1">
           <div class="to-start" @click="setPage('start')" :class="{ 'disabled': page === 1 }">|<</div>
           <div class="to-prev" @click="setPage('prev')" :class="{ 'disabled': page === 1 }"><</div>
@@ -65,41 +66,46 @@ const endItemIndex = computed(() => Math.min(page.value * pageSize, relatedItems
     </div>
     <div class="items-listing">
       <div class="item" v-for="item in getPage(relatedItems)" :key="`item-${item.id}`">
-        <img
-          :src="`https://rs.cms.hu-berlin.de/ikb_mediathek/pages/download.php?ref=${item.mr_ref}&size=pre&ext=jpg&page=1&alternative=-1&k=&noattach=true`"
-          alt="" loading="lazy">
-        <div class="basic-info">
-
-
-          <a :href="`https://rs.cms.hu-berlin.de/ikb_mediathek/pages/view.php?ref=${item.mr_ref}`"
-            target="_blank">Lehrbild in der IKB-Datenbank</a>
-          <br>{{ item.dns_title }}
-          <!-- <br>{{ item.dns_date_medium_earliest }} -->
-        </div>
+        <IKBItem :item="item" />
       </div>
+    </div>
+    <div class="pagination-nav" v-if="numberOfPages > 1">
+        <div class="to-start" @click="setPage('start')" :class="{ 'disabled': page === 1 }">|<</div>
+        <div class="to-prev" @click="setPage('prev')" :class="{ 'disabled': page === 1 }"><</div>
+        <div class="indicator">{{ startItemIndex }} - {{ endItemIndex }}</div>
+        <div class="to-next" @click="setPage('next')" :class="{ 'disabled': page === numberOfPages }">></div>
+        <div class="to-end" @click="setPage('end')" :class="{ 'disabled': page === numberOfPages }">>|</div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-  .pagination-nav {
-    max-width: 14rem;
-    display: flex;
-    gap: 0.5rem;
-    .to-start, .to-prev, .to-next, .to-end {
-      cursor: pointer;
-      flex-basis: 1.5rem;
-      &.disabled {
-        opacity: 0.2;
-        cursor: default;
-      }
-      
-    }
-    .indicator {
-      flex-basis: 8rem;
-      text-align: center;
-    } 
+.pagination {
+  margin: 2rem auto;
+  .counter {
+    text-align: center;
+    padding: 0.5rem;
   }
+}
+.pagination-nav {
+  margin: 0 auto;
+  max-width: 14rem;
+  display: flex;
+  gap: 0.5rem;
+  .to-start, .to-prev, .to-next, .to-end {
+    cursor: pointer;
+    flex-basis: 1.5rem;
+    &.disabled {
+      opacity: 0.2;
+      cursor: default;
+    }
+    
+  }
+  .indicator {
+    flex-basis: 8rem;
+    text-align: center;
+  } 
+}
 .items-listing {
   display: flex;
   flex-wrap: wrap;
