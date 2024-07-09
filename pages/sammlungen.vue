@@ -254,7 +254,6 @@ function setActiveCollectionId(id) {
       const scrollTarget = document.getElementById("active-card-container");
       scrollTarget.scrollIntoView({ behavior: "smooth" });
     }, 100);
-    // console.log('setActiveCollectionId: scrollToResults');
   }
 
 }
