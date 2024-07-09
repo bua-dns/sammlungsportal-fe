@@ -3,18 +3,17 @@
 const theme = useState("theme");
 const w = theme.value.data.wording.de
 // useHead({ title: data.value.data[0].title });
+const slug = 'data-inspector-lehrbildsammlung-ikb'
 
+const { data } = await useFetchPage(slug)
+const page = data.value.data[0]
 
 const results = ref([]);
 const wdEntities = computed(() => {
   if (!results.value || !results.value.data || results.value.data.length === 0) return [];
   return results.value.data
-    .filter((entry) => {
-      return entry.search_pool.includes(normalizedTerm.value);
-    });
 });
 
-// testweise
 const term = ref(null);
 const normalizedTerm = computed(() => {
   if (!term.value) return null;
@@ -24,15 +23,39 @@ const normalizedTerm = computed(() => {
     });
 });
 
-
 async function searchWdEntities() {
-  const url = `https://ikb-lbs-hub.bua-dns.de/items/wd_entities?limit=-1&search=${normalizedTerm.value}`;
-  const searchResponse = await $fetch(url);
+  const termArray = term.value
+    .split(" ")
+    .map((entry) => {
+      const normalizedEntry = normalizeStringForSearch({
+        str: entry,
+        caseTo: 'lower'
+      });
+       return {
+        search_pool: {
+           _contains: normalizedEntry
+        }
+      }
+    });
+  
+
+  const query = {
+    limit: -1,
+    fields: 'handle, q_number',
+    filter: {
+      '_and': termArray
+    }
+  };
+  const url = `https://ikb-lbs-hub.bua-dns.de/items/wd_entities`;
+  const searchResponse = await $fetch(url, {
+    query
+  });
   return results.value = searchResponse;
 }
 // Watch the term variable and call searchWdEntities whenever it changes
 watch(term, (newTerm) => {
   if (newTerm.length > 2) {
+    displayMode.value = "search";
     searchWdEntities();
   };
   if (newTerm.length <= 2) {
@@ -41,6 +64,7 @@ watch(term, (newTerm) => {
 });
 
 const selectedEntities = ref([]);
+const selectedEntitiesForDisplay = ref([]);
 const allEntitiesSelected = computed(() => {
   return selectedEntities.value.length === wdEntities?.length;
 });
@@ -51,7 +75,12 @@ function selectAllEntities() {
     selectedEntities.value = wdEntities.value;
   }
 }
-
+function clearSearch() {
+  term.value = "";
+  selectedEntities.value = [];
+  selectedEntitiesForDisplay.value = [];
+  displayMode.value = "search";
+}
 function addEntity(entity) {
   if (selectedEntities.value.includes(entity)) {
     selectedEntities.value = selectedEntities.value.filter((entry) => entry !== entity);
@@ -59,6 +88,17 @@ function addEntity(entity) {
     selectedEntities.value.push(entity);
   }
 }
+
+const displayMode = ref("search");
+
+function displaySelectedEntities() {
+  selectedEntitiesForDisplay.value = selectedEntities.value;
+  selectedEntities.value = [];
+  displayMode.value = "display";
+  term.value = '';
+}
+const markAllLimit = 100;
+
 function deselectEntity(entity) {
   selectedEntities.value = selectedEntities.value.filter((entry) => entry !== entity);
 }
@@ -74,35 +114,69 @@ function clearEntitiesSelection() {
   <Head>
     <Title>{{ w.page_data_inspector_ikb }}</Title>
   </Head>
-  <div class="page p_dns-page" v-if="true">
-    <h1 class="page-header text-center">Data Inspector Lehrbildsammlung IKB</h1>
-    <div class="intro">Hier ein Intro</div>
-    <div class="results" v-if="results">
-
-      <div class="search-box">
-        <input type="text" v-model="term" placeholder="dargestelltes Objekt" />
-        <input type="submit" value="auswählen" class="submit search-box-submit"
-          v-if="selectedEntities?.length > 0 && term" @click="selectEntity()" />
-        <div class="suggestions" v-if="true && term?.length > 2">
+  <div class="data-inspector" v-if="true">
+    <div class="intro">
+      <h1 class="page-header text-center">{{ w.page_data_inspector_ikb}}<span class="badge-beta">beta</span></h1>
+      <div class="dev-output" v-if="false">
+        <pre>{{ data }}</pre>
+      </div>
+    </div>
+      
+    <div class="intro" v-html="page.page_content" />
+    <div class="search-box">
+      <input type="text" v-model="term" placeholder="dargestelltes Objekt" v-if="displayMode=='search'">
+      <input type="text" v-model="term" placeholder="" disabled v-if="displayMode == 'display'">
+      <input type="submit" value="markierte anzeigen" class="submit search-box-submit"
+        v-if="selectedEntities?.length > 0" @click="displaySelectedEntities()" />
+      <input type="button" @click="clearSearch()" v-if="displayMode === 'display'" value="neue Suche"
+        class="submit search-box-submit" />
+      <div class="suggestions" v-if="displayMode === 'search' && term?.length > 2">
+        <template v-if="wdEntities && wdEntities.length && wdEntities.length < markAllLimit">
           <label class="suggestion-list-item">
             <input type="checkbox" value="" :checked="allEntitiesSelected" @click="selectAllEntities()" />
-            <span v-if="wdEntities && wdEntities.length">alle markieren ({{ wdEntities.length}})</span>
+            <span>alle markieren ({{ wdEntities.length}})</span>
           </label>
           <hr>
-          <div class="suggestion clickable" v-for="entry in wdEntities" :key="entry">
-            <label class="suggestion-list-item">
-              <input type="checkbox" :value="entry" :checked="selectedEntities.includes(entry)"
-                @click="addEntity(entry)" />
-              {{ entry.handle }} - {{ entry.q_number }}
-            </label>
-          </div>
+        </template>
+        <div class="suggestion clickable" v-for="entry in wdEntities" :key="entry">
+          <label class="suggestion-list-item">
+            <input type="checkbox" :value="entry" :checked="selectedEntities.includes(entry)"
+              @click="addEntity(entry)" />
+            {{ entry.handle }} - {{ entry.q_number }}
+
+          </label>
         </div>
       </div>
+    </div>
+    <div class="display-entities">
+      <template v-if="displayMode === 'display'" {{ selectedEntitiesForDisplay.length }}>
+        <WDEntity v-for="entity in selectedEntitiesForDisplay" :key="`entity${entity.id}`" :entity="entity" />
+      </template>
     </div>
   </div>
 </template>
 
-<style lang='scss'>
+<style lang='scss' scoped>
+.data-inspector {
+  max-width: 90rem;
+  margin: 0 auto;
+  .intro {
+    .badge-beta {
+      position: relative;
+      top: -1rem;
+      background-color: var(--color-taxonomy-button-background);
+      font-size: 1rem;
+      color: var(--color-bua-blue-dark);
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      margin-left: 0.5rem;
+    } 
+  }
+  .display-entities {
+    margin-top: 2rem;
+    min-height: 40vh;
+  }
+}
 .search-box {
   position: relative;
   display: flex;
@@ -140,7 +214,6 @@ function clearEntitiesSelection() {
 
   .submit {
     padding: 0.5rem 1rem;
-    background-color: green;
     color: var(--color-text);
     font-size: 1rem;
     cursor: pointer;
