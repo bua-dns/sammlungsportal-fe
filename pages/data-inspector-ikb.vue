@@ -150,28 +150,31 @@ function clearEntitiesSelection() {
     </div>
 
     <div class="intro" v-html="page.page_content" />
-    <div class="search-box">
-      <input type="text" v-model="term" placeholder="dargestelltes Objekt" v-if="displayMode=='search'">
-      <input type="text" v-model="term" placeholder="" disabled v-if="displayMode == 'display'">
-      <input type="submit" value="markierte anzeigen" class="submit search-box-submit"
-        v-if="selectedEntities?.length > 0" @click="displaySelectedEntities()" />
-      <input type="button" @click="clearSearch()" v-if="displayMode === 'display'" value="neue Suche"
-        class="submit search-box-submit" />
-      <div class="suggestions" v-if="displayMode === 'search' && term?.length > 2">
-        <template v-if="wdEntities && wdEntities.length && wdEntities.length < markAllLimit">
-          <label class="suggestion-list-item">
-            <input type="checkbox" value="" :checked="allEntitiesSelected" @click="selectAllEntities()" />
-            <span>alle markieren ({{ wdEntities.length}})</span>
-          </label>
-          <hr>
-        </template>
-        <div class="suggestion clickable" v-for="entry in wdEntities" :key="entry">
-          <label class="suggestion-list-item">
-            <input type="checkbox" :value="entry" :checked="selectedEntities.includes(entry)"
-              @click="addEntity(entry)" />
-            {{ entry.handle }}
-
-          </label>
+    <div class="controls">
+      <h3>Suche nach Objekten, die auf den Lehrbildern dargestellt sind</h3>
+      <div class="search-box">
+        <input type="text" v-model="term" placeholder="dargestelltes Objekt" v-if="displayMode=='search'">
+        <input type="text" v-model="term" placeholder="" disabled v-if="displayMode == 'display'">
+        <input type="submit" value="markierte anzeigen" class="submit search-box-submit"
+          v-if="selectedEntities?.length > 0" @click="displaySelectedEntities()" />
+        <input type="button" @click="clearSearch()" v-if="displayMode === 'display'" value="neue Suche"
+          class="submit search-box-submit" />
+        <div class="suggestions" v-if="displayMode === 'search' && term?.length > 2">
+          <template v-if="wdEntities && wdEntities.length && wdEntities.length < markAllLimit">
+            <label class="suggestion-list-item">
+              <input type="checkbox" value="" :checked="allEntitiesSelected" @click="selectAllEntities()" />
+              <span>alle markieren ({{ wdEntities.length}})</span>
+            </label>
+            <hr>
+          </template>
+          <div class="suggestion clickable" v-for="entry in wdEntities" :key="entry">
+            <label class="suggestion-list-item">
+              <input type="checkbox" :value="entry" :checked="selectedEntities.includes(entry)"
+                @click="addEntity(entry)" />
+              {{ entry.handle }}
+  
+            </label>
+          </div>
         </div>
       </div>
     </div>
@@ -224,79 +227,88 @@ function clearEntitiesSelection() {
     }
   }
 }
-.search-box {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  align-items: center;
-
-  input {
-    border: 1px solid var(--color-border);
-    border-radius: 0.125rem;
-    padding: 0.5rem 1rem;
-    font-size: 1.25rem;
-    height: 2.25rem;
+.controls {
+  margin-top: 1rem;
+  h3 {
+    font-weight: 400;
+    margin-bottom: 1rem;
   }
-
-  input[type="text"] {
-    width: 30rem;
-
-    &::placeholder {
-      color: var(--color-text);
-      opacity: 0.5;
-      text-transform: uppercase;
-    }
-  }
-
-  input[type="submit"] {
-    background-color: lightblue;
-    color: var(--color-text);
-    cursor: pointer;
-
-    &:hover {
-      background-color: var(--color-background-selected);
-    }
-  }
-
-  .submit {
-    padding: 0.5rem 1rem;
-    color: var(--color-text);
-    font-size: 1rem;
-    cursor: pointer;
-
-    &:hover {
-      background-color: var(--color-background-selected);
-    }
-  }
-
-  .suggestions {
-    position: absolute;
-    top: 3.5rem;
-    z-index: 2;
-    width: 100%;
-    max-height: 80rem;
-    max-height: 65vh;
-    background-color: hsl(0, 0%, 100%);
-    padding: 0.5rem 1rem;
-    overflow-x: hidden;
-    overflow-y: auto;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-
-    .suggestion:hover {
-      background-color: hsl(0, 0%, 94%);
-    }
-  }
-
-  .suggestion-list-item {
+  .search-box {
+    position: relative;
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
     gap: 0.5rem;
-    cursor: pointer;
+    align-items: center;
 
-    input[type="checkbox"] {
+    input {
+      border: 1px solid var(--color-border);
+      border-radius: 0.125rem;
+      padding: 0.5rem 1rem;
+      font-size: 1.25rem;
+      height: 2.25rem;
+    }
+
+    input[type="text"] {
+      width: 30rem;
+
+      &::placeholder {
+        color: var(--color-text);
+        opacity: 0.2;
+        text-transform: uppercase;
+        font-size: 1.125rem;
+      }
+    }
+
+    input[type="submit"] {
+      background-color: lightblue;
+      color: var(--color-text);
       cursor: pointer;
+
+      &:hover {
+        background-color: var(--color-background-selected);
+      }
+    }
+
+    .submit {
+      padding: 0.5rem 1rem;
+      color: var(--color-text);
+      font-size: 1rem;
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--color-background-selected);
+      }
+    }
+
+    .suggestions {
+      position: absolute;
+      top: 3.5rem;
+      z-index: 2;
+      width: 100%;
+      max-height: 80rem;
+      max-height: 65vh;
+      background-color: hsl(0, 0%, 100%);
+      padding: 0.5rem 1rem;
+      overflow-x: hidden;
+      overflow-y: auto;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+      .suggestion:hover {
+        background-color: hsl(0, 0%, 94%);
+      }
+    }
+
+    .suggestion-list-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+
+      input[type="checkbox"] {
+        cursor: pointer;
+      }
     }
   }
 }
+
 </style>
