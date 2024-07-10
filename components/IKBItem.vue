@@ -10,14 +10,15 @@ const props = defineProps({
 
 <template>
   <div class="ikb-item">
-    <img
+    <!-- <img
       :src="`https://rs.cms.hu-berlin.de/ikb_mediathek/pages/download.php?ref=${item.mr_ref}&size=pre&ext=jpg&page=1&alternative=-1&k=&noattach=true`"
-      alt="" loading="lazy">
+      alt="" loading="lazy"> -->
+    <LightBoxIkbItem :objectId="item.mr_ref" />
     <div class="basic-info">
 
 
-      <a :href="`https://rs.cms.hu-berlin.de/ikb_mediathek/pages/view.php?ref=${item.mr_ref}`"
-        target="_blank">Lehrbild in der IKB-Datenbank</a>
+      <a :href="`https://rs.cms.hu-berlin.de/ikb_mediathek/pages/view.php?ref=${item.mr_ref}`" target="_blank">Lehrbild
+        in der IKB-Datenbank</a>
       <br>{{ item.dns_title }}
     </div>
   </div>
