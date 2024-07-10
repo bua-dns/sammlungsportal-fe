@@ -53,7 +53,18 @@ const endItemIndex = computed(() => Math.min(page.value * pageSize, relatedItems
 
 <template>
   <div class="wd-entity">
-    <h2>{{ entity.handle }}</h2>
+    <div class="wd-entity-info">
+      <h2>{{ entity.handle }}</h2>
+      <a 
+        :href="`https://wikidata.org/wiki/${entity.q_number}`"
+        class="wd-link"
+        target="_blank"  
+      >
+        <img src="@/assets/img/Wikidata.svg" alt="Wikidata Logo" >
+        <span>Dieses Objekt auf Wikidata ansehen</span>
+      </a>
+    </div>
+    
     <div class="pagination">
       <div class="counter">{{ relatedItems.length }} Medien, die dieses Objekt zeigen</div> 
       <div class="pagination-nav" v-if="numberOfPages > 1">
@@ -80,6 +91,20 @@ const endItemIndex = computed(() => Math.min(page.value * pageSize, relatedItems
 </template>
 
 <style scoped lang="scss">
+.wd-entity {
+  .wd-entity-info {
+    .wd-link {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      img {
+        display: block;
+        width: 3rem;
+      }
+    }
+  }
+}
 .pagination {
   margin: 2rem auto;
   .counter {
