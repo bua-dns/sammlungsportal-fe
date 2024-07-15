@@ -65,15 +65,19 @@ const endItemIndex = computed(() => Math.min(page.value * pageSize, relatedItems
       </a>
     </div>
     
-    <div class="pagination">
-      <div class="counter">{{ relatedItems.length }} Medien, die dieses Objekt zeigen</div> 
-      <div class="pagination-nav" v-if="numberOfPages > 1">
-          <div class="to-start" @click="setPage('start')" :class="{ 'disabled': page === 1 }">|<</div>
-          <div class="to-prev" @click="setPage('prev')" :class="{ 'disabled': page === 1 }"><</div>
-          <div class="indicator">{{ startItemIndex }} - {{ endItemIndex }}</div>
-          <div class="to-next" @click="setPage('next')" :class="{ 'disabled': page === numberOfPages }">></div>
-          <div class="to-end" @click="setPage('end')" :class="{ 'disabled': page === numberOfPages }">>|</div>
-      </div>
+    <div class="pagination" v-if="relatedItems.length > 6">
+      <div class="counter">
+        {{ relatedItems.length }} Medien, die dieses Objekt zeigen
+      </div> 
+      <template v-if="numberOfPages > 1">
+        <div class="pagination-nav">
+            <div class="to-start" @click="setPage('start')" :class="{ 'disabled': page === 1 }">|<</div>
+            <div class="to-prev" @click="setPage('prev')" :class="{ 'disabled': page === 1 }"><</div>
+            <div class="indicator">{{ startItemIndex }} - {{ endItemIndex }}</div>
+            <div class="to-next" @click="setPage('next')" :class="{ 'disabled': page === numberOfPages }">></div>
+            <div class="to-end" @click="setPage('end')" :class="{ 'disabled': page === numberOfPages }">>|</div>
+        </div>
+      </template>
     </div>
     <div class="items-listing">
       <div class="item" v-for="item in getPage(relatedItems)" :key="`item-${item.id}`">

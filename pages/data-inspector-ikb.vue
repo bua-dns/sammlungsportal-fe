@@ -193,7 +193,10 @@ function clearEntitiesSelection() {
           v-if="selectedEntities?.length > 0" @click="displaySelectedEntities()" />
         <input type="button" @click="clearSearch()" v-if="displayMode === 'display'" value="neue Suche"
           class="submit search-box-submit" />
-        <div class="suggestions" v-if="displayMode === 'search' && term?.length > 2">
+        <div class="suggestions" v-if="displayMode === 'search' && term?.length > 2 ">
+          <template v-if="!wdEntities || wdEntities.length < 1">
+            Keine passenden Objekte gefunden
+          </template>
           <template v-if="wdEntities && wdEntities.length && wdEntities.length < markAllLimit">
             <label class="suggestion-list-item">
               <input type="checkbox" value="" :checked="allEntitiesSelected" @click="selectAllEntities()" />
