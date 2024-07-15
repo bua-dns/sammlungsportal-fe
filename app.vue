@@ -35,6 +35,13 @@ const { data: resourcesData } = await useFetch(`${projectConfig.dataBaseUrl}/onl
     limit: -1,
   }
 });
+const { data: ikbCategoriesData } = await useFetch(`https://ikb-lbs-hub.bua-dns.de/items/dns_categories`, {
+  query: {
+    fields: '*.*',
+    limit: -1,
+  }
+});
+
 
 const theme = useState('theme', () => themeContent);
 useState('personsTeam', () => personsTeamContent);
@@ -44,6 +51,8 @@ useState('background_images', () => backgroundImages);
 useState('projects', () => projectsData);
 useState('events', () => eventsData);
 useState('resources', () => resourcesData);
+useState('ikbCategories', () => ikbCategoriesData);
+
 const w = theme.value.data.wording.de;
 useHead({
   titleTemplate: (titleChunk) => {

@@ -8,6 +8,17 @@ const slug = 'data-inspector-lehrbildsammlung-ikb'
 const { data } = await useFetchPage(slug)
 const page = data.value.data[0]
 
+const ikbCategories = useState("ikbCategories");
+const categoriesIndex = computed(() => {
+  if (!ikbCategories.value || !ikbCategories.value.data) return {}
+  let index = {};
+  for (let entry of ikbCategories.value.data) {
+    index[entry.label] = {
+      p31: entry.P31_instance_of.map((item) => item.q_number),
+    };
+  }
+  return index;
+});
 
 const sampleMediaSmallSlides = ref([]);
 const sampleMediaGlassSlides = ref([]);
@@ -60,13 +71,40 @@ async function getMediaSamples() {
   });
   sampleMediaPrints.value = sampleMediaPrintsResponse.data;
 }
+const selectedPriorities = ref([]);
+function togglePriority(priority) {
+  if (selectedPriorities.value.includes(priority)) {
+    selectedPriorities.value = selectedPriorities.value.filter((entry) => entry !== priority);
+  } else {
+    selectedPriorities.value.push(priority);
+  }
+}
 
-
+function checkCriterium(item, criterium) {
+  const itemArray = item['dns_p31_listing']
+  if (!Array.isArray(itemArray)) return false;
+  // console.log(itemArray[0], criterium[0]);
+  // return true;
+  if (!itemArray || !criterium || !itemArray.length) return false;
+  return criterium.some(item => itemArray.includes(item));
+}
+function getPrioritizedEntities(entities, priority) {
+  return wdEntities.value.filter((entry) => entry.weight === priority);
+}
 
 const results = ref([]);
 const wdEntities = computed(() => {
   if (!results.value || !results.value.data || results.value.data.length === 0) return [];
+  for (let result of results.value.data) {
+    result.weight = 0;
+    for(let priority of selectedPriorities.value) {
+      if (checkCriterium(result, categoriesIndex.value[priority]['p31'])) {
+        result.weight = 1;
+      }
+    }
+  }
   return results.value.data
+    .sort((a, b) => b.weight - a.weight);
 });
 
 const term = ref(null);
@@ -94,7 +132,7 @@ async function searchWdEntities() {
     });
   const query = {
     limit: -1,
-    fields: 'handle, q_number',
+    fields: 'handle, q_number, dns_p31_listing',
     filter: {
       '_and': termArray
     }
@@ -126,21 +164,31 @@ onUnmounted(() => {
 
 const selectedEntities = ref([]);
 const selectedEntitiesForDisplay = ref([]);
-const allEntitiesSelected = computed(() => {
-  return selectedEntities.value.length === wdEntities?.length;
-});
-function selectAllEntities() {
+const allEntitiesSelected = ref(false);
+// const allEntitiesSelected = computed(() => {
+//   return selectedEntities.value.length === wdEntities?.length;
+// });
+function selectAllEntities(priority) {
   if (allEntitiesSelected.value) {
     selectedEntities.value = [];
-  } else {
-    selectedEntities.value = wdEntities.value;
+    allEntitiesSelected.value = false;
+    return;
   }
+  if (priority === 1) {
+    selectedEntities.value = wdEntities.value.filter((entry) => entry.weight === 1);
+    allEntitiesSelected.value = true;
+    return
+  }
+  selectedEntities.value = wdEntities.value;
+  allEntitiesSelected.value = true;
+  
 }
 function clearSearch() {
   term.value = "";
   selectedEntities.value = [];
   selectedEntitiesForDisplay.value = [];
   displayMode.value = "search";
+  selectedPriorities.value = [];  
 }
 function addEntity(entity) {
   if (selectedEntities.value.includes(entity)) {
@@ -160,14 +208,14 @@ function displaySelectedEntities() {
 }
 const markAllLimit = 100;
 
-function deselectEntity(entity) {
-  selectedEntities.value = selectedEntities.value.filter((entry) => entry !== entity);
-}
+// function deselectEntity(entity) {
+//   selectedEntities.value = selectedEntities.value.filter((entry) => entry !== entity);
+// }
 
-function clearEntitiesSelection() {
-  term.value = "";
-  selectedEntities.value = [];
-}
+// function clearEntitiesSelection() {
+//   term.value = "";
+//   selectedEntities.value = [];
+// }
 </script>
 
 <template>
@@ -179,13 +227,21 @@ function clearEntitiesSelection() {
     <div class="intro">
       <h1 class="page-header text-center">{{ w.page_data_inspector_ikb}}<span class="badge-beta">beta</span></h1>
       <div class="dev-output" v-if="false">
-        <pre>{{ data }}</pre>
+        <pre>categoriesIndex<br>{{  categoriesIndex }}</pre>
       </div>
     </div>
 
     <div class="intro" v-html="page.page_content" />
     <div class="controls">
       <h3>Suche nach Objekten, die auf den Lehrbildern dargestellt sind</h3>
+      <div class="priority-selection">
+        <span></span>Priorisiere:
+        <div class="option">
+          <input type="checkbox" :checked="selectedPriorities.includes('Bauwerk')" @click="togglePriority('Bauwerk')" />
+          <span class="handle">Bauwerk</span>
+        </div>
+
+      </div>
       <div class="search-box">
         <input type="text" v-model="term" placeholder="dargestelltes Objekt" v-if="displayMode=='search'">
         <input type="text" v-model="term" placeholder="" disabled v-if="displayMode == 'display'">
@@ -197,18 +253,28 @@ function clearEntitiesSelection() {
           <template v-if="!wdEntities || wdEntities.length < 1">
             Keine passenden Objekte gefunden
           </template>
-          <template v-if="wdEntities && wdEntities.length && wdEntities.length < markAllLimit">
+          <template v-if="  getPrioritizedEntities(wdEntities, 1) && 
+                            getPrioritizedEntities(wdEntities, 1).length && 
+                            getPrioritizedEntities(wdEntities, 1).length < markAllLimit">
             <label class="suggestion-list-item">
-              <input type="checkbox" value="" :checked="allEntitiesSelected" @click="selectAllEntities()" />
-              <span>alle markieren ({{ wdEntities.length}})</span>
+              <input type="checkbox" value="" :checked="allEntitiesSelected" @click="selectAllEntities(1)" />
+              <span>alle priorisierten markieren ({{ getPrioritizedEntities(wdEntities, 1).length}})</span>
             </label>
             <hr>
           </template>
+          <template v-if="wdEntities || wdEntities.length > 1 && !getPrioritizedEntities(wdEntities, 1)">
+            <label class="suggestion-list-item">
+              <input type="checkbox" value="" :checked="allEntitiesSelected" @click="selectAllEntities(0)" />
+              <span>alle markieren ({{ wdEntities.length }})</span>
+            </label>
+            <hr>
+          </template>
+
           <div class="suggestion clickable" v-for="entry in wdEntities" :key="entry">
             <label class="suggestion-list-item">
               <input type="checkbox" :value="entry" :checked="selectedEntities.includes(entry)"
                 @click="addEntity(entry)" />
-              {{ entry.handle }}
+              <span class="handle" :class="({ 'priority': entry.weight === 1 }) ">{{ entry.handle }}</span>
 
             </label>
           </div>
@@ -286,6 +352,17 @@ function clearEntitiesSelection() {
     font-weight: 400;
     margin-bottom: 1rem;
   }
+  .priority-selection {
+    margin: .75rem 0;
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+    .option {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+  }
   .search-box {
     position: relative;
     display: flex;
@@ -356,6 +433,9 @@ function clearEntitiesSelection() {
       align-items: center;
       gap: 0.5rem;
       cursor: pointer;
+      span.priority {
+        font-weight: 700;
+      }
 
       input[type="checkbox"] {
         cursor: pointer;
