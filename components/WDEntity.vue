@@ -49,12 +49,22 @@ function setPage(target) {
 // Compute the range of items displayed
 const startItemIndex = computed(() => (page.value - 1) * pageSize + 1);
 const endItemIndex = computed(() => Math.min(page.value * pageSize, relatedItems.value.length));
+
+const entityUrl = `https://ikb-lbs-hub.bua-dns.de/items/wd_entities/${props.entity.id}`;
+console.log(entityUrl);
+const { data: fullEntityData } = await useFetch(entityUrl);
+const fullEntity = computed(() => {
+  return fullEntityData.value.data;
+}); 
 </script>
 
 <template>
   <div class="wd-entity">
     <div class="wd-entity-info">
       <h2>{{ entity.handle }}</h2>
+      <div class="dev-output" v-if="false">
+        {{ fullEntity }}
+      </div>
       <a 
         :href="`https://wikidata.org/wiki/${entity.q_number}`"
         class="wd-link"
@@ -63,6 +73,17 @@ const endItemIndex = computed(() => Math.min(page.value * pageSize, relatedItems
         <img src="@/assets/img/Wikidata.svg" alt="Wikidata Logo" >
         <span>Dieses Objekt auf Wikidata ansehen</span>
       </a>
+      <div class="wd-classification"
+        v-if="fullEntity.p31 && fullEntity.p31.length > 0"
+      >
+        <h4>Klassifikation bei Wikidata (P31)</h4>
+        <div class="wd-classification-entry"
+          v-for="classification in fullEntity.p31"
+          :key="`classification-${classification.q_number}`"
+        >
+          <a :href="classification.q_number" target="_blank">{{ classification.handle }}</a>
+        </div>
+      </div>
     </div>
     
     <div class="pagination" v-if="relatedItems.length > 6">
@@ -105,6 +126,17 @@ const endItemIndex = computed(() => Math.min(page.value * pageSize, relatedItems
       img {
         display: block;
         width: 3rem;
+      }
+    }
+    .wd-classification {
+      margin-top: 1rem;
+      font-size: var(--font-size-text-small);
+      h4 {
+        font-size: var(--font-size-text-small);
+        margin-bottom: 0.5rem;
+      }
+      .wd-classification-entry {
+        
       }
     }
   }

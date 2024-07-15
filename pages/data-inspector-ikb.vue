@@ -71,6 +71,13 @@ async function getMediaSamples() {
   });
   sampleMediaPrints.value = sampleMediaPrintsResponse.data;
 }
+const priorityOptions = [
+  'Bauwerk',
+  'Plastik/Skulptur',
+  'Malerei',
+];
+  
+
 const selectedPriorities = ref([]);
 function togglePriority(priority) {
   if (selectedPriorities.value.includes(priority)) {
@@ -132,7 +139,7 @@ async function searchWdEntities() {
     });
   const query = {
     limit: -1,
-    fields: 'handle, q_number, dns_p31_listing',
+    fields: 'id, handle, q_number, dns_p31_listing',
     filter: {
       '_and': termArray
     }
@@ -236,9 +243,9 @@ const markAllLimit = 100;
       <h3>Suche nach Objekten, die auf den Lehrbildern dargestellt sind</h3>
       <div class="priority-selection">
         <span></span>Priorisiere:
-        <div class="option">
-          <input type="checkbox" :checked="selectedPriorities.includes('Bauwerk')" @click="togglePriority('Bauwerk')" />
-          <span class="handle">Bauwerk</span>
+        <div class="option" v-for="option in priorityOptions" :key="`option-${option}`">
+          <input type="checkbox" :checked="selectedPriorities.includes(option)" @click="togglePriority(option)" />
+          <span class="handle">{{ option }}</span>
         </div>
 
       </div>
