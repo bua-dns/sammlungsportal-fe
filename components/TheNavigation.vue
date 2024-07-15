@@ -42,23 +42,23 @@ const tabIndex = computed(() => {
         </li>
         <li>
           <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/sammlungen">{{ w.page_collections
-        }}</nuxt-link>
+            }}</nuxt-link>
         </li>
         <li>
           <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/dns">{{ w.page_dns
-        }}</nuxt-link>
+            }}</nuxt-link>
         </li>
         <li>
           <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/events">{{ w.page_events
-        }}</nuxt-link>
+            }}</nuxt-link>
         </li>
         <li>
           <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/projekte">{{ w.page_projekte
-        }}</nuxt-link>
+            }}</nuxt-link>
         </li>
         <li>
           <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/images">{{ w.page_images
-        }}</nuxt-link>
+            }}</nuxt-link>
         </li>
         <li>
           <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/team">{{ w.page_team }}</nuxt-link>
@@ -70,7 +70,15 @@ const tabIndex = computed(() => {
           <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/impressum">{{ w.page_imprint }}</nuxt-link>
         </li>
         <li>
-          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/datenschutz">{{ w.page_privacy_policy }}</nuxt-link>
+          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/datenschutz">{{ w.page_privacy_policy
+            }}</nuxt-link>
+        </li>
+      </ul>
+      <h4 class="nav-sub-title text-center">Labor</h4>
+      <ul>
+        <li>
+          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/data-inspector-ikb">
+            {{ w.page_data_inspector_ikb }} </nuxt-link>
         </li>
       </ul>
     </div>
@@ -103,6 +111,13 @@ $navbar-height: 48px;
     font-weight: 300;
     font-stretch: 125%;
     font-size: 2.25rem;
+    color: var(--clr-base-l75);
+  }
+  .nav-sub-title {
+    margin: 1.5rem 0 0.75rem;
+    font-weight: 300;
+    font-stretch: 125%;
+    font-size: 1.5rem;
     color: var(--clr-base-l75);
   }
   .sitenav {
