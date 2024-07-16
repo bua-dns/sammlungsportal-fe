@@ -75,6 +75,7 @@ const priorityOptions = [
   'Bauwerk',
   'Plastik/Skulptur',
   'Malerei',
+  'Zeichnung',
 ];
   
 
@@ -269,7 +270,8 @@ const markAllLimit = 100;
             </label>
             <hr>
           </template>
-          <template v-if="wdEntities || wdEntities.length > 1 && !getPrioritizedEntities(wdEntities, 1)">
+          <template v-if="  wdEntities.length > 1 && 
+                            getPrioritizedEntities(wdEntities,0).length < markAllLimit">
             <label class="suggestion-list-item">
               <input type="checkbox" value="" :checked="allEntitiesSelected" @click="selectAllEntities(0)" />
               <span>alle markieren ({{ wdEntities.length }})</span>
@@ -441,7 +443,7 @@ const markAllLimit = 100;
       gap: 0.5rem;
       cursor: pointer;
       span.priority {
-        font-weight: 700;
+        font-weight: 400;
       }
 
       input[type="checkbox"] {
