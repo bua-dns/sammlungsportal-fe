@@ -1,6 +1,7 @@
 <script setup>
 /* Used auto-imported composables: projectConfig */
 const theme = useState("theme");
+const ikbConfiguration = useState('ikbConfiguration');
 const w = theme.value.data.wording.de
 // useHead({ title: data.value.data[0].title });
 const slug = 'data-inspector-lehrbildsammlung-ikb'
@@ -71,13 +72,16 @@ async function getMediaSamples() {
   });
   sampleMediaPrints.value = sampleMediaPrintsResponse.data;
 }
-const priorityOptions = [
-  'Bauwerk',
-  'Plastik/Skulptur',
-  'Malerei',
-  'Zeichnung',
-];
-  
+// const priorityOptions = [
+//   'Bauwerk',
+//   'Plastik/Skulptur',
+//   'Malerei',
+//   'Zeichnung',
+//   'Druckgrafik',
+// ];
+const priorityOptions = ikbConfiguration.value.data.dns_priority_options;
+const priorityOptionsThemes = ikbConfiguration.value.data.dns_priority_options_themes;
+
 
 const selectedPriorities = ref([]);
 function togglePriority(priority) {
@@ -86,6 +90,7 @@ function togglePriority(priority) {
   } else {
     selectedPriorities.value.push(priority);
   }
+  console.log('selectedPriorities.value',selectedPriorities.value);
 }
 
 function checkCriterium(item, criterium) {
@@ -235,7 +240,9 @@ const markAllLimit = 100;
     <div class="intro">
       <h1 class="page-header text-center">{{ w.page_data_inspector_ikb}}<span class="badge-beta">beta</span></h1>
       <div class="dev-output" v-if="false">
-        <pre>categoriesIndex<br>{{  categoriesIndex }}</pre>
+        ikbCategories<br>
+        <pre>{{ ikbCategories }}</pre>
+        <!-- <pre>selectedPriorities<br>{{ selectedPriorities }}</pre> -->
       </div>
     </div>
 
@@ -243,12 +250,18 @@ const markAllLimit = 100;
     <div class="controls">
       <h3>Suche nach Objekten, die auf den Lehrbildern dargestellt sind</h3>
       <div class="priority-selection">
-        <span></span>Priorisiere:
+        <span>Priorisiere Typus dargestelltes Objekt:</span>
         <div class="option" v-for="option in priorityOptions" :key="`option-${option}`">
           <input type="checkbox" :checked="selectedPriorities.includes(option)" @click="togglePriority(option)" />
           <span class="handle">{{ option }}</span>
         </div>
-
+      </div>
+      <div class="priority-selection">
+        <span>Priorisiere thematisch:</span>
+        <div class="option" v-for="option in priorityOptionsThemes" :key="`option-${option}`">
+          <input type="checkbox" :checked="selectedPriorities.includes(option)" @click="togglePriority(option)" />
+          <span class="handle">{{ option }}</span>
+        </div>
       </div>
       <div class="search-box">
         <input type="text" v-model="term" placeholder="dargestelltes Objekt" v-if="displayMode=='search'">
