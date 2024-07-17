@@ -75,57 +75,62 @@ const fullEntity = computed(() => {
       <div class="dev-output" v-if="false && relatedAMItemsData">
         {{ relatedAMItemsData }}
       </div>
-      <a :href="`https://wikidata.org/wiki/${entity.q_number}`" class="wd-link" target="_blank">
-        <img src="@/assets/img/Wikidata.svg" alt="Wikidata Logo">
+      <a 
+        :href="`https://wikidata.org/wiki/${entity.q_number}`"
+        class="wd-link"
+        target="_blank"  
+      >
+        <img src="@/assets/img/Wikidata.svg" alt="Wikidata Logo" >
         <span>Dieses Objekt auf Wikidata ansehen</span>
       </a>
-      <div class="wd-classification" v-if="fullEntity.p31 && fullEntity.p31.length > 0">
+      <div class="wd-classification"
+        v-if="fullEntity.p31 && fullEntity.p31.length > 0"
+      >
         <h4>Klassifikation bei Wikidata (P31)</h4>
-        <div class="wd-classification-entry" v-for="classification in fullEntity.p31"
-          :key="`classification-${classification.q_number}`">
-          <a :href="`https://wikidata.org/wiki/${classification.q_number}`" target="_blank">{{ classification.handle
-            }}</a>
+        <div class="wd-classification-entry"
+          v-for="classification in fullEntity.p31"
+          :key="`classification-${classification.q_number}`"
+        >
+          <a :href="`https://wikidata.org/wiki/${classification.q_number}`" target="_blank">{{ classification.handle }}</a>
         </div>
       </div>
     </div>
-
+    
     <div class="pagination" v-if="relatedItems.length > 6">
       <div class="counter">
         {{ relatedItems.length }} Medien, die dieses Objekt zeigen
-      </div>
+      </div> 
       <template v-if="numberOfPages > 1">
         <div class="pagination-nav">
-          <div class="to-start" @click="setPage('start')" :class="{ 'disabled': page === 1 }">|<< /div>
-              <div class="to-prev" @click="setPage('prev')" :class="{ 'disabled': page === 1 }">
-                << /div>
-                  <div class="indicator">{{ startItemIndex }} - {{ endItemIndex }}</div>
-                  <div class="to-next" @click="setPage('next')" :class="{ 'disabled': page === numberOfPages }">></div>
-                  <div class="to-end" @click="setPage('end')" :class="{ 'disabled': page === numberOfPages }">>|</div>
-              </div>
+            <div class="to-start" @click="setPage('start')" :class="{ 'disabled': page === 1 }">|<</div>
+            <div class="to-prev" @click="setPage('prev')" :class="{ 'disabled': page === 1 }"><</div>
+            <div class="indicator">{{ startItemIndex }} - {{ endItemIndex }}</div>
+            <div class="to-next" @click="setPage('next')" :class="{ 'disabled': page === numberOfPages }">></div>
+            <div class="to-end" @click="setPage('end')" :class="{ 'disabled': page === numberOfPages }">>|</div>
+        </div>
       </template>
     </div>
     <div class="items-listing">
       <div class="item" v-for="item in getPage(relatedItems)" :key="`item-${item.id}`">
         <IKBItem :item="item" />
       </div>
-
+      
     </div>
     <h4 v-if="relatedAMItems && relatedAMItems.length > 0">Medien aus dem Architekturmuseum der TU Berlin</h4>
     <div class="items-listing" v-if="relatedAMItems && relatedAMItems.length > 0">
-
+      
       <div class="item" v-for="item in relatedAMItems" :key="`item-${item.id}`">
         <AMItem :item="item" />
       </div>
     </div>
     <div class="pagination-nav" v-if="numberOfPages > 1">
-      <div class="to-start" @click="setPage('start')" :class="{ 'disabled': page === 1 }">|<< /div>
-          <div class="to-prev" @click="setPage('prev')" :class="{ 'disabled': page === 1 }">
-            << /div>
-              <div class="indicator">{{ startItemIndex }} - {{ endItemIndex }}</div>
-              <div class="to-next" @click="setPage('next')" :class="{ 'disabled': page === numberOfPages }">></div>
-              <div class="to-end" @click="setPage('end')" :class="{ 'disabled': page === numberOfPages }">>|</div>
-          </div>
-      </div>
+        <div class="to-start" @click="setPage('start')" :class="{ 'disabled': page === 1 }">|<</div>
+        <div class="to-prev" @click="setPage('prev')" :class="{ 'disabled': page === 1 }"><</div>
+        <div class="indicator">{{ startItemIndex }} - {{ endItemIndex }}</div>
+        <div class="to-next" @click="setPage('next')" :class="{ 'disabled': page === numberOfPages }">></div>
+        <div class="to-end" @click="setPage('end')" :class="{ 'disabled': page === numberOfPages }">>|</div>
+    </div>
+  </div>
 </template>
 
 <style scoped lang="scss">
