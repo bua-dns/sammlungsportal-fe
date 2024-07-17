@@ -15,6 +15,12 @@ const { data: relatedItemsData } = await useFetch('https://ikb-lbs-hub.bua-dns.d
     // page: 1
   }
 });
+const { data: relatedAMItemsData } = await useFetch('https://ikb-lbs-hub.bua-dns.de/items/am_items', {
+  query: {
+    search: `-${props.entity.q_number}-`,
+    limit: -1,
+  }
+});
 
 const relatedItems = computed(() => {
   return relatedItemsData.value?.data
@@ -23,6 +29,10 @@ const relatedItems = computed(() => {
       if (a.dns_date_medium_earliest > b.dns_date_medium_earliest) return 1;
       return 0;
     })
+});
+
+const relatedAMItems = computed(() => {
+  return relatedAMItemsData.value?.data
 });
 const pageSize = 250;
 const page = ref(1);
@@ -62,8 +72,8 @@ const fullEntity = computed(() => {
   <div class="wd-entity">
     <div class="wd-entity-info">
       <h2>{{ entity.handle }}</h2>
-      <div class="dev-output" v-if="false">
-        {{ fullEntity }}
+      <div class="dev-output" v-if="false && relatedAMItemsData">
+        {{ relatedAMItemsData }}
       </div>
       <a 
         :href="`https://wikidata.org/wiki/${entity.q_number}`"
@@ -103,6 +113,14 @@ const fullEntity = computed(() => {
     <div class="items-listing">
       <div class="item" v-for="item in getPage(relatedItems)" :key="`item-${item.id}`">
         <IKBItem :item="item" />
+      </div>
+      
+    </div>
+    <h4>Medien aus dem Architekturmuseum der TU Berlin</h4>
+    <div class="items-listing" v-if="relatedAMItems && relatedAMItems.length > 0">
+      
+      <div class="item" v-for="item in relatedAMItems" :key="`item-${item.id}`">
+        <AMItem :item="item" />
       </div>
     </div>
     <div class="pagination-nav" v-if="numberOfPages > 1">
