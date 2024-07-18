@@ -123,6 +123,7 @@ const fullEntity = computed(() => {
         </div>
       </template>
     </div>
+    <h4>Medien aus dem Institut für Kunst- und Bildgeschichte</h4>
     <div class="items-listing">
       <div class="item" v-for="item in getPage(relatedItems)" :key="`item-${item.id}`">
         <IKBItem :item="item" />
