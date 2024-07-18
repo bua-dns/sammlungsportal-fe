@@ -21,6 +21,12 @@ const { data: relatedAMItemsData } = await useFetch('https://ikb-lbs-hub.bua-dns
     limit: -1,
   }
 });
+const { data: relatedTHSItemsData } = await useFetch('https://ikb-lbs-hub.bua-dns.de/items/ths_items', {
+  query: {
+    search: `-${props.entity.q_number}-`,
+    limit: -1,
+  }
+});
 
 const relatedItems = computed(() => {
   return relatedItemsData.value?.data
@@ -34,6 +40,13 @@ const relatedItems = computed(() => {
 const relatedAMItems = computed(() => {
   return relatedAMItemsData.value?.data
 });
+const relatedTHSItems = computed(() => {
+  return relatedTHSItemsData.value?.data
+});
+const numberOfAllRelatedMedia = computed(() => {
+  return relatedItems.value.length + relatedAMItems.value.length + relatedTHSItems.value.length;
+});
+
 const pageSize = 250;
 const page = ref(1);
 const numberOfPages = computed(() => {
@@ -98,7 +111,7 @@ const fullEntity = computed(() => {
     
     <div class="pagination" v-if="relatedItems.length > 6">
       <div class="counter">
-        {{ relatedItems.length }} Medien, die dieses Objekt zeigen
+        {{numberOfAllRelatedMedia }} Medien, die dieses Objekt zeigen
       </div> 
       <template v-if="numberOfPages > 1">
         <div class="pagination-nav">
@@ -121,6 +134,13 @@ const fullEntity = computed(() => {
       
       <div class="item" v-for="item in relatedAMItems" :key="`item-${item.id}`">
         <AMItem :item="item" />
+      </div>
+    </div>
+    <h4 v-if="relatedTHSItems && relatedTHSItems.length > 0">Medien aus den Theaterhistorischen Sammlungen der FU Berlin</h4>
+    <div class="items-listing" v-if="relatedTHSItems && relatedTHSItems.length > 0">
+      
+      <div class="item" v-for="item in relatedTHSItems" :key="`item-${item.id}`">
+        <THSItem :item="item" />
       </div>
     </div>
     <div class="pagination-nav" v-if="numberOfPages > 1">

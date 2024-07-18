@@ -1,6 +1,6 @@
 <script setup>
 /*
-für Items aus dem Architekturmuseum 
+für Items aus den Theaterhistorischen Sammlungen der FU Berlin 
 */
 const props = defineProps({
   item: { 
@@ -14,8 +14,8 @@ const props = defineProps({
   <div class="ikb-item">
     <LightBoxAMItem :image="item.representation" />
     <div class="basic-info">
-      <a :href="item.am_ref" class="ikb-link"
-        target="_blank">
+      <a :href="`https://sammlungen.theater.fu-berlin.de/objektdatenbank/s/theaterhistorische-sammlungen/item/${item.ths_ref}`"
+        class="ikb-link" target="_blank">
         <!-- <img src="@/assets/img/ikb-logo.png" alt="IKB Logo"> -->
         <span>Objekt in der Quell-Datenbank</span>
       </a>
