@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-app",
+  "name": "berlin-university-collections",
   "private": true,
   "scripts": {
     "build": "nuxt build",
