@@ -26,7 +26,8 @@ export default defineNuxtConfig({
     '@/assets/css/styles.scss'
   ],
   modules: [
-    '@nuxt/content'
+    '@nuxt/content',
+    '@pinia/nuxt',
   ],
     plugins: [
     '~/plugins/matomo.js'

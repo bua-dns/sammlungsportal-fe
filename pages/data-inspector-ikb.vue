@@ -9,6 +9,8 @@ const slug = 'data-inspector-lehrbildsammlung-ikb'
 const { data } = await useFetchPage(slug)
 const page = data.value.data[0]
 
+const store = useCounterStore()
+
 const ikbCategories = useState("ikbCategories");
 const categoriesIndex = computed(() => {
   if (!ikbCategories.value || !ikbCategories.value.data) return {}
@@ -239,9 +241,9 @@ const markAllLimit = 100;
   <div class="data-inspector" v-if="true">
     <div class="intro">
       <h1 class="page-header text-center">{{ w.page_data_inspector_ikb}}<span class="badge-beta">beta</span></h1>
-      <div class="dev-output" v-if="false">
-        ikbCategories<br>
-        <pre>{{ ikbCategories }}</pre>
+      <div class="dev-output" v-if="true">
+        counter<br>
+        <pre>{{ store.count }}</pre>
         <!-- <pre>selectedPriorities<br>{{ selectedPriorities }}</pre> -->
       </div>
     </div>
