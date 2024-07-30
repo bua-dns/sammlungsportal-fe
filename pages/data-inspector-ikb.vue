@@ -8,7 +8,6 @@ const slug = 'data-inspector-lehrbildsammlung-ikb'
 const { data } = await useFetchPage(slug)
 const page = data.value.data[0]
 
-const store = useCounterStore()
 const diSearch = useDISearchStore()
 
 const ikbCategories = useState("ikbCategories");
@@ -36,14 +35,6 @@ function togglePriority(priority) {
   console.log('selectedPriorities.value',selectedPriorities.value);
 }
 
-function checkCriterium(item, criterium) {
-  const itemArray = item['dns_p31_listing']
-  if (!Array.isArray(itemArray)) return false;
-  // console.log(itemArray[0], criterium[0]);
-  // return true;
-  if (!itemArray || !criterium || !itemArray.length) return false;
-  return criterium.some(item => itemArray.includes(item));
-}
 function getPrioritizedEntities(entities, priority) {
   return wdEntities.value.filter((entry) => entry.weight === priority);
 }
