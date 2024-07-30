@@ -1,14 +1,16 @@
 <script setup>
 const props = defineProps({
   disabled: Boolean,
+  // store to handle search term processing
+  searchStore: Object
 });
-const diSearch = useDISearchStore()
+const searchStore = props.searchStore;
 
 </script>
 
 <template>
   <div class="search-box">
-    <input type="text" v-model="diSearch.term" :disabled="disabled" placeholder="dargestelltes Objekt" >
+    <input type="text" v-model="searchStore.term" :disabled="disabled" placeholder="dargestelltes Objekt" >
   </div>
 </template>
 

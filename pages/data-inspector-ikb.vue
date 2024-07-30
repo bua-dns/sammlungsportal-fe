@@ -246,9 +246,8 @@ const markAllLimit = 100;
         </div>
       </div>
       <div class="search">
-        <DISearchBox :disabled="displayMode === 'display'"/>
-        <!-- <input type="text" v-model="term" placeholder="dargestelltes Objekt" v-if="displayMode=='search'">
-        <input type="text" v-model="term" placeholder="" disabled v-if="displayMode == 'display'"> -->
+        <SearchBox :disabled="displayMode === 'display'" :searchStore="diSearch"/>
+
         <input type="submit" value="markierte anzeigen" class="submit search-box-submit"
           v-if="selectedEntities?.length > 0" @click="displaySelectedEntities()" />
         <input type="button" @click="clearSearch()" v-if="displayMode === 'display'" value="neue Suche"
