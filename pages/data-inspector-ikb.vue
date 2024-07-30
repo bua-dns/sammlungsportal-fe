@@ -32,21 +32,20 @@ function togglePriority(priority) {
   } else {
     selectedPriorities.value.push(priority);
   }
-  console.log('selectedPriorities.value',selectedPriorities.value);
-}
-
-function getPrioritizedEntities(entities, priority) {
-  return wdEntities.value.filter((entry) => entry.weight === priority);
 }
 
 const results = ref([]);
 const wdEntities = computed(() => {
   if (!results.value || !results.value.data || results.value.data.length === 0) return [];
-  for (let result of results.value.data) {
-    result.weight = 0;
+  for (let item of results.value.data) {
+    item.weight = 0;
     for(let priority of selectedPriorities.value) {
-      if (checkCriterium(result, categoriesIndex.value[priority]['p31'])) {
-        result.weight = 1;
+      if (checkCriterium({
+          item,
+          prop: 'dns_p31_listing', 
+          criterium: categoriesIndex.value[priority]['p31']
+        })) {
+        item.weight = 1;
       }
     }
   }
