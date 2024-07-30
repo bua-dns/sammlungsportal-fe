@@ -232,7 +232,7 @@ const markAllLimit = 100;
       </template>
     </div>
     <div v-if="displayMode === 'search'">
-      <MediaSamples />
+      <DataInspectorMediaSamples />
     </div>
   </div>
 </template>

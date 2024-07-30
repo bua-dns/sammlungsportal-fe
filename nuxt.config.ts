@@ -3,6 +3,14 @@ export default defineNuxtConfig({
   typescript: {
     shim: false
   },
+  hooks: {
+    "components:dirs": (dirs) => {
+      dirs.push({
+        path: '~/components/dataInspector',
+        prefix: 'DataInspector'
+      })
+    }
+  },
   app: {
     head: {
       htmlAttrs: { lang: "de" },
