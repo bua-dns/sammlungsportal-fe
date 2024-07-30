@@ -24,58 +24,6 @@ const categoriesIndex = computed(() => {
   return index;
 });
 
-const sampleMediaSmallSlides = ref([]);
-const sampleMediaGlassSlides = ref([]);
-const sampleMediaPrints = ref([]);
-async function getMediaSamples() {
-  const sampleMediaUrl = `https://ikb-lbs-hub.bua-dns.de/items/ikb_items`;
-  // Glasdias
-  const sampleMediaGlassSlidesResponse = await $fetch(sampleMediaUrl, {
-    query: {
-      limit: 5,
-      page: Math.floor(Math.random() * 4000),
-      fields: '*.*',
-      // DEV: Filterfunktion noch nicht korrekt
-      filter: {
-        'dns_medium_type': {
-          '_eq': 'Glasdia'
-        }
-      }
-    }
-  });
-  sampleMediaGlassSlides.value = sampleMediaGlassSlidesResponse.data;
-  // Kleinbilddias
-  const sampleMediaSmallSlidesResponse = await $fetch(sampleMediaUrl, {
-    query: {
-      limit: 5,
-      page: Math.floor(Math.random() * 4000),
-      fields: '*.*',
-      // DEV: Filterfunktion noch nicht korrekt
-      filter: {
-        'dns_medium_type': {
-          '_eq': 'Kleinbilddia'
-        }
-      }
-    }
-  });
-  sampleMediaSmallSlides.value = sampleMediaSmallSlidesResponse.data;
-  
-  const sampleMediaPrintsResponse = await $fetch(sampleMediaUrl, {
-    query: {
-      limit: 5,
-      page: Math.floor(Math.random() * 100),
-      fields: '*.*',
-      // DEV: Filterfunktion noch nicht korrekt
-      filter: {
-        'dns_medium_type': {
-          '_eq': 'Fotoabzug'
-        }
-      }
-    }
-  });
-  sampleMediaPrints.value = sampleMediaPrintsResponse.data;
-}
-
 const priorityOptions = ikbConfiguration.value.data.dns_priority_options;
 const priorityOptionsThemes = ikbConfiguration.value.data.dns_priority_options_themes;
 
@@ -158,13 +106,6 @@ watch(term, (newTerm) => {
   }
 });
 
-onMounted(async () => {
-  await getMediaSamples();
-});
-
-onUnmounted(() => {
-  // Clean up any resources here
-});
 
 const selectedEntities = ref([]);
 const selectedEntitiesForDisplay = ref([]);
@@ -221,7 +162,7 @@ const markAllLimit = 100;
   <div class="data-inspector" v-if="true">
     <div class="intro">
       <h1 class="page-header text-center">{{ w.page_data_inspector_ikb}}<span class="badge-beta">beta</span></h1>
-      <div class="dev-output" v-if="true">
+      <div class="dev-output" v-if="false">
         diSearch<br>
         <pre>{{ diSearch.term }}</pre>
         <!-- <pre>selectedPriorities<br>{{ selectedPriorities }}</pre> -->
@@ -291,26 +232,7 @@ const markAllLimit = 100;
       </template>
     </div>
     <div v-if="displayMode === 'search'">
-      <div class="samples" v-if="sampleMediaSmallSlides">
-        <h3>Beispiele <strong>Glasdias</strong> aus der Lehrbilder-Datenbank des IKB der HU Berlin</h3>
-        <div class="samples-listing">
-          <div class="item" v-for="item in sampleMediaGlassSlides" :key="`item-${item.id}`">
-            <IKBItem :item="item" />
-          </div>
-        </div>
-        <h3>Beispiele <strong>Kleinbilddias</strong> aus der Lehrbilder-Datenbank des IKB der HU Berlin</h3>
-        <div class="samples-listing">
-          <div class="item" v-for="item in sampleMediaSmallSlides" :key="`item-${item.id}`">
-            <IKBItem :item="item" />
-          </div>
-        </div>
-        <h3>Beispiele <strong>Fotoabzüge</strong> aus der Lehrbilder-Datenbank des IKB der HU Berlin</h3>
-        <div class="samples-listing">
-          <div class="item" v-for="item in sampleMediaPrints" :key="`item-${item.id}`">
-            <IKBItem :item="item" />
-          </div>
-        </div>
-      </div>
+      <MediaSamples />
     </div>
   </div>
 </template>
@@ -333,21 +255,6 @@ const markAllLimit = 100;
   }
   .display-entities {
     margin-top: 2rem;
-  }
-  .samples {
-    margin-top: 4rem;
-    h3 {
-      margin-bottom: 1rem;
-      font-weight: 500;
-      strong {
-        font-weight: 700;
-      }
-    }
-    .samples-listing {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
   }
 }
 .controls {
