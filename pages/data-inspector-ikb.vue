@@ -10,6 +10,7 @@ const { data } = await useFetchPage(slug)
 const page = data.value.data[0]
 
 const store = useCounterStore()
+const diSearch = useDISearchStore()
 
 const ikbCategories = useState("ikbCategories");
 const categoriesIndex = computed(() => {
@@ -74,16 +75,9 @@ async function getMediaSamples() {
   });
   sampleMediaPrints.value = sampleMediaPrintsResponse.data;
 }
-// const priorityOptions = [
-//   'Bauwerk',
-//   'Plastik/Skulptur',
-//   'Malerei',
-//   'Zeichnung',
-//   'Druckgrafik',
-// ];
+
 const priorityOptions = ikbConfiguration.value.data.dns_priority_options;
 const priorityOptionsThemes = ikbConfiguration.value.data.dns_priority_options_themes;
-
 
 const selectedPriorities = ref([]);
 function togglePriority(priority) {
@@ -122,17 +116,11 @@ const wdEntities = computed(() => {
     .sort((a, b) => b.weight - a.weight);
 });
 
-const term = ref(null);
-const normalizedTerm = computed(() => {
-  if (!term.value) return null;
-  return normalizeStringForSearch({
-      str: term.value,
-      caseTo: 'lower'
-    });
-});
+const term = computed(() => diSearch.term);
 
-async function searchWdEntities() {
-  const termArray = term.value
+async function searchWdEntities(term) {
+  // const termArray = term.value
+  const termArray = term
     .split(" ")
     .map((entry) => {
       const normalizedEntry = normalizeStringForSearch({
@@ -160,9 +148,10 @@ async function searchWdEntities() {
 }
 // Watch the term variable and call searchWdEntities whenever it changes
 watch(term, (newTerm) => {
+  diSearch.term = newTerm;
   if (newTerm.length > 2) {
     displayMode.value = "search";
-    searchWdEntities();
+    searchWdEntities(newTerm);
   };
   if (newTerm.length <= 2) {
     results.value = [];
@@ -199,7 +188,7 @@ function selectAllEntities(priority) {
   
 }
 function clearSearch() {
-  term.value = "";
+  diSearch.term = "";
   selectedEntities.value = [];
   selectedEntitiesForDisplay.value = [];
   displayMode.value = "search";
@@ -222,15 +211,6 @@ function displaySelectedEntities() {
   term.value = '';
 }
 const markAllLimit = 100;
-
-// function deselectEntity(entity) {
-//   selectedEntities.value = selectedEntities.value.filter((entry) => entry !== entity);
-// }
-
-// function clearEntitiesSelection() {
-//   term.value = "";
-//   selectedEntities.value = [];
-// }
 </script>
 
 <template>
@@ -242,8 +222,8 @@ const markAllLimit = 100;
     <div class="intro">
       <h1 class="page-header text-center">{{ w.page_data_inspector_ikb}}<span class="badge-beta">beta</span></h1>
       <div class="dev-output" v-if="true">
-        counter<br>
-        <pre>{{ store.count }}</pre>
+        diSearch<br>
+        <pre>{{ diSearch.term }}</pre>
         <!-- <pre>selectedPriorities<br>{{ selectedPriorities }}</pre> -->
       </div>
     </div>
@@ -265,9 +245,10 @@ const markAllLimit = 100;
           <span class="handle">{{ option }}</span>
         </div>
       </div>
-      <div class="search-box">
-        <input type="text" v-model="term" placeholder="dargestelltes Objekt" v-if="displayMode=='search'">
-        <input type="text" v-model="term" placeholder="" disabled v-if="displayMode == 'display'">
+      <div class="search">
+        <DISearchBox :disabled="displayMode === 'display'"/>
+        <!-- <input type="text" v-model="term" placeholder="dargestelltes Objekt" v-if="displayMode=='search'">
+        <input type="text" v-model="term" placeholder="" disabled v-if="displayMode == 'display'"> -->
         <input type="submit" value="markierte anzeigen" class="submit search-box-submit"
           v-if="selectedEntities?.length > 0" @click="displaySelectedEntities()" />
         <input type="button" @click="clearSearch()" v-if="displayMode === 'display'" value="neue Suche"
@@ -387,7 +368,7 @@ const markAllLimit = 100;
       align-items: center;
     }
   }
-  .search-box {
+  .search {
     position: relative;
     display: flex;
     flex-wrap: wrap;
@@ -400,17 +381,6 @@ const markAllLimit = 100;
       padding: 0.5rem 1rem;
       font-size: 1.25rem;
       height: 2.25rem;
-    }
-
-    input[type="text"] {
-      width: 30rem;
-
-      &::placeholder {
-        color: var(--color-text);
-        opacity: 0.2;
-        text-transform: uppercase;
-        font-size: 1.125rem;
-      }
     }
 
     input[type="submit"] {
