@@ -29,12 +29,7 @@ const { data: eventsData } = await useFetch(`${projectConfig.dataBaseUrl}/events
     limit: -1,
   }
 });
-const { data: resourcesData } = await useFetch(`${projectConfig.dataBaseUrl}/online_resources`, {
-  query: {
-    fields: projectConfig.fields.resources.join(','),
-    limit: -1,
-  }
-});
+
 const { data: ikbCategoriesData } = await useFetch(`https://ikb-lbs-hub.bua-dns.de/items/dns_categories`, {
   query: {
     fields: '*.*',
@@ -55,7 +50,7 @@ useState('taxonomyTerms', () => taxonomyTermsData);
 useState('background_images', () => backgroundImages);
 useState('projects', () => projectsData);
 useState('events', () => eventsData);
-useState('resources', () => resourcesData);
+// useState('resources', () => resourcesData);
 useState('ikbCategories', () => ikbCategoriesData);
 useState('ikbConfiguration', () => ikbConfigurationData);
 

@@ -13,8 +13,44 @@ const titleWording = 'page_online-ressourcen'
 const { data } = await useFetchPage(slug)
 const page = data.value.data[0]
 
-const resourcesData = useState('resources');
+const { data: resourcesData } = await useFetch(`${projectConfig.dataBaseUrl}/online_resources`, {
+  query: {
+    fields: projectConfig.fields.resources.join(','),
+    limit: -1,
+  }
+});
 const resources = resourcesData.value.data;
+
+const { data:collectionsData } = await useFetch('https://sammlungsportal.bua-dns.de/items/bua_collections', {
+  query: {
+    fields: 'id, label, dns_objects_in_external_databases',
+    limit: -1,
+  },
+});
+
+const relatedCollections = computed(() => {
+  if (!collectionsData) return {};
+  const index = {};
+  for (let resource of resources) {
+    if (!index[resource.slug]) {
+      index[resource.slug] = [];
+    }
+  }
+  for (let collection of collectionsData.value.data) {
+    if (!collection.dns_objects_in_external_databases) continue;
+    for (let resource of collection.dns_objects_in_external_databases) {
+      if (index[resource.online_resource]) {
+        index[resource.online_resource].push({
+          collection: collection.label, 
+          id: collection.id, 
+          ...collection.dns_objects_in_external_databases
+            .find((item) => item.online_resource === resource.online_resource),
+        });
+      }
+    }
+  }
+  return index;
+});
 
 </script>
 
@@ -24,7 +60,9 @@ const resources = resourcesData.value.data;
     <Title>{{ w.page_projekte }}</Title>
   </Head>
   <div class="page p_dns-page" v-if="data && page.status === 'published'">
-    <pre v-if="false">{{ projects }}</pre>
+    <pre v-if="false">relatedCollections{{ relatedCollections }}</pre>
+    <pre v-if="false">resources{{ resources }}</pre>
+    <pre v-if="false">collections{{ collectionsData }}</pre>
     <h1 class="mb-4 text-center">{{ page.title }}</h1>
     <template v-if="!page.display_sidebar">
       <div class="page-content" v-html="page.page_content" />
@@ -63,13 +101,13 @@ const resources = resourcesData.value.data;
         </div>
         <div class="collection-listing">
           <h3>{{ w.collections_in_bua_resource }}</h3>
-          <ul>
-            <li v-for="collection in resource.bua_collections" :key="collection.bua_collections_id.id">
-              <NuxtLink :to="`/sammlungen?acid=${collection.bua_collections_id.id}`">
-                {{ collection.bua_collections_id.label }}
-              </NuxtLink>
-            </li>
-          </ul>
+          <div v-if="true" class="projects-listing page-card-grid mt-5">
+            <!-- <pre>{{ projects.data[0] }}</pre> -->
+            <div class="project-display" v-for="collection in relatedCollections[resource.slug]"
+              :key="`collection-${collection.id}`">
+              <CardPageOnlineResources :cardContent="collection" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -123,13 +161,11 @@ const resources = resourcesData.value.data;
         h3 {
           margin-bottom: 0.75rem;
         }
-        ul {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-          li {
-            margin-bottom: 0.125rem;
-          }
+        .page-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(var(--feature-card-width), 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
         }
       }
     }

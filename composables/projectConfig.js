@@ -3,7 +3,7 @@ export const projectConfig = {
   imageBaseUrl: "https://sammlungsportal.bua-dns.de/assets",
   fields: {
     resources: [
-      'id', 'name', 'url', 'description', 'main_screenshot', 
+      'id', 'slug', 'name', 'url', 'description', 'main_screenshot', 
       'bua_collections.bua_collections_id.label', 'bua_collections.bua_collections_id.id',
       'resource_screenshots.directus_files_id'
     ],
