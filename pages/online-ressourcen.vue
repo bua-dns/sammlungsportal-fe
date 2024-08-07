@@ -105,6 +105,7 @@ const relatedCollections = computed(() => {
     <pre v-if="false">ownResources{{ ownResources }}</pre>
     <pre v-if="false">resources{{ resources }}</pre>
     <pre v-if="false">collections{{ collectionsData }}</pre>
+    <pre v-if="false">page{{ page }}</pre>
     <h1 class="mb-4 text-center">{{ page.title }}</h1>
     <template v-if="!page.display_sidebar">
       <div class="page-content" v-html="page.page_content" />
@@ -113,7 +114,7 @@ const relatedCollections = computed(() => {
       <div class="page-container">
         <div class="page-content" v-html="page.page_content" />
         <pre v-if="false">{{ page }}</pre>
-        <div class="sidebar">
+        <div class="sidebar" v-if="page.display_sidebar === '1'">
           <div class="mt-3 mb-5 sidebar-header" v-if="page.sidebar_header_image">
             <img :src="projectConfig.imageBaseUrl + '/' + page.sidebar_header_image + '?key=sidebar-header'"
               alt="sidebar image" />

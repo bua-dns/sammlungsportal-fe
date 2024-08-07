@@ -27,7 +27,7 @@ const props = defineProps({
       </div>
       <a :href="`${cardContent.link}`" target="_blank" class="card-link"
         alt="Objekte der Sammlung in der Online-Ressource" title="Objekte der Sammlung in der Online-Ressource">
-        zur Ressource (ca. {{ cardContent.amount_of_objects }} Objekte) ...
+        zur Ressource (ca. {{ formatNumberWithPeriods(cardContent.amount_of_objects) }} Objekte) ...
       </a>
     </div>
   </div>
