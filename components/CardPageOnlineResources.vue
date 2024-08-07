@@ -58,6 +58,7 @@ const props = defineProps({
     max-width: 100%;
     img {
       display: block;
+      margin: 0 auto;
       border-top-left-radius: 6px;
       border-top-right-radius: 6px;
       border-bottom-left-radius: 0;
@@ -82,16 +83,26 @@ const props = defineProps({
 
       .card-title {
         margin-bottom: .25rem;
+        font-size: .7rem;
+        @media screen and (min-width: 768px) {
+          font-size: 1rem;
+        }
       }
       .card-text {
-        font-size: var(--font-size-extra-small);
+        font-size: .6rem;
+        @media screen and (min-width: 576px) {
+          font-size: .75rem;
+        }
       }
     }
     .card-link {
       display: block;
       color: var(--color-link);
-      font-size: var(--font-size-extra-small);
       text-align: right;
+      font-size: .6rem;
+      @media screen and (min-width: 576px) {
+        font-size: .75rem;
+      }
     }
   }
 }

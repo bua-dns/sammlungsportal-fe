@@ -220,9 +220,13 @@ const relatedCollections = computed(() => {
   }
   .page-card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(var(--feature-card-width), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
     gap: 1.5rem;
     margin-bottom: 4rem;
+    @media screen and (min-width: 576px){
+      grid-template-columns: repeat(auto-fill, minmax(var(--feature-card-width), 1fr));
+      
+    }
   }
 }
 @media screen and (min-width: 768px){
