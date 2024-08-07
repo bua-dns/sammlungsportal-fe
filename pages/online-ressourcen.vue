@@ -19,14 +19,51 @@ const { data: resourcesData } = await useFetch(`${projectConfig.dataBaseUrl}/onl
     limit: -1,
   }
 });
-const resources = resourcesData.value.data;
+const resources = resourcesData.value.data
+  .filter((resource) => resource.status === 'published');
 
 const { data:collectionsData } = await useFetch('https://sammlungsportal.bua-dns.de/items/bua_collections', {
   query: {
-    fields: 'id, label, dns_objects_in_external_databases',
+    fields: 'id, label, dns_objects_in_external_databases, name, dns_objects_in_own_databases',
     limit: -1,
   },
 });
+
+const ownResources = computed(() => {
+  if (!collectionsData.value) return [];
+  const collections = collectionsData.value.data
+    .filter((collection) => collection.dns_objects_in_own_databases)
+    .map((collection) => ({
+      id: collection.id,
+      label: collection.label,
+      dns_objects_in_own_databases: collection.dns_objects_in_own_databases,
+    }));
+    let entries = [];
+    for (let collection of collections) {
+      for (let resource of collection.dns_objects_in_own_databases) {
+        entries.push({
+          collection: collection.label, 
+          id: collection.id, 
+          ...resource,
+        });
+      }
+    }
+    return entries
+      .sort((a, b) => {
+        if (a.collection < b.collection) return -1;
+        if (a.collection > b.collection) return 1;
+        return 0;
+      });
+      
+});
+
+function sortEntries(entries, field) {
+  return entries.sort((a, b) => {
+    if (a[field] < b[field]) return -1;
+    if (a[field] > b[field]) return 1;
+    return 0;
+  });
+}
 
 const relatedCollections = computed(() => {
   if (!collectionsData) return {};
@@ -49,6 +86,10 @@ const relatedCollections = computed(() => {
       }
     }
   }
+  for (let entry in index) {
+    if (!index[entry] || !index[entry].length) continue;
+    index[entry] = index[entry]
+  }
   return index;
 });
 
@@ -61,6 +102,7 @@ const relatedCollections = computed(() => {
   </Head>
   <div class="page p_dns-page" v-if="data && page.status === 'published'">
     <pre v-if="false">relatedCollections{{ relatedCollections }}</pre>
+    <pre v-if="false">ownResources{{ ownResources }}</pre>
     <pre v-if="false">resources{{ resources }}</pre>
     <pre v-if="false">collections{{ collectionsData }}</pre>
     <h1 class="mb-4 text-center">{{ page.title }}</h1>
@@ -95,7 +137,7 @@ const relatedCollections = computed(() => {
           <div class="screenshot">
             <a :href="resource.url" target="_blank">
               <img class="main-screenshot"
-                :src="`${ projectConfig.imageBaseUrl }/${resource.main_screenshot}?key=sidebar-header`" alt="">
+                :src="`${ projectConfig.imageBaseUrl }/${resource.main_screenshot}?key=online-resource-cover`" alt="">
             </a>
           </div>
         </div>
@@ -103,12 +145,22 @@ const relatedCollections = computed(() => {
           <h3>{{ w.collections_in_bua_resource }}</h3>
           <div v-if="true" class="projects-listing page-card-grid mt-5">
             <!-- <pre>{{ projects.data[0] }}</pre> -->
-            <div class="project-display" v-for="collection in relatedCollections[resource.slug]"
+            <div class="project-display" 
+              v-for="collection in sortEntries(relatedCollections[resource.slug], 'collection')" 
               :key="`collection-${collection.id}`">
               <CardPageOnlineResources :cardContent="collection" />
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="own-database-listing">
+      <h2>{{ w.collections_in_own_database }}</h2>
+      <div class="own-resources page-card-grid mt-5">
+        <CardPageOnlineResources 
+          v-for="resource in ownResources" 
+          :key="`own-${resource.collection}`" 
+          :cardContent="resource" />
       </div>
     </div>
     <div class="dev-output">
@@ -143,11 +195,11 @@ const relatedCollections = computed(() => {
         gap: 1.5rem;
         justify-content: space-between;
         .content {
-          flex: 3;
+          flex: 2;
         }
         .screenshot {
           display: none;
-          flex: 1;
+          flex: 1.2;
           .main-screenshot {
             width: 36rem;
             height: auto;
@@ -161,14 +213,15 @@ const relatedCollections = computed(() => {
         h3 {
           margin-bottom: 0.75rem;
         }
-        .page-card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(var(--feature-card-width), 1fr));
-            gap: 1.5rem;
-            margin-bottom: 4rem;
-        }
+        
       }
     }
+  }
+  .page-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--feature-card-width), 1fr));
+    gap: 1.5rem;
+    margin-bottom: 4rem;
   }
 }
 @media screen and (min-width: 768px){

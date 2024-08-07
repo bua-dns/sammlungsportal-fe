@@ -23,12 +23,10 @@ const props = defineProps({
         <NuxtLink :to="`/sammlungen/?acid=${cardContent.id}`">
           <h5 class="mt-1 card-title">{{ cardContent.collection }}</h5>
         </NuxtLink>
-        <div class="mb-2 card-text" v-html="truncateText(cardContent.description,640)" />
+        <div class="mb-2 card-text" v-if="cardContent.description" v-html="truncateText(cardContent.description,640)" />
       </div>
       <a :href="`${cardContent.link}`" target="_blank" class="card-link"
-        alt="Objekte der Sammlung in der Online-Ressource"
-        title="Objekte der Sammlung in der Online-Ressource"
-      >
+        alt="Objekte der Sammlung in der Online-Ressource" title="Objekte der Sammlung in der Online-Ressource">
         zur Ressource (ca. {{ cardContent.amount_of_objects }} Objekte) ...
       </a>
     </div>
@@ -42,7 +40,7 @@ const props = defineProps({
   color: var(--color-feature-card-text);
   border: 1px solid var(--color-feature-card-border);
   background-color: var(--color-feature-card-fill);
-  min-height: var(--page-card-height);
+  min-height: 26rem;
   border-radius: 8px;
   display: flex;
   flex-direction: column;

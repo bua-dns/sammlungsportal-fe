@@ -45,6 +45,10 @@ const tabIndex = computed(() => {
             }}</nuxt-link>
         </li>
         <li>
+          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/online-ressourcen">{{ w.page_online_ressourcen
+            }}</nuxt-link>
+        </li>
+        <li>
           <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/dns">{{ w.page_dns
             }}</nuxt-link>
         </li>
