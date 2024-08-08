@@ -20,7 +20,8 @@ const { data: resourcesData } = await useFetch(`${projectConfig.dataBaseUrl}/onl
   }
 });
 const resources = resourcesData.value.data
-  .filter((resource) => resource.status === 'published');
+  .filter((resource) => resource.status === 'published')
+  .sort((a, b) => a.position - b.position);
 
 const { data:collectionsData } = await useFetch('https://sammlungsportal.bua-dns.de/items/bua_collections', {
   query: {
@@ -103,7 +104,7 @@ const relatedCollections = computed(() => {
   <div class="page p_dns-page" v-if="data && page.status === 'published'">
     <pre v-if="false">relatedCollections{{ relatedCollections }}</pre>
     <pre v-if="false">ownResources{{ ownResources }}</pre>
-    <pre v-if="false">resources{{ resources }}</pre>
+    <pre v-if="true">resources{{ resources }}</pre>
     <pre v-if="false">collections{{ collectionsData }}</pre>
     <pre v-if="false">page{{ page }}</pre>
     <h1 class="mb-4 text-center">{{ page.title }}</h1>
