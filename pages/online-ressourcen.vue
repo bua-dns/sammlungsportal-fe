@@ -93,6 +93,13 @@ const relatedCollections = computed(() => {
   }
   return index;
 });
+function scrollToEntry(entry) {
+  const scrollTarget = document.getElementById(entry);
+  setTimeout(() => {
+    scrollTarget.scrollIntoView({ behavior: "smooth" });
+  }, 100);
+  console.log('scrolling to', entry);
+}
 
 </script>
 
@@ -104,7 +111,7 @@ const relatedCollections = computed(() => {
   <div class="page p_dns-page" v-if="data && page.status === 'published'">
     <pre v-if="false">relatedCollections{{ relatedCollections }}</pre>
     <pre v-if="false">ownResources{{ ownResources }}</pre>
-    <pre v-if="true">resources{{ resources }}</pre>
+    <pre v-if="false">resources{{ resources.map(resource => resource.id) }}</pre>
     <pre v-if="false">collections{{ collectionsData }}</pre>
     <pre v-if="false">page{{ page }}</pre>
     <h1 class="mb-4 text-center">{{ page.title }}</h1>
@@ -124,8 +131,23 @@ const relatedCollections = computed(() => {
         </div>
       </div>
     </template>
+    <div class="controls">
+      <div class="own-resources-button">
+        <button @click="scrollToEntry('own-database-listing')" class="tag">
+          <span class="tag-name">Sammlungen mit eigener Datenbank</span>
+          <span class="tag-count">(4)</span>
+        </button>
+      </div>
+      <div class="resource-cloud">
+        <button v-for="resource in resources" :key="`resource-${resource.id}`"
+          @click="scrollToEntry(`resource-${resource.id}`)" class="tag">
+          <span class="tag-name">{{ resource.name }}</span>
+          <span class="tag-count">{{ relatedCollections[resource.slug].length }}</span>
+        </button>
+      </div>
+    </div>
     <div class="resources-listing">
-      <div class="resource-entry" v-for="resource in resources" :key="resource.id">
+      <div class="resource-entry" v-for="resource in resources" :key="resource.id" :id="`resource-${resource.id}`">
         <h2>
           <a :href="resource.url" :alt="`Link zu ${resource.name}`" target="_blank">
             {{ resource.name }}
@@ -147,8 +169,8 @@ const relatedCollections = computed(() => {
           <h3>{{ w.collections_in_bua_resource }}</h3>
           <div v-if="true" class="projects-listing page-card-grid mt-5">
             <!-- <pre>{{ projects.data[0] }}</pre> -->
-            <div class="project-display" 
-              v-for="collection in sortEntries(relatedCollections[resource.slug], 'collection')" 
+            <div class="project-display"
+              v-for="collection in sortEntries(relatedCollections[resource.slug], 'collection')"
               :key="`collection-${collection.id}`">
               <CardPageOnlineResources :cardContent="collection" />
             </div>
@@ -156,12 +178,10 @@ const relatedCollections = computed(() => {
         </div>
       </div>
     </div>
-    <div class="own-database-listing">
+    <div class="own-database-listing" id="own-database-listing">
       <h2>{{ w.collections_in_own_database }}</h2>
       <div class="own-resources page-card-grid mt-5">
-        <CardPageOnlineResources 
-          v-for="resource in ownResources" 
-          :key="`own-${resource.collection}`" 
+        <CardPageOnlineResources v-for="resource in ownResources" :key="`own-${resource.collection}`"
           :cardContent="resource" />
       </div>
     </div>
@@ -186,11 +206,42 @@ const relatedCollections = computed(() => {
       }
     }
   }
+  .controls {
+    margin: 2rem 0 1rem;
+    .own-resources-button {
+      margin: 0 0 1rem;
+    }
+    .resource-cloud, .own-resources-button {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      justify-content: center;
+      
+      .tag {
+        .tag-name {
+            display: inline-block;
+            font-size: .85rem;
+        }
+        .tag-count {
+          display: inline-block;
+          margin-left: 0.5rem;
+          color: var(--color-text);
+          background-color: var(--color-taxonomy-button-background);
+          border: 1px solid var(--color-taxonomy-button-background-marked);
+          min-width: 1.9rem;
+          border-radius: 3px;
+          font-size: .85rem;
+          padding: 0.25em 0.5em;
+        }
+      }
+    }
+  }
   .resources-listing {
     margin-top: 2rem;
     .resource-entry {
+      scroll-margin-top: calc(var(--header-height) + 2.5rem);
       h2 {
-        margin-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
       }
       .main-container {
         display: flex;
@@ -218,6 +269,9 @@ const relatedCollections = computed(() => {
         
       }
     }
+  }
+  .own-database-listing {
+    scroll-margin-top: calc(var(--header-height) + 2.5rem);
   }
   .page-card-grid {
     display: grid;
