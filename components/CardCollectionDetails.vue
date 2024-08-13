@@ -28,7 +28,7 @@ function getImageUrls(images){
 };
 </script>
 <template>
-  <div v-if="collection.display" :class="collection.id === activeCollectionId ? 'card active-collection' : 'card'"
+  <div v-if="collection.display" :class="collection.id === activeCollectionId ? 'card-collection-detail card active-collection' : 'card'"
     :id="'collection-' + collection.id">
     <div v-if="collection.id === activeCollectionId" @click="$emit('setActiveCollectionId', null)" :title="w.deselect"
       class="card-deselect"></div>
@@ -114,6 +114,47 @@ function getImageUrls(images){
         </dl>
       </div>
     </div>
+    <div class="resources">
+      <template v-if="collection.dns_objects_in_own_databases && collection.dns_objects_in_own_databases.length">
+        <template
+          v-if="collection.dns_objects_in_own_databases && collection.dns_objects_in_own_databases.length === 1">
+          <h3>Objekte in eigener Datenbank</h3>
+        </template>
+        <template v-if="collection.dns_objects_in_own_databases && collection.dns_objects_in_own_databases.length > 1">
+          <h3>Objekte in eigenen Datenbanken</h3>
+        </template>
+        <div class="resource" v-for="(resource, id) in collection.dns_objects_in_own_databases"
+          :key="`resource-own${id}`">
+          <div class="resource-name">{{ resource.label }}</div>
+          <div class="resource-description" v-html="resource.description" />
+          <div class="resource-link">
+            <a :href="resource.link" target="_blank" rel="noopener">zu den Objekten der Sammlung</a>
+          </div>
+          <!-- {{ resource }} -->
+        </div>
+      </template>
+      <template
+        v-if="collection.dns_objects_in_external_databases && collection.dns_objects_in_external_databases.length">
+        <template
+          v-if="collection.dns_objects_in_external_databases && collection.dns_objects_in_external_databases.length === 1">
+          <h3>Objekte in externer Datenbank</h3>
+        </template>
+        <template
+          v-if="collection.dns_objects_in_external_databases && collection.dns_objects_in_external_databases.length > 1">
+          <h3>Objekte in externen Datenbanken</h3>
+        </template>
+        <div class="resource" v-for="(resource, id) in collection.dns_objects_in_external_databases"
+          :key="`resource-own${id}`">
+          <div class="resource-name">{{ resource.label }}</div>
+          <div class="resource-description" v-html="resource.description" />
+          <div class="resource-link">
+            <a :href="resource.link" target="_blank" rel="noopener">zu den Objekten der Sammlung</a>
+          </div>
+        </div>
+      </template>
+
+
+    </div>
     <div v-if="collection.collection_images && collection.collection_images.length" class="my-5 collection-images">
       <ImageViewer :images="getImageUrls(collection.collection_images) " previewMode="gallery"
         previewImageWidth="120" />
@@ -136,8 +177,8 @@ function getImageUrls(images){
     </div>
   </div>
 </template>
-<style scoped lang="scss">
-.card {
+<style lang="scss">
+.card-collection-detail {
   padding: 1rem;
   border: 1px solid #333;
   border-radius: 8px;
@@ -151,6 +192,34 @@ function getImageUrls(images){
   &.active {
     border: 2px solid #2b5c8c;
     background-color: #f3f3ff;
+  }
+  .resources {
+    margin: 1rem 0;
+    font-size: var(--font-size-text);
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .resource {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr 3fr 1fr;
+      margin-bottom: 1rem;
+      @media screen and (max-width: 768px) {
+        grid-template-columns: 1fr;
+        margin-bottom: 2rem;
+        p {
+          margin-bottom: 0;
+        }
+      }
+      .resource-name {
+      }
+      .resource-description {
+      }
+      .resource-link {
+      }
+    }
   }
 }
 .collection-images {
