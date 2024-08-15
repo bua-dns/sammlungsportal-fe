@@ -6,15 +6,23 @@ const clientEnv = ref(false);
 
 function getRandomImage(page) {
   const images = (page === 'index')
-    ? backgroundImages.value.data.filter(image => image.use_for_front_page === '1')
-    : backgroundImages.value.data;
+    ? backgroundImages.value.data.filter(image => image.use_for_front_page === '1' && !image.page_specific)
+    : backgroundImages.value.data.filter(image => !image.page_specific);
   return images[Math.floor(Math.random() * images.length)];
+}
+function getSpecificImage(page) {
+  return backgroundImages.value.data.find(image => image.name === page);
 }
 const randomImage = ref({});
 
 watch(() => route.name, () => {
+  console.log('route changed to', route.name);
   if (randImageRoutes.includes(route.name)) {
     randomImage.value[route.name] = getRandomImage(route.name);
+  }
+  if (route.name === 'koloniale-kontexte') {
+    console.log('koloniale-kontexte');
+    randomImage.value[route.name] = getSpecificImage(route.name);
   }
 
 });
