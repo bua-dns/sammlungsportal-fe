@@ -19,6 +19,8 @@ const collectionsFetchFields = [
   'collection_images.directus_files_id.filename_disk',
   'dns_taxonomy_subjects.taxonomy_terms_id.label',
   'dns_taxonomy_genre.taxonomy_terms_id.label',
+  'dns_objects_in_external_databases',
+  'dns_objects_in_own_databases',
 ];
 
 // data fetch from directus
@@ -254,7 +256,6 @@ function setActiveCollectionId(id) {
       const scrollTarget = document.getElementById("active-card-container");
       scrollTarget.scrollIntoView({ behavior: "smooth" });
     }, 100);
-    // console.log('setActiveCollectionId: scrollToResults');
   }
 
 }

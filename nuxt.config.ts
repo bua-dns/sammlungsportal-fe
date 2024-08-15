@@ -3,6 +3,14 @@ export default defineNuxtConfig({
   typescript: {
     shim: false
   },
+  hooks: {
+    "components:dirs": (dirs) => {
+      dirs.push({
+        path: '~/components/dataInspector',
+        prefix: 'DataInspector'
+      })
+    }
+  },
   app: {
     head: {
       htmlAttrs: { lang: "de" },
@@ -26,7 +34,8 @@ export default defineNuxtConfig({
     '@/assets/css/styles.scss'
   ],
   modules: [
-    '@nuxt/content'
+    '@nuxt/content',
+    '@pinia/nuxt',
   ],
     plugins: [
     '~/plugins/matomo.js'

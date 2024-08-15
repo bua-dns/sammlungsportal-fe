@@ -49,7 +49,10 @@ const props = defineProps({
       display: block;
       width: 100%;
       object-fit: cover;
-      border-radius: 6px;
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
     }
     &:hover {
       img {

@@ -29,9 +29,16 @@ const { data: eventsData } = await useFetch(`${projectConfig.dataBaseUrl}/events
     limit: -1,
   }
 });
-const { data: resourcesData } = await useFetch(`${projectConfig.dataBaseUrl}/online_resources`, {
+
+const { data: ikbCategoriesData } = await useFetch(`https://ikb-lbs-hub.bua-dns.de/items/dns_categories`, {
   query: {
-    fields: projectConfig.fields.resources.join(','),
+    fields: '*.*',
+    limit: -1,
+  }
+});
+const { data: ikbConfigurationData } = await useFetch(`https://ikb-lbs-hub.bua-dns.de/items/configuration`, {
+  query: {
+    fields: '*.*',
     limit: -1,
   }
 });
@@ -43,11 +50,14 @@ useState('taxonomyTerms', () => taxonomyTermsData);
 useState('background_images', () => backgroundImages);
 useState('projects', () => projectsData);
 useState('events', () => eventsData);
-useState('resources', () => resourcesData);
+// useState('resources', () => resourcesData);
+useState('ikbCategories', () => ikbCategoriesData);
+useState('ikbConfiguration', () => ikbConfigurationData);
+
 const w = theme.value.data.wording.de;
 useHead({
   titleTemplate: (titleChunk) => {
-    return titleChunk ? `${titleChunk} - ${w.collection_portal}` : w.collection_portal;
+    return titleChunk ? `${titleChunk} - ${w.collection_portal_title}` : w.collection_portal_title;
   }
 });
 </script>

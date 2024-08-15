@@ -85,13 +85,16 @@ const handleScroll = () => {
     <nav class="dns-main-navigation">
       <ul>
         <li>
-          <nuxt-link to="/">{{ w.page_start }}</nuxt-link>
+          <nuxt-link to="/">{{ w.nav_page_start }}</nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/sammlungen">{{ w.page_collections }}</nuxt-link>
+          <nuxt-link to="/sammlungen">{{ w.nav_page_sammlungen }}</nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/kontakt">{{ w.page_contact }}</nuxt-link>
+          <nuxt-link to="/online-ressourcen">{{ w.nav_page_online_ressourcen }}</nuxt-link>
+        </li>
+        <li>
+          <nuxt-link to="/kontakt">{{ w.nav_page_contact }}</nuxt-link>
         </li>
       </ul>
     </nav>
