@@ -152,8 +152,6 @@ function getImageUrls(images){
           </div>
         </div>
       </template>
-
-
     </div>
     <div v-if="collection.collection_images && collection.collection_images.length" class="my-5 collection-images">
       <ImageViewer :images="getImageUrls(collection.collection_images) " previewMode="gallery"
@@ -213,12 +211,6 @@ function getImageUrls(images){
           margin-bottom: 0;
         }
       }
-      .resource-name {
-      }
-      .resource-description {
-      }
-      .resource-link {
-      }
     }
   }
 }
@@ -230,11 +222,9 @@ function getImageUrls(images){
   border-bottom: 2px solid #333;
   font-size: 0.85rem;
 }
-
 .card-label {
   padding: 1rem 0;
 }
-
 .card-cols {
   .card-col {
     &:nth-child(2) {
@@ -267,35 +257,27 @@ function getImageUrls(images){
     }
   }
 }
-
 dl {
   margin: 0;
 }
-
 dt,
 dd {
   overflow-wrap: break-word;
   hyphens: auto;
 }
-
 dt:not(:first-child) {
   margin-top: 0.5rem;
 }
-
 dd ul {
   margin: 0;
   padding-left: 0;
 }
-
 .label {
   font-weight: bold;
 }
-
 a {
-  // word-wrap: break-word;
   overflow-wrap: break-word;
 }
-
 .card-img-container {
   display: flex;
   align-items: center;
