@@ -45,10 +45,9 @@ onUnmounted(() => {
       </div>
     </div>
     <div class="lightbox-content">
-      <img
+      <img v-if="props.images[currentImage].directus_files_id"
         :src="`${projectConfig.imageBaseUrl}/${props.images[currentImage].directus_files_id.filename_disk}`"
-        alt="lightbox image"
-      />
+        alt="lightbox image" />
     </div>
   </div>
 </template>

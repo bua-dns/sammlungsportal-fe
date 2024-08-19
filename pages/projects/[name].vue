@@ -7,6 +7,7 @@ const project = projects.value.data.find((project) => project.slug === projectNa
 
 // extract image filenames from images property of project
 const images = project.images.map((image) => {
+  if (!image.directus_files_id) return null;
   return image.directus_files_id.filename_disk;
 }) ;
 </script>
