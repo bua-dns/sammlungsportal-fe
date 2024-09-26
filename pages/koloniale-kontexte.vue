@@ -87,11 +87,7 @@ const spwsCollectionsIndex = computed(() => {
     return acc;
   }, {});
 });
-function getSpwsLink(spwsId) {
-  const relatedCollection = spwsCollections.find((collection) => collection.spws_id === spwsId);
-  // if (!relatedCollection) return spwsId;
-  return `/sammlungen?acid=${relatedCollection?.id}`;
-}
+
 watch(expandedCollection, (newCollection) => {
   setQueryParams({ collection: newCollection });
 });
@@ -104,7 +100,7 @@ watch(expandedCollection, (newCollection) => {
   </Head>
   <div class="page p_dns-page" v-if="data && page.status === 'published'">
     <div class="dev-output">
-      <pre v-if="true">{{ spwsCollectionsIndex }}</pre>
+      <pre v-if="false">{{ spwsCollectionsIndex }}</pre>
     </div>
 
     <h1 class="mb-4 text-center">{{ page.title }}</h1>
