@@ -111,13 +111,6 @@ watch(expandedCollection, (newCollection) => {
       <div class="page-container">
         <div class="page-content" v-html="page.page_content" />
         <pre v-if="false">{{ page }}</pre>
-        <div class="sidebar" v-if="page.display_sidebar === '1'">
-          <div class="mt-3 mb-5 sidebar-header" v-if="page.sidebar_header_image">
-            <img :src="projectConfig.imageBaseUrl + '/' + page.sidebar_header_image + '?key=sidebar-header'"
-              alt="sidebar image" />
-          </div>
-          <div class="sidebar-content" v-if="page.sidebar_content" v-html="page.sidebar_content" />
-        </div>
       </div>
     </template>
 
@@ -128,23 +121,21 @@ watch(expandedCollection, (newCollection) => {
       >
         <h4>{{ institution.label }}</h4>
 
-        <div class="collection"
+        <div class="collection" 
           v-for="(collection, index) in institution.collections"
           :key="`collection-${instIndex}-${index}`"
+          :class="{'expanded': collection.slug === expandedCollection}"
         >
           <div class="header"
             @click="toggleExpansion(collection.slug, collection.trigger_warning)"
-            :class="{'expanded': collection.slug === expandedCollection}"
+            
           >
             <h5 class="title">{{ collection.title }}</h5>
             <div class="icon">
               <img src="@/assets/img/icons/chevron_dns_right.svg" alt="">
             </div>
           </div>
-          <div class="body"
-            :class="{'expanded': collection.slug === expandedCollection}"
-            >
-            
+          <div class="body">
             <div class="spws-links"
               v-for="(spwsCollection, linkIndex) in collection.spws_collections"
               :key="`spws-link-${linkIndex}`"
@@ -167,9 +158,17 @@ watch(expandedCollection, (newCollection) => {
 <style lang='scss'>
 
 .p_dns-page {
+  background-color: #3b856c;
+  padding: 2rem;
+  color: var(--color-text-inverted);
+  a {
+    color:orange
+  }
+  h1 {
+  }
   .page-container {
     display: block;
-
+    ;
     .page-content {
     }
     .sidebar {
@@ -185,16 +184,24 @@ watch(expandedCollection, (newCollection) => {
       h4 {
         font-size: 1.5rem;
         margin-bottom: 1rem;
+        color: var(--color-text-inverted)
       }
       .collection {
         margin-top: .5rem;
+        border: 1px solid var(--color-taxonomy-button-border);
+        border-radius: 6px;
+        color: var(--color-text);
+        background-color: white;
+        a {
+          color: var(--color-link);
+        }
         .header {
           cursor: pointer;
           padding: .25rem 1rem;
           display: flex;
           justify-content: space-between;
           align-items: center;
-          border: 1px solid gray;
+
           .title {
             position: relative;
             font-size: 1.125rem;
@@ -206,29 +213,30 @@ watch(expandedCollection, (newCollection) => {
             transition: transform 0.3s;
             transform: rotate(90deg);
           }
-          &.expanded {
-            border-bottom: none;
-            .icon {
-              transform: rotate(-90deg);
-            }
-          } 
         }
         .body {
           display: none;
           padding: .25rem 1rem;
-          border: 1px solid gray;
-          border-top: none;
+
           .spws-links {
             margin-bottom: 1rem;
-          }
-          &.expanded {
-            display: block;
           }
           .description {
             h1, h2, h3, h4, h5, h6 {
               font-size: 1.125rem;
               margin-bottom: 0.5rem;
             }
+          }
+        }
+        &.expanded {
+          border: 2px solid var(--color-bua-blue-mid-dark);
+          .header {
+            .icon {
+                transform: rotate(-90deg);
+              }
+            }
+          .body {
+            display: block;
           }
         }
       }
