@@ -49,10 +49,10 @@ const tabIndex = computed(() => {
             w.page_online_ressourcen
             }}</nuxt-link>
         </li>
-        <li>
+        <!-- <li>
           <nuxt-link :tabIndex=" tabIndex" @click="navState = 'close'" to="/koloniale-kontexte">{{ w.nav_page_koloniale_kontexte
             }}</nuxt-link>
-        </li>
+        </li> -->
         <li>
           <nuxt-link :tabIndex=" tabIndex" @click="navState = 'close'" to="/dns">{{ w.page_dns
             }}</nuxt-link>
