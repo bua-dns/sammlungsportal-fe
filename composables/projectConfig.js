@@ -1,6 +1,7 @@
 export const projectConfig = {
   dataBaseUrl: "https://sammlungsportal.bua-dns.de/items",
   imageBaseUrl: "https://sammlungsportal.bua-dns.de/assets",
+  colonialContextsUrl: "https://ccc.bua-dns.de/items",
   fields: {
     resources: [
       'id', 'status', 'slug', 'name', 'position','url', 'description', 'main_screenshot', 
@@ -13,6 +14,10 @@ export const projectConfig = {
     ],
     events: [
       '*.*'
+    ],
+    colonialContexts: [
+      // '*.*',
+      'id', 'status', 'title', 'contact_info','spws_collections', 'description', 'trigger_warning',
     ],
   }
 };
