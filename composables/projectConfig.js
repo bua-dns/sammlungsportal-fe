@@ -3,6 +3,22 @@ export const projectConfig = {
   imageBaseUrl: "https://sammlungsportal.bua-dns.de/assets",
   colonialContextsUrl: "https://ccc.bua-dns.de/items",
   fields: {
+    collections: [
+      // 1st level
+      'id, label, current_keeper, opening_hours, phone, email, description, homepage', 'exclude_from_listing',
+      'collection_portal, used_in_activity, active_collection',
+      // nested
+      'address.*',
+      'collection_image_main.*',
+      'collection_images.directus_files_id.filename_disk',
+      'dns_taxonomy_subjects.taxonomy_terms_id.label',
+      'dns_taxonomy_genre.taxonomy_terms_id.label',
+      'dns_objects_in_external_databases',
+      'dns_objects_in_own_databases',
+    ],
+    collectionsShortList: [
+      'id', 'spws_id', 'label'
+    ],
     resources: [
       'id', 'status', 'slug', 'name', 'position','url', 'description', 'main_screenshot', 
       'bua_collections.bua_collections_id.label', 'bua_collections.bua_collections_id.id',
@@ -17,7 +33,7 @@ export const projectConfig = {
     ],
     colonialContexts: [
       // '*.*',
-      'id', 'status', 'title', 'contact_info','spws_collections', 'description', 'trigger_warning',
+      'id', 'status', 'title', 'slug', 'contact_info','spws_collections', 'description', 'trigger_warning',
     ],
   }
 };

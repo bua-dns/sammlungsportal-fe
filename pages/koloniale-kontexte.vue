@@ -1,5 +1,7 @@
 <script setup>
 /* Used auto-imported composables: projectConfig */
+const router = useRouter();
+const route = useRoute();
 const theme = useState("theme")
 const w = theme.value.data.wording.de
 // useHead({ title: data.value.data[0].title });
@@ -29,6 +31,16 @@ function affiliateCollection(collection, institution) {
   const affiliations = collection.spws_collections.map((entries) => entries.spws_institution)
   return affiliations.includes(institution);
 }
+const { data: spwsCollectionsData } = await useFetch('https://sammlungsportal.bua-dns.de/items/bua_collections', {
+  query: {
+    // fields: collectionsFetchFields.join(','),
+    fields: projectConfig.fields.collectionsShortList.join(','),
+    limit: -1,
+    sort: 'label',
+    meta: 'total_count',
+  },
+});
+const spwsCollections = spwsCollectionsData.value.data
 
 const institutionIndex = {
   fu: {
@@ -49,15 +61,41 @@ const institutionIndex = {
   },
 }
 const expandedCollection = ref(null);
-function toggleExpansion(index, trigger) {
-  if (expandedCollection.value === index) {
+function toggleExpansion(title, trigger) {
+  if (expandedCollection.value === title) {
     expandedCollection.value = null;
   } else {
-    expandedCollection.value = index;
-    showTriggerWarning.value = true;
+    expandedCollection.value = title;
+    if (trigger && trigger === '1') {
+      showTriggerWarning.value = true;
+    }
   }
 }
 const showTriggerWarning = useState('showTriggerWaring', () => false)
+
+function setQueryParams(params) {
+  router.push({ query: params });
+}
+// setQueryParams({ collection: 'test' })
+if (route.query.collection) {
+  expandedCollection.value = route.query.collection;
+}
+const spwsCollectionsIndex = computed(() => {
+  // if (!spwsCollections || spwsCollections.length) return {};
+  return spwsCollections.reduce((acc, collection) => {
+    acc[collection.spws_id] = collection.id;
+    return acc;
+  }, {});
+});
+function getSpwsLink(spwsId) {
+  const relatedCollection = spwsCollections.find((collection) => collection.spws_id === spwsId);
+  // if (!relatedCollection) return spwsId;
+  return `/sammlungen?acid=${relatedCollection?.id}`;
+}
+watch(expandedCollection, (newCollection) => {
+  setQueryParams({ collection: newCollection });
+});
+
 </script>
 <template>
 
@@ -66,7 +104,7 @@ const showTriggerWarning = useState('showTriggerWaring', () => false)
   </Head>
   <div class="page p_dns-page" v-if="data && page.status === 'published'">
     <div class="dev-output">
-      <pre v-if="false">{{ resources }}</pre>
+      <pre v-if="true">{{ spwsCollectionsIndex }}</pre>
     </div>
 
     <h1 class="mb-4 text-center">{{ page.title }}</h1>
@@ -99,15 +137,26 @@ const showTriggerWarning = useState('showTriggerWaring', () => false)
           :key="`collection-${instIndex}-${index}`"
         >
           <div class="header"
-            @click="toggleExpansion(`${instIndex}-${index}`)"
-            :class="{'expanded': `${instIndex}-${index}` === expandedCollection}"
+            @click="toggleExpansion(collection.slug, collection.trigger_warning)"
+            :class="{'expanded': collection.slug === expandedCollection}"
           >
             <h5 class="title">{{ collection.title }}</h5>
             <div class="icon">
               <img src="@/assets/img/icons/chevron_dns_right.svg" alt="">
             </div>
           </div>
-          <div class="body" :class="{'expanded': `${instIndex}-${index}` === expandedCollection}">
+          <div class="body"
+            :class="{'expanded': collection.slug === expandedCollection}"
+            >
+            
+            <div class="spws-links"
+              v-for="(spwsCollection, linkIndex) in collection.spws_collections"
+              :key="`spws-link-${linkIndex}`"
+            >
+              <RouterLink v-if="spwsCollectionsIndex"
+                :to="`/sammlungen?acid=${spwsCollectionsIndex[spwsCollection.spws_id]}`"
+              ><strong>allgemeine Informationen zu dieser Sammlung</strong></RouterLink>
+            </div>
             <div class="description" v-html="collection.description" />
           </div>
         </div>
@@ -173,7 +222,9 @@ const showTriggerWarning = useState('showTriggerWaring', () => false)
           padding: .25rem 1rem;
           border: 1px solid gray;
           border-top: none;
-
+          .spws-links {
+            margin-bottom: 1rem;
+          }
           &.expanded {
             display: block;
           }
@@ -190,6 +241,5 @@ const showTriggerWarning = useState('showTriggerWaring', () => false)
   .own-database-listing {
     scroll-margin-top: calc(var(--header-height) + 2.5rem);
   }
-
 }
 </style>
