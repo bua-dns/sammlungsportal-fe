@@ -12,6 +12,8 @@ function activeTerm(taxonomy, term) {
   return "";
 }
 
+
+
 const showLightbox = ref(false);
 const imageBasePath = "https://sammlungsportal.bua-dns.de/assets/";
 
