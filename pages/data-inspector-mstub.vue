@@ -22,7 +22,6 @@ function sortMinerals(items) {
     return 0;
   });
 }
-
 const mineralsData = useState("minerals");
 const minerals = sortMinerals(mineralsData.value.data);
 const selectedMineral = ref(null);
@@ -245,7 +244,7 @@ const markAllLimit = 100;
       </template>
     </div>
     <div v-if="displayMode === 'search'">
-      <DataInspectorMediaSamples />
+      <DataInspectorMediaSamplesMinerals />
     </div>
   </div>
 </template>
