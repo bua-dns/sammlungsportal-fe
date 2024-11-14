@@ -13,8 +13,8 @@ const props = defineProps({
   <div class="page-card">
     <div class="card-image">
       <NuxtLink :to="`/projects/${cardContent.slug}`">
-        <img v-if="cardContent.preview_image && cardContent.preview_image.filename_disk"
-          :src="`${projectConfig.imageBaseUrl}/${cardContent.preview_image.filename_disk}?key=feature-card`" alt="">
+        <img v-if="cardContent.preview_image && cardContent.preview_image?.filename_disk"
+          :src="`${projectConfig.imageBaseUrl}/${cardContent.preview_image?.filename_disk}?key=feature-card`" alt="">
       </NuxtLink>
     </div>
     <div class="card-body">

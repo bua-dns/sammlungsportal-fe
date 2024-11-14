@@ -135,7 +135,7 @@ function scrollToEntry(entry) {
       <div class="own-resources-button">
         <button @click="scrollToEntry('own-database-listing')" class="tag">
           <span class="tag-name">Sammlungen mit eigener Datenbank</span>
-          <span class="tag-count">(4)</span>
+          <span class="tag-count">({{ ownResources.length }})</span>
         </button>
       </div>
       <div class="resource-cloud">

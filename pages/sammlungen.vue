@@ -1,32 +1,10 @@
 <script setup>
 
-/**
- * collectionsFetchFields: fields to be fetched from the API.
- *
- * Not used FIELDS for the time being:
- * status, sort, date_created, date_updated, spws_id,
- * collection_type, role, subject, genre, academic_teaching, special_form,
- * living_being, has_collection_concept, has_usage_regulation, other_web_resource
- *
- */
-const collectionsFetchFields = [
-  // 1st level
-  'id, label, current_keeper, opening_hours, phone, email, description, homepage', 'exclude_from_listing',
-  'collection_portal, used_in_activity, active_collection',
-  // nested
-  'address.*',
-  'collection_image_main.*',
-  'collection_images.directus_files_id.filename_disk',
-  'dns_taxonomy_subjects.taxonomy_terms_id.label',
-  'dns_taxonomy_genre.taxonomy_terms_id.label',
-  'dns_objects_in_external_databases',
-  'dns_objects_in_own_databases',
-];
-
 // data fetch from directus
-const { data } = await useFetch('https://sammlungsportal.bua-dns.de/items/bua_collections', {
+const { data } = await useFetch(`${projectConfig.dataBaseUrl}/bua_collections`, {
   query: {
-    fields: collectionsFetchFields.join(','),
+    // fields: collectionsFetchFields.join(','),
+    fields: projectConfig.fields.collections.join(','),
     limit: -1,
     sort: 'label',
     meta: 'total_count',

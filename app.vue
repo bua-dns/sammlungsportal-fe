@@ -43,6 +43,7 @@ const { data: ikbConfigurationData } = await useFetch(`https://ikb-lbs-hub.bua-d
   }
 });
 
+
 const theme = useState('theme', () => themeContent);
 useState('personsTeam', () => personsTeamContent);
 useState('institutions', () => institutionsContent);
