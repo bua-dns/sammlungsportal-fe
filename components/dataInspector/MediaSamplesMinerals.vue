@@ -52,18 +52,6 @@ onUnmounted(() => {
         <MSTUBItem :sample="sample" />
       </div>
     </div>
-    <!-- <h3>Beispiele <strong>Kleinbilddias</strong> aus der Lehrbilder-Datenbank des IKB der HU Berlin</h3>
-    <div class="samples-listing">
-      <div class="item" v-for="item in sampleMediaSmallSlides" :key="`item-${item.id}`">
-        <IKBItem :item="item" />
-      </div>
-    </div>
-    <h3>Beispiele <strong>Fotoabzüge</strong> aus der Lehrbilder-Datenbank des IKB der HU Berlin</h3>
-    <div class="samples-listing">
-      <div class="item" v-for="item in sampleMediaPrints" :key="`item-${item.id}`">
-        <IKBItem :item="item" />
-      </div>
-    </div> -->
   </div>
 </template>
 

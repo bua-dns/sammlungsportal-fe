@@ -29,118 +29,18 @@ function selectMineral(mineral) {
   if (selectedMineral.value && selectedMineral.value.label === mineral) {
     selectedMineral.value = null;
     console.log('post', mineral, selectedMineral.value?.label);
+    displayMode.value = "categories";
     return;
   }
   selectedMineral.value = minerals.find((entry) => entry.label === mineral);
+  displayMode.value = "items";
 }
 function getMineralImage(filenameDisk) {
   return "https://mstub-db.bua-dns.de/assets/" + filenameDisk;
 }
 
-const ikbCategories = useState("ikbCategories");
-const categoriesIndex = computed(() => {
-  if (!ikbCategories.value || !ikbCategories.value.data) return {}
-  let index = {};
-  for (let entry of ikbCategories.value.data) {
-    index[entry.label] = {
-      p31: entry.P31_instance_of.map((item) => item.q_number),
-    };
-  }
-  return index;
-});
+const displayMode = ref("categories");
 
-const priorityOptions = ikbConfiguration.value.data.dns_priority_options;
-const priorityOptionsThemes = ikbConfiguration.value.data.dns_priority_options_themes;
-
-const selectedPriorities = ref([]);
-function togglePriority(priority) {
-  if (selectedPriorities.value.includes(priority)) {
-    selectedPriorities.value = selectedPriorities.value.filter((entry) => entry !== priority);
-  } else {
-    selectedPriorities.value.push(priority);
-  }
-}
-
-const results = ref([]);
-const wdEntities = computed(() => {
-  if (!results.value || !results.value.data || results.value.data.length === 0) return [];
-  for (let item of results.value.data) {
-    item.weight = 0;
-    for(let priority of selectedPriorities.value) {
-      if (checkCriterium({
-          item,
-          prop: 'dns_p31_listing', 
-          criterium: categoriesIndex.value[priority]['p31']
-        })) {
-        item.weight = 1;
-      }
-    }
-  }
-  return results.value.data
-    .sort((a, b) => b.weight - a.weight);
-});
-
-const term = computed(() => diSearch.term);
-
-
-// Watch the term variable and call searchWdEntities whenever it changes
-watch(term, async (newTerm) => {
-  diSearch.term = newTerm;
-  if (newTerm.length > 2) {
-    displayMode.value = "search";
-    results.value = await searchWdEntities(newTerm);
-  };
-  if (newTerm.length <= 2) {
-    results.value = [];
-  }
-});
-
-
-const selectedEntities = ref([]);
-const selectedEntitiesForDisplay = ref([]);
-const allEntitiesSelected = ref(false);
-// const allEntitiesSelected = computed(() => {
-//   return selectedEntities.value.length === wdEntities?.length;
-// });
-function selectAllEntities(priority) {
-  if (allEntitiesSelected.value) {
-    selectedEntities.value = [];
-    allEntitiesSelected.value = false;
-    return;
-  }
-  if (priority === 1) {
-    selectedEntities.value = wdEntities.value.filter((entry) => entry.weight === 1);
-    allEntitiesSelected.value = true;
-    return
-  }
-  selectedEntities.value = wdEntities.value;
-  allEntitiesSelected.value = true;
-  
-}
-function clearSearch() {
-  diSearch.term = "";
-  selectedEntities.value = [];
-  selectedEntitiesForDisplay.value = [];
-  displayMode.value = "search";
-  selectedPriorities.value = [];  
-}
-function addEntity(entity) {
-  if (selectedEntities.value.includes(entity)) {
-    selectedEntities.value = selectedEntities.value.filter((entry) => entry !== entity);
-  } else {
-    selectedEntities.value.push(entity);
-  }
-}
-
-const displayMode = ref("search");
-
-function displaySelectedEntities() {
-  selectedEntitiesForDisplay.value = selectedEntities.value;
-  selectedEntities.value = [];
-  displayMode.value = "display";
-  term.value = '';
-}
-const markAllLimit = 100;
 </script>
 
 <template>
@@ -196,54 +96,8 @@ const markAllLimit = 100;
         </div>
       </div>
       <pre v-if="false && selectedMineral">{{ selectedMineral }}</pre>
-      
-
-      <div class="search" v-if="false">
-        <SearchBox :disabled="displayMode === 'display'" :searchStore="diSearch"/>
-
-        <input type="submit" value="markierte anzeigen" class="submit search-box-submit"
-          v-if="selectedEntities?.length > 0" @click="displaySelectedEntities()" />
-        <input type="button" @click="clearSearch()" v-if="displayMode === 'display'" value="neue Suche"
-          class="submit search-box-submit" />
-        <div class="suggestions" v-if="displayMode === 'search' && term?.length > 2 ">
-          <template v-if="!wdEntities || wdEntities.length < 1">
-            Keine passenden Objekte gefunden
-          </template>
-          <template v-if="  getPrioritizedEntities(wdEntities, 1) && 
-                            getPrioritizedEntities(wdEntities, 1).length && 
-                            getPrioritizedEntities(wdEntities, 1).length < markAllLimit">
-            <label class="suggestion-list-item">
-              <input type="checkbox" value="" :checked="allEntitiesSelected" @click="selectAllEntities(1)" />
-              <span>alle priorisierten markieren ({{ getPrioritizedEntities(wdEntities, 1).length}})</span>
-            </label>
-            <hr>
-          </template>
-          <template v-if="  wdEntities.length > 1 && 
-                            getPrioritizedEntities(wdEntities,0).length < markAllLimit">
-            <label class="suggestion-list-item">
-              <input type="checkbox" value="" :checked="allEntitiesSelected" @click="selectAllEntities(0)" />
-              <span>alle markieren ({{ wdEntities.length }})</span>
-            </label>
-            <hr>
-          </template>
-
-          <div class="suggestion clickable" v-for="entry in wdEntities" :key="entry">
-            <label class="suggestion-list-item">
-              <input type="checkbox" :value="entry" :checked="selectedEntities.includes(entry)"
-                @click="addEntity(entry)" />
-              <span class="handle" :class="({ 'priority': entry.weight === 1 }) ">{{ entry.handle }}</span>
-
-            </label>
-          </div>
-        </div>
-      </div>
     </div>
-    <div class="display-entities">
-      <template v-if="displayMode === 'display'" {{ selectedEntitiesForDisplay.length }}>
-        <WDEntity v-for="entity in selectedEntitiesForDisplay" :key="`entity${entity.id}`" :entity="entity" />
-      </template>
-    </div>
-    <div v-if="displayMode === 'search'">
+    <div v-if="displayMode === 'categories'">
       <DataInspectorMediaSamplesMinerals />
     </div>
   </div>
