@@ -41,13 +41,13 @@ const objectTypes = computed(() => {
   </Head>
   <div class="page segmented pt-4 pb-1">
     <section class="homepage-intro page-segment">
-      <h1 class="mb-lg-4  text-center intro-heading">{{ homepage.data.title }}</h1>
-      <div class="intro-text dns-text-lead" v-html="homepage.data.intro"></div>
+      <h1 class="mb-lg-4 mt-2 text-center intro-heading" >{{ homepage.data.title }}</h1>
+      <div class="intro-text" v-html="homepage.data.intro"></div>
     </section>
     <!-- University cards -->
     <section class="mt-4 university-collections page-segment">
       <h2 class="mb-lg-3 text-center section-heading">{{ w.university_collections_heading }}</h2>
-      <div class="cardset-intro" v-html="homepage.data.cardset_collections_intro" />
+      <!-- <div class="cardset-intro" v-html="homepage.data.cardset_collections_intro" /> -->
       <!-- <pre>
         {{ homepage.data.cardset_collections }}
       </pre> -->
@@ -97,7 +97,19 @@ const objectTypes = computed(() => {
     </section>
   </div>
 </template>
+
 <style scoped lang="scss">
+.homepage-intro {
+  intro-heading {
+    font-size: 2.25rem;
+    text-align: left;
+  }
+  .intro-text {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    padding: 0 2.5rem;
+  } 
+}
 .dns-card {
   border-radius: var(--selection-card-border-radius);
   
