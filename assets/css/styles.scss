@@ -111,6 +111,7 @@
   --header-height-scrolled: 4rem;
 
   --page-padding: 0 2rem;
+  --page-segment-padding: 2rem 2rem;
   --page-width: 74rem;
 
   --main-margin-top: calc(var(--header-height) + 1rem);
@@ -309,6 +310,10 @@ img {
 
 // utility classes
 
+.clickable {
+  cursor: pointer;
+}
+
 .text-center {
   text-align: center;
 }
@@ -417,10 +422,21 @@ main {
 .page {
   background-color: var(--color-page-content-background);
   border-radius: 8px;
+  &.segmented {
+    background-color: transparent;
+    border-radius: 0;
+    padding: 0;
+  }
 }
 
 section {
   margin: 0 0 var(--section-gap) 0;
+  &.page-segment {
+      background-color: var(--color-page-content-background);
+      border-radius: 8px;
+      padding: var(--page-segment-padding);
+      margin: 0 0 .75rem 0;
+  }
 }
 
 // tags

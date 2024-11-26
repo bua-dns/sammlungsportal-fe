@@ -42,7 +42,18 @@ const { data: ikbConfigurationData } = await useFetch(`https://ikb-lbs-hub.bua-d
     limit: -1,
   }
 });
-
+const { data: mstubMineralsData } = await useFetch(`https://mstub-db.bua-dns.de/items/minerals`, {
+  query: {
+    fields: '*.*',
+    limit: -1,
+  }
+});
+const { data: mstubItemsData } = await useFetch(`https://mstub-db.bua-dns.de/items/collection_items`, {
+  query: {
+    fields: '*.*',
+    limit: -1,
+  }
+});
 
 const theme = useState('theme', () => themeContent);
 useState('personsTeam', () => personsTeamContent);
@@ -54,6 +65,9 @@ useState('events', () => eventsData);
 // useState('resources', () => resourcesData);
 useState('ikbCategories', () => ikbCategoriesData);
 useState('ikbConfiguration', () => ikbConfigurationData);
+useState('minerals', () => mstubMineralsData);
+useState('mstubItems', () => mstubItemsData);
+
 
 const w = theme.value.data.wording.de;
 useHead({
