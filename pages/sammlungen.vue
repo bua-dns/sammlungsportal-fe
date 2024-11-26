@@ -334,16 +334,6 @@ onMounted(() => {
     </div>
     <div v-if="showFilters" class="filter-control-bar">
       <div class="filter-control-bar-controls">
-        <!-- deactivated for the time being
-        <div class="form-check form-switch dns-form-switch-right d-flex justify-content-end align-items-center">
-          <label class="form-check-label small" for="flexSwitchCheckChecked">
-            {{ w.scroll_to_results_after_select }}
-          </label>
-            <input @click="scrollToResultsAfterSelect = !scrollToResultsAfterSelect" class="form-check-input"
-            type="checkbox" role="switch" id="flexSwitchCheckChecked"
-            :checked="(scrollToResultsAfterSelect) ? true : null">
-          </div>
-        -->
         <button class="dns-button btn-filter" @click="resetFilters">
           <span :title="w.reset_all_filters">
             <svg class="icon" width="16" height="16" fill="currentColor">
@@ -379,7 +369,7 @@ onMounted(() => {
         <dt>{{ w.collections_of }}:</dt>
         <dd v-if="termFilter.current_keeper && termFilter.current_keeper.length > 0"
           v-for="(keeper, idx) in termFilter.current_keeper" :key="'filter-state-keeper-' + idx">
-          {{ keeper }}
+          {{ keeper }} 
         </dd>
         <dd v-else>{{ w.all_keepers }}</dd>
       </dl>
