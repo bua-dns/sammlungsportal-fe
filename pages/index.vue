@@ -27,10 +27,14 @@ const { data: homepage } = await useFetch(`${projectConfig.dataBaseUrl}/homepage
   },
 });
 const subjects = computed(() => {
-  return taxonomyTerms.value.data.filter((term) => term.spws_taxonomy === 'subject');
+  return taxonomyTerms.value.data
+    .filter((term) => term.spws_taxonomy === 'subject')
+    .sort((a, b) => a.label.localeCompare(b.label));
 });
 const objectTypes = computed(() => {
-  return taxonomyTerms.value.data.filter((term) => term.spws_taxonomy === 'genre');
+  return taxonomyTerms.value.data
+    .filter((term) => term.spws_taxonomy === 'genre')
+    .sort((a, b) => a.label.localeCompare(b.label));
 });
 
 </script>
