@@ -39,13 +39,13 @@ const objectTypes = computed(() => {
   <Head>
     <Title>BUA Sammlungsplattform</Title>
   </Head>
-  <div class="page pt-4 pb-1">
-    <section class="homepage-intro">
+  <div class="page segmented pt-4 pb-1">
+    <section class="homepage-intro page-segment">
       <h1 class="mb-lg-4  text-center intro-heading">{{ homepage.data.title }}</h1>
       <div class="intro-text dns-text-lead" v-html="homepage.data.intro"></div>
     </section>
     <!-- University cards -->
-    <section class="mt-4 university-collections">
+    <section class="mt-4 university-collections page-segment">
       <h2 class="mb-lg-3 text-center section-heading">{{ w.university_collections_heading }}</h2>
       <div class="cardset-intro" v-html="homepage.data.cardset_collections_intro" />
       <!-- <pre>
@@ -63,7 +63,7 @@ const objectTypes = computed(() => {
       </div>
     </section>
     <!-- Taxonomy cards -->
-    <section class="mt-lg-4 row taxonomy-cards">
+    <section class="mt-lg-4 row taxonomy-cards page-segment">
       <div class="select-cards-section subjects col-lg mt-4 mt-lg-0">
         <div class="mb-3 intro" v-html="homepage.data.subject_selection_intro" />
         <div class="subject-grid">
@@ -86,7 +86,7 @@ const objectTypes = computed(() => {
       </div>
     </section>
     <!-- Featured cards -->
-    <section class="mt-4 featured-cards">
+    <section class="mt-4 featured-cards page-segment">
       <h2 class=" mb-lg-4 text-center section-heading">{{ w.featured_heading }}</h2>
       <div class="intro" v-if="homepage.data.cardset_featured_intro" v-html="homepage.data.cardset_featured_intro" />
       <div class="features-grid">
