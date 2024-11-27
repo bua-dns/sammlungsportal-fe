@@ -75,6 +75,8 @@ const props = defineProps({
       display: block;
       color: var(--color-link);
       text-align: right;
+      font-size: var(--font-size-extra-small);
+
     }
   }
 }

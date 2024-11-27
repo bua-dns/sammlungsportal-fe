@@ -29,7 +29,7 @@ const page = data.value.data[0]
       <div class="page-container">
         <div class="page-content" v-html="page.page_content" />
         <div class="sidebar">
-          <div class="mt-3 mb-5 sidebar-header" v-if="page.sidebar_header_image">
+          <div class="mb-5 sidebar-header" v-if="page.sidebar_header_image">
             <img :src="projectConfig.imageBaseUrl + '/' + page.sidebar_header_image + '?key=sidebar-header'"
               alt="sidebar image" />
           </div>
@@ -52,7 +52,6 @@ const page = data.value.data[0]
       .sidebar-header {
         display: none;
         img {
-          
         }
       }
     }
@@ -69,10 +68,10 @@ const page = data.value.data[0]
         }
     
         .sidebar {
+          flex: 1;
           .sidebar-header {
             display: block;
           }
-          flex: 1;
         }
       }
   }
