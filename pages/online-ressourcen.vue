@@ -106,7 +106,7 @@ function scrollToEntry(entry) {
 <template>
 
   <Head>
-    <Title>{{ w.page_projekte }}</Title>
+    <Title>{{ w.page_online_ressourcen }}</Title>
   </Head>
   <div class="page segmented online-resources" v-if="data && page.status === 'published'">
     <template v-if="!page.display_sidebar">
