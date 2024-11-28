@@ -162,10 +162,9 @@ function scrollToEntry(entry) {
             </a>
           </div>
         </div>
-        <div class="collection-listing">
-          <h3>{{ w.collections_in_bua_resource }}</h3>
+        <div class="collection-listing mt-5">
+          <h3 class="mb-4">{{ w.collections_in_bua_resource }}</h3>
           <div v-if="true" class=" page-card-grid mt-2">
-            <!-- <pre>{{ projects.data[0] }}</pre> -->
             <div class="project-display"
               v-for="collection in sortEntries(relatedCollections[resource.slug], 'collection')"
               :key="`collection-${collection.id}`">
