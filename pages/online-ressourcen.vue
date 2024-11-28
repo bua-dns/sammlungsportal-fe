@@ -108,20 +108,17 @@ function scrollToEntry(entry) {
   <Head>
     <Title>{{ w.page_projekte }}</Title>
   </Head>
-  <div class="page p_dns-page" v-if="data && page.status === 'published'">
-    <pre v-if="false">relatedCollections{{ relatedCollections }}</pre>
-    <pre v-if="false">ownResources{{ ownResources }}</pre>
-    <pre v-if="false">resources{{ resources.map(resource => resource.id) }}</pre>
-    <pre v-if="false">collections{{ collectionsData }}</pre>
-    <pre v-if="false">page{{ page }}</pre>
-    <h1 class="mb-4 text-center">{{ page.title }}</h1>
+  <div class="page segmented online-resources" v-if="data && page.status === 'published'">
     <template v-if="!page.display_sidebar">
-      <div class="page-content" v-html="page.page_content" />
+      <section class="controls page-segment">
+        
+        <div class="page-content" v-html="page.page_content" />
+      </section>
     </template>
     <template v-if="page.display_sidebar">
-      <div class="page-container">
+      <section class="page-segment">
+        <h1 class="mb-4 text-center">{{ page.title }}</h1>
         <div class="page-content" v-html="page.page_content" />
-        <pre v-if="false">{{ page }}</pre>
         <div class="sidebar" v-if="page.display_sidebar === '1'">
           <div class="mt-3 mb-5 sidebar-header" v-if="page.sidebar_header_image">
             <img :src="projectConfig.imageBaseUrl + '/' + page.sidebar_header_image + '?key=sidebar-header'"
@@ -129,9 +126,9 @@ function scrollToEntry(entry) {
           </div>
           <div class="sidebar-content" v-if="page.sidebar_content" v-html="page.sidebar_content" />
         </div>
-      </div>
+      </section>
     </template>
-    <div class="controls">
+    <section class="controls page-segment">
       <div class="own-resources-button">
         <button @click="scrollToEntry('own-database-listing')" class="tag">
           <span class="tag-name">Sammlungen mit eigener Datenbank</span>
@@ -145,9 +142,9 @@ function scrollToEntry(entry) {
           <span class="tag-count">{{ relatedCollections[resource.slug].length }}</span>
         </button>
       </div>
-    </div>
+    </section>
     <div class="resources-listing">
-      <div class="resource-entry" v-for="resource in resources" :key="resource.id" :id="`resource-${resource.id}`">
+      <section class="resource-entry page-segment" v-for="resource in resources" :key="resource.id" :id="`resource-${resource.id}`">
         <h2>
           <a :href="resource.url" :alt="`Link zu ${resource.name}`" target="_blank">
             {{ resource.name }}
@@ -167,7 +164,7 @@ function scrollToEntry(entry) {
         </div>
         <div class="collection-listing">
           <h3>{{ w.collections_in_bua_resource }}</h3>
-          <div v-if="true" class="projects-listing page-card-grid mt-5">
+          <div v-if="true" class=" page-card-grid mt-2">
             <!-- <pre>{{ projects.data[0] }}</pre> -->
             <div class="project-display"
               v-for="collection in sortEntries(relatedCollections[resource.slug], 'collection')"
@@ -176,24 +173,23 @@ function scrollToEntry(entry) {
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
     <div class="own-database-listing" id="own-database-listing">
-      <h2>{{ w.collections_in_own_database }}</h2>
-      <div class="own-resources page-card-grid mt-5">
+      <section class="own-resources page-segment">
+        <h2>{{ w.collections_in_own_database }}</h2>
+      </section>
+      <section class="own-resources page-segment page-card-grid">
         <CardPageOnlineResources v-for="resource in ownResources" :key="`own-${resource.collection}`"
           :cardContent="resource" />
-      </div>
-    </div>
-    <div class="dev-output">
-      <pre v-if="false">{{ resources }}</pre>
+      </section>
     </div>
   </div>
 </template>
 
 <style lang='scss'>
 
-.p_dns-page {
+.online-resources {
   .page-container {
     display: block;
 

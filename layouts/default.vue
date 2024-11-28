@@ -1,7 +1,7 @@
 <script setup>
 const route = useRoute();
 const backgroundImages = useState('background_images');
-const randImageRoutes = ['sammlungen', 'index'];
+const randImageRoutes = ['sammlungen', 'index', 'online-ressourcen'];
 const clientEnv = ref(false);
 
 function getRandomImage(page) {
