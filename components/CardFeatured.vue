@@ -45,11 +45,10 @@ const props = defineProps({
     img {
       display: block;
       width: 100%;
-      object-fit: cover;
+      height: 100%; /* Ensure the image fills the container */
+      object-fit: cover; /* Maintain aspect ratio and crop as needed */
       border-top-left-radius: 6px;
       border-top-right-radius: 6px;
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
     }
     &:hover {
       img {
