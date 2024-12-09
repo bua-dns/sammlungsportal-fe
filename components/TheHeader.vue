@@ -93,7 +93,9 @@ const handleScroll = () => {
         <li>
           <nuxt-link to="/online-ressourcen">{{ w.nav_page_online_ressourcen }}</nuxt-link>
         </li>
-
+        <li>
+          <nuxt-link to="/projekte">{{ w.nav_page_projekte}}</nuxt-link>
+        </li>
         <li>
           <nuxt-link to="/kontakt">{{ w.nav_page_contact }}</nuxt-link>
         </li>
