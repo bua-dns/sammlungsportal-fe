@@ -144,45 +144,51 @@ function scrollToEntry(entry) {
       </div>
     </section>
     <div class="resources-listing">
-      <section class="resource-entry page-segment" v-for="resource in resources" :key="resource.id" :id="`resource-${resource.id}`">
-        <h2>
-          <a :href="resource.url" :alt="`Link zu ${resource.name}`" target="_blank">
-            {{ resource.name }}
-          </a>
-        </h2>
-        <div class="main-container">
-          <div class="content">
-            <div class="resource-description" v-html="resource.description" />
-            <a :href="resource.url" target="_blank">{{ resource.name }} aufrufen ...</a>
-          </div>
-          <div class="screenshot">
-            <a :href="resource.url" target="_blank">
-              <img class="main-screenshot"
-                :src="`${ projectConfig.imageBaseUrl }/${resource.main_screenshot}?key=online-resource-cover`" alt="">
+      <div class="own-database-listing" id="own-database-listing">
+        <section class="own-resources page-segment">
+          <h2>{{ w.collections_in_own_database }}</h2>
+        </section>
+        <section class="own-resources page-segment page-card-grid">
+          <CardPageOnlineResources v-for="resource in ownResources" :key="`own-${resource.collection}`"
+            :cardContent="resource" />
+        </section>
+      </div>
+      <div class="external-database-listing">
+        <section class="external-resources page-segment">
+          <h2>{{ w.collections_in_external_database }}</h2>
+        </section>
+        <section class="resource-entry page-segment" v-for="resource in resources" :key="resource.id" :id="`resource-${resource.id}`">
+          <h2>
+            <a :href="resource.url" :alt="`Link zu ${resource.name}`" target="_blank">
+              {{ resource.name }}
             </a>
-          </div>
-        </div>
-        <div class="collection-listing mt-5">
-          <h3 class="mb-4">{{ w.collections_in_bua_resource }}</h3>
-          <div v-if="true" class=" page-card-grid mt-2">
-            <div class="project-display"
-              v-for="collection in sortEntries(relatedCollections[resource.slug], 'collection')"
-              :key="`collection-${collection.id}`">
-              <CardPageOnlineResources :cardContent="collection" />
+          </h2>
+          <div class="main-container">
+            <div class="content">
+              <div class="resource-description" v-html="resource.description" />
+              <a :href="resource.url" target="_blank">{{ resource.name }} aufrufen ...</a>
+            </div>
+            <div class="screenshot">
+              <a :href="resource.url" target="_blank">
+                <img class="main-screenshot"
+                  :src="`${ projectConfig.imageBaseUrl }/${resource.main_screenshot}?key=online-resource-cover`" alt="">
+              </a>
             </div>
           </div>
-        </div>
-      </section>
+          <div class="collection-listing mt-5">
+            <h3 class="mb-4">{{ w.collections_in_bua_resource }}</h3>
+            <div v-if="true" class=" page-card-grid mt-2">
+              <div class="project-display"
+                v-for="collection in sortEntries(relatedCollections[resource.slug], 'collection')"
+                :key="`collection-${collection.id}`">
+                <CardPageOnlineResources :cardContent="collection" />
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
-    <div class="own-database-listing" id="own-database-listing">
-      <section class="own-resources page-segment">
-        <h2>{{ w.collections_in_own_database }}</h2>
-      </section>
-      <section class="own-resources page-segment page-card-grid">
-        <CardPageOnlineResources v-for="resource in ownResources" :key="`own-${resource.collection}`"
-          :cardContent="resource" />
-      </section>
-    </div>
+    
   </div>
 </template>
 
