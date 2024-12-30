@@ -90,7 +90,6 @@ const tabIndex = computed(() => {
   </nav>
 </template>
 <style scoped lang="scss">
-$navbar-height: 48px;
 .navigation-drawer {
   position: fixed;
   top: 100px;
@@ -109,7 +108,7 @@ $navbar-height: 48px;
   background-color: var(--color-header-background);
   border-left: 1px solid var(--color-border);
   &.scrolled {
-    top: $navbar-height;
+    top: var(--navbar-height-diff);
   }
   .nav-title {
     margin: 0 0 0.75rem;

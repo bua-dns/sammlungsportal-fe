@@ -140,6 +140,7 @@
   :root {
     --header-height: 6.5rem;
     --header-height-scrolled: 4.5rem;
+    --navbar-height-diff: 3rem;
 
     --main-margin-top: calc(var(--header-height) + 2rem);
 
@@ -154,6 +155,7 @@
     --font-size-h3: 1.125rem;
     --font-size-h4: 1.125rem;
     --font-size-h5: 0.875rem;
+
   }
 }
 
