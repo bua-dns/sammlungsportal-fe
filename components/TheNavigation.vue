@@ -17,10 +17,10 @@ const navStyle = computed(() => {
 });
 const navClass = computed(() => {
   if (scrollState.value) {
-    return 'navigation-drawer scrolled';
+    return 'scrolled';
   }
   else {
-    return 'navigation-drawer';
+    return '';
   }
 });
 const tabIndex = computed(() => {
@@ -33,7 +33,7 @@ const tabIndex = computed(() => {
 });
 </script>
 <template>
-  <nav :class="navClass" aria-label="Main menu" :style="navStyle">
+  <nav :class="navClass" class="navigation-drawer" aria-label="Main menu" :style="navStyle">
     <div class="sitenav">
       <h3 class="nav-title text-center">{{ w.navigation }}</h3>
       <ul>
