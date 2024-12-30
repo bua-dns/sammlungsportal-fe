@@ -49,10 +49,6 @@ const tabIndex = computed(() => {
             w.page_online_ressourcen
             }}</nuxt-link>
         </li>
-        <!-- <li>
-          <nuxt-link :tabIndex=" tabIndex" @click="navState = 'close'" to="/koloniale-kontexte">{{ w.nav_page_koloniale_kontexte
-            }}</nuxt-link>
-        </li> -->
         <li>
           <nuxt-link :tabIndex=" tabIndex" @click="navState = 'close'" to="/dns">{{ w.page_dns
             }}</nuxt-link>
@@ -82,9 +78,6 @@ const tabIndex = computed(() => {
           <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/datenschutz">{{ w.page_privacy_policy
             }}</nuxt-link>
         </li>
-        <!-- <li>
-          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/koloniale-kontexte">{{ w.nav_page_koloniale_kontexte }}</nuxt-link>
-        </li> -->
       </ul>
       <h4 class="nav-sub-title text-center">Labor</h4>
       <ul>

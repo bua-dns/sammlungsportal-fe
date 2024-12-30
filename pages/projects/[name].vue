@@ -53,7 +53,7 @@ const images = project.images.map((image) => {
     <div class="images mt-4">
       <ImageViewer :images="images" previewMode="gallery" previewImageWidth="240"></ImageViewer>
     </div>
-    <pre v-if="true">{{ project }}</pre>
+    <pre v-if="false">{{ project }}</pre>
   </div>
 </template>
 <style lang="scss">
