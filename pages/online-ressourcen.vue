@@ -1,5 +1,11 @@
 <script setup>
+import { on } from 'events';
+
 /* Used auto-imported composables: projectConfig */
+const router = useRouter();
+const route = useRoute();
+
+
 const theme = useState("theme")
 const w = theme.value.data.wording.de
 // useHead({ title: data.value.data[0].title });
@@ -100,6 +106,23 @@ function scrollToEntry(entry) {
   }, 100);
   console.log('scrolling to', entry);
 }
+function setQueryParamResource(resourceId) {
+  const params = {
+    resource: resourceId,
+  };
+  router.push({ query: params });
+}
+function selectResource(resourceId) {
+  setQueryParamResource(resourceId);
+  scrollToEntry('resource-' + resourceId);
+}
+
+onMounted(() => {
+  const resource = route.query.resource || '';
+  if (resource) {
+    selectResource(resource);
+  }
+});
 
 </script>
 
@@ -137,7 +160,7 @@ function scrollToEntry(entry) {
       </div>
       <div class="resource-cloud">
         <button v-for="resource in resources" :key="`resource-${resource.id}`"
-          @click="scrollToEntry(`resource-${resource.id}`)" class="tag">
+          @click="selectResource(resource.id)" class="tag">
           <span class="tag-name">{{ resource.name }}</span>
           <span class="tag-count">{{ relatedCollections[resource.slug].length }}</span>
         </button>
@@ -150,14 +173,16 @@ function scrollToEntry(entry) {
         </section>
         <section class="own-resources page-segment page-card-grid">
           <CardPageOnlineResources v-for="resource in ownResources" :key="`own-${resource.collection}`"
-            :cardContent="resource" />
+            :cardContent="resource"/>
         </section>
       </div>
       <div class="external-database-listing">
         <section class="external-resources page-segment">
           <h2>{{ w.collections_in_external_database }}</h2>
         </section>
-        <section class="resource-entry page-segment" v-for="resource in resources" :key="resource.id" :id="`resource-${resource.id}`">
+        <section class="resource-entry page-segment" v-for="resource in resources" 
+          :key="resource.id" 
+          :id="`resource-${resource.id}`">
           <h2>
             <a :href="resource.url" :alt="`Link zu ${resource.name}`" target="_blank">
               {{ resource.name }}
