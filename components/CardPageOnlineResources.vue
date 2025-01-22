@@ -50,6 +50,9 @@ const props = defineProps({
   h6 {
     font-weight: 400;
   }
+  p {
+    margin: 0 0 0.25rem 0;
+  }
   .card-image {
   overflow: hidden;
   height: 9.5rem;
