@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="feature-card">
+  <div class="feature-card page-card">
     <div class="card-image">
       <NuxtLink :to="cardContent.more_button_link" v-if="cardContent.card_image">
         <img :src="`${projectConfig.imageBaseUrl}/${cardContent.card_image.filename_disk}?key=feature-card`" alt="">
@@ -18,65 +18,23 @@ const props = defineProps({
     </div>
     <div class="card-body">
       <div class="card-body-content">
-        <h5 class="mt-1 card-title">{{ cardContent.title }}</h5>
-        <div class="mb-2 card-text" v-html="truncateText(cardContent.card_text,240)" />
+        <h3 class="card-title">{{ cardContent.title }}</h3>
+        <div class="card-text" v-html="truncateText(cardContent.card_text,240)" />
       </div>
-      <NuxtLink :to="cardContent.more_button_link" class="card-link">
-        {{ cardContent.more_button_label}}
-      </NuxtLink>
+      <div class="card-footer">
+        <NuxtLink :to="cardContent.more_button_link" class="card-link">
+          {{ cardContent.more_button_label}}
+        </NuxtLink>
+      </div>
     </div>
   </div>
 </template>
 
-<style scoped lang="scss">
-
+<style  lang="scss">
 .feature-card {
-  color: var(--color-feature-card-text);
-  border: 1px solid var(--color-feature-card-border);
-  background-color: var(--color-feature-card-fill);
-  min-height: var(--feature-card-height);
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  .card-image {
-    overflow: hidden;
-    flex: 0 0 calc(var(--feature-card-height) * 0.425);
-    cursor: pointer;
-    img {
-      display: block;
-      width: 100%;
-      height: 100%; /* Ensure the image fills the container */
-      object-fit: cover; /* Maintain aspect ratio and crop as needed */
-      border-top-left-radius: 6px;
-      border-top-right-radius: 6px;
-    }
-    &:hover {
-      img {
-        transform: scale(1.05);
-      }
-    }
-  }
   .card-body {
-    flex: 1;
-    padding: .5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    .card-body-content {
-      .card-title {
-        min-height: 2.25rem;
-      }
-      .card-text {
-        font-size: var(--font-size-text-extra-small);
-      }
-    }
-    .card-link {
-      display: block;
-      color: var(--color-link);
-      text-align: right;
-      font-size: var(--font-size-text-extra-small);
-
-    }
+    min-height: 13rem;
   }
 }
+
 </style>
