@@ -113,6 +113,7 @@
   --page-padding: 0 2rem;
   --page-segment-padding: 2rem 2rem;
   --page-width: 74rem;
+  --page-width-wide: 80rem;
 
   --main-margin-top: calc(var(--header-height) + 1rem);
   --main-margin-bottom: 4rem;
@@ -417,9 +418,12 @@ main {
 .page,
 .container,
 .container-fluid {
-  width: min(100%, var(--page-width));
+  max-width: var(--page-width);
   margin-inline: auto;
   padding: var(--page-padding);
+  &.wide {
+    max-width: var(--page-width-wide);
+  }
 }
 
 .page {

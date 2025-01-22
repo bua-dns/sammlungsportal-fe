@@ -131,7 +131,7 @@ onMounted(() => {
   <Head>
     <Title>{{ w.page_online_ressourcen }}</Title>
   </Head>
-  <div class="page segmented online-resources" v-if="data && page.status === 'published'">
+  <div class="page wide segmented online-resources" v-if="data && page.status === 'published'">
     <template v-if="!page.display_sidebar">
       <section class="controls page-segment">
         

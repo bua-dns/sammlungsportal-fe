@@ -51,27 +51,30 @@ const props = defineProps({
     font-weight: 400;
   }
   .card-image {
-    overflow: hidden;
-    height: 8.5rem;
-    // flex: 0 0 calc(var(--page-card-height) * 0.425);
-    cursor: pointer;
-    max-width: 100%;
+  overflow: hidden;
+  height: 9.5rem;
+  cursor: pointer;
+  max-width: 100%;
+
+  img {
+    display: block;
+    margin: 0 auto;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; // Ensures the image covers its container neatly
+  }
+
+  &:hover {
     img {
-      display: block;
-      margin: 0 auto;
-      border-top-left-radius: 6px;
-      border-top-right-radius: 6px;
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-      max-width: 100%;
-      height: auto;
-    }
-    &:hover {
-      img {
-        transform: scale(1.05);
-      }
+      transform: scale(1.05);
     }
   }
+}
+
   .card-body {
     flex: 1;
     padding: .5rem;
