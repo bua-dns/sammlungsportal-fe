@@ -288,12 +288,6 @@ onMounted(() => {
           }
         }
       }
-      .collection-listing {
-        h3 {
-          margin-bottom: 0.75rem;
-        }
-        
-      }
     }
   }
   .own-database-listing {

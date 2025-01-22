@@ -66,7 +66,7 @@ const images = project.images.map((image) => {
   }
   .sidebar {
     display: none;
-    font-size: var(--font-size-extra-small);
+    font-size: var(--font-size-text-extra-small);
     h4, h5 {
       font-size: var(--font-size-small);
       margin: 0 0 .5rem;

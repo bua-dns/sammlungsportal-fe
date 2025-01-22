@@ -67,14 +67,14 @@ const props = defineProps({
         min-height: 2.25rem;
       }
       .card-text {
-        font-size: var(--font-size-extra-small);
+        font-size: var(--font-size-text-extra-small);
       }
     }
     .card-link {
       display: block;
       color: var(--color-link);
       text-align: right;
-      font-size: var(--font-size-extra-small);
+      font-size: var(--font-size-text-extra-small);
 
     }
   }
