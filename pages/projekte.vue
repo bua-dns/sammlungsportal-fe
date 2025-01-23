@@ -49,7 +49,7 @@ const projects = projectsData.value.data
         v-for="(project, idx) in projects" :key="`page-card-${idx}`"
       >
         <Card
-            :cardImage="project.preview_image.filename_disk"
+            :cardImage="project.preview_image?.filename_disk"
             :cardTitle="project.title" 
             :cardText="project.sub_line"
             cardMoreButtonLabel="mehr zu diesem Projekt"
