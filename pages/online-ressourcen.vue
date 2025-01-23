@@ -1,5 +1,6 @@
 <script setup>
-import { on } from 'events';
+// config: set min height for cards
+const collectionCardMinHeight = '19rem';
 
 /* Used auto-imported composables: projectConfig */
 const router = useRouter();
@@ -153,7 +154,7 @@ onMounted(() => {
     </template>
     <section class="controls page-segment">
       <div class="own-resources-button">
-        <button @click="scrollToEntry('own-database-listing')" class="tag">
+        <button @click="selectResource('0')" class="tag">
           <span class="tag-name">Sammlungen mit eigener Datenbank</span>
           <span class="tag-count">({{ ownResources.length }})</span>
         </button>
@@ -167,13 +168,20 @@ onMounted(() => {
       </div>
     </section>
     <div class="resources-listing">
-      <div class="own-database-listing" id="own-database-listing">
+      <div class="own-database-listing" id="resource-0">
         <section class="own-resources page-segment">
           <h2>{{ w.collections_in_own_database }}</h2>
         </section>
         <section class="own-resources page-segment page-card-grid">
-          <CardPageOnlineResources v-for="resource in ownResources" :key="`own-${resource.collection}`"
-            :cardContent="resource"/>
+            <Card v-for="(collection, index) in ownResources" :key="`own-${index}`"
+              :cardImage="collection.screenshot"
+              :cardTitle="collection.collection" 
+              :cardText="collection.description"
+              :cardMoreButtonLabel="`zur Ressource (ca. ${ formatNumberWithPeriods(collection.amount_of_objects) } Objekte)`"
+              :cardMoreButtonLink="collection.link"
+              :cardTitleLink="collection.link"
+              :cardBodyMinHeight="collectionCardMinHeight"
+            />
         </section>
       </div>
       <div class="external-database-listing">
@@ -206,7 +214,15 @@ onMounted(() => {
               <div class="project-display"
                 v-for="collection in sortEntries(relatedCollections[resource.slug], 'collection')"
                 :key="`collection-${collection.id}`">
-                <CardPageOnlineResources :cardContent="collection" />
+                <Card 
+                  :cardImage="collection.screenshot"
+                  :cardTitle="collection.collection" 
+                  :cardText="collection.description"
+                  :cardMoreButtonLabel="`zur Ressource (ca. ${ formatNumberWithPeriods(collection.amount_of_objects) } Objekte)`"
+                  :cardMoreButtonLink="collection.link"
+                  :cardTitleLink="collection.link"
+                  :cardBodyMinHeight="collectionCardMinHeight"
+                />
               </div>
             </div>
           </div>

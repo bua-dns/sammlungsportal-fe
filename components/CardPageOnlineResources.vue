@@ -23,7 +23,7 @@ const props = defineProps({
         <NuxtLink :to="`/sammlungen/?acid=${cardContent.id}`">
           <h3 class="card-title">{{ cardContent.collection }}</h3>
         </NuxtLink>
-        <div class="card-text" v-if="cardContent.description" v-html="truncateText(cardContent.description,640)" />
+        <div class="card-text" v-if="cardContent.description" v-html="cardContent.description" />
       </div>
       <div class="card-footer">
         <a :href="`${cardContent.link}`" target="_blank" class="card-link"

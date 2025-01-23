@@ -26,6 +26,8 @@ const { data: homepage } = await useFetch(`${projectConfig.dataBaseUrl}/homepage
     fields
   },
 });
+const featuredCards = homepage.value.data.cardset_featured
+  .map((card) => card.navigation_cards_id); 
 const subjects = computed(() => {
   return taxonomyTerms.value.data
     .filter((term) => term.spws_taxonomy === 'subject')
@@ -51,11 +53,6 @@ const objectTypes = computed(() => {
     <!-- University cards -->
     <section class="mt-4 university-collections page-segment">
       <h2 class="mb-lg-3 text-center section-heading">{{ w.university_collections_heading }}</h2>
-      <!-- <div class="cardset-intro" v-html="homepage.data.cardset_collections_intro" /> -->
-      <!-- <pre>
-        {{ homepage.data.cardset_collections }}
-      </pre> -->
-      <!-- <div class="mt-4 cards d-flex flex-wrap flex-column flex-sm-row gap-2"> -->
       <div class="mt-4 university-cards">
         <div v-for="(card, idx) in homepage.data.cardset_collections" :key="idx"
           :class="'card dns-card university-card ' + card.navigation_cards_id.label"
@@ -94,8 +91,15 @@ const objectTypes = computed(() => {
       <h2 class=" mb-lg-4 text-center section-heading">{{ w.featured_heading }}</h2>
       <div class="intro" v-if="homepage.data.cardset_featured_intro" v-html="homepage.data.cardset_featured_intro" />
       <div class="features-grid">
-        <div v-for="(card, idx) in homepage.data.cardset_featured" :key="idx" class="feature-card">
-          <CardFeatured :cardContent="card.navigation_cards_id" />
+        <div v-for="(card, index) in featuredCards" :key="`card-${index}`" class="feature-card">
+          <Card
+            :cardImage="card.card_image.filename_disk"
+            :cardTitle="card.title" 
+            :cardText="card.card_text"
+            :cardMoreButtonLabel="card.more_button_label"
+            :cardMoreButtonLink="card.more_button_link"
+            :cardBodyMinHeight="'13rem'"
+          />
         </div>
       </div>
     </section>

@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="page-card-projects page-card">
+  <div class="page-card-projects">
     <div class="card-image">
       <NuxtLink :to="`/projects/${cardContent.slug}`">
         <img v-if="cardContent.preview_image && cardContent.preview_image?.filename_disk"
