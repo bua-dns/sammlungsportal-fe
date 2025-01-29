@@ -124,7 +124,18 @@ onMounted(() => {
     selectResource(resource);
   }
 });
-
+function getCardText(description, moreItemsHint) {
+  if (description && moreItemsHint) {
+    return `${description}${moreItemsHint}`;
+  }
+  if (description) {
+    return description;
+  }
+  if (moreItemsHint) {
+    return `${moreItemsHint}`;
+  }
+  return '';
+}
 </script>
 
 <template>
@@ -216,8 +227,8 @@ onMounted(() => {
                 :key="`collection-${collection.id}`">
                 <Card 
                   :cardImage="collection.screenshot"
-                  :cardTitle="collection.collection" 
-                  :cardText="collection.description"
+                  :cardTitle="collection.collection"
+                  :cardText="getCardText(collection.description, collection.more_items_hint)"
                   :cardMoreButtonLabel="`zur Ressource (ca. ${ formatNumberWithPeriods(collection.amount_of_objects) } Objekte)`"
                   :cardMoreButtonLink="collection.link"
                   :cardTitleLink="collection.link"
