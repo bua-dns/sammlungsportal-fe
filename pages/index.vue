@@ -45,10 +45,21 @@ const objectTypes = computed(() => {
   <Head>
     <Title>BUA Sammlungsplattform</Title>
   </Head>
-  <div class="page segmented pt-4 pb-1">
+  <div class="page segmented pt-4 pb-1 ">
     <section class="homepage-intro page-segment">
       <h1 class="mb-lg-4 mt-2 text-center intro-heading" >{{ homepage.data.title }}</h1>
-      <div class="intro-text" v-html="homepage.data.intro"></div>
+      <div class="intro-content">
+        <div class="intro-text" v-html="homepage.data.intro"></div>
+        <aside>
+          <h5 class="mb-1">aktuell</h5>
+          <h3 class="mb-2">Universitätssammlungen zu Gast<br>in Berlin</h3>
+          <p>Die 16. Jahrestagung für wissenschaftliche Universitätssammlungen 2025 wird gemeinsam von den Partnern der Berlin University Alliance und der 
+            <a href="https://gesellschaft-universitaetssammlungen.de/" target="_blank" alt="zur Homepate der GfU">Gesellschaft für Universitätssammlungen e.V. (GfU)</a>
+             veranstaltet.</p>
+          <p>Sie findet vom <b>09.–11. Oktober 2025 in Berlin</b> statt.</p>
+          <p><NuxtLink to="/sammlungstagung/call-for-papers">zum Call for Papers ...</NuxtLink></p>
+        </aside>
+      </div>
     </section>
     <!-- University cards -->
     <section class="mt-4 university-collections page-segment">
@@ -106,17 +117,47 @@ const objectTypes = computed(() => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
+
 .homepage-intro {
-  intro-heading {
-    font-size: 2.25rem;
-    text-align: left;
+  .intro-heading {
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
+    @media screen and (min-width: 768px) {
+      font-size: 2.25rem;      
+    }
   }
-  .intro-text {
-    font-size: 1.25rem;
-    line-height: 1.75rem;
-    padding: 0 2.5rem;
-  } 
+
+  .intro-content {
+    display: block;
+    @media screen and (min-width: 1000px) {
+      display: flex;
+      gap: 3.5rem;
+      
+    }
+    .intro-text {
+      font-size: 1rem;
+      line-height: 1.25rem;
+      @media screen and (min-width: 768px) {
+        flex: 2; // Takes up 2 parts of the flex container
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+        
+      }
+    }
+
+    aside {
+      font-size: 1rem;
+      background-color: var(--color-bua-brown-light);
+      border-radius: 6px;
+      padding: 1.25rem;
+      @media  screen and (min-width: 768px) {
+        flex: 1; // Takes up 1 part of the flex container
+        font-size: .875rem;
+        
+      }
+    }
+  }
 }
 .dns-card {
   border-radius: var(--selection-card-border-radius);

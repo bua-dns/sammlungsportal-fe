@@ -79,6 +79,13 @@ const tabIndex = computed(() => {
             }}</nuxt-link>
         </li>
       </ul>
+      <h4 class="nav-sub-title text-center">Sammlungstagung 2025</h4>
+      <ul>
+        <li>
+          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/sammlungstagung/call-for-papers">
+            Call for Papers </nuxt-link>
+        </li>
+      </ul>
       <h4 class="nav-sub-title text-center">Labor</h4>
       <ul>
         <li>
