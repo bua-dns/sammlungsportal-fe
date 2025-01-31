@@ -11,7 +11,14 @@ function activeTerm(taxonomy, term) {
   }
   return "";
 }
-
+function filterValues(values, field) {
+  if (field === 'collection_portal') {
+    return values.filter(value => {
+      return !value.url.includes('berlin-university-collections.de');
+    });
+  }
+  return values;
+} 
 
 
 const showLightbox = ref(false);
@@ -107,7 +114,7 @@ function getImageUrls(images){
             </dt>
             <dd>
               <ul>
-                <li v-for="(portal, idx) in collection.collection_portal" :key="'portal_' + collection.id + '_' + idx">
+                <li v-for="(portal, idx) in filterValues(collection.collection_portal, 'collection_portal')" :key="'portal_' + collection.id + '_' + idx">
                   <a :href="portal.url" target="_blank" rel="noopener">{{ portal.name }}</a>
                 </li>
               </ul>
