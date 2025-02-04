@@ -6,7 +6,6 @@ const collectionCardMinHeight = '19rem';
 const router = useRouter();
 const route = useRoute();
 
-
 const theme = useState("theme")
 const w = theme.value.data.wording.de
 // useHead({ title: data.value.data[0].title });
@@ -211,7 +210,7 @@ function getCardText(description, moreItemsHint) {
               <div class="resource-description" v-html="resource.description" />
               <a :href="resource.url" target="_blank">{{ resource.name }} aufrufen ...</a>
             </div>
-            <div class="screenshot">
+            <div class="screenshot" v-if="resource.main_screenshot">
               <a :href="resource.url" target="_blank">
                 <img class="main-screenshot"
                   :src="`${ projectConfig.imageBaseUrl }/${resource.main_screenshot}?key=online-resource-cover`" alt="">
@@ -220,8 +219,8 @@ function getCardText(description, moreItemsHint) {
           </div>
           <div class="collection-listing mt-5">
             <h3 class="mb-4">{{ w.collections_in_bua_resource }}</h3>
-            <div v-if="true" class=" page-card-grid mt-2">
-              <div class="project-display"
+            <div v-if="relatedCollections[resource.slug]" class=" page-card-grid mt-2">
+              <div 
                 v-for="collection in sortEntries(relatedCollections[resource.slug], 'collection')"
                 :key="`collection-${collection.id}`">
                 <Card 
