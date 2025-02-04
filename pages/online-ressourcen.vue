@@ -31,7 +31,7 @@ const resources = resourcesData.value.data
 
 const { data:collectionsData } = await useFetch('https://sammlungsportal.bua-dns.de/items/bua_collections', {
   query: {
-    fields: 'id, label, dns_objects_in_external_databases, name, dns_objects_in_own_databases',
+    fields: 'id, label, current_keeper, dns_objects_in_external_databases, name, dns_objects_in_own_databases',
     limit: -1,
   },
 });
@@ -44,13 +44,16 @@ const ownResources = computed(() => {
       id: collection.id,
       label: collection.label,
       dns_objects_in_own_databases: collection.dns_objects_in_own_databases,
+      currentKeeper: collection.current_keeper,
+      
     }));
     let entries = [];
     for (let collection of collections) {
       for (let resource of collection.dns_objects_in_own_databases) {
         entries.push({
           collection: collection.label, 
-          id: collection.id, 
+          id: collection.id,
+          currentKeeper: collection.currentKeeper,
           ...resource,
         });
       }
@@ -86,7 +89,8 @@ const relatedCollections = computed(() => {
       if (index[resource.online_resource]) {
         index[resource.online_resource].push({
           collection: collection.label, 
-          id: collection.id, 
+          id: collection.id,
+          currentKeeper: collection.current_keeper,
           ...collection.dns_objects_in_external_databases
             .find((item) => item.online_resource === resource.online_resource),
         });
@@ -135,6 +139,17 @@ function getCardText(description, moreItemsHint) {
   }
   return '';
 }
+function shortenKeeperInfo(keeper) {
+  if (!keeper) return '';
+  if (keeper === 'Freie Universität Berlin') return 'FU Berlin';
+  if (keeper === 'Humboldt-Universität zu Berlin') return 'HU Berlin';
+  if (keeper === 'Technische Universität Berlin') return 'TU Berlin';
+  if (keeper === 'Charité – Universitätsmedizin Berlin') return 'Charité';
+  return keeper;
+}
+
+
+
 </script>
 
 <template>
@@ -185,12 +200,14 @@ function getCardText(description, moreItemsHint) {
         <section class="own-resources page-segment page-card-grid">
             <Card v-for="(collection, index) in ownResources" :key="`own-${index}`"
               :cardImage="collection.screenshot"
-              :cardTitle="collection.collection" 
+              :cardTitle="collection.collection"
+              :rubric="shortenKeeperInfo(collection.currentKeeper)"
               :cardText="getCardText(collection.description, collection.more_items_hint)"              :cardMoreButtonLabel="`zur Ressource (ca. ${ formatNumberWithPeriods(collection.amount_of_objects) } Objekte)`"
               :cardMoreButtonLink="collection.link"
               :cardTitleLink="collection.link"
               :cardBodyMinHeight="collectionCardMinHeight"
             />
+           <pre v-if="false">{{ ownResources  }}</pre>
         </section>
       </div>
       <div class="external-database-listing">
@@ -226,6 +243,7 @@ function getCardText(description, moreItemsHint) {
                 <Card 
                   :cardImage="collection.screenshot"
                   :cardTitle="collection.collection"
+                  :rubric="shortenKeeperInfo(collection.currentKeeper)"
                   :cardText="getCardText(collection.description, collection.more_items_hint)"
                   :cardMoreButtonLabel="`zur Ressource (ca. ${ formatNumberWithPeriods(collection.amount_of_objects) } Objekte)`"
                   :cardMoreButtonLink="collection.link"

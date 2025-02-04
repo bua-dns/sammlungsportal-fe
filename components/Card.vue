@@ -8,6 +8,9 @@ const props = defineProps({
   cardTitle: {
     type: String,
   },
+  rubric: {
+    type: String,
+  },
   cardTitleLink: {
     type: String,
     default: null,
@@ -33,16 +36,17 @@ const props = defineProps({
 <template>
   <div class="page-card-generic">
     <div class="card-image">
-      <NuxtLink :to="cardMoreButtonLink" v-if="cardImage">
+      <GeneralLink :link="cardMoreButtonLink" v-if="cardImage">
         <img :src="useGetImageUrl(cardImage, 'card-image')" alt="">
-      </NuxtLink>
+      </GeneralLink>
     </div>
     <div class="card-body" :style="`min-height: ${cardBodyMinHeight || 'none'}; `">
       <div class="card-body-content">
         <template v-if="cardTitleLink && cardTitleLink.length > 0">
-          <NuxtLink :to="cardTitleLink">
+          <h4 class="rubric">{{ rubric }}</h4>
+          <GeneralLink :link="cardTitleLink">
             <h3 class="card-title">{{ cardTitle }}</h3>
-          </NuxtLink>
+          </GeneralLink>
         </template>
         <template v-if="!cardTitleLink || cardTitleLink.length === 0">
           <h3 class="card-title">{{ cardTitle }}</h3>
@@ -50,9 +54,9 @@ const props = defineProps({
         <div class="card-text" v-html="cardText" />
       </div>
       <div class="card-footer">
-        <NuxtLink :to="cardMoreButtonLink" class="card-link">
-          {{ cardMoreButtonLabel }}
-        </NuxtLink>
+        <GeneralLink :link="cardMoreButtonLink" class="card-link">
+           {{ cardMoreButtonLabel }}
+        </GeneralLink>
       </div>
     </div>
   </div>
@@ -85,6 +89,12 @@ const props = defineProps({
     line-height: 1.4;
     margin-bottom: 0.5rem;
     // min-height: 2.75rem;
+  }
+  h4 {
+    font-size: .75rem;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    font-weight: 300;
   }
   p {
     margin: 0 0 0.25rem 0;
@@ -129,5 +139,4 @@ const props = defineProps({
       }
     }
  }
-
 </style>
