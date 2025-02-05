@@ -124,11 +124,6 @@ const markAllLimit = 100;
   <div class="data-inspector" v-if="true">
     <div class="intro">
       <h1 class="page-header text-center">{{ w.page_data_inspector_ikb}}<span class="badge-beta">beta</span></h1>
-      <div class="dev-output" v-if="false">
-        diSearch<br>
-        <pre>{{ diSearch.term }}</pre>
-        <!-- <pre>selectedPriorities<br>{{ selectedPriorities }}</pre> -->
-      </div>
     </div>
 
     <div class="intro" v-html="page.page_content" />
