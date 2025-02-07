@@ -180,7 +180,7 @@ function shortenKeeperInfo(keeper) {
     <section class="controls page-segment">
       <div class="own-resources-button">
         <button @click="selectResource('0')" class="tag">
-          <span class="tag-name">Sammlungen mit eigener Datenbank</span>
+          <span class="tag-name">{{ w.online_resources_own_resources }}</span>
           <span class="tag-count">({{ ownResources.length }})</span>
         </button>
       </div>
@@ -195,14 +195,15 @@ function shortenKeeperInfo(keeper) {
     <div class="resources-listing">
       <div class="own-database-listing" id="resource-0">
         <section class="own-resources page-segment">
-          <h2>{{ w.collections_in_own_database }}</h2>
+          <h2>{{ w.online_resources_own_resources }}</h2>
         </section>
         <section class="own-resources page-segment page-card-grid">
             <Card v-for="(collection, index) in ownResources" :key="`own-${index}`"
               :cardImage="collection.screenshot"
               :cardTitle="collection.collection"
               :rubric="shortenKeeperInfo(collection.currentKeeper)"
-              :cardText="getCardText(collection.description, collection.more_items_hint)"              :cardMoreButtonLabel="`zur Ressource (ca. ${ formatNumberWithPeriods(collection.amount_of_objects) } Objekte)`"
+              :cardText="getCardText(collection.description, collection.more_items_hint)"
+              :cardMoreButtonLabel="`zur Ressource (ca. ${ formatNumberWithPeriods(collection.amount_of_objects) } Objekte)`"
               :cardMoreButtonLink="collection.link"
               :cardTitleLink="collection.link"
               :cardBodyMinHeight="collectionCardMinHeight"
@@ -212,7 +213,7 @@ function shortenKeeperInfo(keeper) {
       </div>
       <div class="external-database-listing">
         <section class="external-resources page-segment">
-          <h2>{{ w.collections_in_external_database }}</h2>
+          <h2>{{ w.online_resources_external_resources }}</h2>
         </section>
         <section class="resource-entry page-segment" v-for="resource in resources" 
           :key="resource.id" 
