@@ -3,6 +3,13 @@ export default defineNuxtConfig({
   typescript: {
     shim: false
   },
+  nitro: {
+    routeRules: {
+      "/api/**": {
+        cors: true
+      }
+    }
+  },
   hooks: {
     "components:dirs": (dirs) => {
       dirs.push({
