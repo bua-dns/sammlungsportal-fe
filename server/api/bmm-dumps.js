@@ -1,10 +1,10 @@
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 
-const UPLOADS_DIR = join(process.cwd(), '.output/uploads');
+const UPLOADS_DIR = join(process.cwd(), 'uploads'); // ✅ Outside of .output
 
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event); // JSON: { filename, content }
+  const body = await readBody(event); // Expecting { filename, content }
 
   if (!body.filename || !body.content) {
     throw createError({ statusCode: 400, message: 'Invalid data' });
@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
     // Ensure uploads directory exists
     await mkdir(UPLOADS_DIR, { recursive: true });
 
-    // Save file
+    // Save the file
     const filePath = join(UPLOADS_DIR, body.filename);
     await writeFile(filePath, body.content, 'utf8');
 

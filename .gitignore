@@ -1,4 +1,4 @@
-.output/uploads
+/uploads
 node_modules
 *.log*
 .nuxt
