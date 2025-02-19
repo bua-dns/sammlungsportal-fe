@@ -1,7 +1,7 @@
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 
-const UPLOADS_DIR = join(process.cwd(), 'uploads'); // ✅ Outside of .output
+const UPLOADS_DIR = join(process.cwd(), '..', 'uploads'); // ✅ Outside of .output
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event); // Expecting { filename, content }
