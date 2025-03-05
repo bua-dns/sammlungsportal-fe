@@ -39,7 +39,7 @@ const props = defineProps({
   }
 }
 
-@media screen and (max-width: 1248px) {
+@media screen and (max-width: 1400px) {
   .c_info-badge {
     display: none;
   }

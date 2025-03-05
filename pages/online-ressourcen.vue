@@ -1,5 +1,11 @@
 <script setup>
+// config: set min height for cards
+const collectionCardMinHeight = '19rem';
+
 /* Used auto-imported composables: projectConfig */
+const router = useRouter();
+const route = useRoute();
+
 const theme = useState("theme")
 const w = theme.value.data.wording.de
 // useHead({ title: data.value.data[0].title });
@@ -25,7 +31,7 @@ const resources = resourcesData.value.data
 
 const { data:collectionsData } = await useFetch('https://sammlungsportal.bua-dns.de/items/bua_collections', {
   query: {
-    fields: 'id, label, dns_objects_in_external_databases, name, dns_objects_in_own_databases',
+    fields: 'id, label, current_keeper, dns_objects_in_external_databases, name, dns_objects_in_own_databases',
     limit: -1,
   },
 });
@@ -38,13 +44,16 @@ const ownResources = computed(() => {
       id: collection.id,
       label: collection.label,
       dns_objects_in_own_databases: collection.dns_objects_in_own_databases,
+      currentKeeper: collection.current_keeper,
+      
     }));
     let entries = [];
     for (let collection of collections) {
       for (let resource of collection.dns_objects_in_own_databases) {
         entries.push({
           collection: collection.label, 
-          id: collection.id, 
+          id: collection.id,
+          currentKeeper: collection.currentKeeper,
           ...resource,
         });
       }
@@ -80,7 +89,8 @@ const relatedCollections = computed(() => {
       if (index[resource.online_resource]) {
         index[resource.online_resource].push({
           collection: collection.label, 
-          id: collection.id, 
+          id: collection.id,
+          currentKeeper: collection.current_keeper,
           ...collection.dns_objects_in_external_databases
             .find((item) => item.online_resource === resource.online_resource),
         });
@@ -100,28 +110,64 @@ function scrollToEntry(entry) {
   }, 100);
   console.log('scrolling to', entry);
 }
+function setQueryParamResource(resourceId) {
+  const params = {
+    resource: resourceId,
+  };
+  router.push({ query: params });
+}
+function selectResource(resourceId) {
+  setQueryParamResource(resourceId);
+  scrollToEntry('resource-' + resourceId);
+}
+
+onMounted(() => {
+  const resource = route.query.resource || '';
+  if (resource) {
+    selectResource(resource);
+  }
+});
+function getCardText(description, moreItemsHint) {
+  if (description && moreItemsHint) {
+    return `${description}${moreItemsHint}`;
+  }
+  if (description) {
+    return description;
+  }
+  if (moreItemsHint) {
+    return `${moreItemsHint}`;
+  }
+  return '';
+}
+function shortenKeeperInfo(keeper) {
+  if (!keeper) return '';
+  if (keeper === 'Freie Universität Berlin') return 'FU Berlin';
+  if (keeper === 'Humboldt-Universität zu Berlin') return 'HU Berlin';
+  if (keeper === 'Technische Universität Berlin') return 'TU Berlin';
+  if (keeper === 'Charité – Universitätsmedizin Berlin') return 'Charité';
+  return keeper;
+}
+
+
 
 </script>
 
 <template>
 
   <Head>
-    <Title>{{ w.page_projekte }}</Title>
+    <Title>{{ w.page_online_ressourcen }}</Title>
   </Head>
-  <div class="page p_dns-page" v-if="data && page.status === 'published'">
-    <pre v-if="false">relatedCollections{{ relatedCollections }}</pre>
-    <pre v-if="false">ownResources{{ ownResources }}</pre>
-    <pre v-if="false">resources{{ resources.map(resource => resource.id) }}</pre>
-    <pre v-if="false">collections{{ collectionsData }}</pre>
-    <pre v-if="false">page{{ page }}</pre>
-    <h1 class="mb-4 text-center">{{ page.title }}</h1>
+  <div class="page wide segmented online-resources" v-if="data && page.status === 'published'">
     <template v-if="!page.display_sidebar">
-      <div class="page-content" v-html="page.page_content" />
+      <section class="controls page-segment">
+        
+        <div class="page-content" v-html="page.page_content" />
+      </section>
     </template>
     <template v-if="page.display_sidebar">
-      <div class="page-container">
+      <section class="page-segment">
+        <h1 class="mb-4 text-center">{{ page.title }}</h1>
         <div class="page-content" v-html="page.page_content" />
-        <pre v-if="false">{{ page }}</pre>
         <div class="sidebar" v-if="page.display_sidebar === '1'">
           <div class="mt-3 mb-5 sidebar-header" v-if="page.sidebar_header_image">
             <img :src="projectConfig.imageBaseUrl + '/' + page.sidebar_header_image + '?key=sidebar-header'"
@@ -129,71 +175,95 @@ function scrollToEntry(entry) {
           </div>
           <div class="sidebar-content" v-if="page.sidebar_content" v-html="page.sidebar_content" />
         </div>
-      </div>
+      </section>
     </template>
-    <div class="controls">
+    <section class="controls page-segment">
       <div class="own-resources-button">
-        <button @click="scrollToEntry('own-database-listing')" class="tag">
-          <span class="tag-name">Sammlungen mit eigener Datenbank</span>
+        <button @click="selectResource('0')" class="tag">
+          <span class="tag-name">{{ w.online_resources_own_resources }}</span>
           <span class="tag-count">({{ ownResources.length }})</span>
         </button>
       </div>
       <div class="resource-cloud">
         <button v-for="resource in resources" :key="`resource-${resource.id}`"
-          @click="scrollToEntry(`resource-${resource.id}`)" class="tag">
+          @click="selectResource(resource.id)" class="tag">
           <span class="tag-name">{{ resource.name }}</span>
           <span class="tag-count">{{ relatedCollections[resource.slug].length }}</span>
         </button>
       </div>
-    </div>
+    </section>
     <div class="resources-listing">
-      <div class="resource-entry" v-for="resource in resources" :key="resource.id" :id="`resource-${resource.id}`">
-        <h2>
-          <a :href="resource.url" :alt="`Link zu ${resource.name}`" target="_blank">
-            {{ resource.name }}
-          </a>
-        </h2>
-        <div class="main-container">
-          <div class="content">
-            <div class="resource-description" v-html="resource.description" />
-            <a :href="resource.url" target="_blank">{{ resource.name }} aufrufen ...</a>
-          </div>
-          <div class="screenshot">
-            <a :href="resource.url" target="_blank">
-              <img class="main-screenshot"
-                :src="`${ projectConfig.imageBaseUrl }/${resource.main_screenshot}?key=online-resource-cover`" alt="">
+      <div class="own-database-listing" id="resource-0">
+        <section class="own-resources page-segment">
+          <h2>{{ w.online_resources_own_resources }}</h2>
+        </section>
+        <section class="own-resources page-segment page-card-grid">
+            <Card v-for="(collection, index) in ownResources" :key="`own-${index}`"
+              :cardImage="collection.screenshot"
+              :cardTitle="collection.collection"
+              :rubric="shortenKeeperInfo(collection.currentKeeper)"
+              :cardText="getCardText(collection.description, collection.more_items_hint)"
+              :cardMoreButtonLabel="`zur Ressource (ca. ${ formatNumberWithPeriods(collection.amount_of_objects) } Objekte)`"
+              :cardMoreButtonLink="collection.link"
+              :cardTitleLink="collection.link"
+              :cardBodyMinHeight="collectionCardMinHeight"
+            />
+           <pre v-if="false">{{ ownResources  }}</pre>
+        </section>
+      </div>
+      <div class="external-database-listing">
+        <section class="external-resources page-segment">
+          <h2>{{ w.online_resources_external_resources }}</h2>
+        </section>
+        <section class="resource-entry page-segment" v-for="resource in resources" 
+          :key="resource.id" 
+          :id="`resource-${resource.id}`">
+          <h2>
+            <a :href="resource.url" :alt="`Link zu ${resource.name}`" target="_blank">
+              {{ resource.name }}
             </a>
-          </div>
-        </div>
-        <div class="collection-listing">
-          <h3>{{ w.collections_in_bua_resource }}</h3>
-          <div v-if="true" class="projects-listing page-card-grid mt-5">
-            <!-- <pre>{{ projects.data[0] }}</pre> -->
-            <div class="project-display"
-              v-for="collection in sortEntries(relatedCollections[resource.slug], 'collection')"
-              :key="`collection-${collection.id}`">
-              <CardPageOnlineResources :cardContent="collection" />
+          </h2>
+          <div class="main-container">
+            <div class="content">
+              <div class="resource-description" v-html="resource.description" />
+              <a :href="resource.url" target="_blank">{{ resource.name }} aufrufen ...</a>
+            </div>
+            <div class="screenshot" v-if="resource.main_screenshot">
+              <a :href="resource.url" target="_blank">
+                <img class="main-screenshot"
+                  :src="`${ projectConfig.imageBaseUrl }/${resource.main_screenshot}?key=online-resource-cover`" alt="">
+              </a>
             </div>
           </div>
-        </div>
+          <div class="collection-listing mt-5">
+            <h3 class="mb-4">{{ w.collections_in_bua_resource }}</h3>
+            <div v-if="relatedCollections[resource.slug]" class=" page-card-grid mt-2">
+              <div 
+                v-for="collection in sortEntries(relatedCollections[resource.slug], 'collection')"
+                :key="`collection-${collection.id}`">
+                <Card 
+                  :cardImage="collection.screenshot"
+                  :cardTitle="collection.collection"
+                  :rubric="shortenKeeperInfo(collection.currentKeeper)"
+                  :cardText="getCardText(collection.description, collection.more_items_hint)"
+                  :cardMoreButtonLabel="`zur Ressource (ca. ${ formatNumberWithPeriods(collection.amount_of_objects) } Objekte)`"
+                  :cardMoreButtonLink="collection.link"
+                  :cardTitleLink="collection.link"
+                  :cardBodyMinHeight="collectionCardMinHeight"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
-    <div class="own-database-listing" id="own-database-listing">
-      <h2>{{ w.collections_in_own_database }}</h2>
-      <div class="own-resources page-card-grid mt-5">
-        <CardPageOnlineResources v-for="resource in ownResources" :key="`own-${resource.collection}`"
-          :cardContent="resource" />
-      </div>
-    </div>
-    <div class="dev-output">
-      <pre v-if="false">{{ resources }}</pre>
-    </div>
+    
   </div>
 </template>
 
 <style lang='scss'>
 
-.p_dns-page {
+.online-resources {
   .page-container {
     display: block;
 
@@ -261,12 +331,6 @@ function scrollToEntry(entry) {
             display: flex;
           }
         }
-      }
-      .collection-listing {
-        h3 {
-          margin-bottom: 0.75rem;
-        }
-        
       }
     }
   }

@@ -39,12 +39,21 @@ const images = project.images.map((image) => {
             </li>
           </ul>
         </div>
+        <div
+          v-for="(logo, index) in project.logos_coop_partners"
+          :key="`logo-${index}`"
+          class="my-4"
+        >
+          <img  :src="`${projectConfig.imageBaseUrl}/${logo.directus_files_id}?key=sidebar-logo`"
+                :alt="`Logo of Partner`" />
+        </div>
         <div class="sidebar-content" v-html="project.sidebar_content" v-if="project.sidebar_content"></div>
       </div>
     </div>
     <div class="images mt-4">
       <ImageViewer :images="images" previewMode="gallery" previewImageWidth="240"></ImageViewer>
     </div>
+    <pre v-if="false">{{ project }}</pre>
   </div>
 </template>
 <style lang="scss">
@@ -57,7 +66,7 @@ const images = project.images.map((image) => {
   }
   .sidebar {
     display: none;
-    font-size: var(--font-size-extra-small);
+    font-size: var(--font-size-text-extra-small);
     h4, h5 {
       font-size: var(--font-size-small);
       margin: 0 0 .5rem;

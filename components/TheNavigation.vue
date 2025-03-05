@@ -17,10 +17,10 @@ const navStyle = computed(() => {
 });
 const navClass = computed(() => {
   if (scrollState.value) {
-    return 'navigation-drawer scrolled';
+    return 'scrolled';
   }
   else {
-    return 'navigation-drawer';
+    return '';
   }
 });
 const tabIndex = computed(() => {
@@ -33,7 +33,7 @@ const tabIndex = computed(() => {
 });
 </script>
 <template>
-  <nav :class="navClass" aria-label="Main menu" :style="navStyle">
+  <nav :class="navClass" class="navigation-drawer" aria-label="Main menu" :style="navStyle">
     <div class="sitenav">
       <h3 class="nav-title text-center">{{ w.navigation }}</h3>
       <ul>
@@ -49,10 +49,6 @@ const tabIndex = computed(() => {
             w.page_online_ressourcen
             }}</nuxt-link>
         </li>
-        <!-- <li>
-          <nuxt-link :tabIndex=" tabIndex" @click="navState = 'close'" to="/koloniale-kontexte">{{ w.nav_page_koloniale_kontexte
-            }}</nuxt-link>
-        </li> -->
         <li>
           <nuxt-link :tabIndex=" tabIndex" @click="navState = 'close'" to="/dns">{{ w.page_dns
             }}</nuxt-link>
@@ -82,9 +78,13 @@ const tabIndex = computed(() => {
           <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/datenschutz">{{ w.page_privacy_policy
             }}</nuxt-link>
         </li>
-        <!-- <li>
-          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/koloniale-kontexte">{{ w.nav_page_koloniale_kontexte }}</nuxt-link>
-        </li> -->
+      </ul>
+      <h4 class="nav-sub-title text-center">Sammlungstagung 2025</h4>
+      <ul>
+        <li>
+          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/sammlungstagung/call-for-papers">
+            Call for Papers </nuxt-link>
+        </li>
       </ul>
       <h4 class="nav-sub-title text-center">Labor</h4>
       <ul>
@@ -97,7 +97,6 @@ const tabIndex = computed(() => {
   </nav>
 </template>
 <style scoped lang="scss">
-$navbar-height: 48px;
 .navigation-drawer {
   position: fixed;
   top: 100px;
@@ -116,7 +115,7 @@ $navbar-height: 48px;
   background-color: var(--color-header-background);
   border-left: 1px solid var(--color-border);
   &.scrolled {
-    top: $navbar-height;
+    top: var(--navbar-height-diff);
   }
   .nav-title {
     margin: 0 0 0.75rem;

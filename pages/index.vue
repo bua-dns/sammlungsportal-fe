@@ -26,11 +26,17 @@ const { data: homepage } = await useFetch(`${projectConfig.dataBaseUrl}/homepage
     fields
   },
 });
+const featuredCards = homepage.value.data.cardset_featured
+  .map((card) => card.navigation_cards_id); 
 const subjects = computed(() => {
-  return taxonomyTerms.value.data.filter((term) => term.spws_taxonomy === 'subject');
+  return taxonomyTerms.value.data
+    .filter((term) => term.spws_taxonomy === 'subject')
+    .sort((a, b) => a.label.localeCompare(b.label));
 });
 const objectTypes = computed(() => {
-  return taxonomyTerms.value.data.filter((term) => term.spws_taxonomy === 'genre');
+  return taxonomyTerms.value.data
+    .filter((term) => term.spws_taxonomy === 'genre')
+    .sort((a, b) => a.label.localeCompare(b.label));
 });
 
 </script>
@@ -39,19 +45,25 @@ const objectTypes = computed(() => {
   <Head>
     <Title>BUA Sammlungsplattform</Title>
   </Head>
-  <div class="page segmented pt-4 pb-1">
+  <div class="page segmented pt-4 pb-1 ">
     <section class="homepage-intro page-segment">
-      <h1 class="mb-lg-4  text-center intro-heading">{{ homepage.data.title }}</h1>
-      <div class="intro-text dns-text-lead" v-html="homepage.data.intro"></div>
+      <h1 class="mb-lg-4 mt-2 text-center intro-heading" >{{ homepage.data.title }}</h1>
+      <div class="intro-content">
+        <div class="intro-text" v-html="homepage.data.intro"></div>
+        <aside>
+          <h5 class="mb-1">aktuell</h5>
+          <h3 class="mb-2">Universitätssammlungen zu Gast<br>in Berlin</h3>
+          <p>Die 16. Jahrestagung für wissenschaftliche Universitätssammlungen 2025 wird gemeinsam von den Partnern der Berlin University Alliance und der 
+            <a href="https://gesellschaft-universitaetssammlungen.de/" target="_blank" alt="zur Homepate der GfU">Gesellschaft für Universitätssammlungen e.V. (GfU)</a>
+             veranstaltet.</p>
+          <p>Sie findet vom <b>09.–11. Oktober 2025 in Berlin</b> statt.</p>
+          <p><NuxtLink to="/sammlungstagung/call-for-papers">zum Call for Papers ...</NuxtLink></p>
+        </aside>
+      </div>
     </section>
     <!-- University cards -->
     <section class="mt-4 university-collections page-segment">
       <h2 class="mb-lg-3 text-center section-heading">{{ w.university_collections_heading }}</h2>
-      <div class="cardset-intro" v-html="homepage.data.cardset_collections_intro" />
-      <!-- <pre>
-        {{ homepage.data.cardset_collections }}
-      </pre> -->
-      <!-- <div class="mt-4 cards d-flex flex-wrap flex-column flex-sm-row gap-2"> -->
       <div class="mt-4 university-cards">
         <div v-for="(card, idx) in homepage.data.cardset_collections" :key="idx"
           :class="'card dns-card university-card ' + card.navigation_cards_id.label"
@@ -90,14 +102,63 @@ const objectTypes = computed(() => {
       <h2 class=" mb-lg-4 text-center section-heading">{{ w.featured_heading }}</h2>
       <div class="intro" v-if="homepage.data.cardset_featured_intro" v-html="homepage.data.cardset_featured_intro" />
       <div class="features-grid">
-        <div v-for="(card, idx) in homepage.data.cardset_featured" :key="idx" class="feature-card">
-          <CardFeatured :cardContent="card.navigation_cards_id" />
+        <div v-for="(card, index) in featuredCards" :key="`card-${index}`" class="feature-card">
+          <Card
+            :cardImage="card.card_image.filename_disk"
+            :cardTitle="card.title" 
+            :cardText="card.card_text"
+            :cardMoreButtonLabel="card.more_button_label"
+            :cardMoreButtonLink="card.more_button_link"
+            :cardBodyMinHeight="'13rem'"
+          />
         </div>
       </div>
     </section>
   </div>
 </template>
-<style scoped lang="scss">
+
+<style lang="scss">
+
+.homepage-intro {
+  .intro-heading {
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
+    @media screen and (min-width: 768px) {
+      font-size: 2.25rem;      
+    }
+  }
+
+  .intro-content {
+    display: block;
+    @media screen and (min-width: 1000px) {
+      display: flex;
+      gap: 3.5rem;
+      
+    }
+    .intro-text {
+      font-size: 1rem;
+      line-height: 1.25rem;
+      @media screen and (min-width: 768px) {
+        flex: 2; // Takes up 2 parts of the flex container
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+        
+      }
+    }
+
+    aside {
+      font-size: 1rem;
+      background-color: var(--color-bua-brown-light);
+      border-radius: 6px;
+      padding: 1.25rem;
+      @media  screen and (min-width: 768px) {
+        flex: 1; // Takes up 1 part of the flex container
+        font-size: .875rem;
+        
+      }
+    }
+  }
+}
 .dns-card {
   border-radius: var(--selection-card-border-radius);
   

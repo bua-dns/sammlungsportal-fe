@@ -90,8 +90,37 @@ function setupTerms() {
       }
     });
   });
+  // Object.keys(terms.value).forEach((taxonomy) => {
+  //   terms.value[taxonomy].sort((a, b) => a.label.localeCompare(b.label));
+  // });
+  const index = {
+    "Freie Universität Berlin": 1,
+    "Humboldt-Universität zu Berlin": 2,
+    "Technische Universität Berlin": 3,
+    "Charité – Universitätsmedizin Berlin": 4,
+  };
+
   Object.keys(terms.value).forEach((taxonomy) => {
-    terms.value[taxonomy].sort((a, b) => a.label.localeCompare(b.label));
+    terms.value[taxonomy]
+    // make sur that the conventional order is kept
+    .sort((a, b) => {
+      const aIndex = index[a.label];
+      const bIndex = index[b.label];
+
+      if (aIndex !== undefined && bIndex !== undefined) {
+        // Both labels are in the index; sort by index values
+        return aIndex - bIndex;
+      } else if (aIndex !== undefined) {
+        // Only 'a' is in the index; it comes first
+        return -1;
+      } else if (bIndex !== undefined) {
+        // Only 'b' is in the index; it comes first
+        return 1;
+      } else {
+        // Neither are in the index; fall back to localeCompare
+        return a.label.localeCompare(b.label);
+      }
+    });
   });
 }
 setupTerms();
@@ -334,16 +363,6 @@ onMounted(() => {
     </div>
     <div v-if="showFilters" class="filter-control-bar">
       <div class="filter-control-bar-controls">
-        <!-- deactivated for the time being
-        <div class="form-check form-switch dns-form-switch-right d-flex justify-content-end align-items-center">
-          <label class="form-check-label small" for="flexSwitchCheckChecked">
-            {{ w.scroll_to_results_after_select }}
-          </label>
-            <input @click="scrollToResultsAfterSelect = !scrollToResultsAfterSelect" class="form-check-input"
-            type="checkbox" role="switch" id="flexSwitchCheckChecked"
-            :checked="(scrollToResultsAfterSelect) ? true : null">
-          </div>
-        -->
         <button class="dns-button btn-filter" @click="resetFilters">
           <span :title="w.reset_all_filters">
             <svg class="icon" width="16" height="16" fill="currentColor">
@@ -379,7 +398,7 @@ onMounted(() => {
         <dt>{{ w.collections_of }}:</dt>
         <dd v-if="termFilter.current_keeper && termFilter.current_keeper.length > 0"
           v-for="(keeper, idx) in termFilter.current_keeper" :key="'filter-state-keeper-' + idx">
-          {{ keeper }}
+          {{ keeper }} 
         </dd>
         <dd v-else>{{ w.all_keepers }}</dd>
       </dl>

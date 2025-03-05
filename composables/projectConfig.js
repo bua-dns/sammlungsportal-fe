@@ -20,12 +20,13 @@ export const projectConfig = {
       'id', 'spws_id', 'label'
     ],
     resources: [
-      'id', 'status', 'slug', 'name', 'position','url', 'description', 'main_screenshot', 
+      'id', 'status', 'slug', 'name', 'position','url', 'description', 'main_screenshot',
       'bua_collections.bua_collections_id.label', 'bua_collections.bua_collections_id.id',
       'resource_screenshots.directus_files_id'
     ],
     projects: [
-      '*', 'title', 'id', 'slug', 'sub_line', 'description', 'affiliation', 
+      '*', 'title', 'id', 'slug', 'sub_line', 'description', 'affiliation',
+      'logos_coop_partners.*',
       'images.directus_files_id.*', 'preview_image.*.*', 'display_sidebar', 'sidebar_content', 'cooperation_partners.institutions_id.name_short','cooperation_partners.institutions_id.logo'
     ],
     events: [

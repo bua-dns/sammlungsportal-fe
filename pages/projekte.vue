@@ -48,7 +48,14 @@ const projects = projectsData.value.data
       <div class="project-display" 
         v-for="(project, idx) in projects" :key="`page-card-${idx}`"
       >
-        <CardPageProject :cardContent="project" />
+        <Card
+            :cardImage="project.preview_image?.filename_disk"
+            :cardTitle="project.title" 
+            :cardText="project.sub_line"
+            cardMoreButtonLabel="mehr zu diesem Projekt"
+            :cardMoreButtonLink="`/projects/${project.slug}`"
+            :cardBodyMinHeight="'13rem'"
+          />
       </div>
     </div>
   </div>
