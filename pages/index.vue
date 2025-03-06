@@ -27,7 +27,7 @@ const { data: homepage } = await useFetch(`${projectConfig.dataBaseUrl}/homepage
   },
 });
 const featuredCards = homepage.value.data.cardset_featured
-  .map((card) => card.navigation_cards_id); 
+  .map((card) => card.navigation_cards_id);
 const subjects = computed(() => {
   return taxonomyTerms.value.data
     .filter((term) => term.spws_taxonomy === 'subject')
@@ -47,17 +47,22 @@ const objectTypes = computed(() => {
   </Head>
   <div class="page segmented pt-4 pb-1 ">
     <section class="homepage-intro page-segment">
-      <h1 class="mb-lg-4 mt-2 text-center intro-heading" >{{ homepage.data.title }}</h1>
+      <h1 class="mb-lg-4 mt-2 text-center intro-heading">{{ homepage.data.title }}</h1>
       <div class="intro-content">
         <div class="intro-text" v-html="homepage.data.intro"></div>
         <aside>
           <h5 class="mb-1">aktuell</h5>
           <h3 class="mb-2">Universitätssammlungen zu Gast<br>in Berlin</h3>
-          <p>Die 16. Jahrestagung für wissenschaftliche Universitätssammlungen 2025 wird gemeinsam von den Partnern der Berlin University Alliance und der 
-            <a href="https://gesellschaft-universitaetssammlungen.de/" target="_blank" alt="zur Homepate der GfU">Gesellschaft für Universitätssammlungen e.V. (GfU)</a>
-             veranstaltet.</p>
+          <p>Die 16. Jahrestagung für wissenschaftliche Universitätssammlungen 2025 wird gemeinsam von den Partnern der
+            Berlin University Alliance und der
+            <a href="https://gesellschaft-universitaetssammlungen.de/" target="_blank"
+              alt="zur Homepate der GfU">Gesellschaft für Universitätssammlungen e.V. (GfU)</a>
+            veranstaltet.
+          </p>
           <p>Sie findet vom <b>09.–11. Oktober 2025 in Berlin</b> statt.</p>
-          <p><NuxtLink to="/sammlungstagung/call-for-papers">zum Call for Papers ...</NuxtLink></p>
+          <p>
+            <NuxtLink to="/sammlungstagung/call-for-papers">zum Call for Papers ...</NuxtLink>
+          </p>
         </aside>
       </div>
     </section>
@@ -105,12 +110,11 @@ const objectTypes = computed(() => {
         <div v-for="(card, index) in featuredCards" :key="`card-${index}`" class="feature-card">
           <Card
             :cardImage="card.card_image.filename_disk"
-            :cardTitle="card.title" 
+            :cardTitle="card.title"
             :cardText="card.card_text"
             :cardMoreButtonLabel="card.more_button_label"
             :cardMoreButtonLink="card.more_button_link"
-            :cardBodyMinHeight="'13rem'"
-          />
+            cardBodyMinHeight="13rem" />
         </div>
       </div>
     </section>
@@ -118,13 +122,12 @@ const objectTypes = computed(() => {
 </template>
 
 <style lang="scss">
-
 .homepage-intro {
   .intro-heading {
     font-size: 1.4rem;
     margin-bottom: 2rem;
     @media screen and (min-width: 768px) {
-      font-size: 2.25rem;      
+      font-size: 2.25rem;
     }
   }
 
@@ -133,7 +136,6 @@ const objectTypes = computed(() => {
     @media screen and (min-width: 1000px) {
       display: flex;
       gap: 3.5rem;
-      
     }
     .intro-text {
       font-size: 1rem;
@@ -142,7 +144,6 @@ const objectTypes = computed(() => {
         flex: 2; // Takes up 2 parts of the flex container
         font-size: 1.25rem;
         line-height: 1.75rem;
-        
       }
     }
 
@@ -151,24 +152,22 @@ const objectTypes = computed(() => {
       background-color: var(--color-bua-brown-light);
       border-radius: 6px;
       padding: 1.25rem;
-      @media  screen and (min-width: 768px) {
+      @media screen and (min-width: 768px) {
         flex: 1; // Takes up 1 part of the flex container
         font-size: .875rem;
-        
+
       }
     }
   }
 }
+
 .dns-card {
   border-radius: var(--selection-card-border-radius);
-  
   cursor: pointer;
-
   &:hover {
     background-color: hsl(0, 0%, 38%);
     // background-color: hsl(38, 21%, 41%);
   }
-
   &.university-card {
     min-height: 5rem;
     border-left: .5rem solid transparent;
@@ -178,7 +177,6 @@ const objectTypes = computed(() => {
       background-color: var(--color-university-card-fill-hover);
     }
   }
-
 }
 
 .BUA-Sammlungen {
@@ -210,21 +208,17 @@ const objectTypes = computed(() => {
     'hu'
     'tu'
     'ch';
-
   @media (min-width: 568px) {
     grid-template-columns: repeat(2, 1fr);
     grid-template-areas:
       'bua bua'
       'fu hu'
       'tu ch';
-
   }
-
   @media screen and (min-width: 992px) {
     grid-template-columns: repeat(5, 1fr);
     grid-template-areas:
       'bua fu hu tu ch';
-
   }
 }
 
@@ -232,7 +226,6 @@ const objectTypes = computed(() => {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
   gap: .5rem;
-
   .selection-card {
     border: 1px solid var(--color-selection-card-border);
     background-color: var(--color-selection-card-fill);
@@ -243,15 +236,12 @@ const objectTypes = computed(() => {
     display: flex;
     align-items: center;
     justify-content: center;
-
     &:hover {
       background-color: var(--color-selection-card-fill-hover);
     }
-
     .card-link {
       color: var(--color-selection-card-text);
     }
-
   }
 }
 
@@ -263,7 +253,6 @@ const objectTypes = computed(() => {
 
 .card-link {
   // height: 100%;
-
   &.medium {
     display: flex;
     align-items: center;
@@ -272,7 +261,6 @@ const objectTypes = computed(() => {
     padding: .5rem;
     text-align: center;
   }
-
   &.large {
     display: block;
     padding: 1rem;
@@ -280,7 +268,6 @@ const objectTypes = computed(() => {
     font-size: 1.125rem;
     color: var(--color-text);
   }
-
   &.light {
     // color: var(--color-text-inverted);
     color: hsl(38, 21%, 21%);
