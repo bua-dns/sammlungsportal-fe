@@ -54,8 +54,8 @@ const props = defineProps({
         <div class="card-text" v-html="cardText" />
       </div>
       <div class="card-footer">
-        <GeneralLink :link="cardMoreButtonLink" class="card-link">
-           {{ cardMoreButtonLabel }}
+        <GeneralLink :link="cardMoreButtonLink" cssClass="card-link">
+          {{ cardMoreButtonLabel }}
         </GeneralLink>
       </div>
     </div>
@@ -81,7 +81,8 @@ const props = defineProps({
   background-color: var(--color-fill);
   border-radius: 8px;
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
+
   h3 {
     margin-bottom: 0.25rem;
     font-size: var(--font-size-title);
@@ -90,53 +91,57 @@ const props = defineProps({
     margin-bottom: 0.5rem;
     // min-height: 2.75rem;
   }
+
   h4 {
     font-size: .75rem;
     margin-bottom: 0.25rem;
     text-transform: uppercase;
     font-weight: 300;
   }
+
   p {
     margin: 0 0 0.25rem 0;
   }
+
   .card-body {
     padding: .75rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    @media screen and (min-width: 576px) {
-        
-      }
-    }
-    .card-footer {
-      font-size: var(--font-size-footer);
-      text-align: right;
-      .card-link {
-      }
-    }
-    .card-image {
-      overflow: hidden;
-      height: 8.5rem;
-      cursor: pointer;
-      max-width: 100%;
 
+    @media screen and (min-width: 576px) {}
+  }
+
+  .card-footer {
+    font-size: var(--font-size-footer);
+    text-align: right;
+
+    .card-link {}
+  }
+
+  .card-image {
+    overflow: hidden;
+    height: 8.5rem;
+    cursor: pointer;
+    max-width: 100%;
+
+    img {
+      display: block;
+      margin: 0 auto;
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover; // Ensures the image covers its container neatly
+    }
+
+    &:hover {
       img {
-        display: block;
-        margin: 0 auto;
-        border-top-left-radius: 6px;
-        border-top-right-radius: 6px;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover; // Ensures the image covers its container neatly
-      }
-
-      &:hover {
-        img {
-          transform: scale(1.05);
-        }
+        transform: scale(1.05);
       }
     }
- }
+  }
+}
 </style>
