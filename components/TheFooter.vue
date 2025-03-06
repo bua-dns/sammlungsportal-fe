@@ -1,7 +1,8 @@
 <script setup>
 const theme = useState('theme');
 const institutions = useState('institutions');
-const w = theme.value.data.wording.de;
+const { locale } = useI18n();
+const w = computed(() => theme.value.data.wording[locale.value]);
 function getInstitution(abbreviation) {
   return institutions.value.data.find((i) => i.abbreviation === abbreviation);
 }
@@ -61,7 +62,7 @@ function getInstitution(abbreviation) {
         </div>
         <div class="order-1 col-sm-6">
           <p class="small text-center text-sm-end">
-            <NuxtLink to="/impressum">Impressum</NuxtLink> | <NuxtLink to="/datenschutz">Datenschutz</NuxtLink>
+            <NuxtLinkLocale to="/impressum">{{ w.page_imprint }}</NuxtLinkLocale> | <NuxtLinkLocale to="/datenschutz">{{ w.page_privacy_policy }}</NuxtLinkLocale>
           </p>
         </div>
       </div>
@@ -69,10 +70,6 @@ function getInstitution(abbreviation) {
   </footer>
 </template>
 <style lang="scss" scoped>
-
-
-
-
 footer {
   background-color: var(--color-footer-background);
   border: 1px solid var(--color-footer-background);
@@ -157,7 +154,7 @@ footer {
                 }
               }
               &.university {
-                
+
                 @media screen and (min-width: 768px) {
                   flex: 0 1 14rem;
                 }
