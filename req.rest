@@ -34,3 +34,9 @@ GET {{host}}/items/homepage?fields=title,cardset_collections.navigation_cards_id
 
 ### taxonomy_terms
 GET {{host}}/items/taxonomy_terms?fields=id,label,spws_taxonomy&limit=-1&meta=total_count
+
+### projects basics
+GET {{host}}/items/projects?fields=*,translations.*&limit=-1&sort=sort
+
+### projects
+GET {{host}}/items/projects?fields=*,translations.*,logos_coop_partners.*,images.directus_files_id.*,preview_image.*.*,cooperation_partners.institutions_id.name_short,cooperation_partners.institutions_id.logo&limit=-1

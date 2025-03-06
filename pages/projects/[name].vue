@@ -1,5 +1,8 @@
 <script setup>
 const route = useRoute();
+const { locale } = useI18n();
+const theme = useState('theme');
+const w = theme.value.data.wording[locale.value];
 const projectName = route.params.name;
 
 const projects = useState('projects');
@@ -9,26 +12,25 @@ const project = projects.value.data.find((project) => project.slug === projectNa
 const images = project.images.map((image) => {
   if (!image.directus_files_id) return null;
   return image.directus_files_id.filename_disk;
-}) ;
+});
 </script>
 <template>
   <div class="page projects" :class="{'with-sidebar': project.display_sidebar === '1'}">
-
     <Head>
-      <Title>Projekte</Title>
+      <Title>{{ w.page_projekte }}</Title>
     </Head>
     <div class="output">
       <pre v-if="false">{{ project }}</pre>
     </div>
-    <h1 class="page-header-with-subtitle text-center">{{ project.title }}</h1>
-    <h2 class="page-header-subtitle text-center">{{ project.sub_line }}</h2>
+    <h1 class="page-header-with-subtitle text-center">{{ useGetTranslatedContent('title', locale, project) }}</h1>
+    <h2 class="page-header-subtitle text-center">{{ useGetTranslatedContent('sub_line', locale, project) }}</h2>
     <div class="projects-content-container">
       <div class="main-content">
-        <div class="description" v-html="project.description"></div>
+        <div class="description" v-html="useGetTranslatedContent('description', locale, project)"></div>
       </div>
       <div class="sidebar" v-if="project.display_sidebar">
         <div class="partners" v-if="project.cooperation_partners?.length">
-          <h4>Kooperationspartner</h4>
+          <h4>{{ w.cooperation_partners }}</h4>
           <ul>
             <li v-for="partner in project.cooperation_partners">
               <a :href="partner.institutions_id.website" target="_blank">
@@ -39,15 +41,10 @@ const images = project.images.map((image) => {
             </li>
           </ul>
         </div>
-        <div
-          v-for="(logo, index) in project.logos_coop_partners"
-          :key="`logo-${index}`"
-          class="my-4"
-        >
-          <img  :src="`${projectConfig.imageBaseUrl}/${logo.directus_files_id}?key=sidebar-logo`"
-                :alt="`Logo of Partner`" />
+        <div v-for="(logo, index) in project.logos_coop_partners" :key="`logo-${index}`" class="my-4">
+          <img :src="`${projectConfig.imageBaseUrl}/${logo.directus_files_id}?key=sidebar-logo`" alt="Logo of Partner" />
         </div>
-        <div class="sidebar-content" v-html="project.sidebar_content" v-if="project.sidebar_content"></div>
+        <div class="sidebar-content" v-html="useGetTranslatedContent('sidebar_content', locale, project)"></div>
       </div>
     </div>
     <div class="images mt-4">
@@ -87,7 +84,7 @@ const images = project.images.map((image) => {
       display: grid;
       grid-template-columns: 2.5fr 1fr;
       gap: 3rem;
-      
+
       @media screen and (max-width: 768px){
         grid-template-columns: 1fr;
       }
@@ -101,7 +98,7 @@ const images = project.images.map((image) => {
 }
 
 .description {
-  
+
 }
 
 .image-gallery {

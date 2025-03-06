@@ -25,9 +25,12 @@ export const projectConfig = {
       'resource_screenshots.directus_files_id'
     ],
     projects: [
-      '*', 'title', 'id', 'slug', 'sub_line', 'description', 'affiliation',
+      '*',
+      'translations.*',
       'logos_coop_partners.*',
-      'images.directus_files_id.*', 'preview_image.*.*', 'display_sidebar', 'sidebar_content', 'cooperation_partners.institutions_id.name_short','cooperation_partners.institutions_id.logo'
+      'images.directus_files_id.*',
+      'preview_image.*.*',
+      'cooperation_partners.institutions_id.name_short','cooperation_partners.institutions_id.logo'
     ],
     events: [
       '*.*'

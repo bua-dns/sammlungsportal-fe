@@ -4,7 +4,7 @@ export function useGetTranslatedContent(key, locale, data) {
     data.translations &&
     data.translations.length > 0
   ) {
-    const translation = data.translations.find((t) => t.languages_id === locale);
+    const translation = data.translations.find((t) => t.languages_id === locale || t.languages_code === locale);
     if (translation) {
       return translation[key];
     }
