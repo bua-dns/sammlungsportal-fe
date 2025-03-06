@@ -4,6 +4,19 @@ export default defineNuxtConfig({
     shim: false
   },
 
+  // IMPORTANT: Use the following as of Dart Sass 1.80.0 to avoid
+  // deprecation warnings - comment out if you are using an older version
+  vite: {
+    css : {
+      preprocessorOptions: {
+        scss: {
+          // api: 'modern-compiler',
+          silenceDeprecations: ['mixed-decls', 'color-functions', 'global-builtin', 'import', 'legacy-js-api'],
+        }
+      }
+    }
+  },
+
   nitro: {
     routeRules: {
       "/api/**": {
