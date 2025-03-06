@@ -1,6 +1,7 @@
 <script setup>
 const theme = useState("theme");
-const w = theme.value.data.wording.de;
+const { locale } = useI18n();
+const w = computed(() => theme.value.data.wording[locale.value]);
 
 // const navState = useState("nav", () => "close");
 // const toggleNav = () => {
@@ -30,8 +31,8 @@ const handleScroll = () => {
 
 <template>
   <header class="navbar fixed-top dns-page-header">
-    <nuxt-link to="/" class="dns-branding">
-      <div class="dns-logo-container">      
+    <NuxtLinkLocale to="/" class="dns-branding">
+      <div class="dns-logo-container">
         <svg
           id="Ebene_1"
           data-name="Ebene 1"
@@ -81,23 +82,23 @@ const handleScroll = () => {
         <div class="dns-site-title title">{{ w.site_title }}</div>
         <div class="dns-site-subtitle title">{{ w.site_subtitle }}</div>
       </div>
-    </nuxt-link>
+    </NuxtLinkLocale>
     <nav class="dns-main-navigation">
       <ul>
         <li>
-          <nuxt-link to="/">{{ w.nav_page_start }}</nuxt-link>
+          <NuxtLinkLocale to="/">{{ w.nav_page_start }}</NuxtLinkLocale>
         </li>
         <li>
-          <nuxt-link to="/sammlungen">{{ w.nav_page_sammlungen }}</nuxt-link>
+          <NuxtLinkLocale to="/sammlungen">{{ w.nav_page_sammlungen }}</NuxtLinkLocale>
         </li>
         <li>
-          <nuxt-link to="/online-ressourcen">{{ w.nav_page_online_ressourcen }}</nuxt-link>
+          <NuxtLinkLocale to="/online-ressourcen">{{ w.nav_page_online_ressourcen }}</NuxtLinkLocale>
         </li>
         <li>
-          <nuxt-link to="/projekte">{{ w.nav_page_projekte}}</nuxt-link>
+          <NuxtLinkLocale to="/projekte">{{ w.nav_page_projekte}}</NuxtLinkLocale>
         </li>
         <li>
-          <nuxt-link to="/kontakt">{{ w.nav_page_contact }}</nuxt-link>
+          <NuxtLinkLocale to="/kontakt">{{ w.nav_page_contact }}</NuxtLinkLocale>
         </li>
       </ul>
     </nav>
@@ -223,7 +224,7 @@ const handleScroll = () => {
 @media screen and (min-width: 576px) {
   header.scrolled {
     .dns-logo-container {
-      
+
     }
     .dns-site-title-container {
       .dns-site-title {
@@ -237,7 +238,7 @@ const handleScroll = () => {
   header {
     .dns-site-title-container {
       .dns-site-title {
-        
+
         font-size: 1.5rem;
         line-height: 1.5;
       }
@@ -252,7 +253,7 @@ const handleScroll = () => {
     height: var(--header-height-scrolled);
     .dns-branding {
       .dns-logo-container {
-        
+
 
         .dns-navbar-logo {
           width: 4rem;
@@ -261,6 +262,6 @@ const handleScroll = () => {
     }
   }
 }
-  
+
 </style>
 

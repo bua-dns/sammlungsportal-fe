@@ -1,6 +1,8 @@
 <script setup>
 const theme = useState('theme');
-const w = theme.value.data.wording.de;
+const { locale } = useI18n();
+const w = computed(() => theme.value.data.wording[locale.value]);
+const switchLocalePath = useSwitchLocalePath();
 const navState = useState('nav');
 const scrollState = useState('scroll');
 const navStyle = computed(() => {
@@ -35,62 +37,73 @@ const tabIndex = computed(() => {
 <template>
   <nav :class="navClass" class="navigation-drawer" aria-label="Main menu" :style="navStyle">
     <div class="sitenav">
+      <h4 class="nav-sub-title text-center">{{ w.language }}</h4>
+      <ul>
+        <li>
+          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'"
+            :to="switchLocalePath((locale === 'de' ? 'en' : 'de'))">
+            {{ w.switch_language }}
+          </nuxt-link>
+        </li>
+      </ul>
       <h3 class="nav-title text-center">{{ w.navigation }}</h3>
       <ul>
         <li>
-          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/">{{ w.page_start }}</nuxt-link>
+          <NuxtLinkLocale :tabIndex="tabIndex" @click="navState = 'close'" to="/">{{ w.page_start }}</NuxtLinkLocale>
         </li>
         <li>
-          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/sammlungen">{{ w.page_collections
-            }}</nuxt-link>
+          <NuxtLinkLocale :tabIndex="tabIndex" @click="navState = 'close'" to="/sammlungen">{{ w.page_collections
+            }}</NuxtLinkLocale>
         </li>
         <li>
-          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/online-ressourcen">{{
+          <NuxtLinkLocale :tabIndex="tabIndex" @click="navState = 'close'" to="/online-ressourcen">{{
             w.page_online_ressourcen
-            }}</nuxt-link>
+            }}</NuxtLinkLocale>
         </li>
         <li>
-          <nuxt-link :tabIndex=" tabIndex" @click="navState = 'close'" to="/dns">{{ w.page_dns
-            }}</nuxt-link>
+          <NuxtLinkLocale :tabIndex=" tabIndex" @click="navState = 'close'" to="/dns">{{ w.page_dns
+            }}</NuxtLinkLocale>
         </li>
         <li>
-          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/events">{{ w.page_events
-            }}</nuxt-link>
+          <NuxtLinkLocale :tabIndex="tabIndex" @click="navState = 'close'" to="/events">{{ w.page_events
+            }}</NuxtLinkLocale>
         </li>
         <li>
-          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/projekte">{{ w.page_projekte
-            }}</nuxt-link>
+          <NuxtLinkLocale :tabIndex="tabIndex" @click="navState = 'close'" to="/projekte">{{ w.page_projekte
+            }}</NuxtLinkLocale>
         </li>
         <li>
-          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/images">{{ w.page_images
-            }}</nuxt-link>
+          <NuxtLinkLocale :tabIndex="tabIndex" @click="navState = 'close'" to="/images">{{ w.page_images
+            }}</NuxtLinkLocale>
         </li>
         <li>
-          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/team">{{ w.page_team }}</nuxt-link>
+          <NuxtLinkLocale :tabIndex="tabIndex" @click="navState = 'close'" to="/team">{{ w.page_team }}</NuxtLinkLocale>
         </li>
         <li>
-          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/kontakt">{{ w.page_contact }}</nuxt-link>
+          <NuxtLinkLocale :tabIndex="tabIndex" @click="navState = 'close'" to="/kontakt">{{ w.page_contact }}
+          </NuxtLinkLocale>
         </li>
         <li>
-          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/impressum">{{ w.page_imprint }}</nuxt-link>
+          <NuxtLinkLocale :tabIndex="tabIndex" @click="navState = 'close'" to="/impressum">{{ w.page_imprint }}
+          </NuxtLinkLocale>
         </li>
         <li>
-          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/datenschutz">{{ w.page_privacy_policy
-            }}</nuxt-link>
-        </li>
-      </ul>
-      <h4 class="nav-sub-title text-center">Sammlungstagung 2025</h4>
-      <ul>
-        <li>
-          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/sammlungstagung/call-for-papers">
-            Call for Papers </nuxt-link>
+          <NuxtLinkLocale :tabIndex="tabIndex" @click="navState = 'close'" to="/datenschutz">{{ w.page_privacy_policy
+            }}</NuxtLinkLocale>
         </li>
       </ul>
-      <h4 class="nav-sub-title text-center">Labor</h4>
+      <h4 class="nav-sub-title text-center">{{ w.collection_conference_2025 }}</h4>
       <ul>
         <li>
-          <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'" to="/data-inspector-ikb">
-            {{ w.page_data_inspector_ikb }} </nuxt-link>
+          <NuxtLinkLocale :tabIndex="tabIndex" @click="navState = 'close'" to="/sammlungstagung/call-for-papers">
+            Call for Papers </NuxtLinkLocale>
+        </li>
+      </ul>
+      <h4 class="nav-sub-title text-center">{{ w.lab }}</h4>
+      <ul>
+        <li>
+          <NuxtLinkLocale :tabIndex="tabIndex" @click="navState = 'close'" to="/data-inspector-ikb">
+            {{ w.page_data_inspector_ikb }} </NuxtLinkLocale>
         </li>
       </ul>
     </div>
