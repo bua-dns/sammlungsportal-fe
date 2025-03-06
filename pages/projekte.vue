@@ -4,11 +4,12 @@ const theme = useState("theme")
 const w = theme.value.data.wording.de
 // useHead({ title: data.value.data[0].title });
 
+const { locale } = useI18n();
 // config for specific page
 
 // DEV: replace by slug from path
 const slug = 'projekte'
-const titleWording = 'page_projekte'
+// const titleWording = 'page_projekte'
 
 const { data } = await useFetchPage(slug)
 const page = data.value.data[0]
@@ -25,32 +26,32 @@ const projects = projectsData.value.data
     <Title>{{ w.page_projekte }}</Title>
   </Head>
   <div class="page p_dns-page" v-if="data && page.status === 'published'">
-    <pre v-if="false">{{ projects }}</pre>
-    <h1 class="mb-4 text-center">{{ page.title }}</h1>
+    <!-- <pre v-if="false">{{ projects }}</pre> -->
+    <h1 class="mb-4 text-center">{{ useGetTranslatedContent('title', locale, page) }}</h1>
     <template v-if="!page.display_sidebar">
-      <div class="page-content" v-html="page.page_content" />
+      <div class="page-content" v-html="useGetTranslatedContent('page_content', locale, page)" />
     </template>
     <template v-if="page.display_sidebar">
       <div class="page-container">
-        <div class="page-content" v-html="page.page_content" />
+        <div class="page-content" v-html="useGetTranslatedContent('page_content', locale, page)" />
         <pre v-if="false">{{ page }}</pre>
         <div class="sidebar">
           <div class="mt-3 mb-5 sidebar-header" v-if="page.sidebar_header_image">
             <img :src="projectConfig.imageBaseUrl + '/' + page.sidebar_header_image + '?key=sidebar-header'"
               alt="sidebar image" />
           </div>
-          <div class="sidebar-content" v-if="page.sidebar_content" v-html="page.sidebar_content" />
+          <div class="sidebar-content" v-html="useGetTranslatedContent('sidebar_content', locale, page)" />
         </div>
       </div>
     </template>
     <div v-if="true" class="projects-listing page-card-grid mt-5">
       <!-- <pre>{{ projects.data[0] }}</pre> -->
-      <div class="project-display" 
+      <div class="project-display"
         v-for="(project, idx) in projects" :key="`page-card-${idx}`"
       >
         <Card
             :cardImage="project.preview_image?.filename_disk"
-            :cardTitle="project.title" 
+            :cardTitle="project.title"
             :cardText="project.sub_line"
             cardMoreButtonLabel="mehr zu diesem Projekt"
             :cardMoreButtonLink="`/projects/${project.slug}`"
@@ -73,7 +74,7 @@ const projects = projectsData.value.data
       .sidebar-header {
         display: none;
         img {
-          
+
         }
       }
     }
@@ -89,11 +90,11 @@ const projects = projectsData.value.data
     .page-container {
         display: flex;
         gap: 2.5rem;
-    
+
         .page-content {
           flex: 2;
         }
-    
+
         .sidebar {
           .sidebar-header {
             display: block;
@@ -102,7 +103,7 @@ const projects = projectsData.value.data
         }
       }
   }
-  
+
 }
 
 </style>
