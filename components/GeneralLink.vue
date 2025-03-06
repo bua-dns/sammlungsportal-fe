@@ -17,8 +17,8 @@ const props = defineProps({
     </a>
   </template>
   <template v-if="!link.includes('http')">
-    <NuxtLink :to="link" target="_self" rel="noopener noreferrer" alt="External link" :class="cssClass">
+    <NuxtLinkLocale :to="link" target="_self" rel="noopener noreferrer" alt="External link" :class="cssClass">
       <slot />
-    </NuxtLink>
+    </NuxtLinkLocale>
   </template>
 </template>
