@@ -1,7 +1,18 @@
 <script setup>
 const route = useRoute();
+const { locale } = useI18n();
 const backgroundImages = useState('background_images');
-const randImageRoutes = ['sammlungen', 'index', 'online-ressourcen'];
+const randImageRoutes = [
+  'sammlungen',
+  'sammlungen___de',
+  'sammlungen___en',
+  'index',
+  'index___de',
+  'index___en',
+  'online-ressourcen',
+  'online-ressourcen___de',
+  'online-ressourcen___en',
+];
 const clientEnv = ref(false);
 
 function getRandomImage(page) {
@@ -16,7 +27,7 @@ function getRandomImage(page) {
 const randomImage = ref({});
 
 watch(() => route.name, () => {
-  console.log('route changed to', route.name);
+  // console.log('route changed to', route.name);
   if (randImageRoutes.includes(route.name)) {
     randomImage.value[route.name] = getRandomImage(route.name);
   }
@@ -39,9 +50,19 @@ const mainClass = computed(() => {
     return '';
   }
 });
+const localeClass = computed(() => {
+  return 't_default lang-' + locale.value;
+});
+
+useHead({
+  htmlAttrs: {
+    lang: locale.value,
+  },
+});
+
 </script>
 <template>
-  <div class="t_default">
+  <div :class="localeClass">
     <TheHeader />
     <TheNavigation />
     <div v-if="clientEnv && randImageRoutes.includes($route.name)" class="bg-img">
@@ -49,8 +70,7 @@ const mainClass = computed(() => {
         :alt="randomImage[$route.name]?.credits">
     </div>
     <div v-else-if="$route.name === 'koloniale-kontexte'" class="bg-img">
-      <img src="@/assets/img/background-images/Tsumeb_Montage.jpg"
-        alt="background Koloniale Kontexte">
+      <img src="@/assets/img/background-images/Tsumeb_Montage.jpg" alt="background Koloniale Kontexte">
     </div>
     <main :class="mainClass">
       <slot />
@@ -82,7 +102,6 @@ const mainClass = computed(() => {
 
   img {
     display: none;
-    
   }
 }
 @media screen and (min-width: 1400px){

@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   typescript: {
     shim: false
   },
+
   nitro: {
     routeRules: {
       "/api/**": {
@@ -10,6 +11,7 @@ export default defineNuxtConfig({
       }
     }
   },
+
   hooks: {
     "components:dirs": (dirs) => {
       dirs.push({
@@ -18,6 +20,7 @@ export default defineNuxtConfig({
       })
     }
   },
+
   app: {
     head: {
       htmlAttrs: { lang: "de" },
@@ -37,14 +40,23 @@ export default defineNuxtConfig({
       ],
     },
   },
+
   css: [
     '@/assets/css/styles.scss'
   ],
-  modules: [
-    '@nuxt/content',
-    '@pinia/nuxt',
-  ],
-    plugins: [
+
+  modules: ['@nuxt/content', '@pinia/nuxt', "@nuxtjs/i18n"],
+
+  plugins: [
     '~/plugins/matomo.js'
-  ]
+  ],
+
+  i18n: {
+    strategy: 'prefix_except_default',
+    locales: ['de', 'en'],
+    defaultLocale: "de",
+    vueI18n: './i18n.config.js',
+  },
+
+  compatibilityDate: "2025-03-06",
 })

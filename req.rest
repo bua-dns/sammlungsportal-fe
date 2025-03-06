@@ -18,10 +18,10 @@ GET {{host}}/items/bua_collections?fields=*.directus_files_id.*.*&limit=-1&sort=
 GET {{host}}/items/bua_collections?limit=-1&sort=label&filter[current_keeper][_eq]=Freie Universität Berlin
 
 ### Get pages
-GET {{host}}/items/pages?limit=-1
+GET {{host}}/items/pages?fields=*,translations.*&limit=-1
 
 ### Get a page by slug
-GET {{host}}/items/pages?filter[slug][_eq]=imprint
+GET {{host}}/items/pages?fields=*,translations.*&filter[slug][_eq]=projekte
 
 ### Get homepage
 GET {{host}}/items/homepage
