@@ -1,15 +1,23 @@
 // Bootstrap
 // other modules available see end of file
 // Configuration
+
+$blue: #414a5d;
+
+// Configuration
 @import "bootstrap/functions";
 @import "bootstrap/variables";
+// @import "bootstrap/variables-dark";
 @import "bootstrap/maps";
 @import "bootstrap/mixins";
 @import "bootstrap/utilities";
 
+// Layout & components
+@import "bootstrap/root";
 @import "bootstrap/containers";
 @import "bootstrap/grid";
 @import "bootstrap/forms/form-check";
+@import "bootstrap/buttons";
 
 // Helpers
 @import "bootstrap/helpers";
@@ -34,7 +42,7 @@
   --color-bua-brown-normal: hsl(38, 21%, 66%);
   --color-bua-brown-light: hsl(38, 21%, 91%);
   --color-bua-brown-extra-light: hsl(38, 21%, 96%);
-  
+
   --color-bua-blue-dark: hsl(221, 18%, 31%);
   --color-bua-blue-mid-dark: hsl(221, 22%, 44%);
   --color-bua-blue-normal: hsl(221, 18%, 66%);
@@ -48,7 +56,7 @@
   --color-university-card-fill-hover: var(--color-bua-brown-extra-light);
   --color-university-card-text: var(--color-bua-brown-dark);
   --color-university-card-border: var(--colorbrown-blue-normal);
-  
+
   --color-selection-card-fill: var(--color-bua-blue-light);
   --color-selection-card-fill-hover: var(--color-bua-blue-extra-light);
   --color-selection-card-text: var(--color-bua-blue-dark);
@@ -66,15 +74,15 @@
   --color-border: hsl(0, 0%, 92%);
   --color-page-content-background: hsl(0, 0%, 100%);
   --color-header-background: hsl(0, 0%, 100%);
-  
+
   --color-navigation-text: var(--color-text);
   --color-navigation-text-active: hsl(38, 21%, 21%);
-  
+
   --color-navigation-background: var(--color-bua-brown-normal);
   --color-navigation-background-marked: var(--color-bua-brown-dark);
   --color-navigation-background-hover: var(--color-bua-brown-dark);
   --color-navigation-background-active: var(--color-bua-brown-light);
-  
+
   --color-navigation-border: var(--color-bua-brown-normal);
   --color-navigation-border-active: var(--color-bua-brown-light);
   --color-navigation-border-hover: var(--color-bua-brown-dark);
@@ -84,15 +92,15 @@
   --color-taxonomy-button-background-hover: var(--color-bua-blue-dark);
   --color-taxonomy-button-border: var(--color-bua-blue-dark);
   --color-taxonomy-button-border-hover: var(--color-bua-blue-dark);
-  
+
   --color-button-background: var(--color-bua-blue-light);
   --color-button-background-marked: var(--color-bua-blue-normal);
   --color-button-background-hover: var(--color-bua-blue-normal);
   --color-button-border: var(--color-bua-blue-dark);
   --color-button-border-hover: var(--color-bua-blue-dark);
-  
+
   --color-footer-background: var(--color-bua-brown-extra-light);
-  
+
   --color-btn-border: hsl(218, 5%, 67%);
 
   --font-family-sans-serif: "Merriweather Sans", "Open Sans", "sans-serif";
@@ -149,7 +157,7 @@
   background-color: var(--color-feature-card-fill);
   border-radius: 8px;
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
   h3 {
     margin-bottom: 0.25rem;
     font-size: .9rem;
@@ -749,4 +757,4 @@ section {
 */
 
 
-// 
+//
