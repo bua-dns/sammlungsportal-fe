@@ -1,10 +1,10 @@
 <script setup>
 /* Used auto-imported composables: projectConfig */
 const theme = useState("theme")
-const w = theme.value.data.wording.de
+const { locale } = useI18n();
+const w = computed(() => theme.value.data.wording[locale.value]);
 // useHead({ title: data.value.data[0].title });
 
-const { locale } = useI18n();
 // config for specific page
 
 // DEV: replace by slug from path
@@ -46,14 +46,13 @@ const projects = projectsData.value.data
     </template>
     <div v-if="true" class="projects-listing page-card-grid mt-5">
       <!-- <pre>{{ projects.data[0] }}</pre> -->
-      <div class="project-display"
-        v-for="(project, idx) in projects" :key="`page-card-${idx}`"
-      >
+      <div class="project-display" v-for="(project, idx) in projects" :key="`page-card-${idx}`">
+        <!-- <pre>{{ project }}</pre> -->
         <Card
             :cardImage="project.preview_image?.filename_disk"
-            :cardTitle="project.title"
-            :cardText="project.sub_line"
-            cardMoreButtonLabel="mehr zu diesem Projekt"
+            :cardTitle="useGetTranslatedContent('title', locale, project)"
+            :cardText="useGetTranslatedContent('sub_line', locale, project)"
+            :cardMoreButtonLabel="w.more_about_this_project"
             :cardMoreButtonLink="`/projects/${project.slug}`"
             :cardBodyMinHeight="'13rem'"
           />
