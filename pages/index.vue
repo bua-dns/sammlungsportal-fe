@@ -5,7 +5,8 @@
  */
 const theme = useState('theme');
 const taxonomyTerms = useState('taxonomyTerms');
-const w = theme.value.data.wording.de;
+const { locale } = useI18n();
+const w = computed(() => theme.value.data.wording[locale.value]);
 
 const fields = [
   'title',
@@ -26,6 +27,7 @@ const { data: homepage } = await useFetch(`${projectConfig.dataBaseUrl}/homepage
     fields
   },
 });
+
 const featuredCards = homepage.value.data.cardset_featured
   .map((card) => card.navigation_cards_id);
 const subjects = computed(() => {
@@ -39,6 +41,24 @@ const objectTypes = computed(() => {
     .sort((a, b) => a.label.localeCompare(b.label));
 });
 
+const { data: newscards } = await useFetch(`${projectConfig.dataBaseUrl}/news_cards`, {
+  query: {
+    fields: '*,translations.*',
+    limit: -1,
+    meta: 'total_count',
+  }
+});
+
+const newscardstrans = computed(() => {
+  return newscards.value.data.map((card) => {
+    const translation = card.translations.find((t) => t.languages_code === locale.value);
+    return {
+      // ...card,
+      ...translation,
+    };
+  });
+});
+
 </script>
 <template>
 
@@ -50,19 +70,19 @@ const objectTypes = computed(() => {
       <h1 class="mb-lg-4 mt-2 text-center intro-heading">{{ homepage.data.title }}</h1>
       <div class="intro-content">
         <div class="intro-text" v-html="homepage.data.intro"></div>
-        <aside>
-          <h5 class="mb-1">aktuell</h5>
-          <h3 class="mb-2">Universitätssammlungen zu Gast<br>in Berlin</h3>
-          <p>Die 16. Jahrestagung für wissenschaftliche Universitätssammlungen 2025 wird gemeinsam von den Partnern der
-            Berlin University Alliance und der
-            <a href="https://gesellschaft-universitaetssammlungen.de/" target="_blank"
-              alt="zur Homepate der GfU">Gesellschaft für Universitätssammlungen e.V. (GfU)</a>
-            veranstaltet.
-          </p>
-          <p>Sie findet vom <b>09.–11. Oktober 2025 in Berlin</b> statt.</p>
-          <p>
-            <NuxtLink to="/sammlungstagung/call-for-papers">zum Call for Papers ...</NuxtLink>
-          </p>
+      </div>
+    </section>
+    <section class="page-segment">
+      <!-- <pre>{{ newscardstrans }}</pre> -->
+      <h2 class="text-center">Aktuell</h2>
+      <div class="news-card mt-3 d-flex flex-column flex-lg-row justify-content-center align-items-center">
+        <aside v-for="(card, index) in newscardstrans" :key="`card-${index}`">
+          <h3 class="mb-2">{{ card.title }}</h3>
+          <div v-html="card.body" class="card-body"></div>
+          <div class="text-center">
+            <NuxtLinkLocale :to="card.more_button_link" class="btn btn-primary">{{ card.more_button_label }}
+            </NuxtLinkLocale>
+          </div>
         </aside>
       </div>
     </section>
@@ -108,12 +128,9 @@ const objectTypes = computed(() => {
       <div class="intro" v-if="homepage.data.cardset_featured_intro" v-html="homepage.data.cardset_featured_intro" />
       <div class="features-grid">
         <div v-for="(card, index) in featuredCards" :key="`card-${index}`" class="feature-card">
-          <Card
-            :cardImage="card.card_image.filename_disk"
-            :cardTitle="card.title"
-            :cardText="card.card_text"
-            :cardMoreButtonLabel="card.more_button_label"
-            :cardMoreButtonLink="card.more_button_link"
+          <!-- <pre>{{ card }}</pre> -->
+          <Card :cardImage="card.card_image.filename_disk" :cardTitle="card.title" :cardText="card.card_text"
+            :cardMoreButtonLabel="card.more_button_label" :cardMoreButtonLink="card.more_button_link"
             cardBodyMinHeight="13rem" />
         </div>
       </div>
@@ -273,4 +290,16 @@ const objectTypes = computed(() => {
     color: hsl(38, 21%, 21%);
   }
 }
+
+.news-card {
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  aside {
+    // flex: 0 1 48%;
+    padding: 1rem;
+    background-color: var(--color-bua-brown-light);
+    border-radius: var(--selection-card-border-radius);
+  }
+}
+
 </style>
