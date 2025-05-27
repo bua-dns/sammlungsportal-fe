@@ -2,6 +2,8 @@
 const theme = useState("theme");
 const { locale } = useI18n();
 const w = computed(() => theme.value.data.wording[locale.value]);
+const switchLocalePath = useSwitchLocalePath();
+
 
 // const navState = useState("nav", () => "close");
 // const toggleNav = () => {
@@ -33,44 +35,17 @@ const handleScroll = () => {
   <header class="navbar fixed-top dns-page-header">
     <NuxtLinkLocale to="/" class="dns-branding">
       <div class="dns-logo-container">
-        <svg
-          id="Ebene_1"
-          data-name="Ebene 1"
-          xmlns="http://www.w3.org/2000/svg"
-          width="119"
-          height="89.25"
-          viewBox="0 0 119 89.25"
-          class="mx-lg-4 mx-2 dns-navbar-logo"
-        >
-          <line
-            x1="22.31"
-            y1="21.32"
-            x2="49.09"
-            y2="44.13"
-            style="fill: #525252; stroke: #525252; stroke-miterlimit: 10; stroke-width: 5px"
-          />
-          <line
-            x1="49.09"
-            y1="44.13"
-            x2="100.16"
-            y2="63.47"
-            style="fill: #525252; stroke: #525252; stroke-miterlimit: 10; stroke-width: 5px"
-          />
-          <line
-            x1="50.08"
-            y1="45.12"
-            x2="93.71"
-            y2="18.35"
-            style="fill: #525252; stroke: #525252; stroke-miterlimit: 10; stroke-width: 5px"
-          />
+        <svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" width="119" height="89.25"
+          viewBox="0 0 119 89.25" class="mx-lg-4 mx-2 dns-navbar-logo">
+          <line x1="22.31" y1="21.32" x2="49.09" y2="44.13"
+            style="fill: #525252; stroke: #525252; stroke-miterlimit: 10; stroke-width: 5px" />
+          <line x1="49.09" y1="44.13" x2="100.16" y2="63.47"
+            style="fill: #525252; stroke: #525252; stroke-miterlimit: 10; stroke-width: 5px" />
+          <line x1="50.08" y1="45.12" x2="93.71" y2="18.35"
+            style="fill: #525252; stroke: #525252; stroke-miterlimit: 10; stroke-width: 5px" />
           <circle cx="22.04" cy="20.29" r="18.84" style="fill: #848f7f; stroke-width: 0px" />
-          <line
-            x1="17.35"
-            y1="71.9"
-            x2="49.09"
-            y2="45.12"
-            style="fill: #525252; stroke: #525252; stroke-miterlimit: 10; stroke-width: 5px"
-          />
+          <line x1="17.35" y1="71.9" x2="49.09" y2="45.12"
+            style="fill: #525252; stroke: #525252; stroke-miterlimit: 10; stroke-width: 5px" />
           <circle cx="49.09" cy="45.12" r="12.4" style="fill: #525252; stroke-width: 0px" />
           <circle cx="93.22" cy="18.84" r="18.84" style="fill: #9acd00; stroke-width: 0px" />
           <circle cx="18.84" cy="70.41" r="18.84" style="fill: #c30e20; stroke-width: 0px" />
@@ -102,6 +77,18 @@ const handleScroll = () => {
         </li>
       </ul>
     </nav>
+    <div class="locale-switch">
+      <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'"
+        :to="switchLocalePath('en')">
+        EN
+      </nuxt-link>
+       | 
+      <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'"
+        :to="switchLocalePath('de')">
+        DE
+      </nuxt-link>
+  
+    </div>
     <div class="mx-lg-4 mx-2 dns-navbar-controls">
       <Hamburger />
     </div>

@@ -37,7 +37,7 @@ const tabIndex = computed(() => {
 <template>
   <nav :class="navClass" class="navigation-drawer" aria-label="Main menu" :style="navStyle">
     <div class="sitenav">
-      <h4 class="nav-sub-title text-center">{{ w.language }}</h4>
+      <!-- <h4 class="nav-sub-title text-center">{{ w.language }}</h4>
       <ul>
         <li>
           <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'"
@@ -45,7 +45,7 @@ const tabIndex = computed(() => {
             {{ w.switch_language }}
           </nuxt-link>
         </li>
-      </ul>
+      </ul> -->
       <h3 class="nav-title text-center">{{ w.navigation }}</h3>
       <ul>
         <li>
