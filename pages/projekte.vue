@@ -18,6 +18,27 @@ const projectsData = useState('projects');
 const projects = projectsData.value.data
   .filter(project => project.show_on_projects_page === 'true');
 
+const categorizedProjects = computed(() => {
+  let statuses = {
+    'planned': [],
+    'completed': [],
+    'running': []
+  };
+  if (!projects || projects.length === 0) {
+    return statuses;
+  }
+  projects.forEach(project => {
+    if (project.progress_status === 'planned') {
+      statuses.planned.push(project);
+    } else if (project.progress_status === 'completed') {
+      statuses.completed.push(project);
+    } else if (project.progress_status === 'running') {
+      statuses.running.push(project);
+    }
+  });
+  return statuses;
+});
+
 </script>
 
 <template>
@@ -26,7 +47,6 @@ const projects = projectsData.value.data
     <Title>{{ w.page_projekte }}</Title>
   </Head>
   <div class="page p_dns-page" v-if="data && page.status === 'published'">
-    <!-- <pre v-if="false">{{ projects }}</pre> -->
     <h1 class="mb-4 text-center">{{ useGetTranslatedContent('title', locale, page) }}</h1>
     <template v-if="!page.display_sidebar">
       <div class="page-content" v-html="useGetTranslatedContent('page_content', locale, page)" />
@@ -44,20 +64,42 @@ const projects = projectsData.value.data
         </div>
       </div>
     </template>
-    <div v-if="true" class="projects-listing page-card-grid mt-5">
-      <!-- <pre>{{ projects.data[0] }}</pre> -->
-      <div class="project-display" v-for="(project, idx) in projects" :key="`page-card-${idx}`">
-        <!-- <pre>{{ project }}</pre> -->
-        <Card
-            :cardImage="project.preview_image?.filename_disk"
+    <template v-if="categorizedProjects.running.length > 0">
+      <h2 class="text-center mb-4 mt-5 py-3">{{ w.projects_running }}</h2>
+      <div v-if="true" class="projects-listing page-card-grid mx-5">
+        <div class="project-display" v-for="(project, idx) in categorizedProjects.running" :key="`page-card-${idx}`">
+          <Card :cardImage="project.preview_image?.filename_disk"
             :cardTitle="useGetTranslatedContent('title', locale, project)"
             :cardText="useGetTranslatedContent('sub_line', locale, project)"
-            :cardMoreButtonLabel="w.more_about_this_project"
-            :cardMoreButtonLink="`/projects/${project.slug}`"
-            :cardBodyMinHeight="'13rem'"
-          />
+            :cardMoreButtonLabel="w.more_about_this_project" :cardMoreButtonLink="`/projects/${project.slug}`"
+            :cardBodyMinHeight="'13rem'" />
+        </div>
       </div>
-    </div>
+    </template>
+    <template v-if="categorizedProjects.planned.length > 0">
+      <h2 class="text-center mb-4 mt-5 py-3">{{ w.projects_planned }}</h2>
+      <div v-if="true" class="projects-listing page-card-grid mx-5">
+        <div class="project-display" v-for="(project, idx) in categorizedProjects.planned" :key="`page-card-${idx}`">
+          <Card :cardImage="project.preview_image?.filename_disk"
+            :cardTitle="useGetTranslatedContent('title', locale, project)"
+            :cardText="useGetTranslatedContent('sub_line', locale, project)"
+            :cardMoreButtonLabel="w.more_about_this_project" :cardMoreButtonLink="`/projects/${project.slug}`"
+            :cardBodyMinHeight="'13rem'" />
+        </div>
+      </div>
+    </template>
+    <template v-if="categorizedProjects.completed.length > 0">
+      <h2 class="text-center mb-4 mt-5 py-3">{{ w.projects_completed }}</h2>
+      <div v-if="true" class="projects-listing page-card-grid mx-5">
+        <div class="project-display" v-for="(project, idx) in categorizedProjects.completed" :key="`page-card-${idx}`">
+          <Card :cardImage="project.preview_image?.filename_disk"
+            :cardTitle="useGetTranslatedContent('title', locale, project)"
+            :cardText="useGetTranslatedContent('sub_line', locale, project)"
+            :cardMoreButtonLabel="w.more_about_this_project" :cardMoreButtonLink="`/projects/${project.slug}`"
+            :cardBodyMinHeight="'13rem'" />
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 

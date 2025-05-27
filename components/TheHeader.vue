@@ -77,20 +77,21 @@ const handleScroll = () => {
         </li>
       </ul>
     </nav>
-    <div class="locale-switch">
-      <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'"
-        :to="switchLocalePath('en')">
-        EN
-      </nuxt-link>
-       | 
-      <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'"
-        :to="switchLocalePath('de')">
-        DE
-      </nuxt-link>
-  
-    </div>
-    <div class="mx-lg-4 mx-2 dns-navbar-controls">
-      <Hamburger />
+    <div class="controls-wrapper">
+      <div class="locale-switch">
+        <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'"
+          :to="switchLocalePath('en')">
+          EN
+        </nuxt-link>
+         | 
+        <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'"
+          :to="switchLocalePath('de')">
+          DE
+        </nuxt-link>
+      </div>
+      <div class="mx-lg-4 mx-2 dns-navbar-controls">
+        <Hamburger />
+      </div>
     </div>
   </header>
 </template>
@@ -249,6 +250,36 @@ const handleScroll = () => {
     }
   }
 }
-
+.controls-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-basis: 4rem;
+  @media screen and (min-width: 576px) {
+    flex-basis: auto;
+    .dns-navbar-controls {
+      margin-right: 1rem;
+    }
+  }
+  .locale-switch {
+    display: none;
+    @media screen and (min-width: 320px) {
+      display: block;
+      font-size: .875rem;
+      color: var(--color-text);
+      a {
+        text-decoration: none;
+        color: var(--color-text);
+        transition: all 0.25s;
+        &:hover,
+        &:focus,
+        &:active {
+          color: var(--color-text-inverted);
+          background-color: var(--color-navigation-background-hover);
+        }
+      }
+    }
+  }
+}
 </style>
 
