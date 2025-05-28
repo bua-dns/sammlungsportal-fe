@@ -262,21 +262,19 @@ const handleScroll = () => {
     }
   }
   .locale-switch {
-    display: none;
-    @media screen and (min-width: 320px) {
-      display: block;
-      font-size: .875rem;
+    min-width: 6rem;
+    text-align: right;
+    font-size: .875rem;
+    color: var(--color-text);
+    a {
+      text-decoration: none;
       color: var(--color-text);
-      a {
-        text-decoration: none;
-        color: var(--color-text);
-        transition: all 0.25s;
-        &:hover,
-        &:focus,
-        &:active {
-          color: var(--color-text-inverted);
-          background-color: var(--color-navigation-background-hover);
-        }
+      transition: all 0.25s;
+      &:hover,
+      &:focus,
+      &:active {
+        color: var(--color-text-inverted);
+        background-color: var(--color-navigation-background-hover);
       }
     }
   }
