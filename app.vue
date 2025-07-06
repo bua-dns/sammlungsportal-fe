@@ -54,6 +54,11 @@ const { data: mstubItemsData } = await useFetch(`https://mstub-db.bua-dns.de/ite
     limit: -1,
   }
 });
+const { data: collectionItemsData } = await useFetch(`${projectConfig.dataBaseUrl}/collection_items`, {
+  query: {
+    limit: -1,
+  }
+});
 
 const theme = useState('theme', () => themeContent);
 useState('personsTeam', () => personsTeamContent);
@@ -67,6 +72,7 @@ useState('ikbCategories', () => ikbCategoriesData);
 useState('ikbConfiguration', () => ikbConfigurationData);
 useState('minerals', () => mstubMineralsData);
 useState('mstubItems', () => mstubItemsData);
+useState('collectionItems', () => collectionItemsData);  
 
 
 const w = theme.value.data.wording.de;
