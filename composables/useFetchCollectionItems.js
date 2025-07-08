@@ -1,6 +1,6 @@
 export async function useFetchCollectionItems(label, api) {
   const fetches = {
-    'HU - MAF': async () => {
+    'HUMAF': async () => {
       const allItems = [];
       let page = 1;
       const pageSize = 100; // adjust to your needs, depends on Strapi's max limit
