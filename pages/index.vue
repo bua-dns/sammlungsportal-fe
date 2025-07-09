@@ -50,13 +50,16 @@ const { data: newscards } = await useFetch(`${projectConfig.dataBaseUrl}/news_ca
 });
 
 const newscardstrans = computed(() => {
-  return newscards.value.data.map((card) => {
-    const translation = card.translations.find((t) => t.languages_code === locale.value);
-    return {
-      // ...card,
-      ...translation,
-    };
-  });
+  return newscards.value.data
+    .filter(card => card.status === 'published')
+    .map((card) => {
+      const translation = card.translations.find((t) => t.languages_code === locale.value);
+      translation.featured = card.featured;
+      return {
+        // ...card,
+        ...translation,
+      };
+    });
 });
 
 </script>
@@ -74,20 +77,27 @@ const newscardstrans = computed(() => {
     </section>
     <section class="page-segment">
       <!-- <pre>{{ newscardstrans }}</pre> -->
+      <!-- <pre>{{ newscards }}</pre> -->
       <h2 class="text-center">Aktuell</h2>
-      <div class="news-card mt-3 d-flex flex-column flex-lg-row justify-content-center align-items-center">
-        <aside v-for="(card, index) in newscardstrans" :key="`card-${index}`">
-          <h3 class="mb-2">{{ card.title }}</h3>
-          <div v-html="card.body" class="card-body"></div>
-          <div class="text-center">
-            <NuxtLinkLocale :to="card.more_button_link" class="btn btn-primary">{{ card.more_button_label }}
-            </NuxtLinkLocale>
+      <div class="cards mt-3">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
+          <div v-for="(card, index) in newscardstrans" :key="`card-${index}`" class="col">
+            <div class="card h-100" :class="{'featured': card.featured}">
+              <div class="card-body">
+                <h3 class="card-title mb-3">{{ card.title }}</h3>
+                <div v-html="card.body" class="card-text"></div>
+              </div>
+              <div class="card-footer text-center">
+                <NuxtLinkLocale :to="card.more_button_link" class="btn btn-primary">{{ card.more_button_label }}
+                </NuxtLinkLocale>
+              </div>
+            </div>
           </div>
-        </aside>
+        </div>
       </div>
     </section>
     <!-- University cards -->
-    <section class="mt-4 university-collections page-segment">
+    <section class=" mt-4 university-collections page-segment">
       <h2 class="mb-lg-3 text-center section-heading">{{ w.university_collections_heading }}</h2>
       <div class="mt-4 university-cards">
         <div v-for="(card, idx) in homepage.data.cardset_collections" :key="idx"
@@ -300,6 +310,10 @@ const newscardstrans = computed(() => {
     background-color: var(--color-bua-brown-light);
     border-radius: var(--selection-card-border-radius);
   }
+}
+
+.card.featured {
+  background-color: var(--color-bua-brown-light);
 }
 
 </style>
