@@ -57,6 +57,7 @@ const { data: mstubItemsData } = await useFetch(`https://mstub-db.bua-dns.de/ite
 const { data: collectionItemsData } = await useFetch(`${projectConfig.dataBaseUrl}/collection_items`, {
   query: {
     limit: -1,
+    'populate[0]': 'related_items',
   }
 });
 
