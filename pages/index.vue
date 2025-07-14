@@ -53,9 +53,18 @@ const newscardstrans = computed(() => {
   return newscards.value.data
     .filter(card => card.status === 'published')
     .map((card) => {
-      const translation = card.translations.find((t) => t.languages_code === locale.value);
+      let translation = card.translations.find((t) => t.languages_code === locale.value);
       if (!translation) {
-        return null;
+        if (locale.value === 'de') {
+          return null;
+        } else {
+          translation = card.translations.find((t) => t.languages_code === 'de');
+          translation['featured'] = card.featured;
+          return {
+            // ...card,
+            ...translation,
+          };
+        }
       } else {
         translation['featured'] = card.featured;
         return {
