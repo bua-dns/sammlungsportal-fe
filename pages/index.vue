@@ -54,11 +54,15 @@ const newscardstrans = computed(() => {
     .filter(card => card.status === 'published')
     .map((card) => {
       const translation = card.translations.find((t) => t.languages_code === locale.value);
-      translation.featured = card.featured;
-      return {
-        // ...card,
-        ...translation,
-      };
+      if (!translation) {
+        return null;
+      } else {
+        translation['featured'] = card.featured;
+        return {
+          // ...card,
+          ...translation,
+        };
+      }
     });
 });
 
@@ -82,7 +86,7 @@ const newscardstrans = computed(() => {
       <div class="cards mt-3">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
           <div v-for="(card, index) in newscardstrans" :key="`card-${index}`" class="col">
-            <div class="card h-100" :class="{'featured': card.featured}">
+            <div v-if="card" class="card h-100" :class="{'featured': card.featured}">
               <div class="card-body">
                 <h3 class="card-title mb-3">{{ card.title }}</h3>
                 <div v-html="card.body" class="card-text"></div>
@@ -115,7 +119,9 @@ const newscardstrans = computed(() => {
         <div class="mb-3 intro" v-html="homepage.data.subject_selection_intro" />
         <div class="subject-grid">
           <div v-for="(subject, idx) in subjects" :key="idx" class="card dns-card selection-card">
-            <NuxtLink :to="'/sammlungen?dns_taxonomy_subjects=' + getLabelUrl(subject.label)" class="card-link medium">
+            <NuxtLink :to="'/sammlungen?dns_taxonomy_subjects=' + getLabelUrl(subject.label)"
+              class="card-link medium"
+            >
               {{ subject.label }}
             </NuxtLink>
           </div>
@@ -125,7 +131,9 @@ const newscardstrans = computed(() => {
         <div class="mb-3 intro" v-html="homepage.data.object_type_selection_intro" />
         <div class="subject-grid">
           <div v-for="(type, idx) in objectTypes" :key="idx" class="card dns-card selection-card">
-            <NuxtLink :to="'/sammlungen?dns_taxonomy_genre=' + getLabelUrl(type.label)" class="card-link medium">
+            <NuxtLink :to="'/sammlungen?dns_taxonomy_genre=' +
+              getLabelUrl(type.label)" class="card-link medium"
+            >
               {{ type.label }}
             </NuxtLink>
           </div>
