@@ -1,30 +1,39 @@
-export async function useFetchCollectionItems(label, api) {
+export async function useFetchCollectionItems(label, api, populate = []) {
   const fetches = {
-    'HUMAF': async () => {
-      const allItems = [];
-      let page = 1;
-      const pageSize = 100; // adjust to your needs, depends on Strapi's max limit
+    HUMAF: async () => {
+      const allItems = []
+      let page = 1
+      const pageSize = 100
+
       while (true) {
-        const { data, error } = await useFetch(`${api}`, {
-          query: {
-            'pagination[page]': page,
-            'pagination[pageSize]': pageSize,
-          },
-        });
+        const params = new URLSearchParams()
+        params.append("pagination[page]", page)
+        params.append("pagination[pageSize]", pageSize)
+
+        // Add populate fields dynamically
+        populate.forEach((field, index) => {
+          params.append(`populate[${index}]`, field)
+        })
+
+        const url = `${api}?${params.toString()}`
+        const { data, error } = await useFetch(url)
+
         if (error.value) {
-          console.error(`❌ Failed fetching page ${page}`, error.value);
-          break;
+          console.error(`❌ Failed fetching page ${page}`, error.value)
+          break
         }
-    
+
         if (!data.value?.data || data.value.data.length === 0) {
-          break; // no more items
+          break
         }
-    
-        allItems.push(...data.value.data);
-        page++;
+
+        allItems.push(...data.value.data)
+        page++
       }
-      return { allItems };
-    }
+
+      return { allItems }
+    },
   }
-  return fetches[label] ? await fetches[label]() : { data: [] };
+
+  return fetches[label] ? await fetches[label]() : { data: [] }
 }

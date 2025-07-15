@@ -8,7 +8,7 @@ const collectionItemsData = useState('collectionItems');
 const collectionData = collectionItemsData.value.data
   ? collectionItemsData.value.data.find(item => item.label === collection)
   : [];
-const items = await useFetchCollectionItems(collection, collectionData.items_api);
+const items = await useFetchCollectionItems(collection, collectionData.items_api, ['online_images']);
 </script>
 
 <template>
