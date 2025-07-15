@@ -79,7 +79,6 @@ const images = project.images.map((image) => {
     }
   }
   &.with-sidebar {
-
     .projects-content-container {
       display: grid;
       grid-template-columns: 2.5fr 1fr;
@@ -93,6 +92,12 @@ const images = project.images.map((image) => {
     }
     .sidebar {
       display: block;
+      .sidebar-content {
+        font-size: var(--font-size-text-small);
+        h4 {
+          font-size: var(--font-size-text-small);
+        }
+      }
     }
   }
 }
