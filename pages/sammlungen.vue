@@ -13,7 +13,8 @@ const { data } = await useFetch(`${projectConfig.dataBaseUrl}/bua_collections`, 
 const router = useRouter();
 const route = useRoute();
 const theme = useState('theme');
-const w = theme.value.data.wording.de;
+const { locale } = useI18n();
+const w = computed(() => theme.value.data.wording[locale.value]);
 const settings = theme.value.data.settings;
 
 // add display property to collections
@@ -398,7 +399,7 @@ onMounted(() => {
         <dt>{{ w.collections_of }}:</dt>
         <dd v-if="termFilter.current_keeper && termFilter.current_keeper.length > 0"
           v-for="(keeper, idx) in termFilter.current_keeper" :key="'filter-state-keeper-' + idx">
-          {{ keeper }} 
+          {{ keeper }}
         </dd>
         <dd v-else>{{ w.all_keepers }}</dd>
       </dl>

@@ -79,12 +79,12 @@ const handleScroll = () => {
     </nav>
     <div class="controls-wrapper">
       <div class="locale-switch">
-        <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'"
+        <nuxt-link @click="navState = 'close'"
           :to="switchLocalePath('en')">
           EN
         </nuxt-link>
-         | 
-        <nuxt-link :tabIndex="tabIndex" @click="navState = 'close'"
+         |
+        <nuxt-link @click="navState = 'close'"
           :to="switchLocalePath('de')">
           DE
         </nuxt-link>
