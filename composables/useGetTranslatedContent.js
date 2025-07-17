@@ -4,9 +4,16 @@ export function useGetTranslatedContent(key, locale, data) {
     data.translations &&
     data.translations.length > 0
   ) {
-    const translation = data.translations.find((t) => t.languages_id === locale || t.languages_code === locale);
-    if (translation) {
-      return translation[key];
+    // DEV: t.languages_code === locale necessary?
+    const translation = data.translations.find((t) => t.languages_id === locale || t.languages_code === locale)
+    if (translation && translation[key]) {
+      return translation[key]
+    }
+
+    // Fallback to the first translation if no match found
+    const deTranslation = data.translations?.find((t) => t.languages_id === "de")
+    if (deTranslation && deTranslation[key]) {
+      return deTranslation[key]
     }
   }
   if (data && data[key]) {

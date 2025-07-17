@@ -20,9 +20,10 @@ export const projectConfig = {
       'id', 'spws_id', 'label'
     ],
     resources: [
+      'translations.*',
       'id', 'status', 'slug', 'name', 'position','url', 'description', 'main_screenshot',
       'bua_collections.bua_collections_id.label', 'bua_collections.bua_collections_id.id',
-      'resource_screenshots.directus_files_id'
+      'resource_screenshots.directus_files_id', 
     ],
     projects: [
       '*',

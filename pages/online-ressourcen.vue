@@ -7,7 +7,8 @@ const router = useRouter();
 const route = useRoute();
 
 const theme = useState("theme")
-const w = theme.value.data.wording.de
+const { locale } = useI18n();
+const w = computed(() => theme.value.data.wording[locale.value]);
 // useHead({ title: data.value.data[0].title });
 
 // config for specific page
@@ -161,19 +162,19 @@ function shortenKeeperInfo(keeper) {
     <template v-if="!page.display_sidebar">
       <section class="controls page-segment">
         
-        <div class="page-content" v-html="page.page_content" />
+        <div class="page-content" v-html="useGetTranslatedContent('page_content', locale, page)" />
       </section>
     </template>
     <template v-if="page.display_sidebar">
       <section class="page-segment">
-        <h1 class="mb-4 text-center">{{ page.title }}</h1>
-        <div class="page-content" v-html="page.page_content" />
+        <h1 class="mb-4 text-center">{{ useGetTranslatedContent('title', locale, page) }}</h1>
+        <div class="page-content" v-html="useGetTranslatedContent('page_content', locale, page)" />
         <div class="sidebar" v-if="page.display_sidebar === '1'">
           <div class="mt-3 mb-5 sidebar-header" v-if="page.sidebar_header_image">
             <img :src="projectConfig.imageBaseUrl + '/' + page.sidebar_header_image + '?key=sidebar-header'"
               alt="sidebar image" />
           </div>
-          <div class="sidebar-content" v-if="page.sidebar_content" v-html="page.sidebar_content" />
+          <div class="sidebar-content" v-if="page.sidebar_content" v-html="useGetTranslatedContent('sidebar_content', locale, page)" />
         </div>
       </section>
     </template>
@@ -208,7 +209,6 @@ function shortenKeeperInfo(keeper) {
               :cardTitleLink="collection.link"
               :cardBodyMinHeight="collectionCardMinHeight"
             />
-           <pre v-if="false">{{ ownResources  }}</pre>
         </section>
       </div>
       <div class="external-database-listing">
@@ -225,7 +225,7 @@ function shortenKeeperInfo(keeper) {
           </h2>
           <div class="main-container">
             <div class="content">
-              <div class="resource-description" v-html="resource.description" />
+              <div class="resource-description" v-html="useGetTranslatedContent('description', locale, resource)" />
               <a :href="resource.url" target="_blank">{{ resource.name }} aufrufen ...</a>
             </div>
             <div class="screenshot" v-if="resource.main_screenshot">
