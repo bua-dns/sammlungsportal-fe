@@ -2,7 +2,7 @@
 const theme = useState("theme");
 const ikbConfiguration = useState('ikbConfiguration');
 const w = theme.value.data.wording.de
-// useHead({ title: data.value.data[0].title });
+
 const slug = 'data-inspector-mstub'
 
 const { data } = await useFetchPage(slug)

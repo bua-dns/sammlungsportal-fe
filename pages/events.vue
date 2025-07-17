@@ -1,12 +1,9 @@
 <script setup>
 /* Used auto-imported composables: projectConfig */
 const theme = useState("theme")
-const w = theme.value.data.wording.de
-// useHead({ title: data.value.data[0].title });
+const { locale } = useI18n();
+const w = computed(() => theme.value.data.wording[locale.value]);
 
-// config for specific page
-
-// DEV: replace by slug from path
 const slug = 'events'
 const titleWording = 'page_events'
 
@@ -56,21 +53,19 @@ function getTimeFormat(time) {
     <Title>{{ w.page_projekte }}</Title>
   </Head>
   <div class="page p_dns-page" v-if="data && page.status === 'published'">
-    <pre v-if="false">{{ pastEvents }}</pre>
-    <h1 class="mb-4 text-center">{{ page.title }}</h1>
+    <h1 class="mb-4 text-center">{{ useGetTranslatedContent('title', locale, page) }}</h1>
     <template v-if="!page.display_sidebar">
-      <div class="page-content" v-html="page.page_content" />
+      <div class="page-content" v-html="useGetTranslatedContent('page_content', locale, page)" />
     </template>
     <template v-if="page.display_sidebar">
       <div class="page-container">
-        <div class="page-content" v-html="page.page_content" />
-        <pre v-if="false">{{ page }}</pre>
+        <div class="page-content" v-html="useGetTranslatedContent('page_content', locale, page)" />
         <div class="sidebar">
           <div class="mt-3 mb-5 sidebar-header" v-if="page.sidebar_header_image">
             <img :src="projectConfig.imageBaseUrl + '/' + page.sidebar_header_image + '?key=sidebar-header'"
               alt="sidebar image" />
           </div>
-          <div class="sidebar-content" v-if="page.sidebar_content" v-html="page.sidebar_content" />
+          <div class="sidebar-content" v-if="page.sidebar_content" v-html="useGetTranslatedContent('sidebar_content', locale, page)" />
         </div>
       </div>
     </template>
@@ -79,7 +74,7 @@ function getTimeFormat(time) {
         <Event :event="event" />
       </div>
     </div>
-    <h3>frühere Veranstaltungen</h3>
+    <h3>{{ w.past_events }}</h3>
     <div v-if="pastEvents && pastEvents.length" class="events-listing mt-5">
       <div v-for="event in pastEvents" :key="event.id" class="event-entry">
         <Event :event="event" />

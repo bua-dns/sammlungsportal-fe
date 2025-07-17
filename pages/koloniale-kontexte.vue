@@ -4,7 +4,7 @@ const router = useRouter()
 const route = useRoute()
 const theme = useState("theme")
 const w = theme.value.data.wording.de
-// useHead({ title: data.value.data[0].title });
+
 
 // config for specific page
 

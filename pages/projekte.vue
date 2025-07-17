@@ -3,7 +3,7 @@
 const theme = useState("theme")
 const { locale } = useI18n();
 const w = computed(() => theme.value.data.wording[locale.value]);
-// useHead({ title: data.value.data[0].title });
+
 
 // config for specific page
 

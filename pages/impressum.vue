@@ -2,7 +2,7 @@
 /* Used auto-imported composables: projectConfig */
 const theme = useState("theme")
 const w = theme.value.data.wording.de
-// useHead({ title: data.value.data[0].title });
+
 
 const slug = 'impressum'
 const titleWording = 'page_imprint'

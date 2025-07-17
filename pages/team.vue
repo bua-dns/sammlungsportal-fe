@@ -5,12 +5,9 @@ const personsTeam = useState("personsTeam");
 
 const members = personsTeam.value.data
   .sort((a, b) => a.sort_order - b.sort_order)
-const w = theme.value.data.wording.de
-// useHead({ title: data.value.data[0].title });
+const { locale } = useI18n();
+const w = computed(() => theme.value.data.wording[locale.value]);
 
-// config for specific page
-
-// DEV: replace by slug from path
 const slug = 'team'
 const titleWording = 'page_team'
 
@@ -29,9 +26,9 @@ const titleWording = 'page_team'
       v-for="(person, index) in members"
       :key="`person-${index}`"
     >
-      <h3 class="mb-1">{{ person.name }}</h3>
+      <h3 class="mb-1">{{ useGetTranslatedContent('name', locale, person) }}</h3>
       <h4 class="mb-2 sans-serif">{{ person.position }}</h4>
-      <div class="short-presentation" v-html="person.short_presentation"/>
+      <div class="short-presentation" v-html="useGetTranslatedContent('short_presentation', locale, person)"/>
       <a 
         :href="`mailto:${person.mail_contact}`" 
         target="_blank"
