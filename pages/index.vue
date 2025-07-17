@@ -9,6 +9,7 @@ const { locale } = useI18n();
 const w = computed(() => theme.value.data.wording[locale.value]);
 
 const fields = [
+  'translations.*',
   'title',
   // cardsets
   'cardset_collections.navigation_cards_id.*.*',
@@ -27,6 +28,8 @@ const { data: homepage } = await useFetch(`${projectConfig.dataBaseUrl}/homepage
     fields
   },
 });
+
+const page = homepage.value.data;
 
 const featuredCards = homepage.value.data.cardset_featured
   .map((card) => card.navigation_cards_id);
@@ -83,15 +86,16 @@ const newscardstrans = computed(() => {
   </Head>
   <div class="page segmented pt-4 pb-1 ">
     <section class="homepage-intro page-segment">
-      <h1 class="mb-lg-4 mt-2 text-center intro-heading">{{ homepage.data.title }}</h1>
+      <pre v-if="false">{{ page }}</pre>
+      <h1 class="mb-lg-4 mt-2 text-center intro-heading">{{ useGetTranslatedContent('title', locale, page) }}</h1>
       <div class="intro-content">
-        <div class="intro-text" v-html="homepage.data.intro"></div>
+        <div class="intro-text" v-html="useGetTranslatedContent('intro', locale, page)"></div>
       </div>
     </section>
     <section class="page-segment">
       <!-- <pre>{{ newscardstrans }}</pre> -->
       <!-- <pre>{{ newscards }}</pre> -->
-      <h2 class="text-center">Aktuell</h2>
+      <h2 class="text-center">{{ w.news }}</h2>
       <div class="cards mt-3">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
           <div v-for="(card, index) in newscardstrans" :key="`card-${index}`" class="col">
@@ -125,7 +129,7 @@ const newscardstrans = computed(() => {
     <!-- Taxonomy cards -->
     <section class="mt-lg-4 row taxonomy-cards page-segment">
       <div class="select-cards-section subjects col-lg mt-4 mt-lg-0">
-        <div class="mb-3 intro" v-html="homepage.data.subject_selection_intro" />
+        <div class="mb-3 intro" v-html="useGetTranslatedContent('subject_selection_intro', locale, page)" />
         <div class="subject-grid">
           <div v-for="(subject, idx) in subjects" :key="idx" class="card dns-card selection-card">
             <NuxtLink :to="'/sammlungen?dns_taxonomy_subjects=' + getLabelUrl(subject.label)"
@@ -137,7 +141,7 @@ const newscardstrans = computed(() => {
         </div>
       </div>
       <div class="select-cards-section object-types col-lg mt-4 mt-lg-0">
-        <div class="mb-3 intro" v-html="homepage.data.object_type_selection_intro" />
+        <div class="mb-3 intro" v-html="useGetTranslatedContent('object_type_selection_intro', locale, page)" />
         <div class="subject-grid">
           <div v-for="(type, idx) in objectTypes" :key="idx" class="card dns-card selection-card">
             <NuxtLink :to="'/sammlungen?dns_taxonomy_genre=' +
@@ -152,7 +156,7 @@ const newscardstrans = computed(() => {
     <!-- Featured cards -->
     <section class="mt-4 featured-cards page-segment">
       <h2 class=" mb-lg-4 text-center section-heading">{{ w.featured_heading }}</h2>
-      <div class="intro" v-if="homepage.data.cardset_featured_intro" v-html="homepage.data.cardset_featured_intro" />
+      <div class="intro" v-if="homepage.data.cardset_featured_intro" v-html="useGetTranslatedContent('cardset_featured_intro', locale, page)" />
       <div class="features-grid">
         <div v-for="(card, index) in featuredCards" :key="`card-${index}`" class="feature-card">
           <!-- <pre>{{ card }}</pre> -->
