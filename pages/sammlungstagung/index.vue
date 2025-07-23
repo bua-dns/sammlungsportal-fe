@@ -152,16 +152,8 @@ const sidebarContent = useGetTranslatedContent('sidebar_content', locale, page);
 
 <style lang='scss'>
 .collection-conference-2025 {
-  h1 {
-    font-size: 1.25rem;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-  }
 
   h3 {
-    font-size: 1rem;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
     text-align: center;
   }
 
@@ -169,6 +161,11 @@ const sidebarContent = useGetTranslatedContent('sidebar_content', locale, page);
     display: block;
 
     .page-content {
+
+      > h2 {
+        margin: 2rem 0 2rem 0;
+        text-align: center;
+      }
 
       // Program section dropdowns
       .program-section {
