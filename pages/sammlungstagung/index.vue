@@ -227,6 +227,7 @@ const sidebarContent = useGetTranslatedContent('sidebar_content', locale, page);
           padding: 1.5rem;
           background-color: white;
           border-top: none;
+          overflow-x: auto;
 
           h2 {
             margin-top: 0;
