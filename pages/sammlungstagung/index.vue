@@ -124,7 +124,7 @@ onBeforeMount(() => {
 
           h2 {
             margin-top: 0;
-            margin-bottom: 1.25rem;
+            // margin-bottom: 1.25rem;
             font-size: 1.05rem;
             font-weight: 600;
             color: #495057;
@@ -132,10 +132,18 @@ onBeforeMount(() => {
             border-bottom: 2px solid #e9ecef;
           }
 
+          h3 {
+            margin: 1.5rem 0 0.5rem;
+          }
+
+          p {
+            margin: 0.5rem 0 1rem;
+          }
+
           table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 1.5rem;
+            // margin-bottom: 1.5rem;
             background-color: white;
             border: 1px solid #e9ecef;
             border-radius: 6px;
@@ -176,7 +184,7 @@ onBeforeMount(() => {
               }
 
               em {
-                color: #6c757d;
+                // color: #6c757d;
                 font-style: italic;
               }
             }
