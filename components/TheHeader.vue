@@ -262,7 +262,8 @@ const handleScroll = () => {
     }
   }
   .locale-switch {
-    min-width: 6rem;
+    // min-width: 6rem;
+    white-space: nowrap;
     text-align: right;
     font-size: .875rem;
     color: var(--color-text);
