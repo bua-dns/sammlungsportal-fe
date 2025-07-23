@@ -22,6 +22,7 @@ function formatContent(content) {
   const sections = [];
   let currentSection = null;
   let currentContent = '';
+  let betweenHrAndH1Content = '';
 
   // Process each child element
   Array.from(tempDiv.children).forEach(element => {
@@ -32,6 +33,15 @@ function formatContent(content) {
           title: currentSection,
           content: currentContent.trim()
         });
+      }
+
+      // Add any content that was between HR and this H1
+      if (betweenHrAndH1Content.trim()) {
+        sections.push({
+          title: null,
+          content: betweenHrAndH1Content.trim()
+        });
+        betweenHrAndH1Content = '';
       }
 
       // Start new section
@@ -47,12 +57,14 @@ function formatContent(content) {
         currentSection = null;
         currentContent = '';
       }
+      // Reset content collector for content after HR
+      betweenHrAndH1Content = '';
     } else if (currentSection) {
       // Add content to current section
       currentContent += element.outerHTML;
     } else {
-      // Content before first H1 - keep as is
-      currentContent += element.outerHTML;
+      // Content outside of sections (before first H1 or after HR)
+      betweenHrAndH1Content += element.outerHTML;
     }
   });
 
@@ -64,13 +76,16 @@ function formatContent(content) {
     });
   }
 
+  // Handle any remaining content after last HR
+  if (betweenHrAndH1Content.trim()) {
+    sections.push({
+      title: null,
+      content: betweenHrAndH1Content.trim()
+    });
+  }
+
   // Generate dropdown HTML
   let formattedContent = '';
-
-  // Add any content before first H1
-  if (sections.length > 0 && currentContent && !sections[0].title) {
-    formattedContent += currentContent;
-  }
 
   // Create dropdowns for each section
   sections.forEach((section, index) => {
@@ -88,7 +103,7 @@ function formatContent(content) {
         </div>
       `;
     } else {
-      // Content without title (before first H1)
+      // Content without title (before first H1 or between HR and H1)
       formattedContent += section.content;
     }
   });
