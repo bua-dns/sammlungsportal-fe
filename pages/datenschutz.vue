@@ -16,7 +16,7 @@ const page = data.value.data[0]
     <Title>{{ w.page_privacy_policy }}</Title>
   </Head>
   <div class="page" v-if="data">
-    <h1 class="text-center">{{ useGetTranslatedContent('title', lacale, page) }}</h1>
-    <div class="page-content" v-html="useGetTranslatedContent('page_content', lacale, page)" />
+    <h1 class="text-center">{{ useGetTranslatedContent('title', locale, page) }}</h1>
+    <div class="page-content" v-html="useGetTranslatedContent('page_content', locale, page)" />
   </div>
 </template>
