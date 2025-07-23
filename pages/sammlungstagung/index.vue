@@ -3,132 +3,23 @@ const theme = useState("theme")
 const { locale } = useI18n();
 const w = computed(() => theme.value.data.wording[locale.value]);
 
-
-// config for specific page
-
-// DEV: replace by slug from path
-const slug = 'programm-sammlungstagung-2025'
-
+const slug = 'programm-sammlungstagung-2025';
 const { data } = await useFetchPage(slug)
 const page = data.value.data[0]
-
-function formatContent(content) {
-  if (!content) return content;
-
-  // Create a temporary DOM element to parse the HTML
-  const tempDiv = document.createElement('div');
-  tempDiv.innerHTML = content;
-
-  const sections = [];
-  let currentSection = null;
-  let currentContent = '';
-  let betweenHrAndH1Content = '';
-
-  // Process each child element
-  Array.from(tempDiv.children).forEach(element => {
-    if (element.tagName === 'H1') {
-      // Save previous section if it exists
-      if (currentSection) {
-        sections.push({
-          title: currentSection,
-          content: currentContent.trim()
-        });
-      }
-
-      // Add any content that was between HR and this H1
-      if (betweenHrAndH1Content.trim()) {
-        sections.push({
-          title: null,
-          content: betweenHrAndH1Content.trim()
-        });
-        betweenHrAndH1Content = '';
-      }
-
-      // Start new section
-      currentSection = element.innerHTML;
-      currentContent = '';
-    } else if (element.tagName === 'HR') {
-      // End current section at HR
-      if (currentSection) {
-        sections.push({
-          title: currentSection,
-          content: currentContent.trim()
-        });
-        currentSection = null;
-        currentContent = '';
-      }
-      // Reset content collector for content after HR
-      betweenHrAndH1Content = '';
-    } else if (currentSection) {
-      // Add content to current section
-      currentContent += element.outerHTML;
-    } else {
-      // Content outside of sections (before first H1 or after HR)
-      betweenHrAndH1Content += element.outerHTML;
-    }
-  });
-
-  // Handle last section if no HR at end
-  if (currentSection) {
-    sections.push({
-      title: currentSection,
-      content: currentContent.trim()
-    });
-  }
-
-  // Handle any remaining content after last HR
-  if (betweenHrAndH1Content.trim()) {
-    sections.push({
-      title: null,
-      content: betweenHrAndH1Content.trim()
-    });
-  }
-
-  // Generate dropdown HTML
-  let formattedContent = '';
-
-  // Create dropdowns for each section
-  sections.forEach((section, index) => {
-    if (section.title) {
-      formattedContent += `
-        <div class="program-section">
-          <details class="program-dropdown">
-            <summary class="program-dropdown-header">
-              ${section.title}
-            </summary>
-            <div class="program-dropdown-content">
-              ${section.content}
-            </div>
-          </details>
-        </div>
-      `;
-    } else {
-      // Content without title (before first H1 or between HR and H1)
-      formattedContent += section.content;
-    }
-  });
-
-  return formattedContent;
-}
-
 const content = ref('');
-
-onBeforeMount(() => {
-  content.value = formatContent(useGetTranslatedContent('page_content', locale, page));
-});
-
 const sidebarContent = useGetTranslatedContent('sidebar_content', locale, page);
 
+onBeforeMount(() => {
+  content.value = useMakeDetails(useGetTranslatedContent('page_content', locale, page), 'H1');
+});
 </script>
 
 <template>
-
   <Head>
-    <Title>Sammlungstagung 2025</Title>
+    <Title>{{ useGetTranslatedContent('title', locale, page) }}</Title>
   </Head>
   <div class="page collection-conference-2025" v-if="data">
     <pre v-if="false">{{ content }}</pre>
-    <h3>Jahrestagung für Universitätssammlungen</h3>
     <h1 class="page-header text-center mb-5">{{ useGetTranslatedContent('title', locale, page) }}</h1>
     <ClientOnly>
       <template v-if="!page.display_sidebar">
@@ -153,10 +44,6 @@ const sidebarContent = useGetTranslatedContent('sidebar_content', locale, page);
 <style lang='scss'>
 .collection-conference-2025 {
 
-  h3 {
-    text-align: center;
-  }
-
   .page-container {
     display: block;
 
@@ -165,6 +52,12 @@ const sidebarContent = useGetTranslatedContent('sidebar_content', locale, page);
       > h2 {
         margin: 2rem 0 2rem 0;
         text-align: center;
+      }
+
+      .btn:hover,
+      .btn:focus {
+        text-decoration: none;
+        color: var(--bs-btn-hover-color);
       }
 
       // Program section dropdowns
